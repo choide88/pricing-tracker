@@ -64,6 +64,16 @@
   <p class="sub">우리: Incheon Airport T1 Residence near Paradise City (평점 9.4) · 1실 1박 · 성인 2명 · KRW · 부킹닷컴 기준<br>
   <b>전략: 평일 공실이 핵심 과제.</b> 직접경쟁군(굿데이·호텔휴, 평점 7.3~7.6) 대비 평점 9.4 프리미엄으로 <b>약간 위</b> 포지션이 먹히는지 매일 확인.</p>
 
+  <div id="daychange" style="margin:0 0 14px;padding:13px 16px;background:#eafaf1;border:1px solid #b8e6cf;border-radius:10px;">
+  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 오늘 우리 예약 변화 (아침 18:05 → 저녁 22:41)</h3>
+  <ul style="margin:0;padding-left:18px;font-size:12.5px;">
+    <li><b>7/3 (금)</b> 잔여 3→1 <span style="color:#c0392b;font-weight:700;">(▼2 예약유입)</span> · 195k에 잘 빠짐</li>
+    <li><b>7/4 (토)</b> 잔여 2→1 <span style="color:#c0392b;font-weight:700;">(▼1)</span> · 250k에 거의 매진</li>
+    <li><b>7/14 (화)</b> 잔여 6→5 <span style="color:#c0392b;font-weight:700;">(▼1)</span></li>
+    <li>평일(7/6~7/9)은 변화 없음 — 경쟁사 평일도 반나절 거의 안 변함(게하만 차는중)</li>
+  </ul>
+  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 오늘 예약은 <b>주말 위주</b>로 들어옴. 주말 가격은 잘 먹히는 중. 평일은 여전히 정체 → 평일 가격·노출이 과제.</p>
+</div>
   <div id="insight"></div>
 
   <div class="legend">
@@ -112,23 +122,25 @@
 /* DAILY_LOG: 날짜별 잔여 이력 배열(추이 띠용). 매일 아침 각 날짜에 오늘 잔여코드 push.
    r코드: "5"|"34"|"lt3"|"so"  */
 const ASOF = "2026-06-29";
+const NOTE_GENIUS = "게하 평일 실제최저가 79,299(Genius11%). 표기는 정가 89,100 기준.";
+const LASTCHECK = "2026-06-29 18:10 (오후 재확인)";
 
 /* 각 추적일: comp 4숙소 {p,r}, our {cur, rec}, ourTrend:[과거…오늘] 우리 잔여코드 배열 */
 const DAILY = {
   // ----- 앞으로 2주 (오늘 6/29 ~ 7/13) -----
-  "7/1":  {dow:"수",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:3,curR:"34",cur:108680,rec:130000}, ourTrend:[3]},
-  "7/2":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"na",dash:true},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:254166,r:"5"}}, our:{ourN:1,curR:"lt3",cur:147250,rec:135000}, ourTrend:[1]},
-  "7/3":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:170000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:3,curR:"34",cur:135000,rec:195000}, ourTrend:[3]},
-  "7/4":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"34"},hu:{p:null,r:"so"},bw:{p:295628,r:"34"}}, our:{ourN:2,curR:"lt3",cur:250000,rec:245000}, ourTrend:[2]},
-  "7/5":  {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:4,curR:"34",cur:190000,rec:150000}, ourTrend:[4]},
-  "7/6":  {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:6,curR:"5",cur:143000,rec:130000}, ourTrend:[6]},
-  "7/7":  {dow:"화",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:7,curR:"5",cur:128700,rec:130000}, ourTrend:[7]},
-  "7/8":  {dow:"수",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:146008,r:"5"}}, our:{ourN:7,curR:"5",cur:128700,rec:130000}, ourTrend:[7]},
-  "7/9":  {dow:"목",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:5,curR:"34",cur:128700,rec:130000}, ourTrend:[5]},
-  "7/10": {dow:"금",t:"wknd", comp:{gh:{p:112500,r:"lt3"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:4,cur:null,curNote:"미확인",rec:190000}, ourTrend:[4]},
-  "7/11": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"34"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:2,curR:"lt3",cur:210000,rec:250000}, ourTrend:[2]},
-  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:7,curR:"5",cur:173000,rec:150000}, ourTrend:[7]},
-  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5",est:true},gd:{p:100000,r:"5",est:true},hu:{p:100000,r:"5",est:true},bw:{p:162236,r:"5",est:true}}, our:{ourN:7,cur:null,curNote:"미확인",rec:130000}, ourTrend:[7]}
+  "7/1":  {dow:"수",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:3,curR:"34",cur:108680,rec:130000}, ourTrend:[3,3]},
+  "7/2":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"na",dash:true},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:254166,r:"5"}}, our:{ourN:1,curR:"lt3",cur:147250,rec:135000}, ourTrend:[1,1]},
+  "7/3":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:170000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:1,curR:"lt3",cur:135000,rec:195000}, ourTrend:[3,1]},
+  "7/4":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"34"},hu:{p:null,r:"so"},bw:{p:295628,r:"34"}}, our:{ourN:1,curR:"lt3",cur:250000,rec:245000}, ourTrend:[2,1]},
+  "7/5":  {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:4,curR:"34",cur:190000,rec:150000}, ourTrend:[4,4]},
+  "7/6":  {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:6,curR:"5",cur:143000,rec:130000}, ourTrend:[6,6]},
+  "7/7":  {dow:"화",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:7,curR:"5",cur:128700,rec:130000}, ourTrend:[7,7]},
+  "7/8":  {dow:"수",t:"wkdy", comp:{gh:{p:89100,r:"34"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:146008,r:"5"}}, our:{ourN:7,curR:"5",cur:128700,rec:130000}, ourTrend:[7,7]},
+  "7/9":  {dow:"목",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:5,curR:"34",cur:128700,rec:130000}, ourTrend:[5,5]},
+  "7/10": {dow:"금",t:"wknd", comp:{gh:{p:112500,r:"lt3"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:4,cur:null,curNote:"미확인",rec:190000}, ourTrend:[4,4]},
+  "7/11": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"34"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:2,curR:"lt3",cur:210000,rec:250000}, ourTrend:[2,2]},
+  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:7,curR:"5",cur:173000,rec:150000}, ourTrend:[7,7]},
+  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5",est:true},gd:{p:100000,r:"5",est:true},hu:{p:100000,r:"5",est:true},bw:{p:162236,r:"5",est:true}}, our:{ourN:7,cur:null,curNote:"미확인",rec:130000}, ourTrend:[7,7]}
 };
 
 /* 주간 구간 D+15~D+30 (7/14~7/29) — 추세용. 금·토는 실측, 평일은 추정 일부 */
@@ -232,7 +244,7 @@ function buildRow(d,row,withGapTrend){
   return h+'</tr>';
 }
 
-document.getElementById('updBadge').textContent='오늘 '+ASOF;
+document.getElementById('updBadge').textContent='오늘 '+(typeof LASTCHECK!=='undefined'?LASTCHECK:ASOF);
 let db=''; for(const [d,row] of Object.entries(DAILY)) db+=buildRow(d,row,true);
 document.getElementById('dailyBody').innerHTML=db;
 let wb=''; for(const [d,row] of Object.entries(WEEKLY)) wb+=buildRow(d,row,false);
