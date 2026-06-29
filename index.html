@@ -86,6 +86,14 @@
   </thead><tbody id="weekBody"></tbody></table>
   </div>
 
+  <div class="focus">
+  <h2>③ 다음 주 상세 (7/6~7/12) <span style="font-size:12px;font-weight:400;color:#9ca3af;">(잔여+단가+우리 가격/갭)</span></h2>
+  <p class="cap">그다음 한 주. 잔여 배지 + 경쟁사 단가 + 우리 추천가/현재가/갭. 모두 실측값.</p>
+  <table id="week2Table"><thead>
+    <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th><th class="our">추천가</th><th class="our2">우리 현재가</th><th>갭</th></tr>
+  </thead><tbody id="week2Body"></tbody></table>
+  </div>
+
   <div class="note">
     <b>구조.</b> ①은 7월 전체를 한 줄씩(주말은 잔여율까지), ②는 이번 주를 잔여·단가·우리 가격까지 상세히.
     상단 <b>핵심 변화</b> 박스와 표의 <span class="d-up">▲</span><span class="d-down">▼</span> 화살표는 <b>직전 회차 대비</b> 자동 계산.<br><br>
@@ -114,13 +122,13 @@ const SNAPSHOTS = [
       "7/3":  {dow:"금", wknd:true,  comp:{gh:{p:null,r:"so"}, gd:{p:160000,r:"5"}, hu:{p:170000,r:"5"}, bw:{p:237947,r:"5"}}, our:{rec:195000, cur:135000}},
       "7/4":  {dow:"토", wknd:true,  comp:{gh:{p:null,r:"so"}, gd:{p:200000,r:"34"}, hu:{p:null,r:"so"}, bw:{p:295628,r:"34"}}, our:{rec:245000, cur:250000}},
       "7/5":  {dow:"일", wknd:true,  comp:{gh:{p:103500,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:183868,r:"5"}}, our:{rec:135000, cur:190000}},
-      "7/6":  {dow:"월", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:100000,r:"5"}, bw:{p:162236,r:"5"}}, our:{rec:135000, cur:null}},
-      "7/7":  {dow:"화", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:100000,r:"5"}, bw:{p:163000,r:"5",est:true}}, our:{rec:135000, cur:null}},
-      "7/8":  {dow:"수", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:163000,r:"5",est:true}}, our:{rec:135000, cur:null}},
-      "7/9":  {dow:"목", wknd:false, comp:{gh:{p:89100,est:true}, gd:{p:100000,est:true}, hu:{p:120000,est:true}, bw:{p:163000,est:true}}, our:{rec:135000, cur:null}},
+      "7/6":  {dow:"월", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:100000,r:"5"}, bw:{p:162236,r:"5"}}, our:{rec:135000, cur:143000}},
+      "7/7":  {dow:"화", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:100000,r:"5"}, bw:{p:183868,r:"5"}}, our:{rec:135000, cur:128700}},
+      "7/8":  {dow:"수", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:146008,r:"5"}}, our:{rec:130000, cur:128700}},
+      "7/9":  {dow:"목", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:167640,r:"5"}}, our:{rec:140000, cur:128700}},
       "7/10": {dow:"금", wknd:true,  comp:{gh:{p:112500,r:"lt3"}, gd:{p:160000,r:"5"}, hu:{p:140000,r:"5"}, bw:{p:237947,r:"5"}}, our:{rec:190000, cur:null}},
-      "7/11": {dow:"토", wknd:true,  comp:{gh:{p:null,r:"so"}, gd:{p:200000,r:"34"}, hu:{p:null,r:"so"}, bw:{p:null,r:"so"}}, our:{rec:250000, cur:null}},
-      "7/12": {dow:"일", wknd:true,  comp:{gh:{p:103500,est:true}, gd:{p:100000,est:true}, hu:{p:120000,est:true}, bw:{p:165000,est:true}}, our:{rec:135000, cur:null}},
+      "7/11": {dow:"토", wknd:true,  comp:{gh:{p:null,r:"so"}, gd:{p:200000,r:"34"}, hu:{p:null,r:"so"}, bw:{p:null,r:"so"}}, our:{rec:250000, cur:210000}},
+      "7/12": {dow:"일", wknd:true,  comp:{gh:{p:103500,r:"5"}, gd:{p:140000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:232534,r:"5"}}, our:{rec:150000, cur:173000}},
       "7/13": {dow:"월", wknd:false, comp:{gh:{p:89100,est:true}, gd:{p:100000,est:true}, hu:{p:100000,est:true}, bw:{p:162236,est:true}}, our:{rec:135000, cur:null}},
       "7/14": {dow:"화", wknd:false, comp:{gh:{p:89100,est:true}, gd:{p:100000,est:true}, hu:{p:100000}, bw:{p:163000,est:true}}, our:{rec:135000, cur:null}},
       "7/15": {dow:"수", wknd:false, comp:{gh:{p:89100,est:true}, gd:{p:100000,est:true}, hu:{p:120000,est:true}, bw:{p:163000,est:true}}, our:{rec:135000, cur:null}},
@@ -145,13 +153,27 @@ const SNAPSHOTS = [
   /* 다음 회차는 여기에 {asof:"2026-07-02", rows:{...}} 추가 */
 ];
 
-// 이번 주 상세에 보여줄 날짜창 (회차마다 갱신)
+// 이번 주 / 다음 주 상세 날짜창
 const WEEK_WINDOW = ["6/29","6/30","7/1","7/2","7/3","7/4","7/5"];
+const WEEK2_WINDOW = ["7/6","7/7","7/8","7/9","7/10","7/11","7/12"];
 // 6/29·6/30은 1회차에 별도값(상세는 평일 실측). 월 테이블엔 없는 날짜라 별도 보관.
 const WEEK_EXTRA = {
   "2026-06-29": {
     "6/29": {dow:"월", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:100000,r:"5"}, bw:{p:162236,r:"5"}}, our:{rec:135000, cur:null, curNote:"매진"}},
     "6/30": {dow:"화", wknd:false, comp:{gh:{p:null,r:"so"}, gd:{p:80000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:151421,r:"5"}}, our:{rec:130000, cur:null, curNote:"미확인"}}
+  }
+};
+
+// 다음 주 상세(7/6~7/12) — 전부 실측. 우리 현재가 포함.
+const WEEK2_DATA = {
+  "2026-06-29": {
+    "7/6":  {dow:"월", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:100000,r:"5"}, bw:{p:162236,r:"5"}}, our:{rec:135000, cur:143000}},
+    "7/7":  {dow:"화", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:100000,r:"5"}, bw:{p:183868,r:"5"}}, our:{rec:135000, cur:128700}},
+    "7/8":  {dow:"수", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:146008,r:"5"}}, our:{rec:130000, cur:128700}},
+    "7/9":  {dow:"목", wknd:false, comp:{gh:{p:89100,r:"5"}, gd:{p:100000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:167640,r:"5"}}, our:{rec:140000, cur:128700}},
+    "7/10": {dow:"금", wknd:true,  comp:{gh:{p:112500,r:"lt3"}, gd:{p:160000,r:"5"}, hu:{p:140000,r:"5"}, bw:{p:237947,r:"5"}}, our:{rec:190000, cur:null, curNote:"미확인"}},
+    "7/11": {dow:"토", wknd:true,  comp:{gh:{p:null,r:"so"}, gd:{p:200000,r:"34"}, hu:{p:null,r:"so"}, bw:{p:null,r:"so"}}, our:{rec:250000, cur:210000}},
+    "7/12": {dow:"일", wknd:true,  comp:{gh:{p:103500,r:"5"}, gd:{p:140000,r:"5"}, hu:{p:120000,r:"5"}, bw:{p:232534,r:"5"}}, our:{rec:150000, cur:173000}}
   }
 };
 
@@ -238,6 +260,28 @@ for(const d of WEEK_WINDOW){
      + '</tr>';
 }
 document.getElementById('weekBody').innerHTML = wb;
+
+// ③ 다음 주 상세
+const w2cur = (WEEK2_DATA[cur.asof]||{});
+const w2prev = prev ? (WEEK2_DATA[prev.asof]||{}) : {};
+let wb2='';
+for(const d of WEEK2_WINDOW){
+  const row = w2cur[d] || cur.rows[d] || null;
+  if(!row) continue;
+  const pr = prev ? (w2prev[d] || prev.rows[d] || null) : null;
+  const c=row.comp, pc=pr?pr.comp:{};
+  wb2 += '<tr class="'+(row.wknd?'wknd':'')+'">'
+     + '<td class="date">'+d+' ('+row.dow+')</td>'
+     + '<td>'+compCell(c.gh, pc.gh)+'</td>'
+     + '<td>'+compCell(c.gd, pc.gd)+'</td>'
+     + '<td>'+compCell(c.hu, pc.hu)+'</td>'
+     + '<td>'+compCell(c.bw, pc.bw)+'</td>'
+     + '<td class="our">'+fmt(row.our.rec)+'</td>'
+     + '<td class="our2">'+(row.our.cur==null?('<span class="gap-na">'+(row.our.curNote||"미확인")+'</span>'):fmt(row.our.cur))+'</td>'
+     + '<td class="gapcol">'+gapCell(row.our)+'</td>'
+     + '</tr>';
+}
+document.getElementById('week2Body').innerHTML = wb2;
 
 // 상단 핵심 변화 (직전 회차 대비) 자동 생성
 const box = document.getElementById('changes');
