@@ -127,20 +127,21 @@ const LASTCHECK = "2026-06-30 (오전 갱신)";
 /* 각 추적일: comp 4숙소 {p,r}, our {cur, rec}, ourTrend:[과거…오늘] 우리 잔여코드 배열 */
 const DAILY = {
   // ----- 앞으로 2주 (오늘 6/30 ~ 7/13) -----
-  "6/30": {dow:"화",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:70000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:null,cur:null,curNote:"미캡처(6월)",rec:null}, ourTrend:[]},
-  "7/1":  {dow:"수",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:3,cur:100000,rec:112000}, ourTrend:[3,3,3]},
-  "7/2":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:254166,r:"5"}}, our:{ourN:1,cur:180000,rec:195000}, ourTrend:[1,1,1]},
-  "7/3":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:170000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:1,cur:195000,rec:210000}, ourTrend:[3,1,1]},
-  "7/4":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:null,r:"so"},bw:{p:270394,r:"5"}}, our:{ourN:1,cur:250000,rec:250000}, ourTrend:[2,1,1]},
-  "7/5":  {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:4,cur:135000,rec:125000}, ourTrend:[4,4,4]},
-  "7/6":  {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:6,cur:114400,rec:105000}, ourTrend:[6,6,6]},
-  "7/7":  {dow:"화",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:7,cur:100000,rec:100000}, ourTrend:[7,7,7]},
-  "7/8":  {dow:"수",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:146008,r:"5"}}, our:{ourN:7,cur:128700,rec:110000}, ourTrend:[7,7,7]},
-  "7/9":  {dow:"목",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:4,cur:128700,rec:118000}, ourTrend:[5,5,4]},
-  "7/10": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:4,cur:193000,rec:175000}, ourTrend:[4,4,4]},
-  "7/11": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:2,cur:290000,rec:290000}, ourTrend:[2,2,2]},
-  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:7,cur:173000,rec:130000}, ourTrend:[7,7,7]},
-  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:7,cur:143000,rec:105000}, ourTrend:[7,7,7]}
+  // rec 미지정 → dynRec 자동계산. 특정일을 수기 고정하려면 our에 rec:NNNNN 추가하면 그 값이 우선.
+  "6/30": {dow:"화",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:70000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:null,cur:null,curNote:"미캡처(6월)"}, ourTrend:[]},
+  "7/1":  {dow:"수",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:3,cur:100000}, ourTrend:[3,3,3]},
+  "7/2":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:254166,r:"5"}}, our:{ourN:1,cur:180000}, ourTrend:[1,1,1]},
+  "7/3":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:170000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:1,cur:195000}, ourTrend:[3,1,1]},
+  "7/4":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:null,r:"so"},bw:{p:270394,r:"5"}}, our:{ourN:1,cur:250000}, ourTrend:[2,1,1]},
+  "7/5":  {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:4,cur:135000}, ourTrend:[4,4,4]},
+  "7/6":  {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:6,cur:114400,rec:105000}, ourTrend:[6,6,6]},  // 수기핀
+  "7/7":  {dow:"화",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:7,cur:100000}, ourTrend:[7,7,7]},
+  "7/8":  {dow:"수",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:146008,r:"5"}}, our:{ourN:7,cur:128700}, ourTrend:[7,7,7]},
+  "7/9":  {dow:"목",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:4,cur:128700}, ourTrend:[5,5,4]},
+  "7/10": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:4,cur:193000}, ourTrend:[4,4,4]},
+  "7/11": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:2,cur:290000}, ourTrend:[2,2,2]},
+  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:7,cur:173000}, ourTrend:[7,7,7]},
+  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:7,cur:143000,rec:105000}, ourTrend:[7,7,7]}  // 수기핀
 };
 
 /* 주간 구간 D+15~D+30 (7/14~7/29) — 추세용. 금·토는 실측, 평일은 추정 일부 */
@@ -192,42 +193,59 @@ function trendCell(arr){
   return '<span class="trend">'+arr.map(r=>m[r]||r).join(' ') +'</span>';
 }
 
-/* 동적 추천가: 우리 잔여 × 경쟁사 잔여 조합 기반.
-   - 평일 양쪽 여유 → 경쟁군 최저가에 맞춤(선점)
-   - 우리만 남고 경쟁사 차는중 → 경쟁군보다 살짝 아래
-   - 우리 3~4 → 경쟁군 +12% 프리미엄 시작
-   - 우리 <3 → 공격적 인상
-   - 주말/강수요(경쟁 매진 다수) → 베웨 기준 밴드
+/* 동적 추천가: 우리 잔여 × 경쟁사 잔여 × 우리 현재가(앵커) 조합.
+   경쟁군(굿데이·호텔휴) 밴드를 기준선, 베웨를 상한으로 쓰고, 임박일은 현재가 밑으론 안 내림(래칫).
+   ── 주말 ──
+     · 경쟁 2곳+ 매진(강수요): 베웨 상단(×0.925), 베웨 매진이면 경쟁군×1.4 — 현재가 래칫
+     · 일반 주말: 경쟁군 ×(임박1.30 / 중간1.25 / 여유1.10), 베웨×0.92 캡
+   ── 평일 ──
+     · 임박(<3): max(경쟁군×1.25, 현재가×1.08), 베웨×0.85 캡 — 현재가 기준 상향
+     · 중간(3~5): 경쟁군×1.12, 현재가가 그보다 높으면 0.6:0.4로 부분 동조 인하
+     · 여유(6+): 경쟁군 밴드 중앙((최저+최고)/2)으로 선점
    반환: {price, sig, cls} */
 function dynRec(row){
   const c=row.comp;
-  const compPool=[c.gd,c.hu].filter(x=>x&&x.p!=null).map(x=>x.p);
-  const compLo = compPool.length?Math.min(...compPool):null;
+  const pricesGH=[c.gd,c.hu].filter(x=>x&&x.p!=null).map(x=>x.p);
+  const compLo = pricesGH.length?Math.min(...pricesGH):null;
+  const compHi = pricesGH.length?Math.max(...pricesGH):null;
   const bw = c.bw&&c.bw.p!=null?c.bw.p:null;
+  const cur = row.our.cur!=null?row.our.cur:null;
   const soldCount=["gh","gd","hu","bw"].filter(k=>c[k]&&c[k].p==null&&c[k].r==="so").length;
   let ourR = row.our.curR;
   if(row.our.ourN!=null){ ourR = row.our.ourN>=6?"5":row.our.ourN>=3?"34":"lt3"; }
   if(!ourR && row.ourTrend&&row.ourTrend.length){ const last=row.ourTrend[row.ourTrend.length-1]; ourR=typeof last==="number"?(last>=6?"5":last>=3?"34":"lt3"):last; }
+  if(!ourR) ourR="5";
   const round=n=>Math.round(n/500)*500;
+  const ratchet=p=>cur!=null?Math.max(p,cur):p;   // 임박 래칫: 현재가 밑으론 안 내림
 
-  // 강수요 주말: 경쟁군 다수 매진 → 베웨 아래 밴드
-  if(row.t==="wknd" && soldCount>=2){
-    if(bw) return {price:round(bw*0.9), sig:"강수요·베웨 아래", cls:"sig-up"};
-    return {price:row.our.rec, sig:"전원매진·상한없음", cls:"sig-up"};
-  }
-  // 일반 주말(경쟁 여유): 경쟁군 위 + 베웨 아래
+  // ── 주말 ──
   if(row.t==="wknd"){
-    if(compLo){ const p=round(compLo*1.15); return {price:bw?Math.min(p,round(bw*0.92)):p, sig:"금·경쟁군 위", cls:"sig-mid"}; }
-    return {price:row.our.rec, sig:"주말", cls:"sig-mid"};
+    if(soldCount>=2){                               // 강수요(경쟁 2곳+ 매진)
+      const base = bw!=null?round(bw*0.925):round((compLo!=null?compLo:(cur||0))*1.4);
+      return {price:ratchet(base), sig:"강수요·베웨 상단", cls:"sig-up"};
+    }
+    if(compLo==null) return {price:cur!=null?cur:row.our.rec, sig:"주말", cls:"sig-mid"};
+    const mult = ourR==="lt3"?1.30 : ourR==="34"?1.25 : 1.10;
+    let p = round(compLo*mult);
+    if(bw!=null) p=Math.min(p, round(bw*0.92));     // 베웨 상한 밴드
+    if(ourR==="lt3") p=ratchet(p);                  // 임박 래칫
+    return {price:p, sig:ourR==="lt3"?"주말 임박·상단":ourR==="34"?"주말·경쟁군 위":"주말·경쟁군 소폭 위", cls:"sig-mid"};
   }
-  // 평일 로직 (우리 잔여 × 경쟁사 잔여)
-  if(compLo==null) return {price:row.our.rec, sig:"평일", cls:"sig-flat"};
-  if(ourR==="lt3") return {price:round(compLo*1.25), sig:"우리 임박·공격 인상", cls:"sig-up"};
-  if(ourR==="34")  return {price:round(compLo*1.12), sig:"우리 빠지는중·프리미엄", cls:"sig-up"};
-  // 우리 5+ (여유)
-  const compTight = (c.gd&&["34","lt3","so"].includes(c.gd.r)) || (c.hu&&["34","lt3","so"].includes(c.hu.r));
-  if(compTight) return {price:round(compLo*0.97), sig:"우리만 여유·경쟁아래로", cls:"sig-down"};
-  return {price:compLo, sig:"양쪽 여유·동일선 선점", cls:"sig-down"};
+
+  // ── 평일 ──
+  if(compLo==null) return {price:cur!=null?cur:row.our.rec, sig:"평일", cls:"sig-flat"};
+  if(ourR==="lt3"){                                 // 임박: 현재가 기준 상향
+    let p=Math.max(round(compLo*1.25), round((cur||0)*1.08));
+    if(bw!=null) p=Math.min(p, round(bw*0.85));
+    return {price:p, sig:"평일 임박·현가 상향", cls:"sig-up"};
+  }
+  if(ourR==="34"){                                  // 중간: 경쟁군 +12%, 현재가 높으면 점진 인하
+    let p=round(compLo*1.12);
+    if(cur!=null && cur>p) p=round(p*0.6+cur*0.4);
+    return {price:p, sig:"평일 중간·경쟁군 프리미엄", cls:"sig-up"};
+  }
+  // 여유(6+): 경쟁군 밴드 중앙(선점)
+  return {price:round((compLo+compHi)/2), sig:"평일 여유·경쟁군 선점", cls:"sig-down"};
 }
 
 function buildRow(d,row,withGapTrend){
