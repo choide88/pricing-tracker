@@ -38,6 +38,8 @@
   tr.wknd td.our{background:#e7f0fb;}tr.wknd td.our2{background:#dff5e9;}tr.wknd td.gapc{background:#ffe9da;}
   .so{color:var(--red);font-weight:700;font-size:11px;}
   .price{font-weight:600;}
+  td a{color:inherit;text-decoration:none;}
+  td a:hover{text-decoration:underline;text-decoration-color:#1f5fa8;}
   .delta{font-size:9px;font-weight:700;margin-left:3px;}
   .d-up{color:#c0392b;}.d-down{color:#1f6fb2;}
   .trend{font-size:10px;letter-spacing:1px;color:#6b7280;font-family:monospace;}
@@ -126,6 +128,17 @@ const ASOF = "2026-06-30 (저녁)";
 const NOTE_GENIUS = "게하 평일 정가 94,500(6/30 89,100→94,500 인상). Genius11% 적용 ~84,105. 게하 평점 7.3→7.4·리뷰 189건 — 평점 오르며 가격 인상 추세, 모니터링.";
 const LASTCHECK = "2026-06-30 23:15 (오후 재확인)";
 
+/* 경쟁사 부킹닷컴 베이스 URL (aid 등 트래킹 파라미터 제거 — 경로만).
+   날짜별 checkin/checkout·인원은 buildRow에서 자동 부착. 값이 비면 해당 셀은 링크 없이 표시. */
+const BK_LINKS = {
+  gh: "https://www.booking.com/hotel/kr/inceongonghang-guest-house.html",       // 게하
+  gd: "https://www.booking.com/hotel/kr/good-day-airtel.html",                   // 굿데이
+  hu: "https://www.booking.com/hotel/kr/hu-incheon-airport.html",                // 호텔휴
+  bw: "https://www.booking.com/hotel/kr/best-western-premier-incheon-airport.html" // 베웨
+};
+const BK_PARAMS = "group_adults=2&no_rooms=1&group_children=0";
+const BK_YEAR = parseInt(ASOF,10)||2026;
+
 /* 각 추적일: comp 4숙소 {p,r}, our {cur, rec}, ourTrend:[과거…오늘] 우리 잔여코드 배열 */
 const DAILY = {
   // ----- 앞으로 2주 (오늘 6/30 ~ 7/13) -----
@@ -171,13 +184,27 @@ const WEEKLY = {
 
 const fmt = n => n==null?"":n.toLocaleString();
 const rBadge = r => r==="5"?'<span class="pill p-green">5+</span>':r==="34"?'<span class="pill p-amber">3~4</span>':r==="lt3"?'<span class="pill p-red">&lt;3</span>':'';
-function compCell(c){
+// "M/D" → {ci,co} 부킹 checkin/checkout(YYYY-MM-DD). 월·연 넘김은 Date가 정규화.
+function bkDates(d){
+  const p=d.split('/'), m=+p[0], day=+p[1];
+  const iso=t=>t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
+  return {ci:iso(new Date(BK_YEAR,m-1,day)), co:iso(new Date(BK_YEAR,m-1,day+1))};
+}
+function bkUrl(key,d){
+  const base=BK_LINKS[key]; if(!base) return null;
+  const {ci,co}=bkDates(d);
+  const sep=base.indexOf('?')>=0?'&':'?';
+  return base+sep+'checkin='+ci+'&checkout='+co+'&'+BK_PARAMS;
+}
+function compCell(c,key,d){
   if(!c) return '';
   if(c.dash) return '—';
-  if(c.p==null && c.r==="so") return '<span class="so">매진</span>';
+  if(c.p==null && c.r==="so") return '<span class="so">매진</span>';   // 매진: 링크 없음
   const badge = c.r?rBadge(c.r):'';
   const cls = c.est?'price est':'price';
-  return badge+'<span class="'+cls+'">'+fmt(c.p)+'</span>';
+  const inner = badge+'<span class="'+cls+'">'+fmt(c.p)+'</span>';
+  const url = c.p!=null?bkUrl(key,d):null;
+  return url ? '<a href="'+url+'" target="_blank" rel="noopener">'+inner+'</a>' : inner;
 }
 // 경쟁군갭: 우리 - 경쟁군(굿데이·호텔휴) 최저가
 function compGap(row){
@@ -268,8 +295,8 @@ function buildRow(d,row,withGapTrend){
     : fmt(recPrice)+'<span class="recsig">'+dyn.sig+'</span>';
   let h='<tr class="'+(row.t)+'">'
    +'<td class="date">'+d+' ('+row.dow+')</td>'
-   +'<td>'+compCell(c.gh)+'</td>'+'<td>'+compCell(c.gd)+'</td>'
-   +'<td>'+compCell(c.hu)+'</td>'+'<td>'+compCell(c.bw)+'</td>'
+   +'<td>'+compCell(c.gh,'gh',d)+'</td>'+'<td>'+compCell(c.gd,'gd',d)+'</td>'
+   +'<td>'+compCell(c.hu,'hu',d)+'</td>'+'<td>'+compCell(c.bw,'bw',d)+'</td>'
    +'<td class="our2">'+(row.our.cur==null?('<span class="gap-na">'+(row.our.curNote||"미확인")+'</span>'):fmt(row.our.cur))+(row.our.ourN!=null?'<span class="ourn">잔여 '+row.our.ourN+'/8</span>':'')+'</td>'
    +'<td class="gapc">'+compGap(row)+'</td>'
    +'<td class="our '+recCls+'">'+recCell+'</td>';
