@@ -65,13 +65,15 @@
   <b>전략: 평일 공실이 핵심 과제.</b> 직접경쟁군(굿데이·호텔휴, 평점 7.3~7.6) 대비 평점 9.4 프리미엄으로 <b>약간 위</b> 포지션이 먹히는지 매일 확인.</p>
 
   <div id="daychange" style="margin:0 0 14px;padding:13px 16px;background:#eafaf1;border:1px solid #b8e6cf;border-radius:10px;">
-  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 어제→오늘 변화 (6/29 → 6/30)</h3>
+  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 오늘 오전→저녁 변화 (6/30 09:24 → 23:15)</h3>
   <ul style="margin:0;padding-left:18px;font-size:12.5px;">
-    <li><b>잔여:</b> 7/9 (목) 잔여 5→4 <span style="color:#c0392b;font-weight:700;">(▼1 예약유입)</span> · 그 외 날짜 잔여 변동 없음</li>
-    <li><b>현재가 상향(임박·주말):</b> 7/2 →180k, 7/3 →195k, 7/11 →290k <span style="color:#c0392b;font-weight:700;">(↑)</span></li>
-    <li><b>현재가 하향(여유 평일):</b> 7/5 →135k, 7/6 →114.4k, 7/7 →100k <span style="color:#1f6fb2;font-weight:700;">(↓ 경쟁군선 동조)</span></li>
+    <li><b>★ 7/1 (수)</b> 잔여 3→1 <span style="color:#c0392b;font-weight:700;">(▼2 급소진·임박 전환)</span> — 현재가 100k는 임박가 아님, dynRec 자동 125k 상향</li>
+    <li><b>★ 7/2 (목) 베웨 254k→매진</b> <span style="color:#c0392b;font-weight:700;">(임박상단 소진)</span> — 우리가 사실상 최상위 옵션, 현재가 157.3k는 과소 → <b>rec 핀 185k</b></li>
+    <li><b>잔여 추가 소진:</b> 7/7 (화) 7→6, 7/17 (금) 2→1</li>
+    <li><b>현재가 하향 반영(오전 권고):</b> 7/8 →110k, 7/12 →132k, 7/6·7/13 →105k(핀)</li>
+    <li><b>게하 평일단가 인상:</b> 89,100 → 94,500 (평점 7.3→7.4) — 우리 9.4 우위 유지하나 모니터링</li>
   </ul>
-  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 전략대로 <b>임박·주말은 올리고 여유 평일은 경쟁군 쪽으로 내림</b>. 평일 잔여는 7/9만 한 칸 빠지고 대체로 정체 → 평일 공실이 여전히 핵심 과제.</p>
+  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 임박일(7/1·7/2)에 <b>경쟁 상단이 소진</b>되며 상향 여지 커짐 → 즉시 인상 권장. 여유 평일은 경쟁군선까지 내려 선점 유지 중.</p>
 </div>
   <div id="insight"></div>
 
@@ -120,48 +122,51 @@
 <script>
 /* DAILY_LOG: 날짜별 잔여 이력 배열(추이 띠용). 매일 아침 각 날짜에 오늘 잔여코드 push.
    r코드: "5"|"34"|"lt3"|"so"  */
-const ASOF = "2026-06-30";
-const NOTE_GENIUS = "게하 평일 실제최저가 79,299(Genius11%). 표기는 정가 89,100 기준.";
-const LASTCHECK = "2026-06-30 (오전 갱신)";
+const ASOF = "2026-06-30 (저녁)";
+const NOTE_GENIUS = "게하 평일 정가 94,500(6/30 89,100→94,500 인상). Genius11% 적용 ~84,105. 게하 평점 7.3→7.4·리뷰 189건 — 평점 오르며 가격 인상 추세, 모니터링.";
+const LASTCHECK = "2026-06-30 23:15 (오후 재확인)";
 
 /* 각 추적일: comp 4숙소 {p,r}, our {cur, rec}, ourTrend:[과거…오늘] 우리 잔여코드 배열 */
 const DAILY = {
   // ----- 앞으로 2주 (오늘 6/30 ~ 7/13) -----
   // rec 미지정 → dynRec 자동계산. 특정일을 수기 고정하려면 our에 rec:NNNNN 추가하면 그 값이 우선.
   "6/30": {dow:"화",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:70000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:null,cur:null,curNote:"미캡처(6월)"}, ourTrend:[]},
-  "7/1":  {dow:"수",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:3,cur:100000}, ourTrend:[3,3,3]},
-  "7/2":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:254166,r:"5"}}, our:{ourN:1,cur:180000}, ourTrend:[1,1,1]},
-  "7/3":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:170000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:1,cur:195000}, ourTrend:[3,1,1]},
+  "7/1":  {dow:"수",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:1,cur:100000}, ourTrend:[3,3,1]},  // 잔3→1 임박전환, dynRec 자동 125k
+  "7/2":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:null,r:"so"}}, our:{ourN:1,cur:157300,rec:185000}, ourTrend:[1,1,1]},  // 수기핀: 베웨까지 매진 → 최상위 옵션
+  "7/3":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:170000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:1,cur:208000}, ourTrend:[3,1,1]},
   "7/4":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:null,r:"so"},bw:{p:270394,r:"5"}}, our:{ourN:1,cur:250000}, ourTrend:[2,1,1]},
-  "7/5":  {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:4,cur:135000}, ourTrend:[4,4,4]},
-  "7/6":  {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:6,cur:114400,rec:105000}, ourTrend:[6,6,6]},  // 수기핀
-  "7/7":  {dow:"화",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:7,cur:100000}, ourTrend:[7,7,7]},
-  "7/8":  {dow:"수",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:146008,r:"5"}}, our:{ourN:7,cur:128700}, ourTrend:[7,7,7]},
+  "7/5":  {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:4,cur:125000}, ourTrend:[4,4,4]},
+  "7/6":  {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:6,cur:105000,rec:105000}, ourTrend:[6,6,6]},  // 수기핀
+  "7/7":  {dow:"화",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:6,cur:100000}, ourTrend:[7,7,6]},
+  "7/8":  {dow:"수",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:146008,r:"5"}}, our:{ourN:7,cur:110000}, ourTrend:[7,7,7]},
   "7/9":  {dow:"목",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:4,cur:128700}, ourTrend:[5,5,4]},
   "7/10": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:4,cur:193000}, ourTrend:[4,4,4]},
   "7/11": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:2,cur:290000}, ourTrend:[2,2,2]},
-  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:7,cur:173000}, ourTrend:[7,7,7]},
-  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:7,cur:143000,rec:105000}, ourTrend:[7,7,7]}  // 수기핀
+  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:94500,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:7,cur:132000}, ourTrend:[7,7,7]},
+  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:89100,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:7,cur:105000,rec:105000}, ourTrend:[7,7,7]}  // 수기핀
 };
 
-/* 주간 구간 D+15~D+30 (7/14~7/29) — 추세용. 금·토는 실측, 평일은 추정 일부 */
+/* 주간 구간 D+15~D+31 (7/14~7/31) — 추세용. 우리 잔여·현재가는 23:15 실측,
+   경쟁사는 핵심일(금·토) 실측 + 평일 추정. rec 미지정=dynRec 자동계산. */
 const WEEKLY = {
-  "7/14": {dow:"화",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:100000},bw:{p:163000,est:true}}, our:{cur:null,rec:130000}},
-  "7/15": {dow:"수",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{cur:null,rec:130000}},
-  "7/16": {dow:"목",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{cur:null,rec:130000}},
-  "7/17": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:160000,r:"5"},bw:{p:296010,r:"34"}}, our:{cur:null,rec:195000}},
-  "7/18": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:265650,r:"34"}}, our:{cur:null,rec:245000}},
-  "7/19": {dow:"일",t:"wknd", comp:{gh:{p:103500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:165000,est:true}}, our:{cur:null,rec:150000}},
-  "7/20": {dow:"월",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:100000,est:true},bw:{p:162236,est:true}}, our:{cur:null,rec:130000}},
-  "7/21": {dow:"화",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:100000,est:true},bw:{p:163000,est:true}}, our:{cur:null,rec:130000}},
-  "7/22": {dow:"수",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{cur:null,rec:130000}},
-  "7/23": {dow:"목",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{cur:null,rec:130000}},
-  "7/24": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:204930,r:"5"}}, our:{cur:null,rec:180000}},
-  "7/25": {dow:"토",t:"wknd", comp:{gh:{p:108000,r:"lt3"},gd:{p:160000,r:"5"},hu:{p:160000,r:"5"},bw:{p:204930,r:"5"}}, our:{cur:null,rec:190000}},
-  "7/26": {dow:"일",t:"wknd", comp:{gh:{p:103500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:165000,est:true}}, our:{cur:null,rec:150000}},
-  "7/27": {dow:"월",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:100000,est:true},bw:{p:162236,est:true}}, our:{cur:null,rec:130000}},
-  "7/28": {dow:"화",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:100000,est:true},bw:{p:163000,est:true}}, our:{cur:null,rec:130000}},
-  "7/29": {dow:"수",t:"wkdy", comp:{gh:{p:89100,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{cur:null,rec:130000}}
+  "7/14": {dow:"화",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:100000},bw:{p:163000,est:true}}, our:{ourN:5,cur:150000}},
+  "7/15": {dow:"수",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:7,cur:143000}},
+  "7/16": {dow:"목",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:6,cur:150000}},
+  "7/17": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:160000,r:"5"},bw:{p:296010,r:"34"}}, our:{ourN:1,cur:200000}},  // 잔2→1 임박
+  "7/18": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:265650,r:"34"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},
+  "7/19": {dow:"일",t:"wknd", comp:{gh:{p:103500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:165000,est:true}}, our:{ourN:3,cur:210000}},
+  "7/20": {dow:"월",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:100000,est:true},bw:{p:162236,est:true}}, our:{ourN:6,cur:143000}},
+  "7/21": {dow:"화",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:100000,est:true},bw:{p:163000,est:true}}, our:{ourN:6,cur:143000}},
+  "7/22": {dow:"수",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:7,cur:143000}},
+  "7/23": {dow:"목",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:6,cur:143000}},
+  "7/24": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:204930,r:"5"}}, our:{ourN:6,cur:210000}},
+  "7/25": {dow:"토",t:"wknd", comp:{gh:{p:108000,r:"lt3"},gd:{p:160000,r:"5"},hu:{p:160000,r:"5"},bw:{p:204930,r:"5"}}, our:{ourN:5,cur:210000}},
+  "7/26": {dow:"일",t:"wknd", comp:{gh:{p:103500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:165000,est:true}}, our:{ourN:8,cur:210000}},
+  "7/27": {dow:"월",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:100000,est:true},bw:{p:162236,est:true}}, our:{ourN:8,cur:171600}},
+  "7/28": {dow:"화",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:100000,est:true},bw:{p:163000,est:true}}, our:{ourN:7,cur:171600}},
+  "7/29": {dow:"수",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:8,cur:171600}},
+  "7/30": {dow:"목",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:8,cur:171600}},
+  "7/31": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,est:true},hu:{p:140000,est:true},bw:{p:204930,est:true}}, our:{ourN:8,cur:219600}}
 };
 
 const fmt = n => n==null?"":n.toLocaleString();
