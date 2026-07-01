@@ -86,15 +86,13 @@
 
   <div id="panel-track" class="panel">
   <div id="daychange" style="margin:0 0 14px;padding:13px 16px;background:#eafaf1;border:1px solid #b8e6cf;border-radius:10px;">
-  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 6/30 저녁→7/1 오전 변화 (경쟁사 2주 완전 조회)</h3>
+  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 7/1 오전→7/2 00:30 변화 (우리 잔여·가격)</h3>
   <ul style="margin:0;padding-left:18px;font-size:12.5px;">
-    <li><b>★ 7/1 (수) 우리 잔1 → 매진</b> <span style="color:#0a8754;font-weight:700;">(완판 🎉)</span> — 7/1 마감</li>
-    <li><b>수요 신호:</b> 7/11(토) 여전히 <b>4곳 전부 매진</b>(2주 최강일) · 7/10(금) 게하 매진 안 하고 112,500 오픈 = <span style="color:#c0392b;font-weight:700;">금요일 수요 약세</span></li>
-    <li><b>★ 굿데이 임박 떨이:</b> 7/1·7/2 100k→<b>80,000 급락</b> → 우리 임박가(7/2 160k)가 상대적 고가, 과욕 주의</li>
-    <li><b>베웨 7/2 매진→216,315 재오픈</b> · 게하 7/1·7/2·7/5 매진 전환</li>
-    <li><b>현재가(Dennis 수동조정):</b> 여유평일 7/6·7·8 →135,850, 7/5 →173,850 — 경쟁군(100k대) 대비 높아 dynRec은 하향 권고</li>
+    <li><b>7/5 (일)</b> 현재가 173,850 → <b>146,400</b> <span style="color:#1f6fb2;font-weight:700;">(↓ 여유일 인하)</span></li>
+    <li><b>7/7 (화)</b> 잔여 6 → 5 <span style="color:#c0392b;font-weight:700;">(▼1 예약유입)</span> — 중간 전환</li>
+    <li>7/15 신규 편입(잔7 128,700) · 그 외 잔여·가격 유지</li>
   </ul>
-  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 경쟁사 4곳×2주 <b>실단가 전부 확보</b>(추정 제거). 최강일 7/11 / 떨이주의 7/1·2 / 애매금요일 7/10 / 안정평일 7/6~9. 여유일 현재가가 경쟁군보다 높아 공실 위험 → 아래 인사이트 참고.</p>
+  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 여유일 7/5만 소폭 인하, 평일 7/7 한 칸 소진. 나머지 정체 → 여유평일(7/6·8·13·15) 공실 위험 여전(아래 인사이트 참고).</p>
 </div>
   <div id="insight"></div>
 
@@ -150,9 +148,9 @@
 <script>
 /* DAILY_LOG: 날짜별 잔여 이력 배열(추이 띠용). 매일 아침 각 날짜에 오늘 잔여코드 push.
    r코드: "5"|"34"|"lt3"|"so"  */
-const ASOF = "2026-07-01";
+const ASOF = "2026-07-02";
 const NOTE_GENIUS = "게하 평일 정가 94,500 확정(89,100→94,500 전평일 통일). Genius11% 적용 ~84,105. 평점 7.3→7.4·리뷰 190건. 금요일 패턴 붕괴: 7/10 매진 안 하고 112,500 오픈(수요약세).";
-const LASTCHECK = "2026-07-01 10:15 (오전 갱신, 경쟁사 2주 완전 조회)";
+const LASTCHECK = "2026-07-02 00:30 (저녁 갱신)";
 
 /* 경쟁사 부킹닷컴 베이스 URL (aid 등 트래킹 파라미터 제거 — 경로만).
    날짜별 checkin/checkout·인원은 buildRow에서 자동 부착. 값이 비면 해당 셀은 링크 없이 표시. */
@@ -167,28 +165,27 @@ const BK_YEAR = parseInt(ASOF,10)||2026;
 
 /* 각 추적일: comp 4숙소 {p,r}, our {cur, rec}, ourTrend:[과거…오늘] 우리 잔여코드 배열 */
 const DAILY = {
-  // ----- 앞으로 2주 (오늘 7/1 ~ 7/14) -----
+  // ----- 앞으로 2주 (오늘 7/2 ~ 7/15) -----
   // rec 미지정 → dynRec 자동계산. 특정일을 수기 고정하려면 our에 rec:NNNNN 추가하면 그 값이 우선.
-  "7/1":  {dow:"수",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:80000,r:"5"},hu:{p:120000,r:"5"},bw:{p:216315,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}, ourTrend:[3,3,1,0]},
-  "7/2":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:80000,r:"5"},hu:{p:120000,r:"5"},bw:{p:216315,r:"5"}}, our:{ourN:1,cur:160000}, ourTrend:[1,1,1,1]},  // 굿 8만 떨이 — 상대적 고가 주의
-  "7/3":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:140000,r:"5"},hu:{p:170000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:1,cur:208000}, ourTrend:[3,1,1,1]},
-  "7/4":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,r:"5"},hu:{p:null,r:"so"},bw:{p:270394,r:"5"}}, our:{ourN:1,cur:250000}, ourTrend:[2,1,1,1]},
-  "7/5":  {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:4,cur:173850}, ourTrend:[4,4,4,4]},
-  "7/6":  {dow:"월",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:6,cur:135850}, ourTrend:[6,6,6,6]},
-  "7/7":  {dow:"화",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:173052,r:"5"}}, our:{ourN:6,cur:135850}, ourTrend:[7,7,6,6]},
-  "7/8":  {dow:"수",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:146008,r:"5"}}, our:{ourN:7,cur:135850}, ourTrend:[7,7,7,7]},
-  "7/9":  {dow:"목",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:4,cur:135850}, ourTrend:[5,5,4,4]},
-  "7/10": {dow:"금",t:"wknd", comp:{gh:{p:112500,r:"5"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:4,cur:193000}, ourTrend:[4,4,4,4]},  // 게하 매진해제=수요약세
-  "7/11": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:2,cur:290000}, ourTrend:[2,2,2,2]},  // 4곳 전부 매진 = 2주 최강일
-  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:94500,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:7,cur:132000}, ourTrend:[7,7,7,7]},
-  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:7,cur:128700}, ourTrend:[7,7,7,7]},
-  "7/14": {dow:"화",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:5,cur:150000}, ourTrend:[5,5]}
+  "7/2":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:80000,r:"5"},hu:{p:120000,r:"5"},bw:{p:216315,r:"5"}}, our:{ourN:1,cur:160000}, ourTrend:[1,1,1,1,1]},  // 굿 8만 떨이 — 상대적 고가 주의
+  "7/3":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:140000,r:"5"},hu:{p:170000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:1,cur:208000}, ourTrend:[3,1,1,1,1]},
+  "7/4":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,r:"5"},hu:{p:null,r:"so"},bw:{p:270394,r:"5"}}, our:{ourN:1,cur:250000}, ourTrend:[2,1,1,1,1]},
+  "7/5":  {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:183868,r:"5"}}, our:{ourN:4,cur:146400}, ourTrend:[4,4,4,4,4]},
+  "7/6":  {dow:"월",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:6,cur:135850}, ourTrend:[6,6,6,6,6]},
+  "7/7":  {dow:"화",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:173052,r:"5"}}, our:{ourN:5,cur:135850}, ourTrend:[7,7,6,6,5]},
+  "7/8":  {dow:"수",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:146008,r:"5"}}, our:{ourN:7,cur:135850}, ourTrend:[7,7,7,7,7]},
+  "7/9":  {dow:"목",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:4,cur:135850}, ourTrend:[5,5,4,4,4]},
+  "7/10": {dow:"금",t:"wknd", comp:{gh:{p:112500,r:"5"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:237947,r:"5"}}, our:{ourN:4,cur:193000}, ourTrend:[4,4,4,4,4]},  // 게하 매진해제=수요약세
+  "7/11": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:2,cur:290000}, ourTrend:[2,2,2,2,2]},  // 4곳 전부 매진 = 2주 최강일
+  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:94500,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:7,cur:132000}, ourTrend:[7,7,7,7,7]},
+  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:7,cur:128700}, ourTrend:[7,7,7,7,7]},
+  "7/14": {dow:"화",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:5,cur:150000}, ourTrend:[5,5,5]},
+  "7/15": {dow:"수",t:"wkdy", comp:{gh:{p:94500,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:7,cur:128700}, ourTrend:[7,7]}  // 신규 편입 (경쟁사는 7/2 00:30 실측 스냅샷)
 };
 
-/* 주간 구간 D+14~D+30 (7/15~7/31) — 추세용. 우리 잔여·현재가는 실측,
+/* 주간 구간 D+14~D+29 (7/16~7/31) — 추세용. 우리 잔여·현재가는 실측,
    경쟁사는 핵심일(금·토) 실측 + 평일 추정. rec 미지정=dynRec 자동계산. */
 const WEEKLY = {
-  "7/15": {dow:"수",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:7,cur:143000}},
   "7/16": {dow:"목",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:6,cur:150000}},
   "7/17": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:160000,r:"5"},bw:{p:296010,r:"34"}}, our:{ourN:1,cur:200000}},  // 잔2→1 임박
   "7/18": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:265650,r:"34"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},
