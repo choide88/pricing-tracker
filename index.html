@@ -40,6 +40,19 @@
   .price{font-weight:600;}
   td a{color:inherit;text-decoration:none;}
   td a:hover{text-decoration:underline;text-decoration-color:#1f5fa8;}
+  .tabs{display:flex;gap:2px;border-bottom:2px solid var(--line);margin:16px 0 18px;}
+  .tab{padding:8px 16px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;font-family:inherit;}
+  .tab.active{color:#1f5fa8;border-bottom-color:#1f5fa8;}
+  .panel[hidden]{display:none;}
+  .logsnap{margin:0 0 16px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .logsnap h3{font-size:12.5px;margin:0;padding:8px 12px;background:#f3f4f6;color:#374151;font-family:monospace;font-weight:700;}
+  .logrow{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:12.5px;padding:7px 12px;border-top:1px solid var(--line);}
+  .logrow .ld{font-weight:700;min-width:78px;}
+  .logrow .lc{color:var(--muted);min-width:48px;}
+  .logrow .lv{font-variant-numeric:tabular-nums;}
+  .log-up{color:#c0392b;font-weight:700;} .log-down{color:#1f6fb2;font-weight:700;}
+  .log-soldout{color:#6b7280;font-weight:700;} .log-reopen{color:#0a8754;font-weight:700;}
+  .lognone{color:#9ca3af;font-size:11.5px;padding:7px 12px;border-top:1px solid var(--line);}
   .delta{font-size:9px;font-weight:700;margin-left:3px;}
   .d-up{color:#c0392b;}.d-down{color:#1f6fb2;}
   .trend{font-size:10px;letter-spacing:1px;color:#6b7280;font-family:monospace;}
@@ -66,6 +79,12 @@
   <p class="sub">우리: Incheon Airport T1 Residence near Paradise City (평점 9.4) · 1실 1박 · 성인 2명 · KRW · 부킹닷컴 기준<br>
   <b>전략: 평일 공실이 핵심 과제.</b> 직접경쟁군(굿데이·호텔휴, 평점 7.3~7.6) 대비 평점 9.4 프리미엄으로 <b>약간 위</b> 포지션이 먹히는지 매일 확인.</p>
 
+  <div class="tabs">
+    <button id="tab-track" class="tab active">① 가격추적</button>
+    <button id="tab-log" class="tab">변동로그</button>
+  </div>
+
+  <div id="panel-track" class="panel">
   <div id="daychange" style="margin:0 0 14px;padding:13px 16px;background:#eafaf1;border:1px solid #b8e6cf;border-radius:10px;">
   <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 6/30 저녁→7/1 오전 변화 (경쟁사 2주 완전 조회)</h3>
   <ul style="margin:0;padding-left:18px;font-size:12.5px;">
@@ -118,6 +137,13 @@
     오른쪽으로 갈수록 단계가 낮아지면(5+→3~4→&lt;3) 잘 차는 것. 오늘이 1일차라 점 하나로 시작, 매일 쌓이며 기울기가 보임.<br><br>
     <b>운영.</b> 매일 아침 같은 시각 "오늘 거 찍어줘" → 앞 2주 평일+주말 갱신, 추이 띠에 오늘 점 추가. D+15~30 주간표는 주 1회만.
     같은 index.html 덮어쓰기로 URL 유지, 깃허브 커밋에 매일 이력 자동 보존.
+  </div>
+  </div><!-- /panel-track -->
+
+  <div id="panel-log" class="panel" hidden>
+    <h2>변동로그 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(경쟁사 스냅샷 간 가격 변동, 최신순 · 7일 보관)</span></h2>
+    <p class="cap">조회 시각마다 찍은 경쟁사 14일치 스냅샷을 인접 비교. <span class="log-up">↑빨강=인상</span> · <span class="log-down">↓파랑=인하</span> · <span class="log-soldout">■회색=매진전환</span> · <span class="log-reopen">↺초록=재오픈</span>.</p>
+    <div id="logBody"></div>
   </div>
 </div>
 
@@ -179,6 +205,47 @@ const WEEKLY = {
   "7/29": {dow:"수",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:8,cur:171600}},
   "7/30": {dow:"목",t:"wkdy", comp:{gh:{p:94500,est:true},gd:{p:100000,est:true},hu:{p:120000,est:true},bw:{p:163000,est:true}}, our:{ourN:8,cur:171600}},
   "7/31": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,est:true},hu:{p:140000,est:true},bw:{p:204930,est:true}}, our:{ourN:8,cur:219600}}
+};
+
+/* COMP_LOG: 조회 시각(ISO 분단위) → 그 시각에 조회한 14일치 경쟁사 스냅샷 누적 이력.
+   COMP_DAILY(현재 스냅샷 = DAILY/WEEKLY)와 별개 저장소. 매진은 문자열 "SO".
+   ★ 갱신 워크플로: 데이터 갱신 시 (1) DAILY/WEEKLY의 comp 값을 새 값으로 교체하고,
+      동시에 (2) 아래 COMP_LOG 맨 위에 새 타임스탬프 키로 그 시각의 14일치 스냅샷을 append.
+      pruneLog()가 로드 시 7일(168h) 지난 스냅샷을 자동 삭제. 렌더는 시각으로 정렬하므로 순서 무관. */
+const COMP_LOG = {
+  "2026-07-02T00:30": {
+    "2026-07-02": {gh:"SO",   gd:80000,  hu:120000, bw:216315},
+    "2026-07-03": {gh:"SO",   gd:140000, hu:170000, bw:237947},
+    "2026-07-04": {gh:"SO",   gd:180000, hu:"SO",   bw:270394},
+    "2026-07-05": {gh:"SO",   gd:100000, hu:120000, bw:183868},
+    "2026-07-06": {gh:94500,  gd:100000, hu:100000, bw:162236},
+    "2026-07-07": {gh:94500,  gd:100000, hu:100000, bw:173052},
+    "2026-07-08": {gh:94500,  gd:100000, hu:120000, bw:146008},
+    "2026-07-09": {gh:94500,  gd:100000, hu:120000, bw:167640},
+    "2026-07-10": {gh:112500, gd:160000, hu:210000, bw:237947},
+    "2026-07-11": {gh:"SO",   gd:200000, hu:"SO",   bw:"SO"},
+    "2026-07-12": {gh:94500,  gd:140000, hu:120000, bw:232534},
+    "2026-07-13": {gh:94500,  gd:100000, hu:120000, bw:151421},
+    "2026-07-14": {gh:94500,  gd:100000, hu:100000, bw:151421},
+    "2026-07-15": {gh:94500,  gd:100000, hu:100000, bw:151421}
+  },
+  // 7/1 오전 베이스라인(직전 스냅샷, 비교 기준). 이 시각 대비 7/10 호텔휴만 140,000→210,000 변동.
+  "2026-07-01T10:15": {
+    "2026-07-02": {gh:"SO",   gd:80000,  hu:120000, bw:216315},
+    "2026-07-03": {gh:"SO",   gd:140000, hu:170000, bw:237947},
+    "2026-07-04": {gh:"SO",   gd:180000, hu:"SO",   bw:270394},
+    "2026-07-05": {gh:"SO",   gd:100000, hu:120000, bw:183868},
+    "2026-07-06": {gh:94500,  gd:100000, hu:100000, bw:162236},
+    "2026-07-07": {gh:94500,  gd:100000, hu:100000, bw:173052},
+    "2026-07-08": {gh:94500,  gd:100000, hu:120000, bw:146008},
+    "2026-07-09": {gh:94500,  gd:100000, hu:120000, bw:167640},
+    "2026-07-10": {gh:112500, gd:160000, hu:140000, bw:237947},
+    "2026-07-11": {gh:"SO",   gd:200000, hu:"SO",   bw:"SO"},
+    "2026-07-12": {gh:94500,  gd:140000, hu:120000, bw:232534},
+    "2026-07-13": {gh:94500,  gd:100000, hu:120000, bw:151421},
+    "2026-07-14": {gh:94500,  gd:100000, hu:100000, bw:151421},
+    "2026-07-15": {gh:94500,  gd:100000, hu:100000, bw:151421}
+  }
 };
 
 const fmt = n => n==null?"":n.toLocaleString();
@@ -303,6 +370,65 @@ function buildRow(d,row,withGapTrend){
   return h+'</tr>';
 }
 
+/* ── 변동로그 로직 ─────────────────────────────────────────────── */
+const COMP_NAMES = {gh:"게하", gd:"굿데이", hu:"호텔휴", bw:"베웨"};
+function tsMillis(k){ // "2026-07-02T00:30" → ms (로컬 파싱, TZ 무관 비교용)
+  const a=k.split('T'), d=a[0].split('-').map(Number), t=(a[1]||"0:0").split(':').map(Number);
+  return new Date(d[0],d[1]-1,d[2],t[0]||0,t[1]||0).getTime();
+}
+function pruneLog(){ // 최신 스냅샷 타임스탬프 기준 168h(7일) 초과분 자동 제거 (ASOF 아님)
+  const keys=Object.keys(COMP_LOG); if(!keys.length) return;
+  const latest=Math.max.apply(null, keys.map(tsMillis));
+  keys.forEach(k=>{ if(latest - tsMillis(k) > 168*3600*1000) delete COMP_LOG[k]; });
+}
+function diffSnapshots(newer, older){ // 값 바뀐 날짜·경쟁사만 [{date,comp,from,to,dir,pct}]
+  const out=[]; if(!newer||!older) return out;
+  for(const date of Object.keys(newer)){
+    const n=newer[date], o=older[date]; if(!o) continue;
+    for(const comp of ["gh","gd","hu","bw"]){
+      const a=o[comp], b=n[comp];
+      if(a===undefined||b===undefined||a===b) continue;
+      const aSO=a==="SO", bSO=b==="SO";
+      if(aSO&&bSO) continue;
+      let dir, pct=null;
+      if(aSO) dir="reopen";               // 매진 → 가격 (재오픈)
+      else if(bSO) dir="soldout";         // 가격 → 매진 (매진전환)
+      else { dir=b>a?"up":"down"; pct=Math.round((b-a)/a*1000)/10; }  // 숫자→숫자
+      out.push({date, comp, from:a, to:b, dir, pct});
+    }
+  }
+  return out;
+}
+function renderLog(){
+  const keys=Object.keys(COMP_LOG).sort().reverse();   // 시간 역순(최신 먼저)
+  const dow=["일","월","화","수","목","금","토"];
+  const arrow={up:"↑",down:"↓",soldout:"■",reopen:"↺"};
+  const cls={up:"log-up",down:"log-down",soldout:"log-soldout",reopen:"log-reopen"};
+  const dstr=iso=>{ const p=iso.split('-').map(Number); const w=new Date(p[0],p[1]-1,p[2]).getDay(); return p[1]+"/"+p[2]+"("+dow[w]+")"; };
+  let html="";
+  for(let i=0;i<keys.length;i++){
+    const ts=keys[i], older=keys[i+1]?COMP_LOG[keys[i+1]]:null;
+    const label=ts.replace("T"," ").slice(5);          // "07-02 00:30"
+    if(!older){ html+='<div class="logsnap"><h3>'+label+' — 최초 스냅샷(기준점)</h3><div class="lognone">이전 스냅샷 없음</div></div>'; continue; }
+    const diffs=diffSnapshots(COMP_LOG[ts], older);
+    let rows="";
+    for(const x of diffs){
+      const f=x.from==="SO"?"매진":fmt(x.from), t2=x.to==="SO"?"매진":fmt(x.to);
+      const pctS=x.pct!=null?' <span class="'+cls[x.dir]+'">('+(x.pct>0?'+':'')+x.pct+'%)</span>':'';
+      rows+='<div class="logrow"><span class="ld">'+dstr(x.date)+'</span><span class="lc">'+COMP_NAMES[x.comp]+'</span>'
+           +'<span class="lv">'+f+' → '+t2+'</span> <span class="'+cls[x.dir]+'">'+arrow[x.dir]+'</span>'+pctS+'</div>';
+    }
+    html+='<div class="logsnap"><h3>'+label+'</h3>'+(rows||'<div class="lognone">변동 없음</div>')+'</div>';
+  }
+  document.getElementById('logBody').innerHTML=html;
+}
+function showTab(name){
+  document.getElementById('panel-track').hidden = name!=='track';
+  document.getElementById('panel-log').hidden = name!=='log';
+  document.getElementById('tab-track').classList.toggle('active', name==='track');
+  document.getElementById('tab-log').classList.toggle('active', name==='log');
+}
+
 document.getElementById('updBadge').textContent='오늘 '+(typeof LASTCHECK!=='undefined'?LASTCHECK:ASOF);
 let db=''; for(const [d,row] of Object.entries(DAILY)) db+=buildRow(d,row,true);
 document.getElementById('dailyBody').innerHTML=db;
@@ -330,6 +456,12 @@ box.innerHTML='<h3>📌 평일 공실 인사이트 (오늘 '+ASOF+')</h3>'+
   (ins.length?'<ul>'+ins.slice(0,6).map(x=>'<li>'+x.html+'</li>').join('')+'</ul>'
    :'<p class="none">평일 공실 위험 날짜 없음.</p>')
   +'<p style="font-size:11.5px;color:#6b7280;margin:8px 0 0;">※ 우리 잔여는 Sirvoy 실재고(총 8실 기준). 매일 갱신하면 추이 띠에 개수가 쌓여 "빠지는 속도"가 보임.</p>';
+
+// 변동로그: 7일 지난 스냅샷 정리 후 렌더 + 탭 전환 바인딩
+pruneLog();
+renderLog();
+document.getElementById('tab-track').addEventListener('click',function(){showTab('track');});
+document.getElementById('tab-log').addEventListener('click',function(){showTab('log');});
 </script>
 </body>
 </html>
