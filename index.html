@@ -59,7 +59,8 @@
   .gap-cheap{color:#0a8754;}  /* 우리가 경쟁군보다 쌈 = 유리 */
   .gap-prem{color:#c2780c;}   /* 우리가 비쌈 = 프리미엄, 주의 */
   .gap-na{color:#9ca3af;font-weight:400;}
-  .recsig{display:block;font-size:9px;font-weight:400;color:#5a86bd;margin-top:1px;}
+  .recsig{display:none;}   /* 설명문은 셀 title(hover 툴팁)로만 노출 — 화면에선 숨김 */
+  th.our,td.our{white-space:nowrap;width:1%;}   /* 추천가 열 폭 축소(숫자+화살표만) */
   .ourn{display:block;font-size:9px;font-weight:600;color:#0a8754;margin-top:1px;}
   .sig-up .recsig{color:#c0392b;} .sig-down .recsig{color:#0a8754;} .sig-mid .recsig{color:#c2780c;} .sig-flat .recsig{color:#6b7280;}
   td.our.sig-up{color:#c0392b;} td.our.sig-down{color:#0a8754;}
@@ -188,7 +189,8 @@
     <p class="cap">파라다이스 카지노 <b>포커 대회가 주동인</b> — 10일씩 방을 채우고 전원 외국인(공항숙소 수요) + 일부 日편중. <span class="evb pk-badge" style="padding:0 5px;">🃏 포커</span> 기간 행은 옅은 빨강 밴드. 경쟁매진 많을수록·우리 잔여 적을수록 공격적 인상.</p>
     <div id="augsum"></div>
     <table id="augTable"><thead>
-      <tr><th class="date">날짜</th><th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">SO+조회불가/4</span></th>
+      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
+          <th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">SO+조회불가/4</span></th>
           <th class="our2">우리 현재가</th><th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">N/객실 (비율)</span></th>
           <th class="our" title="dynRec 추천가">추천가</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="augBody"></tbody></table>
@@ -203,11 +205,12 @@
       <p>· <b>추석 연휴=9/24~27</b> (당일 9/25). 게하가 어떤 이벤트에도 90k 고수했으나 <b>추석 9/23~26 4일만 115,200 인상</b> → 공항숙소=해외출국 성수기 강신호.</p>
     </div>
     <table id="sepTable"><thead>
-      <tr><th class="date">날짜</th><th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">SO+조회불가/4</span></th>
+      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
+          <th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">SO+조회불가/4</span></th>
           <th class="our2">우리 현재가</th><th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">N/객실 (비율)</span></th>
           <th class="our" title="dynRec 추천가">추천가</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="sepBody"></tbody></table>
-    <p class="cap" style="margin-top:8px;">· 2026-07-04 조회분. 경쟁매진=SO+조회불가(SO추정) 합산 /4, 4/4면 빨강. 추천가는 dynRec(경쟁사 기준, 우리 잔여 미확보→재고미상). 개별 경쟁가는 변동로그 참조. <span class="ev-tag sep-tag-strong">강세</span> 9/11~13 · <span class="ev-tag sep-tag-chuseok">추석</span> 9/23~26.</p>
+    <p class="cap" style="margin-top:8px;">· 2026-07-04 조회분. 경쟁 4열(게하/굿데이/호텔휴/베웨) + 경쟁매진 요약(=SO+조회불가 합산 /4, 4/4면 빨강). 추천가는 dynRec(경쟁사 기준, 우리 잔여 미확보→재고미상, 설명은 셀 hover). <span class="ev-tag sep-tag-strong">강세</span> 9/11~13 · <span class="ev-tag sep-tag-chuseok">추석</span> 9/23~26.</p>
   </div>
 
   <div id="panel-log" class="panel" hidden>
@@ -676,7 +679,7 @@ function renderDecisionCells(date,row,opts){
   else if(ourN===0) avail='<span class="so">매진</span> <span class="avail-pct">(0%)</span>';
   else avail=ourN+'/'+cap+' <span class="avail-pct">('+Math.round(ourN/cap*100)+'%)</span>';
   if(opts.trend){ const tm=oursTrendMini(date); if(tm) avail+='<br>'+tm; }
-  let recCell, recCls='rec-flat';
+  let recCell, recCls='rec-flat', recTitle='';
   if(recPrice==null) recCell='<span class="gap-na">—</span>';
   else{
     let dir='';
@@ -686,10 +689,12 @@ function renderDecisionCells(date,row,opts){
       else if(diff>0){ dir=' <span class="dir-up">▲</span>'; recCls='rec-up'; }
       else { dir=' <span class="dir-down">▼'+fmt(Math.abs(diff))+'</span>'; recCls='rec-down'; }
     }
+    recTitle=dyn.sig;                                  // 설명문은 셀 title(툴팁)로만
+    // 간결 표시: ⚡숫자 방향화살표 (recsig는 display:none로 숨김·title 보존, asof는 유지)
     recCell=(dyn.evHigh?'<span class="recprem">⚡</span>':'')+fmt(recPrice)+dir
       +'<span class="recsig">'+dyn.sig+'</span>'+(opts.asof?'<br>'+asofLabel(opts.asof):'');
   }
-  return {cur:curCell, gap:gapCell, avail:avail, rec:recCell, recCls:recCls};
+  return {cur:curCell, gap:gapCell, avail:avail, rec:recCell, recCls:recCls, recTitle:recTitle};
 }
 
 /* ①②(가격추적) 행: 경쟁 4숙소 + 공통 판단셀(현재가/갭/잔여/추천가) + 이벤트. opts: {trend, asof}. */
@@ -703,7 +708,7 @@ function buildRow(d,row,opts){
    +'<td class="our2">'+dc.cur+'</td>'
    +'<td class="gapc">'+dc.gap+'</td>'
    +'<td class="our2">'+dc.avail+'</td>'
-   +'<td class="our '+dc.recCls+'">'+dc.rec+'</td>'
+   +'<td class="our '+dc.recCls+'" title="'+esc(dc.recTitle)+'">'+dc.rec+'</td>'
    +'<td class="evcell">'+eventCell(d)+'</td></tr>';
 }
 
@@ -769,14 +774,17 @@ function showTab(name){
 /* ③④ 특수탭 공통 행 — [날짜 / 경쟁매진(SO+조회불가 /4, 4/4 빨강) / 현재가 / 잔여 / 추천가(dynRec) / 이벤트].
    두 탭 열 순서·이름 완전 일치. 추천가는 renderDecisionCells 단일 경로. */
 function specialRow(d,row,tag,rowCls){
+  const c=row.comp;
   const dc=renderDecisionCells(d,row,{});
   const sc=soldCount(row.comp);
   return '<tr class="'+rowCls+(pokerOf(d)?' has-poker':'')+'">'
     +'<td class="date">'+d+' ('+row.dow+')'+tag+'</td>'
+    +'<td>'+compCell(c.gh,'gh',d)+'</td><td>'+compCell(c.gd,'gd',d)+'</td>'
+    +'<td>'+compCell(c.hu,'hu',d)+'</td><td>'+compCell(c.bw,'bw',d)+'</td>'
     +'<td class="gapc '+(sc===4?'aug-hot':'')+'">'+sc+'/4</td>'
     +'<td class="our2">'+dc.cur+'</td>'
     +'<td class="our2">'+dc.avail+'</td>'
-    +'<td class="our '+dc.recCls+'">'+dc.rec+'</td>'
+    +'<td class="our '+dc.recCls+'" title="'+esc(dc.recTitle)+'">'+dc.rec+'</td>'
     +'<td class="evcell">'+eventCell(d)+'</td></tr>';
 }
 function augRow(d,row){
