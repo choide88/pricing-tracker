@@ -94,6 +94,11 @@
   .ev-watch{background:#f3f4f6;color:#6b7280;border:1px dashed #9ca3af;}
   .ev-venue{display:block;font-size:9px;color:#9ca3af;margin-top:1px;}
   .recprem{color:#c0392b;font-weight:700;}
+  a.evb{text-decoration:none;} a.evb:hover{text-decoration:underline;}
+  .pk-badge{background:#c0392b;color:#fff;border:1px solid #a5281b;}      /* 포커=지속형 주동인, 진한 빨강 */
+  a.pk-badge{color:#fff;} .pk-day{font-weight:400;opacity:.9;}
+  tr.has-poker td{background:#fbe9e9!important;}                          /* 포커 기간 행 = 옅은 빨강 밴드 */
+  tr.has-poker td.date{box-shadow:inset 3px 0 0 #c0392b;}
   #upcoming{margin:0 0 16px;padding:12px 15px;background:#fff6f6;border:1px solid #f3c9c9;border-radius:10px;}
   #upcoming h3{margin:0 0 8px;font-size:13.5px;color:#c0392b;}
   #upcoming .uprow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;padding:3px 0;}
@@ -118,8 +123,8 @@
 
   <div class="tabs">
     <button id="tab-track" class="tab active">① 가격추적</button>
-    <button id="tab-aug" class="tab">③ 8월 카지노특별</button>
-    <button id="tab-sep" class="tab">④ 9월 추석 특수</button>
+    <button id="tab-aug" class="tab">③ 8월 포커시즌</button>
+    <button id="tab-sep" class="tab">④ 9월 포커시즌</button>
     <button id="tab-log" class="tab">⑤ 변동로그</button>
   </div>
 
@@ -179,9 +184,8 @@
   </div><!-- /panel-track -->
 
   <div id="panel-aug" class="panel" hidden>
-    <h2>8월 카지노 특별구간 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(8/1~31 · "얼마나 높일까" 관점)</span></h2>
-    <p class="cap">여름 성수기 + 파라다이스시티 카지노 시즌. 평소와 반대로 <b>인상 여지</b>를 본다. 경쟁 4숙소 매진 수(경쟁매진)가 많을수록·우리 잔여가 적을수록 공격적으로 올린다.
-    <span class="ev-tag ev-tour">대회</span> 8/6~16 · <span class="ev-tag ev-event">이벤트</span> 8/22 하이라이트.</p>
+    <h2>8월 포커 시즌 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(APT 8/7~16 + AJPC 8/21~30 · "얼마나 높일까")</span></h2>
+    <p class="cap">파라다이스 카지노 <b>포커 대회가 주동인</b> — 10일씩 방을 채우고 전원 외국인(공항숙소 수요) + 일부 日편중. <span class="evb pk-badge" style="padding:0 5px;">🃏 포커</span> 기간 행은 옅은 빨강 밴드. 경쟁매진 많을수록·우리 잔여 적을수록 공격적 인상.</p>
     <div id="augsum"></div>
     <table id="augTable"><thead>
       <tr><th class="date">날짜</th><th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">SO+조회불가/4</span></th>
@@ -192,12 +196,11 @@
   </div>
 
   <div id="panel-sep" class="panel" hidden>
-    <h2>9월 추석 특수 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(9/1~30 · 저빈도 1회 풀스캔, 경쟁사 관점)</span></h2>
+    <h2>9월 포커 시즌 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(APPT 9/3~14 · 저빈도 1회 풀스캔, 경쟁사 관점)</span></h2>
     <div id="sepsum">
-      <h3>🌕 추석 특수 메모</h3>
-      <p>· <b>추석 연휴=9/24~27</b> (당일 9/25).</p>
-      <p>· 게하가 어떤 이벤트에도 90k를 고수했으나 <b>추석 9/23~26 4일만 115,200으로 인상</b> → <b>공항숙소=해외출국 성수기</b> 강신호.</p>
-      <p>· <b>9/11~13 둘째주말 강세</b> 원인은 조사중.</p>
+      <h3>🌕 9월 포커·추석 메모</h3>
+      <p>· <b>9/11~13 둘째주말 강세 = APPT Korea 메인이벤트(9/10~14)</b> — 7년 만 부활한 PokerStars 투어(원인 확정).</p>
+      <p>· <b>추석 연휴=9/24~27</b> (당일 9/25). 게하가 어떤 이벤트에도 90k 고수했으나 <b>추석 9/23~26 4일만 115,200 인상</b> → 공항숙소=해외출국 성수기 강신호.</p>
     </div>
     <table id="sepTable"><thead>
       <tr><th class="date">날짜</th><th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">SO+조회불가/4</span></th>
@@ -348,26 +351,44 @@ const SEPTEMBER = {
   "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""}
 };
 
-/* EVENTS: 인근 공연/축제 캘린더 = 가격 알림 선행지표. 키=날짜ISO, impact: high(빨강)·mid(주황)·watch(회색점선).
-   정적 데이터라 로그 대상 아님. 표의 "이벤트" 열 + D+1~14 "다가오는 이벤트" 위젯 + dynRec 프리미엄 플래그(⚡)에 사용. */
+/* EVENTS: 인근 공연/축제 캘린더 = 가격 알림 선행지표. 키=날짜ISO. 정적 데이터라 로그 대상 아님.
+   콘서트/페스티벌 = 스파이크형(1~2일). type:"official"(공식) · cat:"concert" · impact high(빨강)/mid(주황).
+   포커 대회(지속형 주동인)는 아래 POKER_EVENTS에서 기간 전개하며 EVENTS[k].poker에 병합. */
 const EVENTS = {
-  "2026-07-04": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high"},
-  "2026-07-05": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high"},
-  "2026-07-11": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high"},
-  "2026-07-12": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high"},
-  "2026-07-22": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid"},
-  "2026-07-23": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid"},
-  "2026-08-06": {name:"워터밤 인천", venue:"파라다이스컬처파크", impact:"high"},
-  "2026-08-22": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high"},
-  "2026-08-23": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high"},
-  "2026-09-05": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high"},
-  "2026-09-06": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high"},
-  "2026-09-11": {name:"원인조사중(호텔휴·베웨 강세)", venue:"미상", impact:"watch"},
-  "2026-09-12": {name:"원인조사중(호텔휴·베웨 강세)", venue:"미상", impact:"watch"},
-  "2026-09-13": {name:"원인조사중(호텔휴·베웨 강세)", venue:"미상", impact:"watch"},
-  "2026-09-19": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high"},
-  "2026-09-20": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high"}
+  "2026-07-04": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-05": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-11": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-12": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-22": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
+  "2026-07-23": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
+  "2026-08-06": {name:"워터밤 인천", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
+  "2026-08-22": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-23": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-05": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://soundplanetfestival.co.kr"},
+  "2026-09-06": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://soundplanetfestival.co.kr"},
+  "2026-09-19": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-20": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"}
 };
+/* POKER_EVENTS: 파라다이스 카지노 포커 대회 = 지속형 최우선 동인(10일씩 방 채움·전원 외국인=공항숙소·일부 日편중).
+   기간 전개하며 일차(dayNum/total) 계산 후 EVENTS[k].poker로 병합. 콘서트와 겹치면 병존(둘 다 표시, 포커 우선). */
+const POKER_EVENTS = [
+  {start:"2026-08-07", end:"2026-08-16", name:"APT Incheon 2026", jpHeavy:true,  url:"https://somuchpoker.com/events-calendar/apt/2026/apt-incheon-2026", note:"40억GTD·메인 8/9~15·2025년 日엔트리 37.8%(1위)"},
+  {start:"2026-08-21", end:"2026-08-30", name:"AJPC Samurai Circuit II", jpHeavy:true,  url:"https://samurai.ajpc.jp/", note:"일본주최·전과정 日어진행·8/22 최대SO 원인"},
+  {start:"2026-09-03", end:"2026-09-14", name:"APPT Korea (PokerStars)", jpHeavy:false, url:"https://maineventtravel.com/tour/appt", note:"7년만 부활·메인 9/10~14 = 9/11~13 강세 원인"},
+  {start:"2026-10-30", end:"2026-11-08", name:"GOP Incheon Labyrinth", jpHeavy:false, url:null, note:"미래·10일 대회"},
+  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, url:null, note:"미래·일본주최"}
+];
+POKER_EVENTS.forEach(function(ev){
+  const parse=s=>{ const p=s.split('-').map(Number); return Date.UTC(p[0],p[1]-1,p[2]); };   // UTC 고정(TZ 무관, off-by-one 방지)
+  const sMs=parse(ev.start), eMs=parse(ev.end);
+  const total=Math.round((eMs-sMs)/86400000)+1;
+  for(let t=sMs; t<=eMs; t+=86400000){
+    const d=new Date(t);
+    const k=d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');
+    const dayNum=Math.round((t-sMs)/86400000)+1;
+    EVENTS[k]=Object.assign({}, EVENTS[k]||{}, {poker:Object.assign({}, ev, {impact:"high", type:"poker", cat:"poker", dayNum:dayNum, total:total})});
+  }
+});
 
 /* COMP_LOG: 조회 시각(ISO 분단위) → 그 시각에 조회한 14일치 경쟁사 스냅샷 누적 이력.
    COMP_DAILY(현재 스냅샷 = DAILY/WEEKLY)와 별개 저장소. 매진은 문자열 "SO".
@@ -502,15 +523,49 @@ function compCell(c,key,d){
   const url = c.p!=null?bkUrl(key,d):null;
   return url ? '<a href="'+url+'" target="_blank" rel="noopener">'+inner+'</a>' : inner;
 }
-// 이벤트 셀: "M/D"의 EVENTS 조회 → 임팩트별 배지. 없으면 빈칸.
+// 이벤트 조회 헬퍼
 function eventInfo(d){ return EVENTS[dISO(d)]||null; }
+function pokerOf(d){ const e=eventInfo(d); return e&&e.poker?e.poker:null; }
+function esc(s){ return (s||'').replace(/"/g,'&quot;'); }
+// ISO 날짜 ±days (UTC 고정)
+function isoShift(iso,days){ const p=iso.split('-').map(Number); const d=new Date(Date.UTC(p[0],p[1]-1,p[2])+days*86400000); return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0'); }
+/* 이벤트 셀(전 탭 공통): 포커(🃏 지속형·우선) + 콘서트(🎤 스파이크형) 병존 렌더.
+   포커 = 이름+일차, jpHeavy면 🇯🇵, url 링크/없으면 note 툴팁. 콘서트 = impact 색·클릭 링크(🔗). */
 function eventCell(d){
   const e=eventInfo(d);
   if(!e) return '';
-  const cls=e.impact==="high"?"ev-high":e.impact==="mid"?"ev-mid":"ev-watch";
-  const icon=e.impact==="watch"?"🔍":"🎫";
-  return '<span class="evb '+cls+'">'+icon+' '+e.name+'</span>'
-    +(e.venue&&e.venue!=="미상"?'<span class="ev-venue">'+e.venue+'</span>':'');
+  let out='';
+  if(e.poker){                                   // 포커: 우선·강조
+    const pk=e.poker, jp=pk.jpHeavy?' 🇯🇵':'';
+    const label='🃏 '+pk.name+' <span class="pk-day">('+pk.dayNum+'/'+pk.total+'일차)</span>'+jp;
+    out+= pk.url
+      ? '<a class="evb pk-badge" href="'+pk.url+'" target="_blank" rel="noopener" title="'+esc(pk.note)+'">'+label+'</a>'
+      : '<span class="evb pk-badge" title="'+esc(pk.note)+'">'+label+'</span>';
+  }
+  if(e.cat==="concert"||(e.name&&e.type)){        // 콘서트/공식(top-level)
+    const cls=e.impact==="high"?"ev-high":e.impact==="mid"?"ev-mid":"ev-watch";
+    const icon=e.type==="official"?"🎤":(e.impact==="watch"?"🔍":"🎫");
+    const inner=icon+' '+e.name+(e.url?' 🔗':'');
+    const badge=e.url?'<a class="evb '+cls+'" href="'+e.url+'" target="_blank" rel="noopener">'+inner+'</a>':'<span class="evb '+cls+'">'+inner+'</span>';
+    out+=(out?'<br>':'')+badge+(e.venue&&e.venue!=="미상"?'<span class="ev-venue">'+e.venue+'</span>':'');
+  }
+  return out;
+}
+/* 이벤트 프리미엄 판정(가격 자동조정 X, ⚡+문구만). 포커=지속(개막 체크인러시 dayNum≤3 최고), 콘서트 high=당일±1. jpHeavy 우위 명시. */
+function eventPremium(date){
+  const iso=dISO(date), e=EVENTS[iso];
+  if(e&&e.poker){
+    const pk=e.poker;
+    const tier=pk.dayNum<=3?"개막 체크인러시":(pk.dayNum>=pk.total-2?"막판":"지속");
+    return {premium:true, txt:"포커 "+pk.name+" "+tier+(pk.jpHeavy?"·日편중(우리 우위)":"")+" 프리미엄 권장"};
+  }
+  const next=EVENTS[isoShift(iso,1)];             // 개막 전야(D-1) 체크인
+  if(next&&next.poker&&next.poker.dayNum===1) return {premium:true, txt:"포커 "+next.poker.name+" 개막 전야 체크인 프리미엄 권장"};
+  for(const off of [0,-1,1]){                     // 콘서트 high 당일±1
+    const ce=EVENTS[isoShift(iso,off)];
+    if(ce&&!ce.poker&&ce.impact==="high"&&ce.cat==="concert") return {premium:true, txt:"콘서트 "+ce.name+(off===0?"":" 인접일")+" 프리미엄 권장"};
+  }
+  return {premium:false};
 }
 // 경쟁군갭: 우리 - 경쟁군(굿데이·호텔휴) 최저가
 function compGap(row){
@@ -554,12 +609,12 @@ function dynRec(row,date){
   const ourN=row.our?row.our.ourN:null;
   const cap=capOf(dISO(date));
   const ratio=ourN!=null?ourN/cap:null;                       // null=미상 → 고재고 취급
-  const e=EVENTS[dISO(date)];
-  const evHigh=!!(e&&e.impact==="high");
+  const prem=eventPremium(date);               // 포커(지속) + 콘서트(스파이크) 통합 프리미엄
+  const evHigh=prem.premium;
   const isWknd=row.t==="wknd";
   const round=n=>Math.round(n/500)*500;
   const ratchet=p=>cur!=null?Math.max(p,cur):p;
-  const stamp=r=>{ if(evHigh){ r.evHigh=true; r.sig=r.sig+' · ⚡이벤트 프리미엄 권장'; } return r; };
+  const stamp=r=>{ if(evHigh){ r.evHigh=true; r.sig=r.sig+' · ⚡'+prem.txt; } return r; };  // 자동 인상폭 조정 없음, 경고만
 
   if(compLo==null){                          // 경쟁군 전부 매진 → 강수요
     const price=ratchet(bw!=null?round(bw*0.95):(cur!=null?round(cur*1.1):0));
@@ -577,9 +632,9 @@ function dynRec(row,date){
     price=round(compLo);
     sig=ratio==null?"재고미상·밴드 하단":"고재고≥60%·밴드 하단"; cls="sig-down";
   }
-  if((isWknd||evHigh) && bw!=null){          // 주말/이벤트일 베웨 90% 하한
+  if(isWknd && bw!=null){                    // 주말 베웨 90% 하한 (이벤트는 가격 자동조정 X — ⚡ 경고만)
     const floor=round(bw*0.90);
-    if(price<floor){ price=floor; sig+=' · '+(isWknd?'주말':'이벤트')+' 베웨90%하한'; }
+    if(price<floor){ price=floor; sig+=' · 주말 베웨90%하한'; }
   }
   if(bw!=null){                              // 베웨 상한(과열 방지): 저재고는 베웨까지, 그 외 ×0.97 캡
     const capP=(ratio!=null&&ratio<0.30)?bw:round(bw*0.97);
@@ -641,7 +696,7 @@ function renderDecisionCells(date,row,opts){
 function buildRow(d,row,opts){
   const c=row.comp;
   const dc=renderDecisionCells(d,row,opts||{});
-  return '<tr class="'+(row.t)+'">'
+  return '<tr class="'+(row.t)+(pokerOf(d)?' has-poker':'')+'">'
    +'<td class="date">'+d+' ('+row.dow+')</td>'
    +'<td>'+compCell(c.gh,'gh',d)+'</td><td>'+compCell(c.gd,'gd',d)+'</td>'
    +'<td>'+compCell(c.hu,'hu',d)+'</td><td>'+compCell(c.bw,'bw',d)+'</td>'
@@ -716,7 +771,7 @@ function showTab(name){
 function specialRow(d,row,tag,rowCls){
   const dc=renderDecisionCells(d,row,{});
   const sc=soldCount(row.comp);
-  return '<tr class="'+rowCls+'">'
+  return '<tr class="'+rowCls+(pokerOf(d)?' has-poker':'')+'">'
     +'<td class="date">'+d+' ('+row.dow+')'+tag+'</td>'
     +'<td class="gapc '+(sc===4?'aug-hot':'')+'">'+sc+'/4</td>'
     +'<td class="our2">'+dc.cur+'</td>'
@@ -736,25 +791,33 @@ function sepRow(d,row){
   return specialRow(d,row,tag,(row.t==="wknd"?"wknd":"wkdy")+hlCls);
 }
 
-/* 다가오는 이벤트 위젯(D+1~14 상단): ASOF~ASOF+14일 내 EVENTS를 날짜순 나열. 연속 동일 이벤트는 범위로 묶음. high 강조. */
+/* 다가오는 이벤트 위젯(D+1~14 상단): ASOF~ASOF+14일. 포커(🃏 지속형)를 콘서트보다 위에 강조. 연속일은 범위로 묶음. */
 function renderUpcoming(){
   const asofMs=tsMillis(ASOF), horizon=asofMs+14*86400000;
   const md=iso=>{const p=iso.split('-');return (+p[1])+'/'+(+p[2]);};
   const keys=Object.keys(EVENTS).filter(k=>{const t=tsMillis(k);return t>=asofMs&&t<=horizon;}).sort();
-  const groups=[];
+  const pkG=[], coG=[];
   for(const k of keys){
-    const e=EVENTS[k], last=groups[groups.length-1];
-    if(last&&last.name===e.name&&tsMillis(k)-tsMillis(last.lastKey)===86400000){ last.lastKey=k; }
-    else groups.push({name:e.name,venue:e.venue,impact:e.impact,firstKey:k,lastKey:k});
+    const e=EVENTS[k];
+    if(e.poker){
+      const last=pkG[pkG.length-1];
+      if(last&&last.name===e.poker.name&&tsMillis(k)-tsMillis(last.lastKey)===86400000) last.lastKey=k;
+      else pkG.push({name:e.poker.name,venue:"파라다이스 카지노",jp:e.poker.jpHeavy,firstKey:k,lastKey:k});
+    }
+    if(e.cat==="concert"){
+      const last=coG[coG.length-1];
+      if(last&&last.name===e.name&&tsMillis(k)-tsMillis(last.lastKey)===86400000) last.lastKey=k;
+      else coG.push({name:e.name,venue:e.venue,impact:e.impact,firstKey:k,lastKey:k});
+    }
   }
+  const range=g=>g.firstKey===g.lastKey?md(g.firstKey):md(g.firstKey)+'~'+md(g.lastKey);
   let html='<h3>📅 다가오는 이벤트 (오늘~14일)</h3>';
-  if(!groups.length){ html+='<div class="none">14일 내 등록 이벤트 없음</div>'; }
-  else for(const g of groups){
-    const range=g.firstKey===g.lastKey?md(g.firstKey):md(g.firstKey)+'~'+md(g.lastKey);
+  if(!pkG.length&&!coG.length) html+='<div class="none">14일 내 등록 이벤트 없음</div>';
+  for(const g of pkG)   // 포커 우선(강조)
+    html+='<div class="uprow"><span class="upd">'+range(g)+'</span><span class="evb pk-badge">🃏 '+g.name+(g.jp?' 🇯🇵':'')+'</span><span class="upv">파라다이스 카지노</span></div>';
+  for(const g of coG){
     const cls=g.impact==="high"?"ev-high":g.impact==="mid"?"ev-mid":"ev-watch";
-    const icon=g.impact==="watch"?"🔍":"🎫";
-    html+='<div class="uprow"><span class="upd">'+range+'</span>'
-      +'<span class="evb '+cls+'">'+icon+' '+g.name+'</span><span class="upv">'+g.venue+'</span></div>';
+    html+='<div class="uprow"><span class="upd">'+range(g)+'</span><span class="evb '+cls+'">🎤 '+g.name+'</span><span class="upv">'+g.venue+'</span></div>';
   }
   document.getElementById('upcoming').innerHTML=html;
 }
