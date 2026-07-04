@@ -80,6 +80,13 @@
   #augsum{margin:0 0 16px;padding:14px 16px;background:#fdf6f0;border:1px solid #f0d9c0;border-radius:10px;}
   #augsum h3{margin:0 0 8px;font-size:14px;color:#c2780c;} #augsum ul{margin:0;padding-left:18px;} #augsum li{font-size:12.5px;margin:3px 0;}
   .aug-stat{font-weight:700;color:#c0392b;}
+  .so-est{color:#9ca3af;font-weight:700;font-size:11px;}
+  .sep-strong td{background:#e7edff!important;} .sep-strong td.date{color:#4338ca;}
+  .sep-chuseok td{background:#ffe8cc!important;} .sep-chuseok td.date{color:#b45309;}
+  .sep-tag-strong{background:#4338ca;} .sep-tag-chuseok{background:#b45309;}
+  .sep-note{font-size:11px;color:#6b7280;text-align:left;padding-left:10px;}
+  #sepsum{margin:0 0 16px;padding:14px 16px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;}
+  #sepsum h3{margin:0 0 8px;font-size:14px;color:#6d28d9;} #sepsum p{margin:4px 0;font-size:12.5px;line-height:1.55;}
 </style>
 </head>
 <body>
@@ -90,8 +97,9 @@
 
   <div class="tabs">
     <button id="tab-track" class="tab active">① 가격추적</button>
-    <button id="tab-aug" class="tab">② 8월 카지노특별</button>
-    <button id="tab-log" class="tab">변동로그</button>
+    <button id="tab-aug" class="tab">③ 8월 카지노특별</button>
+    <button id="tab-sep" class="tab">④ 9월 추석 특수</button>
+    <button id="tab-log" class="tab">⑤ 변동로그</button>
   </div>
 
   <div id="panel-track" class="panel">
@@ -159,6 +167,20 @@
           <th class="our2">우리 잔여</th><th class="our2">현재가</th><th class="our">인상신호</th></tr>
     </thead><tbody id="augBody"></tbody></table>
     <p class="cap" style="margin-top:8px;">· 8/1~31 전일 경쟁사 풀스캔 반영. 경쟁매진 수가 많을수록 상한(굿데이/베웨) 근처까지 인상 여력.</p>
+  </div>
+
+  <div id="panel-sep" class="panel" hidden>
+    <h2>9월 추석 특수 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(9/1~30 · 저빈도 1회 풀스캔, 경쟁사 관점)</span></h2>
+    <div id="sepsum">
+      <h3>🌕 추석 특수 메모</h3>
+      <p>· <b>추석 연휴=9/24~27</b> (당일 9/25).</p>
+      <p>· 게하가 어떤 이벤트에도 90k를 고수했으나 <b>추석 9/23~26 4일만 115,200으로 인상</b> → <b>공항숙소=해외출국 성수기</b> 강신호.</p>
+      <p>· <b>9/11~13 둘째주말 강세</b> 원인은 조사중.</p>
+    </div>
+    <table id="sepTable"><thead>
+      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th><th class="sep-note" style="text-align:left;padding-left:10px;">비고</th></tr>
+    </thead><tbody id="sepBody"></tbody></table>
+    <p class="cap" style="margin-top:8px;">· 2026-07-04 조회분. 경쟁사 순서 게하/굿데이/호텔휴/베웨. <span class="so-est">SO추정</span>=조회불가(매진 추정). <span class="ev-tag sep-tag-strong">강세</span> 9/11~13 · <span class="ev-tag sep-tag-chuseok">추석</span> 9/23~26 하이라이트.</p>
   </div>
 
   <div id="panel-log" class="panel" hidden>
@@ -262,6 +284,41 @@ const AUGUST = {
   "8/31": {dow:"월",t:"wkdy", comp:{gh:{p:90000,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:129789,r:"5"}}, our:{ourN:6,cur:143000}}
 };
 
+/* 9월 추석 특수 (9/1~30) — 저빈도 1회 풀스캔, 경쟁사 관점(우리 잔여 미포함).
+   comp: {p,r} 또는 {soEst:true}(조회불가=매진 추정). hl:"strong"(★강세 9/11~13)·"chuseok"(★추석특수 9/23~26). note=비고. */
+const SEPTEMBER = {
+  "9/1":  {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:129789,r:"5"}}, note:""},
+  "9/2":  {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:129789,r:"5"}}, note:""},
+  "9/3":  {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, note:""},
+  "9/4":  {dow:"금",t:"wknd", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:120000,r:"5"},bw:{p:194684,r:"5"}}, note:""},
+  "9/5":  {dow:"토",t:"wknd", comp:{gh:{soEst:true},gd:{soEst:true},hu:{soEst:true},bw:{soEst:true}}, note:"사운드플래닛 페스티벌(9/5~6)"},
+  "9/6":  {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"5"},gd:{p:200000,r:"5"},hu:{p:120000,r:"5"},bw:{p:194684,r:"5"}}, note:"사운드플래닛 페스티벌"},
+  "9/7":  {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
+  "9/8":  {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
+  "9/9":  {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:140000,r:"5"},bw:{p:162236,r:"5"}}, note:""},
+  "9/10": {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:140000,r:"5"},bw:{p:162236,r:"5"}}, note:""},
+  "9/11": {dow:"금",t:"wknd",hl:"strong", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:180000,r:"5"},bw:{p:248762,r:"5"}}, note:"★강세"},
+  "9/12": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:200000,r:"5"},bw:{soEst:true}}, note:"★강세"},
+  "9/13": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:180000,r:"5"},bw:{p:162236,r:"5"}}, note:"★강세"},
+  "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
+  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
+  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, note:""},
+  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, note:""},
+  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:160000,r:"5"},hu:{p:120000,r:"5"},bw:{p:194684,r:"5"}}, note:""},
+  "9/19": {dow:"토",t:"wknd", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{soEst:true}}, note:""},
+  "9/20": {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:173052,r:"5"}}, note:""},
+  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, note:""},
+  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, note:"추석 전날"},
+  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"5"},gd:{p:180000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, note:"★추석연휴 · 게하 첫 90k 돌파"},
+  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"5"},gd:{p:180000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, note:"★추석"},
+  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:115200,r:"5"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:194684,r:"5"}}, note:"★추석 당일"},
+  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:115200,r:"5"},gd:{p:180000,r:"5"},hu:{p:140000,r:"5"},bw:{p:194684,r:"5"}}, note:"★추석연휴"},
+  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"5"},gd:{p:180000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, note:"연휴 마지막(게하 복귀)"},
+  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:140605,r:"5"}}, note:"연휴 후 복귀"},
+  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
+  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""}
+};
+
 /* COMP_LOG: 조회 시각(ISO 분단위) → 그 시각에 조회한 14일치 경쟁사 스냅샷 누적 이력.
    COMP_DAILY(현재 스냅샷 = DAILY/WEEKLY)와 별개 저장소. 매진은 문자열 "SO".
    ★ 갱신 워크플로: 데이터 갱신 시 (1) DAILY/WEEKLY의 comp 값을 새 값으로 교체하고,
@@ -282,7 +339,37 @@ const COMP_LOG = {
     "2026-07-14": {gh:90000,  gd:100000, hu:100000, bw:162236},
     "2026-07-15": {gh:90000,  gd:100000, hu:100000, bw:140605},
     "2026-07-16": {gh:90000,  gd:100000, hu:140000, bw:140605},
-    "2026-07-17": {gh:"SO",   gd:160000, hu:160000, bw:319060}
+    "2026-07-17": {gh:"SO",   gd:160000, hu:160000, bw:319060},
+    "2026-09-01": {gh:97200,  gd:100000, hu:100000, bw:129789},
+    "2026-09-02": {gh:97200,  gd:100000, hu:100000, bw:129789},
+    "2026-09-03": {gh:97200,  gd:100000, hu:100000, bw:151421},
+    "2026-09-04": {gh:104400, gd:160000, hu:120000, bw:194684},
+    "2026-09-05": {gh:"SO",   gd:"SO",   hu:"SO",   bw:"SO"},
+    "2026-09-06": {gh:97200,  gd:200000, hu:120000, bw:194684},
+    "2026-09-07": {gh:97200,  gd:100000, hu:100000, bw:140605},
+    "2026-09-08": {gh:97200,  gd:100000, hu:100000, bw:140605},
+    "2026-09-09": {gh:97200,  gd:100000, hu:140000, bw:162236},
+    "2026-09-10": {gh:97200,  gd:100000, hu:140000, bw:162236},
+    "2026-09-11": {gh:104400, gd:160000, hu:180000, bw:248762},
+    "2026-09-12": {gh:104400, gd:160000, hu:200000, bw:"SO"},
+    "2026-09-13": {gh:97200,  gd:100000, hu:180000, bw:162236},
+    "2026-09-14": {gh:97200,  gd:100000, hu:100000, bw:140605},
+    "2026-09-15": {gh:97200,  gd:100000, hu:100000, bw:140605},
+    "2026-09-16": {gh:97200,  gd:100000, hu:100000, bw:162236},
+    "2026-09-17": {gh:97200,  gd:100000, hu:100000, bw:162236},
+    "2026-09-18": {gh:103500, gd:160000, hu:120000, bw:194684},
+    "2026-09-19": {gh:104400, gd:160000, hu:140000, bw:"SO"},
+    "2026-09-20": {gh:97200,  gd:100000, hu:100000, bw:173052},
+    "2026-09-21": {gh:97200,  gd:100000, hu:120000, bw:151421},
+    "2026-09-22": {gh:97200,  gd:100000, hu:100000, bw:151421},
+    "2026-09-23": {gh:115200, gd:180000, hu:100000, bw:151421},
+    "2026-09-24": {gh:115200, gd:180000, hu:120000, bw:151421},
+    "2026-09-25": {gh:115200, gd:160000, hu:140000, bw:194684},
+    "2026-09-26": {gh:115200, gd:180000, hu:140000, bw:194684},
+    "2026-09-27": {gh:97200,  gd:180000, hu:100000, bw:162236},
+    "2026-09-28": {gh:97200,  gd:100000, hu:120000, bw:140605},
+    "2026-09-29": {gh:97200,  gd:100000, hu:100000, bw:140605},
+    "2026-09-30": {gh:97200,  gd:100000, hu:100000, bw:140605}
   },
   "2026-07-02T00:30": {
     "2026-07-02": {gh:"SO",   gd:80000,  hu:120000, bw:216315},
@@ -357,6 +444,7 @@ function bkUrl(key,d){
 function compCell(c,key,d){
   if(!c) return '';
   if(c.dash) return '—';
+  if(c.soEst) return '<span class="so-est">SO추정</span>';             // 조회불가(매진 추정): 링크 없음
   if(c.p==null && c.r==="so") return '<span class="so">매진</span>';   // 매진: 링크 없음
   const badge = c.r?rBadge(c.r):'';
   const cls = c.est?'price est':'price';
@@ -539,7 +627,7 @@ function renderLog(){
   document.getElementById('logBody').innerHTML=html;
 }
 function showTab(name){
-  ['track','aug','log'].forEach(function(n){
+  ['track','aug','sep','log'].forEach(function(n){
     document.getElementById('panel-'+n).hidden = n!==name;
     document.getElementById('tab-'+n).classList.toggle('active', n===name);
   });
@@ -579,6 +667,19 @@ function augRow(d,row){
     +'<td class="our '+sig.cls+'">'+sig.txt+'</td></tr>';
 }
 
+/* ── 9월 추석 특수 렌더 (경쟁사 관점) ── */
+function sepRow(d,row){
+  const c=row.comp;
+  const hlCls=row.hl==="strong"?" sep-strong":row.hl==="chuseok"?" sep-chuseok":"";
+  const tcls=row.t==="wknd"?"wknd":"wkdy";
+  const tag=row.hl==="strong"?' <span class="ev-tag sep-tag-strong">강세</span>':row.hl==="chuseok"?' <span class="ev-tag sep-tag-chuseok">추석</span>':'';
+  return '<tr class="'+tcls+hlCls+'">'
+    +'<td class="date">'+d+' ('+row.dow+')'+tag+'</td>'
+    +'<td>'+compCell(c.gh,'gh',d)+'</td><td>'+compCell(c.gd,'gd',d)+'</td>'
+    +'<td>'+compCell(c.hu,'hu',d)+'</td><td>'+compCell(c.bw,'bw',d)+'</td>'
+    +'<td class="sep-note">'+(row.note||'')+'</td></tr>';
+}
+
 document.getElementById('updBadge').textContent='오늘 '+(typeof LASTCHECK!=='undefined'?LASTCHECK:ASOF);
 // 탭·섹션 라벨 자동계산 (ASOF 기준 D+N → 실제 날짜)
 document.getElementById('rng-daily').textContent='D+1~14 ('+asofPlus(1)+'~'+asofPlus(14)+')';
@@ -608,6 +709,10 @@ document.getElementById('augBody').innerHTML=ab;
     +'</ul>';
 })();
 
+// 9월 추석 특수 렌더
+let sb=''; for(const [d,row] of Object.entries(SEPTEMBER)) sb+=sepRow(d,row);
+document.getElementById('sepBody').innerHTML=sb;
+
 // 인사이트: 평일 중 우리 방이 많이 남았는데(공실 위험) 경쟁군보다 비싼 날
 const ins=[];
 for(const [d,row] of Object.entries(DAILY)){
@@ -636,6 +741,7 @@ pruneLog(OURS_LOG);
 renderLog();
 document.getElementById('tab-track').addEventListener('click',function(){showTab('track');});
 document.getElementById('tab-aug').addEventListener('click',function(){showTab('aug');});
+document.getElementById('tab-sep').addEventListener('click',function(){showTab('sep');});
 document.getElementById('tab-log').addEventListener('click',function(){showTab('log');});
 </script>
 </body>
