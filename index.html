@@ -123,11 +123,11 @@
   <b>전략: 평일 공실이 핵심 과제.</b> 직접경쟁군(굿데이·호텔휴, 평점 7.3~7.6) 대비 평점 9.4 프리미엄으로 <b>약간 위</b> 포지션이 먹히는지 매일 확인.</p>
 
   <div class="tabs">
-    <button id="tab-track" class="tab active">① 가격추적</button>
-    <button id="tab-aug" class="tab">③ 8월 포커시즌</button>
-    <button id="tab-sep" class="tab">④ 9월 포커시즌</button>
-    <button id="tab-log" class="tab">⑤ 변동로그</button>
-    <button id="tab-evt" class="tab">⑥ 이벤트 캘린더</button>
+    <button id="tab-track" class="tab active">① 정밀추적</button>
+    <button id="tab-aug" class="tab">② 8월 포커시즌</button>
+    <button id="tab-sep" class="tab">③ 9월 포커시즌</button>
+    <button id="tab-log" class="tab">④ 변동로그</button>
+    <button id="tab-evt" class="tab">⑤ 이벤트 캘린더</button>
   </div>
 
   <div id="panel-track" class="panel">
@@ -191,7 +191,7 @@
     <div id="augsum"></div>
     <table id="augTable"><thead>
       <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
-          <th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">SO+조회불가/4</span></th>
+          <th class="gap" title="경쟁사 4곳 중 매진(SO)+조회불가 합산. 조회불가=부킹에서 가격 미표시(실매진 또는 미등록/조회오류). 정황상 매진 유력 시 SO추정.">경쟁매진<br><span style="font-weight:400;font-size:9px;">(SO+조회불가)/4</span></th>
           <th class="our2">우리 현재가</th><th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">N/객실 (비율)</span></th>
           <th class="our" title="dynRec 추천가">추천가</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="augBody"></tbody></table>
@@ -207,7 +207,7 @@
     </div>
     <table id="sepTable"><thead>
       <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
-          <th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">SO+조회불가/4</span></th>
+          <th class="gap" title="경쟁사 4곳 중 매진(SO)+조회불가 합산. 조회불가=부킹에서 가격 미표시(실매진 또는 미등록/조회오류). 정황상 매진 유력 시 SO추정.">경쟁매진<br><span style="font-weight:400;font-size:9px;">(SO+조회불가)/4</span></th>
           <th class="our2">우리 현재가</th><th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">N/객실 (비율)</span></th>
           <th class="our" title="dynRec 추천가">추천가</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="sepBody"></tbody></table>
@@ -533,7 +533,7 @@ function bkUrl(key,d){
 function compCell(c,key,d){
   if(!c) return '';
   if(c.dash) return '—';
-  if(c.soEst) return '<span class="so-est">SO추정</span>';             // 조회불가(매진 추정): 링크 없음
+  if(c.soEst) return '<span class="so-est" title="조회 불가. 정황상 매진 유력(예: 이벤트 겹침)이나 미확정.">SO추정</span>';  // 조회불가(매진 추정): 링크 없음
   if(c.p==null && c.r==="so") return '<span class="so">매진</span>';   // 매진: 링크 없음
   const badge = c.r?rBadge(c.r):'';
   const cls = c.est?'price est':'price';
