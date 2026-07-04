@@ -127,6 +127,7 @@
     <button id="tab-aug" class="tab">③ 8월 포커시즌</button>
     <button id="tab-sep" class="tab">④ 9월 포커시즌</button>
     <button id="tab-log" class="tab">⑤ 변동로그</button>
+    <button id="tab-evt" class="tab">⑥ 이벤트 캘린더</button>
   </div>
 
   <div id="panel-track" class="panel">
@@ -217,6 +218,14 @@
     <h2>변동로그 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(경쟁사 스냅샷 간 가격 변동, 최신순 · 7일 보관)</span></h2>
     <p class="cap">조회 시각마다 찍은 경쟁사 14일치 스냅샷을 인접 비교. <span class="log-up">↑빨강=인상</span> · <span class="log-down">↓파랑=인하</span> · <span class="log-soldout">■회색=매진전환</span> · <span class="log-reopen">↺초록=재오픈</span>.</p>
     <div id="logBody"></div>
+  </div>
+
+  <div id="panel-evt" class="panel" hidden>
+    <h2>이벤트 캘린더 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(인스파이어·파라다이스 공연/포커 전체 · 7~12월, 날짜순)</span></h2>
+    <p class="cap"><span class="evb pk-badge" style="padding:0 5px;">🃏</span> 포커 대회(지속형 주동인, 기간 표시) · <span class="evb ev-high" style="padding:0 5px;">🎤</span> 콘서트/페스티벌(스파이크형). 임팩트: <span class="evb ev-high" style="padding:0 5px;">high</span> / <span class="evb ev-mid" style="padding:0 5px;">mid</span>. 링크 없으면 —.</p>
+    <table id="evtTable"><thead>
+      <tr><th class="date">날짜</th><th style="text-align:left;padding-left:10px;">이벤트명</th><th>장소</th><th>유형</th><th>임팩트</th><th>링크</th></tr>
+    </thead><tbody id="evtBody"></tbody></table>
   </div>
 </div>
 
@@ -358,19 +367,25 @@ const SEPTEMBER = {
    콘서트/페스티벌 = 스파이크형(1~2일). type:"official"(공식) · cat:"concert" · impact high(빨강)/mid(주황).
    포커 대회(지속형 주동인)는 아래 POKER_EVENTS에서 기간 전개하며 EVENTS[k].poker에 병합. */
 const EVENTS = {
-  "2026-07-04": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-07-05": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-07-11": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-07-12": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-04": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-05": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-18": {name:"CORTIS 투어", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-19": {name:"CORTIS 투어", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-08": {name:"2PM 'THE RETURN' + APT포커 이중수요", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-09": {name:"2PM 'THE RETURN' + APT포커 이중수요", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-20": {name:"김범수·홍이삭(컴패션)", venue:"파라다이스 그랜드볼룸", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
+  "2026-11-07": {name:"My Chemical Romance 내한(4만명)", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://coldsurf.io/venue/파라다이스시티호텔"},
+  "2026-07-11": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-07-12": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-07-22": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
   "2026-07-23": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
   "2026-08-06": {name:"워터밤 인천", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
-  "2026-08-22": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-08-23": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-22": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-23": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-09-05": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://soundplanetfestival.co.kr"},
   "2026-09-06": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://soundplanetfestival.co.kr"},
-  "2026-09-19": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-09-20": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspirekorea.com/ko/entertainment/inspire-arena/featured-performances"}
+  "2026-09-19": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-20": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"}
 };
 /* POKER_EVENTS: 파라다이스 카지노 포커 대회 = 지속형 최우선 동인(10일씩 방 채움·전원 외국인=공항숙소·일부 日편중).
    기간 전개하며 일차(dayNum/total) 계산 후 EVENTS[k].poker로 병합. 콘서트와 겹치면 병존(둘 다 표시, 포커 우선). */
@@ -765,7 +780,7 @@ function renderLog(){
   document.getElementById('logBody').innerHTML=html;
 }
 function showTab(name){
-  ['track','aug','sep','log'].forEach(function(n){
+  ['track','aug','sep','log','evt'].forEach(function(n){
     document.getElementById('panel-'+n).hidden = n!==name;
     document.getElementById('tab-'+n).classList.toggle('active', n===name);
   });
@@ -830,11 +845,46 @@ function renderUpcoming(){
   document.getElementById('upcoming').innerHTML=html;
 }
 
+/* ⑥ 이벤트 캘린더: 포커(기간 묶음) + 콘서트(연속 병합) 전체를 날짜순 표로. 링크 없으면 —(span). */
+function renderEventCalendar(){
+  const mdOf=iso=>{const p=iso.split('-');return (+p[1])+'/'+(+p[2]);};
+  const rangeOf=(a,b)=>a===b?mdOf(a):mdOf(a)+'~'+mdOf(b);
+  const rows=[];
+  POKER_EVENTS.forEach(function(pk){
+    rows.push({sort:pk.start, dateStr:rangeOf(pk.start,pk.end), name:pk.name+(pk.jpHeavy?' 🇯🇵':''), note:pk.note, venue:"파라다이스 카지노", type:'<span class="evb pk-badge" style="padding:0 5px;">🃏 포커</span>', impact:"high", url:pk.url, poker:true});
+  });
+  const cKeys=Object.keys(EVENTS).filter(k=>EVENTS[k].cat==="concert").sort();
+  const cg=[];
+  for(const k of cKeys){
+    const e=EVENTS[k], last=cg[cg.length-1];
+    if(last&&last.name===e.name&&tsMillis(k)-tsMillis(last.lastKey)===86400000) last.lastKey=k;
+    else cg.push({name:e.name,venue:e.venue,impact:e.impact,url:e.url,firstKey:k,lastKey:k});
+  }
+  cg.forEach(function(g){
+    rows.push({sort:g.firstKey, dateStr:rangeOf(g.firstKey,g.lastKey), name:g.name, venue:g.venue, type:'<span class="evb ev-high" style="padding:0 5px;background:#eef2ff;color:#4338ca;border-color:#c7d2fe;">🎤 콘서트</span>', impact:g.impact, url:g.url});
+  });
+  rows.sort((a,b)=>a.sort<b.sort?-1:a.sort>b.sort?1:0);
+  let html='';
+  for(const r of rows){
+    const impCls=r.impact==="high"?"ev-high":r.impact==="mid"?"ev-mid":"ev-watch";
+    const link=r.url?'<a href="'+r.url+'" target="_blank" rel="noopener">🔗 링크</a>':'<span class="gap-na">—</span>';
+    html+='<tr'+(r.poker?' class="has-poker"':'')+'>'
+      +'<td class="date">'+r.dateStr+'</td>'
+      +'<td style="text-align:left;padding-left:10px;">'+r.name+(r.note?'<span class="ev-venue">'+r.note+'</span>':'')+'</td>'
+      +'<td>'+r.venue+'</td>'
+      +'<td>'+r.type+'</td>'
+      +'<td><span class="evb '+impCls+'">'+r.impact+'</span></td>'
+      +'<td>'+link+'</td></tr>';
+  }
+  document.getElementById('evtBody').innerHTML=html;
+}
+
 document.getElementById('updBadge').textContent='오늘 '+(typeof LASTCHECK!=='undefined'?LASTCHECK:ASOF);
 // 탭·섹션 라벨 자동계산 (ASOF 기준 D+N → 실제 날짜)
 document.getElementById('rng-daily').textContent='D+1~14 ('+asofPlus(1)+'~'+asofPlus(14)+')';
 document.getElementById('rng-weekly').textContent='D+15~30 ('+asofPlus(15)+'~'+asofPlus(30)+')';
 renderUpcoming();
+renderEventCalendar();
 let db=''; for(const [d,row] of Object.entries(DAILY)) db+=buildRow(d,row,{trend:true});          // ① 정밀: OURS_LOG 추이
 document.getElementById('dailyBody').innerHTML=db;
 let wb=''; for(const [d,row] of Object.entries(WEEKLY)) wb+=buildRow(d,row,{asof:WEEKLY_ASOF});    // ② 저빈도: asof 신선도
@@ -894,6 +944,7 @@ document.getElementById('tab-track').addEventListener('click',function(){showTab
 document.getElementById('tab-aug').addEventListener('click',function(){showTab('aug');});
 document.getElementById('tab-sep').addEventListener('click',function(){showTab('sep');});
 document.getElementById('tab-log').addEventListener('click',function(){showTab('log');});
+document.getElementById('tab-evt').addEventListener('click',function(){showTab('evt');});
 </script>
 </body>
 </html>
