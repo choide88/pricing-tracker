@@ -87,6 +87,19 @@
   .sep-note{font-size:11px;color:#6b7280;text-align:left;padding-left:10px;}
   #sepsum{margin:0 0 16px;padding:14px 16px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;}
   #sepsum h3{margin:0 0 8px;font-size:14px;color:#6d28d9;} #sepsum p{margin:4px 0;font-size:12.5px;line-height:1.55;}
+  td.evcell{text-align:left;padding-left:8px;max-width:170px;white-space:normal;}
+  .evb{display:inline-block;font-size:10px;font-weight:700;border-radius:5px;padding:1px 6px;line-height:1.5;}
+  .ev-high{background:#fdecec;color:#c0392b;border:1px solid #f3c0c0;}
+  .ev-mid{background:#fff2e0;color:#c2780c;border:1px solid #f0d0a0;}
+  .ev-watch{background:#f3f4f6;color:#6b7280;border:1px dashed #9ca3af;}
+  .ev-venue{display:block;font-size:9px;color:#9ca3af;margin-top:1px;}
+  .recprem{color:#c0392b;font-weight:700;}
+  #upcoming{margin:0 0 16px;padding:12px 15px;background:#fff6f6;border:1px solid #f3c9c9;border-radius:10px;}
+  #upcoming h3{margin:0 0 8px;font-size:13.5px;color:#c0392b;}
+  #upcoming .uprow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;padding:3px 0;}
+  #upcoming .upd{font-weight:700;min-width:64px;font-variant-numeric:tabular-nums;}
+  #upcoming .upv{color:#9ca3af;font-size:11px;}
+  #upcoming .none{color:#9ca3af;font-size:12px;}
 </style>
 </head>
 <body>
@@ -113,6 +126,7 @@
   <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 여유 평일 가격을 공격적으로 낮춰 선점 시도, 7/5·7/9 반응 有. <b>구간을 D+ 기준으로 재편</b> — 정밀 D+1~14 · 저빈도 D+15~30 · 8월 카지노 특별(별도 탭). <b>우리잔여(추이)</b> 열 신설(OURS_LOG 자동 누적).</p>
 </div>
   <div id="insight"></div>
+  <div id="upcoming"></div>
 
   <div class="legend">
     <span><span class="pill p-green">5+</span>여유</span>
@@ -128,7 +142,7 @@
   <table id="dailyTable"><thead>
     <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
         <th class="our2">우리 현재가</th><th class="gap">경쟁군갭<br><span style="font-weight:400;font-size:9px;color:#c2780c;">우리−경쟁최저</span></th>
-        <th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">(최근 추이)</span></th><th class="our">추천가</th></tr>
+        <th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">(최근 추이)</span></th><th class="our">추천가</th><th class="evcell">이벤트</th></tr>
   </thead><tbody id="dailyBody"></tbody></table>
 
   <div class="wk">
@@ -136,7 +150,7 @@
   <p class="cap">멀리 있는 구간은 큰 흐름과 주말 경쟁 강도를 본다. 주 1회 갱신으로 충분. 우리 잔여·현재가는 직전 실측 유지.</p>
   <table id="weekTable"><thead>
     <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
-        <th class="our2">우리 현재가</th><th class="gap">경쟁군갭</th><th class="our">추천가</th></tr>
+        <th class="our2">우리 현재가</th><th class="gap">경쟁군갭</th><th class="our">추천가</th><th class="evcell">이벤트</th></tr>
   </thead><tbody id="weekBody"></tbody></table>
   </div>
 
@@ -164,7 +178,7 @@
     <table id="augTable"><thead>
       <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
           <th class="gap">경쟁매진<br><span style="font-weight:400;font-size:9px;">4곳 중</span></th>
-          <th class="our2">우리 잔여</th><th class="our2">현재가</th><th class="our">인상신호</th></tr>
+          <th class="our2">우리 잔여</th><th class="our2">현재가</th><th class="our">인상신호</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="augBody"></tbody></table>
     <p class="cap" style="margin-top:8px;">· 8/1~31 전일 경쟁사 풀스캔 반영. 경쟁매진 수가 많을수록 상한(굿데이/베웨) 근처까지 인상 여력.</p>
   </div>
@@ -178,7 +192,7 @@
       <p>· <b>9/11~13 둘째주말 강세</b> 원인은 조사중.</p>
     </div>
     <table id="sepTable"><thead>
-      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th><th class="sep-note" style="text-align:left;padding-left:10px;">비고</th></tr>
+      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th><th class="sep-note" style="text-align:left;padding-left:10px;">비고</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="sepBody"></tbody></table>
     <p class="cap" style="margin-top:8px;">· 2026-07-04 조회분. 경쟁사 순서 게하/굿데이/호텔휴/베웨. <span class="so-est">SO추정</span>=조회불가(매진 추정). <span class="ev-tag sep-tag-strong">강세</span> 9/11~13 · <span class="ev-tag sep-tag-chuseok">추석</span> 9/23~26 하이라이트.</p>
   </div>
@@ -319,6 +333,27 @@ const SEPTEMBER = {
   "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""}
 };
 
+/* EVENTS: 인근 공연/축제 캘린더 = 가격 알림 선행지표. 키=날짜ISO, impact: high(빨강)·mid(주황)·watch(회색점선).
+   정적 데이터라 로그 대상 아님. 표의 "이벤트" 열 + D+1~14 "다가오는 이벤트" 위젯 + dynRec 프리미엄 플래그(⚡)에 사용. */
+const EVENTS = {
+  "2026-07-04": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high"},
+  "2026-07-05": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high"},
+  "2026-07-11": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high"},
+  "2026-07-12": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high"},
+  "2026-07-22": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid"},
+  "2026-07-23": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid"},
+  "2026-08-06": {name:"워터밤 인천", venue:"파라다이스컬처파크", impact:"high"},
+  "2026-08-22": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high"},
+  "2026-08-23": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high"},
+  "2026-09-05": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high"},
+  "2026-09-06": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high"},
+  "2026-09-11": {name:"원인조사중(호텔휴·베웨 강세)", venue:"미상", impact:"watch"},
+  "2026-09-12": {name:"원인조사중(호텔휴·베웨 강세)", venue:"미상", impact:"watch"},
+  "2026-09-13": {name:"원인조사중(호텔휴·베웨 강세)", venue:"미상", impact:"watch"},
+  "2026-09-19": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high"},
+  "2026-09-20": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high"}
+};
+
 /* COMP_LOG: 조회 시각(ISO 분단위) → 그 시각에 조회한 14일치 경쟁사 스냅샷 누적 이력.
    COMP_DAILY(현재 스냅샷 = DAILY/WEEKLY)와 별개 저장소. 매진은 문자열 "SO".
    ★ 갱신 워크플로: 데이터 갱신 시 (1) DAILY/WEEKLY의 comp 값을 새 값으로 교체하고,
@@ -452,6 +487,16 @@ function compCell(c,key,d){
   const url = c.p!=null?bkUrl(key,d):null;
   return url ? '<a href="'+url+'" target="_blank" rel="noopener">'+inner+'</a>' : inner;
 }
+// 이벤트 셀: "M/D"의 EVENTS 조회 → 임팩트별 배지. 없으면 빈칸.
+function eventInfo(d){ return EVENTS[dISO(d)]||null; }
+function eventCell(d){
+  const e=eventInfo(d);
+  if(!e) return '';
+  const cls=e.impact==="high"?"ev-high":e.impact==="mid"?"ev-mid":"ev-watch";
+  const icon=e.impact==="watch"?"🔍":"🎫";
+  return '<span class="evb '+cls+'">'+icon+' '+e.name+'</span>'
+    +(e.venue&&e.venue!=="미상"?'<span class="ev-venue">'+e.venue+'</span>':'');
+}
 // 경쟁군갭: 우리 - 경쟁군(굿데이·호텔휴) 최저가
 function compGap(row){
   if(row.our.cur==null) return '<span class="gap-na">'+(row.our.curNote||"미확인")+'</span>';
@@ -505,7 +550,15 @@ function oursTrendCell(d,row){
      · 중간(3~5): 경쟁군×1.12, 현재가가 그보다 높으면 0.6:0.4로 부분 동조 인하
      · 여유(6+): 경쟁군 밴드 중앙((최저+최고)/2)으로 선점
    반환: {price, sig, cls} */
-function dynRec(row){
+/* 이벤트 가중치 래퍼: 그 날짜(±0일)에 impact:"high" 이벤트가 있으면 추천가에 프리미엄 플래그(⚡)+경고만 부착.
+   실제 인상폭은 자동조정하지 않음(오탐 방지 — 사람이 판단). 상단밴드 선호는 경고로 안내. */
+function dynRec(row,d){
+  const r=dynRecBase(row);
+  const e=d?EVENTS[dISO(d)]:null;
+  if(e && e.impact==="high"){ r.evHigh=true; r.sig=r.sig+' · ⚡이벤트 프리미엄 권장'; }
+  return r;
+}
+function dynRecBase(row){
   const c=row.comp;
   const pricesGH=[c.gd,c.hu].filter(x=>x&&x.p!=null).map(x=>x.p);
   const compLo = pricesGH.length?Math.min(...pricesGH):null;
@@ -552,7 +605,7 @@ function dynRec(row){
 
 function buildRow(d,row,showOursTrend){
   const c=row.comp;
-  const dyn=dynRec(row);
+  const dyn=dynRec(row,d);
   // 표시 권고가: 명시된 our.rec 우선(없으면 dynRec 계산값). 우리 현재가를 모르면(미캡처일) 빈값.
   const recPrice = row.our.rec!=null ? row.our.rec : (row.our.cur!=null ? dyn.price : null);
   // 색 신호: 권고가 vs 우리 현재가 (위=올림=빨강 / 아래=내림=초록 / 같음=중립)
@@ -562,7 +615,7 @@ function buildRow(d,row,showOursTrend){
   }
   const recCell = recPrice==null
     ? '<span class="gap-na">—</span>'
-    : fmt(recPrice)+'<span class="recsig">'+dyn.sig+'</span>';
+    : (dyn.evHigh?'<span class="recprem">⚡</span>':'')+fmt(recPrice)+'<span class="recsig">'+dyn.sig+'</span>';
   let h='<tr class="'+(row.t)+'">'
    +'<td class="date">'+d+' ('+row.dow+')</td>'
    +'<td>'+compCell(c.gh,'gh',d)+'</td>'+'<td>'+compCell(c.gd,'gd',d)+'</td>'
@@ -571,6 +624,7 @@ function buildRow(d,row,showOursTrend){
    +'<td class="gapc">'+compGap(row)+'</td>';
   if(showOursTrend) h+='<td class="our2">'+oursTrendCell(d,row)+'</td>';   // 우리잔여(추이) — 추천가 바로 왼쪽
   h+='<td class="our '+recCls+'">'+recCell+'</td>';
+  h+='<td class="evcell">'+eventCell(d)+'</td>';
   return h+'</tr>';
 }
 
@@ -664,7 +718,8 @@ function augRow(d,row){
     +'<td class="date">'+d+' ('+row.dow+')'+tag+'</td>'
     +cells+sold
     +'<td class="our2">'+nCell+'</td><td class="our2">'+curCell+'</td>'
-    +'<td class="our '+sig.cls+'">'+sig.txt+'</td></tr>';
+    +'<td class="our '+sig.cls+'">'+sig.txt+'</td>'
+    +'<td class="evcell">'+eventCell(d)+'</td></tr>';
 }
 
 /* ── 9월 추석 특수 렌더 (경쟁사 관점) ── */
@@ -677,13 +732,38 @@ function sepRow(d,row){
     +'<td class="date">'+d+' ('+row.dow+')'+tag+'</td>'
     +'<td>'+compCell(c.gh,'gh',d)+'</td><td>'+compCell(c.gd,'gd',d)+'</td>'
     +'<td>'+compCell(c.hu,'hu',d)+'</td><td>'+compCell(c.bw,'bw',d)+'</td>'
-    +'<td class="sep-note">'+(row.note||'')+'</td></tr>';
+    +'<td class="sep-note">'+(row.note||'')+'</td>'
+    +'<td class="evcell">'+eventCell(d)+'</td></tr>';
+}
+
+/* 다가오는 이벤트 위젯(D+1~14 상단): ASOF~ASOF+14일 내 EVENTS를 날짜순 나열. 연속 동일 이벤트는 범위로 묶음. high 강조. */
+function renderUpcoming(){
+  const asofMs=tsMillis(ASOF), horizon=asofMs+14*86400000;
+  const md=iso=>{const p=iso.split('-');return (+p[1])+'/'+(+p[2]);};
+  const keys=Object.keys(EVENTS).filter(k=>{const t=tsMillis(k);return t>=asofMs&&t<=horizon;}).sort();
+  const groups=[];
+  for(const k of keys){
+    const e=EVENTS[k], last=groups[groups.length-1];
+    if(last&&last.name===e.name&&tsMillis(k)-tsMillis(last.lastKey)===86400000){ last.lastKey=k; }
+    else groups.push({name:e.name,venue:e.venue,impact:e.impact,firstKey:k,lastKey:k});
+  }
+  let html='<h3>📅 다가오는 이벤트 (오늘~14일)</h3>';
+  if(!groups.length){ html+='<div class="none">14일 내 등록 이벤트 없음</div>'; }
+  else for(const g of groups){
+    const range=g.firstKey===g.lastKey?md(g.firstKey):md(g.firstKey)+'~'+md(g.lastKey);
+    const cls=g.impact==="high"?"ev-high":g.impact==="mid"?"ev-mid":"ev-watch";
+    const icon=g.impact==="watch"?"🔍":"🎫";
+    html+='<div class="uprow"><span class="upd">'+range+'</span>'
+      +'<span class="evb '+cls+'">'+icon+' '+g.name+'</span><span class="upv">'+g.venue+'</span></div>';
+  }
+  document.getElementById('upcoming').innerHTML=html;
 }
 
 document.getElementById('updBadge').textContent='오늘 '+(typeof LASTCHECK!=='undefined'?LASTCHECK:ASOF);
 // 탭·섹션 라벨 자동계산 (ASOF 기준 D+N → 실제 날짜)
 document.getElementById('rng-daily').textContent='D+1~14 ('+asofPlus(1)+'~'+asofPlus(14)+')';
 document.getElementById('rng-weekly').textContent='D+15~30 ('+asofPlus(15)+'~'+asofPlus(30)+')';
+renderUpcoming();
 let db=''; for(const [d,row] of Object.entries(DAILY)) db+=buildRow(d,row,true);
 document.getElementById('dailyBody').innerHTML=db;
 let wb=''; for(const [d,row] of Object.entries(WEEKLY)) wb+=buildRow(d,row,false);
