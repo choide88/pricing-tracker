@@ -249,6 +249,16 @@ const WEEKLY_ASOF = "2026-07-04T18:00";
 const CAPACITY = { "2026-07": 8, "2026-08": 10, "2026-09": 10 };
 function capOf(dateStr){ return CAPACITY[dateStr.slice(0,7)] || 10; }
 
+// [전략 v2 · 2026-07-09] 평점 실효 8.0 재평가(시설 동일 오피스텔).
+// 평일=경쟁사 수준 방어(인상 X), 금·토·이벤트=적극 인상.
+// 평일 프리미엄 근거는 인테리어·CS뿐이므로 제한적.
+const RATING_PREMIUM  = 0.02;            // 평점 실효 8.0 → 벤치 대비 +2%만 (기존 +8%에서 완화)
+const DOW_MULT        = { 5: 1.45, 6: 1.35 };  // 5=금, 6=토 적극 인상
+const LOW_STOCK_MULT  = 1.25;            // 잔여 ≤ 2실 희소성 가산
+const EVENT_BWP_RATIO = 0.80;            // 이벤트일: 베웨의 80%
+const EVENT_SO_MULT   = 1.30;            // 이벤트일 베웨 SO시: 경쟁최고 × 1.3
+const DOW_IDX = {일:0,월:1,화:2,수:3,목:4,금:5,토:6};   // row.dow(한글) → 요일번호
+
 /* 경쟁사 부킹닷컴 베이스 URL (aid 등 트래킹 파라미터 제거 — 경로만).
    날짜별 checkin/checkout·인원은 buildRow에서 자동 부착. 값이 비면 해당 셀은 링크 없이 표시. */
 const BK_LINKS = {
@@ -801,12 +811,12 @@ function daysFromAsof(d){ return Math.round((tsMillis(dISO(d))-tsMillis(ASOF))/8
 /* 경쟁매진 수: 확정 매진(p==null&r=="so") + 조회불가(soEst) 포함, 4곳 중. dynRec·경쟁매진 열 공용. */
 function soldCount(c){ return c?["gh","gd","hu","bw"].filter(k=>c[k]&&((c[k].p==null&&c[k].r==="so")||c[k].soEst)).length:0; }
 
-/* 동적 추천가(단일 경로) — 잔여/CAPACITY 비율로 판정.
-     · 고재고 ≥60%   : 밴드 하단(경쟁최저 근처) — 공실 방어
-     · 중재고 30~60% : 경쟁군 중간 ×1.12
-     · 저재고 <30%   : 베웨 추종·마크업 (베웨 매진이면 경쟁최고×1.5 강수요)
-     · 주말/이벤트일 : 베웨 90% 하한 유지
-   재고 미상(우리 데이터 없는 탭)은 고재고로 취급. high 이벤트일은 ⚡+경고만(인상폭 자동조정 없음).
+/* 동적 추천가(단일 경로, 전략 v2) — ① 잔여 티어 base → ② 이벤트/요일 가산 → ③ 저재고 가산 → ④ 평점 하한.
+     ① 티어: 고재고 ≥60% 경쟁최저+2%(방어) · 중재고 30~60% 경쟁군중간×1.12 · 저재고 <30% 베웨 추종(SO면 경쟁최고×1.5)
+     ② 이벤트일 base 재설정: 베웨 있으면 베웨×0.80, 베웨 SO면 경쟁최고×1.30 / 이벤트 아니면 금(×1.45)·토(×1.35) 가산
+     ③ 잔여 ≤2실이면 ×1.25 희소성 가산(이벤트·요일 위에 중첩)
+     ④ 평점 하한: max(base, 호텔휴×(1+RATING_PREMIUM)) — 게하 바닥가 추종 방지
+   재고 미상(우리 데이터 없는 탭)은 고재고로 취급. high 이벤트일은 ⚡ 경고 병기.
    반환 {price, sig, cls, evHigh}. */
 function dynRec(row,date){
   const c=row.comp||{};
@@ -820,15 +830,18 @@ function dynRec(row,date){
   const ratio=ourN!=null?ourN/cap:null;                       // null=미상 → 고재고 취급
   const prem=eventPremium(date);               // 포커(지속) + 콘서트(스파이크) 통합 프리미엄
   const evHigh=prem.premium;
-  const isWknd=row.t==="wknd";
   const round=n=>Math.round(n/500)*500;
   const ratchet=p=>cur!=null?Math.max(p,cur):p;
-  const stamp=r=>{ if(evHigh){ r.evHigh=true; r.sig=r.sig+' · ⚡'+prem.txt; } return r; };  // 자동 인상폭 조정 없음, 경고만
+  const stamp=r=>{ if(evHigh){ r.evHigh=true; r.sig=r.sig+' · ⚡'+prem.txt; } return r; };
+  // 평점 하한 벤치: 게하(13790670)가 아닌 호텔휴(404435) 기준 — 게하 바닥가 추종 방지
+  const floorBench=(c.hu&&c.hu.p!=null)?c.hu.p:compLo;
+  const dowN=DOW_IDX[row.dow];
 
   if(compLo==null){                          // 경쟁군 전부 매진 → 강수요
     const price=ratchet(bw!=null?round(bw*0.95):(cur!=null?round(cur*1.1):0));
     return stamp({price, sig:"경쟁군 매진·상단", cls:"sig-up"});
   }
+  // ① 재고 티어 base
   let price, sig, cls;
   if(ratio!=null && ratio<0.30){             // 저재고
     if(bw!=null){ price=ratchet(round(bw*0.95)); sig="저재고<30%·베웨 추종"; cls="sig-up"; }
@@ -837,20 +850,23 @@ function dynRec(row,date){
     price=round((compLo+compHi)/2*1.12);
     if(cur!=null && cur>price) price=round(price*0.6+cur*0.4);
     sig="중재고 30~60%·경쟁군+12%"; cls="sig-mid";
-  } else {                                    // 고재고 ≥60% 또는 미상: 경쟁최저+8%(평점 9.4 프리미엄)
-    price=round(compLo*1.08);
-    sig=ratio==null?"재고미상·경쟁최저+8%":"고재고≥60%·경쟁최저+8%(평점)"; cls="sig-down";
+  } else {                                    // 고재고 ≥60% 또는 미상: 경쟁최저 방어(평점 8.0 → +2%만)
+    price=round(compLo*(1+RATING_PREMIUM));
+    sig=ratio==null?"재고미상·경쟁최저+2%":"고재고≥60%·경쟁최저+2%(평점8.0·방어)"; cls="sig-down";
   }
-  if(isWknd && bw!=null){                    // 주말 베웨 90% 하한 (이벤트는 가격 자동조정 X — ⚡ 경고만)
-    const floor=round(bw*0.90);
-    if(price<floor){ price=floor; sig+=' · 주말 베웨90%하한'; }
+  // ② 이벤트 재설정 / 요일 가산 (v2: 금·토·이벤트만 적극 인상, 평일은 방어)
+  if(evHigh){
+    price = bw!=null ? round(bw*EVENT_BWP_RATIO) : round(compHi*EVENT_SO_MULT);
+    sig+= bw!=null ? ' · 이벤트 베웨×'+EVENT_BWP_RATIO : ' · 이벤트 경쟁최고×'+EVENT_SO_MULT; cls="sig-up";
+  } else if(DOW_MULT[dowN]){
+    price = round(price*DOW_MULT[dowN]);
+    sig+= ' · '+(dowN===5?'금':'토')+'가산×'+DOW_MULT[dowN]; cls="sig-up";
   }
-  const premFloor=round(compLo*1.05);        // 평점 9.4 하한: 어떤 경우도 경쟁최저 −> +5% 미만으론 안 눌러붙음
-  if(price<premFloor){ price=premFloor; sig+=' · 평점 프리미엄 하한(+5%)'; }
-  if(bw!=null){                              // 베웨 상한(과열 방지): 저재고는 베웨까지, 그 외 ×0.97 캡
-    const capP=(ratio!=null&&ratio<0.30)?bw:round(bw*0.97);
-    if(price>capP && capP>=premFloor) price=capP;   // 단, 평점 하한은 유지
-  }
+  // ③ 저재고(≤2실) 희소성 가산 — 이벤트·요일 위에 중첩
+  if(ourN!=null && ourN<=2){ price=round(price*LOW_STOCK_MULT); sig+=' · 잔여≤2×'+LOW_STOCK_MULT; if(cls!=="sig-up") cls="sig-mid"; }
+  // ④ 평점 프리미엄 하한 — 호텔휴 벤치 ×(1+2%)
+  const premFloor=round(floorBench*(1+RATING_PREMIUM));
+  if(price<premFloor){ price=premFloor; sig+=' · 평점하한(휴+'+Math.round(RATING_PREMIUM*100)+'%)'; }
   return stamp({price, sig, cls});
 }
 
