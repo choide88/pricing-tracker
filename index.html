@@ -100,6 +100,21 @@
   a.pk-badge{color:#fff;} .pk-day{font-weight:400;opacity:.9;}
   tr.has-poker td{background:#fbe9e9!important;}                          /* 포커 기간 행 = 옅은 빨강 밴드 */
   tr.has-poker td.date{box-shadow:inset 3px 0 0 #c0392b;}
+  /* 이벤트 캘린더 2층 구조 */
+  .ec-h{margin:0 0 6px;font-size:14px;color:#1f2937;}
+  .ec-hsub{font-size:11px;font-weight:400;color:#9ca3af;margin-left:4px;}
+  .ec-t{margin:0 0 4px;}
+  .ec-b{display:inline-block;font-size:10px;font-weight:700;border-radius:5px;padding:1px 6px;line-height:1.6;white-space:nowrap;}
+  .ec-dd{background:#fdecec;color:#c0392b;border:1px solid #f0b4b4;}       /* 🔴 이중수요 */
+  .ec-con{background:#eafaf1;color:#0a8754;border:1px solid #b8e6cd;}      /* 🟢 콘서트 */
+  .ec-pk{background:#fef6e0;color:#b45309;border:1px solid #f3d79a;}       /* 🟡 포커밴드 */
+  .ec-week{background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;}     /* ⚪ 평일 */
+  tr.ec-ddrow td{background:#fdeaea!important;}
+  .ec-name-td .ev-venue{color:#8a94a6;}
+  .ec-note-td{text-align:left;color:#6b7280;font-size:11px;}
+  .ec-s-max{color:#c0392b;font-weight:800;} .ec-s-hi{color:#c2780c;font-weight:700;} .ec-s-lo{color:#9ca3af;font-weight:600;}
+  .ec-gap{margin:10px 0 4px;padding:8px 11px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;font-size:12px;color:#334155;line-height:1.6;}
+  .ec-foot{font-size:10.5px;color:#9ca3af;margin:2px 0 0;}
   #upcoming{margin:0 0 16px;padding:12px 15px;background:#fff6f6;border:1px solid #f3c9c9;border-radius:10px;}
   #upcoming h3{margin:0 0 8px;font-size:13.5px;color:#c0392b;}
   #upcoming .uprow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12px;padding:3px 0;}
@@ -225,11 +240,9 @@
   </div>
 
   <div id="panel-evt" class="panel" hidden>
-    <h2>이벤트 캘린더 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(인스파이어·파라다이스 공연/포커 전체 · 7~12월, 날짜순)</span></h2>
-    <p class="cap"><span class="evb pk-badge" style="padding:0 5px;">🃏</span> 포커 대회(지속형 주동인, 기간 표시) · <span class="evb ev-high" style="padding:0 5px;">🎤</span> 콘서트/페스티벌(스파이크형). 임팩트: <span class="evb ev-high" style="padding:0 5px;">high</span> / <span class="evb ev-mid" style="padding:0 5px;">mid</span>. 링크 없으면 —.</p>
-    <table id="evtTable"><thead>
-      <tr><th class="date">날짜</th><th style="text-align:left;padding-left:10px;">이벤트명</th><th>장소</th><th>유형</th><th>임팩트</th><th>링크</th></tr>
-    </thead><tbody id="evtBody"></tbody></table>
+    <h2>이벤트 캘린더 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(2층 구조 · 다국어 한/일/중/영 + 포커 3대회 교차검증 완료본)</span></h2>
+    <p class="cap">배지: <span class="ec-b ec-dd">🔴 이중수요</span>(콘서트 최강 + 포커밴드 중첩 = 최고가) · <span class="ec-b ec-con">🟢 콘서트</span> · <span class="ec-b ec-pk">🟡 포커밴드</span> · <span class="ec-b ec-week">⚪ 평일</span>. 장소코드 <b>ARENA</b>=인스파이어 아레나 · <b>PCITY</b>=파라다이스. 이름·비고 hover 시 상세.</p>
+    <div id="evtLayers"></div>
   </div>
 </div>
 
@@ -395,21 +408,22 @@ const EVENTS = {
   "2026-07-05": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-07-18": {name:"CORTIS 투어", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-07-19": {name:"CORTIS 투어", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-08-08": {name:"2PM 'THE RETURN' + APT포커 이중수요", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-08-09": {name:"2PM 'THE RETURN' + APT포커 이중수요", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-08-20": {name:"김범수·홍이삭(컴패션)", venue:"파라다이스 그랜드볼룸", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
+  "2026-08-08": {name:"2PM 'THE RETURN'", venue:"인스파이어", impact:"high", strength:"최강", type:"official", cat:"concert", note:"APT포커 중첩 이중수요·완판 실측", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-09": {name:"2PM 'THE RETURN'", venue:"인스파이어", impact:"high", strength:"최강", type:"official", cat:"concert", note:"APT포커 중첩 이중수요·완판 실측", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-20": {name:"김범수·홍이삭(컴패션)", venue:"파라다이스 그랜드볼룸", impact:"watch", strength:"약중", type:"official", cat:"concert", note:"어린이후원 초청행사(일반판매X)·수요 제한적 → 프리미엄 약중", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
   "2026-11-07": {name:"My Chemical Romance 내한(4만명)", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://coldsurf.io/venue/파라다이스시티호텔"},
   "2026-07-11": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-07-12": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-07-22": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
   "2026-07-23": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
   "2026-08-06": {name:"워터밤 인천", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
-  "2026-08-22": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-08-23": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-09-05": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://soundplanetfestival.co.kr"},
-  "2026-09-06": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://soundplanetfestival.co.kr"},
-  "2026-09-19": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-09-20": {name:"바운디 HORO(전석매진)", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"}
+  "2026-08-22": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", strength:"최강", type:"official", cat:"concert", note:"AJPC포커 중첩 이중수요·완판 실측", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-23": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", strength:"강", type:"official", cat:"concert", note:"AJPC포커 기간(단독은 아님)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-05": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", strength:"최강", type:"official", cat:"concert", note:"APPT포커 중첩 이중수요·완판 실측", url:"https://soundplanetfestival.co.kr"},
+  "2026-09-06": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", strength:"강", type:"official", cat:"concert", note:"APPT포커 기간(페스티벌 2일차)", url:"https://soundplanetfestival.co.kr"},
+  "2026-09-19": {name:"Vaundy HORO", venue:"인스파이어", impact:"high", strength:"강", type:"official", cat:"concert", note:"전석매진·일본원정 수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-20": {name:"Vaundy HORO", venue:"인스파이어", impact:"high", strength:"강", type:"official", cat:"concert", note:"전석매진·일본원정 수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-26": {name:"기무라 타쿠야", venue:"인스파이어", impact:"high", strength:"강", type:"official", cat:"concert", note:"일본 톱스타·신규(교차검증)·추석연휴 겹침", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"}
 };
 /* POKER_EVENTS: 파라다이스 카지노 포커 대회 = 지속형 최우선 동인(10일씩 방 채움·전원 외국인=공항숙소·일부 日편중).
    기간 전개하며 일차(dayNum/total) 계산 후 EVENTS[k].poker로 병합. 콘서트와 겹치면 병존(둘 다 표시, 포커 우선). */
@@ -431,6 +445,34 @@ POKER_EVENTS.forEach(function(ev){
     EVENTS[k]=Object.assign({}, EVENTS[k]||{}, {poker:Object.assign({}, ev, {impact:"high", type:"poker", cat:"poker", dayNum:dayNum, total:total})});
   }
 });
+
+/* ── 이벤트 캘린더 2층 구조(다국어 한/일/중/영 + 포커 3대회 교차검증 완료본) ──────────────
+   1층 = POKER_BANDS: 인천 파라다이스 카지노 개최 확정 3대 포커대회(상시밴드). 이중수요 판정 기준.
+         (POKER_EVENTS는 표 배지·프리미엄용 별개 저장소 — 미래·미확정 대회 포함.)
+   2층 = EVENTS(cat:"concert"): 인천 개최 확인 콘서트 스팟. */
+const POKER_BANDS = [
+  {id:"APT",  name:"APT Incheon",             start:"2026-08-07", end:"2026-08-16", venue:"파라다이스 카지노", note:"40억GTD·메인 8/9~15·2025 日엔트리 37.8%(1위)"},
+  {id:"AJPC", name:"AJPC Samurai Circuit II", start:"2026-08-21", end:"2026-08-30", venue:"파라다이스 카지노", note:"일본주최·전과정 日어진행·8/22 최대SO 원인"},
+  {id:"APPT", name:"APPT Korea",              start:"2026-09-03", end:"2026-09-14", venue:"파라다이스 카지노", note:"7년만 부활·메인 9/10~14 = 9/11~13 강세 원인"}
+];
+// 요일: 반드시 KST 정오 기준(자정 사용 시 UTC 밀림으로 요일 하루 오차). "YYYY-MM-DD" → 한글요일.
+const KDOW=["일","월","화","수","목","금","토"];
+function dowKST(iso){ return KDOW[new Date(iso+"T12:00:00+09:00").getDay()]; }
+function msKST(iso){ return new Date(iso+"T12:00:00+09:00").getTime(); }
+// 1층 포커밴드 중첩 여부 — iso가 POKER_BANDS 중 하나의 [start,end] 구간에 들면 그 밴드 반환, 없으면 null.
+function pokerBandOf(iso){
+  const t=msKST(iso);
+  for(const b of POKER_BANDS){ if(t>=msKST(b.start) && t<=msKST(b.end)) return b; }
+  return null;
+}
+/* 이중수요 자동판정: 콘서트 strength="최강" AND 포커밴드 중첩 → doubleDemand=true(최고가 세팅 대상).
+   확정일 = 8/8·8/9·8/22·9/5 (전부 완판 실측확인). */
+function doubleDemand(iso){
+  const e=EVENTS[iso];
+  return !!(e && e.cat==="concert" && e.strength==="최강" && pokerBandOf(iso));
+}
+// 장소코드: 인스파이어=ARENA · 파라다이스(시티/컬처파크/그랜드볼룸/카지노)=PCITY.
+function venueCode(v){ return /인스파이어/.test(v)?"ARENA":/파라다이스/.test(v)?"PCITY":(v||"—"); }
 
 /* COMP_LOG: 조회 시각(ISO 분단위) → 그 시각에 조회한 14일치 경쟁사 스냅샷 누적 이력.
    COMP_DAILY(현재 스냅샷 = DAILY/WEEKLY)와 별개 저장소. 매진은 문자열 "SO".
@@ -1111,38 +1153,61 @@ function renderUpcoming(){
   document.getElementById('upcoming').innerHTML=html;
 }
 
-/* ⑥ 이벤트 캘린더: 포커(기간 묶음) + 콘서트(연속 병합) 전체를 날짜순 표로. 링크 없으면 —(span). */
+/* ⑥ 이벤트 캘린더 2층 구조 —
+   1층: POKER_BANDS(확정 3대회 상시밴드, 🟡) · 2층: 콘서트 스팟(🟢, 이중수요일은 🔴).
+   요일은 dowKST(KST 정오)로 계산. 이중수요=doubleDemand()(콘서트 최강 ∩ 포커밴드). */
 function renderEventCalendar(){
   const mdOf=iso=>{const p=iso.split('-');return (+p[1])+'/'+(+p[2]);};
-  const rangeOf=(a,b)=>a===b?mdOf(a):mdOf(a)+'~'+mdOf(b);
-  const rows=[];
-  POKER_EVENTS.forEach(function(pk){
-    rows.push({sort:pk.start, dateStr:rangeOf(pk.start,pk.end), name:pk.name+(pk.jpHeavy?' 🇯🇵':''), note:pk.note, venue:"파라다이스 카지노", type:'<span class="evb pk-badge" style="padding:0 5px;">🃏 포커</span>', impact:"high", url:pk.url, poker:true});
-  });
+  const mdw=iso=>mdOf(iso)+'('+dowKST(iso)+')';
+  const rangeOf=(a,b)=>a===b?mdw(a):mdw(a)+'~'+mdw(b);
+
+  // ── 1층: 포커 상시밴드 ───────────────────────────
+  let l1='<h3 class="ec-h">1층 · 포커 상시밴드 <span class="ec-hsub">🟡 지속형 주동인 — 인천 파라다이스 카지노 확정 3대회</span></h3>'
+    +'<table class="ec-t"><thead><tr><th class="date">기간</th><th style="text-align:left;">대회</th><th>장소</th><th style="text-align:left;">비고(hover 상세)</th></tr></thead><tbody>';
+  for(const b of POKER_BANDS){
+    l1+='<tr class="has-poker"><td class="date">'+rangeOf(b.start,b.end)+'</td>'
+      +'<td style="text-align:left;"><span class="ec-b ec-pk">🟡 '+b.id+'</span> '+b.name+'</td>'
+      +'<td title="파라다이스 카지노">PCITY</td>'
+      +'<td class="ec-note-td" title="'+esc(b.note)+'">'+b.note+'</td></tr>';
+  }
+  l1+='</tbody></table>';
+
+  // ── 2층: 콘서트 스팟 (연속 동명 병합, 이중수요 per-day 판정) ──────────
   const cKeys=Object.keys(EVENTS).filter(k=>EVENTS[k].cat==="concert").sort();
   const cg=[];
   for(const k of cKeys){
     const e=EVENTS[k], last=cg[cg.length-1];
-    if(last&&last.name===e.name&&tsMillis(k)-tsMillis(last.lastKey)===86400000) last.lastKey=k;
-    else cg.push({name:e.name,venue:e.venue,impact:e.impact,url:e.url,firstKey:k,lastKey:k});
+    if(last&&last.name===e.name&&tsMillis(k)-tsMillis(last.lastKey)===86400000){ last.lastKey=k; if(doubleDemand(k)) last.dd.push(k); }
+    else cg.push({name:e.name,venue:e.venue,impact:e.impact,strength:e.strength,note:e.note,url:e.url,firstKey:k,lastKey:k,dd:doubleDemand(k)?[k]:[]});
   }
-  cg.forEach(function(g){
-    rows.push({sort:g.firstKey, dateStr:rangeOf(g.firstKey,g.lastKey), name:g.name, venue:g.venue, type:'<span class="evb ev-high" style="padding:0 5px;background:#eef2ff;color:#4338ca;border-color:#c7d2fe;">🎤 콘서트</span>', impact:g.impact, url:g.url});
-  });
-  rows.sort((a,b)=>a.sort<b.sort?-1:a.sort>b.sort?1:0);
-  let html='';
-  for(const r of rows){
-    const impCls=r.impact==="high"?"ev-high":r.impact==="mid"?"ev-mid":"ev-watch";
-    const link=r.url?'<a href="'+r.url+'" target="_blank" rel="noopener">🔗 링크</a>':'<span class="gap-na">—</span>';
-    html+='<tr'+(r.poker?' class="has-poker"':'')+'>'
-      +'<td class="date">'+r.dateStr+'</td>'
-      +'<td style="text-align:left;padding-left:10px;">'+r.name+(r.note?'<span class="ev-venue">'+r.note+'</span>':'')+'</td>'
-      +'<td>'+r.venue+'</td>'
-      +'<td>'+r.type+'</td>'
-      +'<td><span class="evb '+impCls+'">'+r.impact+'</span></td>'
+  cg.sort((a,b)=>a.firstKey<b.firstKey?-1:a.firstKey>b.firstKey?1:0);
+  let l2='<h3 class="ec-h" style="margin-top:15px;">2층 · 콘서트 스팟 <span class="ec-hsub">🟢 스파이크형 / 🔴 이중수요=최고가</span></h3>'
+    +'<table class="ec-t"><thead><tr><th class="date">날짜</th><th>구분</th><th style="text-align:left;">공연</th><th>장소</th><th>강도</th><th>링크</th></tr></thead><tbody>';
+  for(const g of cg){
+    const isDD=g.dd.length>0;
+    const badge=isDD?'<span class="ec-b ec-dd">🔴 이중수요</span>':'<span class="ec-b ec-con">🟢 콘서트</span>';
+    const str=g.strength||(g.impact==="high"?"강":g.impact==="mid"?"중":"약중");
+    const scls=str==="최강"?"ec-s-max":str==="강"?"ec-s-hi":"ec-s-lo";
+    const ddNote=isDD?' · 이중수요일 '+g.dd.map(mdw).join('·')+'(포커밴드 중첩·완판)':'';
+    const full=(g.note||'')+ddNote;
+    const link=g.url?'<a href="'+g.url+'" target="_blank" rel="noopener">🔗</a>':'<span class="gap-na">—</span>';
+    l2+='<tr'+(isDD?' class="ec-ddrow"':'')+'>'
+      +'<td class="date">'+rangeOf(g.firstKey,g.lastKey)+'</td>'
+      +'<td>'+badge+'</td>'
+      +'<td class="ec-name-td" style="text-align:left;" title="'+esc(full)+'">'+g.name
+        +(full?'<span class="ev-venue">'+full+'</span>':'')+'</td>'
+      +'<td title="'+esc(g.venue||'')+'">'+venueCode(g.venue)+'</td>'
+      +'<td><span class="'+scls+'">'+str+'</span></td>'
       +'<td>'+link+'</td></tr>';
   }
-  document.getElementById('evtBody').innerHTML=html;
+  l2+='</tbody></table>';
+
+  // ── ⚪ 순수 평일 공백 + 미확정 포커 각주 ──────────────
+  const gap='<div class="ec-gap"><span class="ec-b ec-week">⚪ 평일</span> <b>8~9월 유일 순수 평일 공백: 8/17(월)~8/20(목)</b>'
+    +' — 포커밴드 공백 + 콘서트 없음(8/20 김범수는 초청행사·일반판매X로 수요 미형성) → <b>평일 방어가 구간</b>.</div>'
+    +'<div class="ec-foot">※ 1층 밴드 = 인천 개최 확정 3대회. 미래·미확정(GOP Incheon 10/30~11/8, AJPC III 12/4~13)은 POKER_EVENTS에서 별도 관리.</div>';
+
+  document.getElementById('evtLayers').innerHTML=l1+l2+gap;
 }
 
 document.getElementById('updBadge').textContent='오늘 '+(typeof LASTCHECK!=='undefined'?LASTCHECK:ASOF);
@@ -1178,6 +1243,7 @@ document.getElementById('augBody').innerHTML=ab;
     +'<b style="color:#9a3412;">🔎 8월 진단 · 2026-07-12</b><br>'
     +'<span style="color:#b45309;font-weight:600;">⚠ 8/10~14</span>: 표시가 300k 7일 고정, 잔1 정체. 콘서트 없는 평일이므로 <b>과설정 의심</b> → 평일가(150k) 검토<br>'
     +'<span style="color:#b45309;font-weight:600;">⚠ 8/16~20</span>: 표시가 120k = 실판매 84k, 게하(86.4k) 미만. <b>하한 붕괴</b> → 150k로 상향<br>'
+    +'<span style="color:#6b7280;font-weight:600;">⚪ 8/17~20</span>: 8~9월 <b>유일 순수 평일 공백</b>(포커밴드·콘서트 모두 없음) → 평일 방어가 구간<br>'
     +'<span style="color:#15803d;font-weight:600;">✓ 8/8·8/22</span>: 이벤트 완판 정확. 8/9·9/5도 최고가 선제설정 권장'
     +'</div>';
 })();
