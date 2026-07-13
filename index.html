@@ -251,9 +251,9 @@
 <script>
 /* DAILY_LOG: 날짜별 잔여 이력 배열(추이 띠용). 매일 아침 각 날짜에 오늘 잔여코드 push.
    r코드: "5"|"34"|"lt3"|"so"  */
-const ASOF = "2026-07-12";   // 표시는 "정밀"(LASTCHECK). ASOF 자체는 파싱용 순수 날짜 유지("정밀" 접미어는 LASTCHECK에)
+const ASOF = "2026-07-13";   // 표시는 "정밀"(LASTCHECK). ASOF 자체는 파싱용 순수 날짜 유지("정밀" 접미어는 LASTCHECK에)
 const NOTE_GENIUS = "게하 평일 1실가 90,000으로 하향(94,500→90,000). 금요일 104,400 라인. 8월 카지노 시즌엔 SO 다발. 평점 7.4·리뷰 190건대.";
-const LASTCHECK = "2026-07-12 정밀 (7월 우리현황 7/12 갱신 · 8월 경쟁 실측 5일만)";
+const LASTCHECK = "2026-07-13 정밀 (7월 우리현황 7/13 갱신 · 경쟁 7/14~24 실측 반영)";
 /* OTA 평균 할인 — 우리 Sirvoy 표시가는 OTA에서 평균 30% 할인되어 실판매됨. 비교·추천·갭은 전부 실판매가(netRate) 기준. */
 const OTA_DISCOUNT = 0.30;
 const netRate = p => p==null?null:Math.round(p*(1-OTA_DISCOUNT));   // 표시가 → 실판매가
@@ -293,30 +293,29 @@ const BK_YEAR = parseInt(ASOF,10)||2026;
      · 우리 7/9 매진(3연속 평일 완판) · 7/10 잔2→1·7/12 잔2→1 임박.
      · 어제 대비: 7/9 매진, 7/10 잔2→1, 7/12 잔2→1, 7/22 잔6→5. */
 const DAILY = {
-  // ----- 정밀추적 (오늘 7/9 ~ D+13) · 우리·경쟁 모두 7/9 정밀 -----
-  "7/9":  {dow:"목",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:120000,r:"5"},hu:{p:100000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 우리 매진(오늘)
-  "7/10": {dow:"금",t:"wknd", comp:{gh:{soEst:true},gd:{p:120000,r:"5"},hu:{p:230000,r:"5"},bw:{p:259578,r:"5"}}, our:{ourN:1,cur:193000}},  // 게하 104.4k→SO·호텔휴 210k→230k·잔2→1
-  "7/11": {dow:"토",t:"wknd", comp:{gh:{soEst:true},gd:{soEst:true},hu:{soEst:true},bw:{soEst:true}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 4곳 전체 SO·르세라핌·우리 매진
-  "7/12": {dow:"일",t:"wknd", comp:{gh:{p:86400,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:232534,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 7/12 스크린샷: 매진(판매완료)
-  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:70000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:4,cur:130000}},  // 7/12 스크린샷: 잔5→4·표시가 110k→130k 인상
-  "7/14": {dow:"화",t:"wkdy", comp:{gh:{p:103500,r:"5"},gd:{p:160000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:5,cur:130000}},  // 7/12 스캔: 게 86.4k→103.5k·굿 100k→160k·휴 120k→100k·베 173k→162k
-  "7/15": {dow:"수",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:4,cur:128700}},  // 베 162k→151k · 7/12 스크린샷 잔6→4
-  "7/16": {dow:"목",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:100000,r:"5"},hu:{p:150000,r:"5"},bw:{p:173052,r:"5"}}, our:{ourN:6,cur:150000}},
-  "7/17": {dow:"금",t:"wknd", comp:{gh:{soEst:true},gd:{p:120000,r:"5"},hu:{soEst:true},bw:{soEst:true}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 7/12 스캔: 게·휴·베 SO 전환(319k→SO)·굿 140k→120k·우리 매진
-  "7/18": {dow:"토",t:"wknd", comp:{gh:{soEst:true},gd:{p:240000,r:"5"},hu:{soEst:true},bw:{p:292025,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 베 SO→292k 재오픈·게·휴 SO·굿 240k·우리 매진
-  "7/19": {dow:"일",t:"wknd", comp:{gh:{p:90000,r:"5"},gd:{p:200000,r:"5"},hu:{p:200000,r:"5"},bw:{p:205499,r:"5"}}, our:{ourN:3,cur:300000}},  // 굿 240k→200k·실판매210k=베웨205k 적정
-  "7/20": {dow:"월",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:156824,r:"5"}}, our:{ourN:5,cur:143000}},  // 게 103.5k→86.4k · 7/12 스크린샷 잔6→5
-  "7/21": {dow:"화",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:156824,r:"5"}}, our:{ourN:5,cur:143000}},
-  "7/22": {dow:"수",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:120000,r:"5"},hu:{p:100000,r:"5"},bw:{p:156824,r:"5"}}, our:{ourN:5,cur:143000}}   // D+13 편입
+  // ----- 정밀추적 (오늘 7/13 롤링 ~ +13일) · 우리 7/13 스크린샷 + 경쟁 7/14~24 실측 -----
+  // null=SO(확정 매진, {p:null,r:"so"}) · 경쟁순서 게(gh)/굿(gd)/휴(hu)/베(bw)
+  "7/13": {dow:"월",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:70000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 7/13 판매완료(SO)·경쟁 미재스캔→7/12값 유지
+  "7/14": {dow:"화",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:120000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:3,cur:120000}},  // 실측: 게·굿 SO
+  "7/15": {dow:"수",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, our:{ourN:3,cur:120000}},
+  "7/16": {dow:"목",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:100000,r:"5"},hu:{p:150000,r:"5"},bw:{p:173052,r:"5"}}, our:{ourN:5,cur:100000}},  // 실100k×0.7=실66.5k 언더프라이싱(게86.4k↓)→150k 인상검토
+  "7/17": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:270000,r:"5"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 실측: 게·굿·베 SO·휴 270k
+  "7/18": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:240000,r:"5"},hu:{p:null,r:"so"},bw:{p:194684,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 실측: 게·휴 SO
+  "7/19": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"5"},hu:{p:200000,r:"5"},bw:{p:194684,r:"5"}}, our:{ourN:3,cur:250000}},  // 실측: 게 SO·방어권
+  "7/20": {dow:"월",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:156824,r:"5"}}, our:{ourN:5,cur:143000}},  // 실143k×0.7=100k 휴 동가
+  "7/21": {dow:"화",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:5,cur:143000}},
+  "7/22": {dow:"수",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:120000,r:"5"},hu:{p:120000,r:"5"},bw:{p:156824,r:"5"}}, our:{ourN:5,cur:143000}},  // 휴 120k로↑ 상단여지
+  "7/23": {dow:"목",t:"wkdy", comp:{gh:{p:86400,r:"5"},gd:{p:120000,r:"5"},hu:{p:140000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:5,cur:143000}},  // 휴 140k로↑ 상단여지
+  "7/24": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:140000,r:"5"},hu:{p:160000,r:"5"},bw:{p:227131,r:"5"}}, our:{ourN:4,cur:250000}}   // 실측: 게 SO·방어권 · D+11
 };
 
 /* 저빈도 D+15~30 (ASOF+15 ~ ASOF+30, 7/19~8/3) — 주 1회 갱신. 경쟁사는 7/4 풀스캔 실측,
    우리 잔여·현재가는 직전 실측 유지. rec 미지정=dynRec 자동계산. */
 const WEEKLY = {
-  "7/24": {dow:"금",t:"wknd", comp:{gh:{soEst:true},gd:{p:160000,r:"5"},hu:{p:160000,r:"5"},bw:{p:194684,r:"5"}}, our:{ourN:4,cur:250000}},  // 7/12 스캔: 게 SO 전환·휴 140k→160k·베 204.9k→194.7k · 우리 표시가 210k→250k 인상
-  "7/25": {dow:"토",t:"wknd", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:210000,r:"5"},bw:{p:204930,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 7/12 스크린샷: 신규 매진(판매완료)
-  "7/26": {dow:"일",t:"wknd", comp:{gh:{p:90000,r:"5"},gd:{p:200000,r:"5"},hu:{p:140000,r:"5"},bw:{p:176463,r:"5"}}, our:{ourN:8,cur:210000}},
-  "7/27": {dow:"월",t:"wkdy", comp:{gh:{p:90000,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:8,cur:171600}},  // 7/12 스크린샷 잔7→8
+  // 7/24는 정밀(DAILY)로 편입. 여기는 7/25~ 저빈도 구간.
+  "7/25": {dow:"토",t:"wknd", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:210000,r:"5"},bw:{p:204930,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 7/13 스크린샷: 판매완료
+  "7/26": {dow:"일",t:"wknd", comp:{gh:{p:90000,r:"5"},gd:{p:200000,r:"5"},hu:{p:140000,r:"5"},bw:{p:176463,r:"5"}}, our:{ourN:8,cur:180000}},  // 7/13 스크린샷: 표시가 210k→180k
+  "7/27": {dow:"월",t:"wkdy", comp:{gh:{p:90000,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:7,cur:171600}},  // 7/13 스크린샷 잔8→7
   "7/28": {dow:"화",t:"wkdy", comp:{gh:{p:90000,r:"5"},gd:{p:100000,r:"5"},hu:{p:140000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:7,cur:171600}},
   "7/29": {dow:"수",t:"wkdy", comp:{gh:{p:90000,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:8,cur:171600}},
   "7/30": {dow:"목",t:"wkdy", comp:{gh:{p:90000,r:"5"},gd:{p:100000,r:"5"},hu:{p:140000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:8,cur:171600}},
@@ -483,6 +482,19 @@ function venueCode(v){ return /인스파이어/.test(v)?"ARENA":/파라다이스
       동시에 (2) 아래 COMP_LOG 맨 위에 새 타임스탬프 키로 그 시각의 14일치 스냅샷을 append.
       pruneLog()가 로드 시 7일(168h) 지난 스냅샷을 자동 삭제. 렌더는 시각으로 정렬하므로 순서 무관. */
 const COMP_LOG = {
+  "2026-07-13T09:00": {   // 7/13 실측(7/14~24). 전 스냅(7/12) 대비: 게 7/14 103.5k→SO / 굿 7/14 160k→SO·7/17 120k→SO·7/24 160k→140k / 휴 7/14 100k→120k·7/17 SO→270k 재오픈·7/22 100k→120k·7/24 160k(유지) / 베 7/17 SO→SO(유지)·7/18 292k→194.7k·7/19 205.5k→194.7k·7/21 156.8k→167.6k·7/23 156.8k→167.6k·7/24 194.7k→227.1k
+    "2026-07-14": {gh:"SO",   gd:"SO",   hu:120000, bw:162236},
+    "2026-07-15": {gh:86400,  gd:100000, hu:100000, bw:162236},
+    "2026-07-16": {gh:86400,  gd:100000, hu:150000, bw:173052},
+    "2026-07-17": {gh:"SO",   gd:"SO",   hu:270000, bw:"SO"},
+    "2026-07-18": {gh:"SO",   gd:240000, hu:"SO",   bw:194684},
+    "2026-07-19": {gh:"SO",   gd:200000, hu:200000, bw:194684},
+    "2026-07-20": {gh:86400,  gd:100000, hu:100000, bw:156824},
+    "2026-07-21": {gh:86400,  gd:100000, hu:100000, bw:167640},
+    "2026-07-22": {gh:86400,  gd:120000, hu:120000, bw:156824},
+    "2026-07-23": {gh:86400,  gd:120000, hu:140000, bw:167640},
+    "2026-07-24": {gh:"SO",   gd:140000, hu:160000, bw:227131}
+  },
   "2026-07-12T09:00": {   // 7/12 정밀 재스캔(7~9월 한달스캔 중 근접구간). 전 스냅(7/9) 대비: 게 7/14 86.4k→103.5k·7/20 103.5k→86.4k / 굿 7/14 100k→160k·7/19 240k→200k·7/17 140k→120k / 휴 7/14 120k→100k·7/19 200k(유지) / 베 7/15 162k→151k·7/24 204.9k→194.7k / 7/17 게·휴·베 SO 전환(319k→SO) / 7/18 베 SO→292k 재오픈 / 7/24 게 SO 전환·휴 140k→160k
     "2026-07-13": {gh:86400,  gd:70000,  hu:120000, bw:151421},
     "2026-07-14": {gh:103500, gd:160000, hu:100000, bw:162236},
@@ -674,6 +686,16 @@ const COMP_LOG = {
    스키마: {날짜ISO: {avail:잔여수, price:현재가}} (매진=avail:0, price:null).
    D+1~14 표의 "우리잔여(추이)" 열이 최근 3스냅샷을 비교해 7→7→5 ↓ 형태로 렌더. pruneLog(OURS_LOG)로 자동 정리. */
 const OURS_LOG = {
+  "2026-07-13T09:00": {   // 7/13 스크린샷 스냅샷 — 7/13~27 갱신. 전 스냅(7/12) 대비: 7/13 매진·7/14 잔5→3·130k→120k·7/15 잔4→3·128.7k→120k·7/16 잔6→5·150k→100k·7/19 300k→250k·7/23 잔2→5·7/26 210k→180k·7/27 잔8→7
+    "2026-07-13": {avail:0, price:null},   "2026-07-14": {avail:3, price:120000},
+    "2026-07-15": {avail:3, price:120000}, "2026-07-16": {avail:5, price:100000},
+    "2026-07-17": {avail:0, price:null},   "2026-07-18": {avail:0, price:null},
+    "2026-07-19": {avail:3, price:250000}, "2026-07-20": {avail:5, price:143000},
+    "2026-07-21": {avail:5, price:143000}, "2026-07-22": {avail:5, price:143000},
+    "2026-07-23": {avail:5, price:143000}, "2026-07-24": {avail:4, price:250000},
+    "2026-07-25": {avail:0, price:null},   "2026-07-26": {avail:8, price:180000},
+    "2026-07-27": {avail:7, price:171600}
+  },
   "2026-07-12T09:00": {   // 7/12 스크린샷 스냅샷 — 7월 전체 갱신 + 8월 전체 Sirvoy(cap=10). 전 스냅(7/9) 대비: 7/12 매진·7/13 잔5→4·표시110k→130k 인상·7/15 잔6→4·7/20 잔6→5·7/24 210k→250k 인상·7/25 신규 매진·7/27 잔7→8·7/31 잔8→6·219.6k→250k 인상. 8월: 대회기간 8/7~15 잔1~2 타이트·8/22 매진
     "2026-07-12": {avail:0, price:null},   "2026-07-13": {avail:4, price:130000},
     "2026-07-14": {avail:5, price:130000}, "2026-07-15": {avail:4, price:128700},
@@ -1236,12 +1258,17 @@ function renderEventCalendar(){
 }
 
 document.getElementById('updBadge').textContent='오늘 '+(typeof LASTCHECK!=='undefined'?LASTCHECK:ASOF);
+// ① 정밀 롤링창: 오늘(KST) ~ +13일. 하드코딩 시작일 없이 new Date() 동적계산 → 지난 날짜 자동 숨김.
+// 요일·경계 비교는 반드시 msKST(=new Date(dateStr+"T12:00:00+09:00")) 정오 기준으로 통일(TZ 오프바이원 방지).
+const TODAY_KST = (function(){ const k=new Date(new Date().getTime()+9*3600*1000); return k.getUTCFullYear()+'-'+String(k.getUTCMonth()+1).padStart(2,'0')+'-'+String(k.getUTCDate()).padStart(2,'0'); })();
+const DAILY_WIN_START = msKST(TODAY_KST), DAILY_WIN_END = DAILY_WIN_START + 13*86400000;  // 14일 창(시작일 포함)
+function inDailyWindow(d){ const ms=msKST(dISO(d)); return ms>=DAILY_WIN_START && ms<=DAILY_WIN_END; }
 // 탭·섹션 라벨 자동계산 (ASOF 기준 D+N → 실제 날짜)
-(function(){ const dk=Object.keys(DAILY); document.getElementById('rng-daily').textContent=dk[0]+'~'+dk[dk.length-1]+' (2주)'; })();
+(function(){ const dk=Object.keys(DAILY).filter(inDailyWindow); document.getElementById('rng-daily').textContent=(dk[0]||'')+'~'+(dk[dk.length-1]||'')+' (2주)'; })();
 document.getElementById('rng-weekly').textContent='D+15~30 ('+asofPlus(15)+'~'+asofPlus(30)+')';
 renderUpcoming();
 renderEventCalendar();
-let db=''; for(const [d,row] of Object.entries(DAILY)) db+=buildRow(d,row,{trend:true,zone:true});  // ① 정밀: OURS_LOG 추이 + 정밀존/관찰존
+let db=''; for(const [d,row] of Object.entries(DAILY)){ if(!inDailyWindow(d)) continue; db+=buildRow(d,row,{trend:true,zone:true}); }  // ① 정밀: 오늘~+13일 롤링 · OURS_LOG 추이 + 정밀존/관찰존
 document.getElementById('dailyBody').innerHTML=db;
 let wb=''; for(const [d,row] of Object.entries(WEEKLY)) wb+=buildRow(d,row,{asof:WEEKLY_ASOF});    // ② 저빈도: asof 신선도
 document.getElementById('weekBody').innerHTML=wb;
