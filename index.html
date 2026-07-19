@@ -143,8 +143,8 @@
 <body>
 <div class="wrap">
   <h1>인천공항 평일 공실 추적기 <span id="updBadge" class="badge b-cur"></span></h1>
-  <p class="sub">우리: Incheon Airport T1 Residence near Paradise City (평점 9.4) · 1실 1박 · 성인 2명 · KRW · 부킹닷컴 기준<br>
-  <b>전략: 평일 공실이 핵심 과제.</b> 직접경쟁군(굿데이·호텔휴, 평점 7.3~7.6) 대비 평점 9.4 프리미엄으로 <b>약간 위</b> 포지션이 먹히는지 매일 확인.</p>
+  <p class="sub">우리: Incheon Airport T1 Residence near Paradise City (평점 8.0) · 1실 1박 · 성인 2명 · KRW · 부킹닷컴 기준<br>
+  <b>전략 v2:</b> 평일은 경쟁사(굿데이·호텔휴, 평점 7.3~7.6) 수준으로 <b>방어(인상 자제)</b>, <b>금·토·이벤트일은 공격적 인상</b>. 같은 오피스텔 건물이라 시설 차별화 없음 — 인테리어·CS만 차이(실효 평점 8.0).</p>
 
   <div class="tabs">
     <button id="tab-track" class="tab active">① 정밀추적</button>
@@ -176,8 +176,8 @@
     <span><b>추이</b>: 우리 잔여 최근 흐름(왼→오, 과거→오늘)</span>
   </div>
 
-  <h2>① 정밀 추적 — <span id="rng-daily"></span> <span style="font-size:12px;font-weight:400;color:#9ca3af;">(<span class="zone-tag zt-fine">정밀</span> D+0~7 2회/일 · <span class="zone-tag zt-watch">관찰</span> D+8~14 1회/일)</span></h2>
-  <p class="cap"><b>우리 현재가·추천가는 실판매가(표시가×0.7, OTA 평균 −30%)</b> 기준. 경쟁군갭·추천가 모두 실판매가로 비교(표시가는 보조/툴팁). 조정은 대개 1주 내에 몰리므로 <b>정밀존(오늘~D+7)</b>을 집중 관리, 관찰존은 주 1회 확인.</p>
+  <h2>① 정밀 추적 — <span id="rng-daily"></span> <span style="font-size:12px;font-weight:400;color:#9ca3af;">(<span class="zone-tag zt-fine">정밀</span> D+0~14 매일 · <span class="zone-tag zt-watch">관찰</span> D+14~30 주1회)</span></h2>
+  <p class="cap"><b>우리 현재가·추천가는 실판매가(표시가×0.7, OTA 평균 −30%)</b> 기준. 경쟁군갭·추천가 모두 실판매가로 비교(표시가는 보조/툴팁). <b>정밀존(오늘~D+14)</b>은 매일 관리, 관찰존(D+14~30)은 주 1회 확인.</p>
   <table id="dailyTable"><thead>
     <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
         <th class="our2">우리 현재가</th><th class="gap">경쟁군갭<br><span style="font-weight:400;font-size:9px;color:#c2780c;">우리−경쟁최저</span></th>
@@ -185,7 +185,7 @@
   </thead><tbody id="dailyBody"></tbody></table>
 
   <div class="wk">
-  <h2>② 저빈도 추적 — <span id="rng-weekly"></span> <span style="font-size:12px;font-weight:400;color:#9ca3af;">(주 1회 갱신)</span></h2>
+  <h2>② 관찰 추적 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(D+14~30)</span> — <span id="rng-weekly"></span></h2>
   <p class="cap">멀리 있는 구간은 큰 흐름과 주말 경쟁 강도를 본다. 주 1회 갱신으로 충분. 우리 잔여·현재가는 직전 실측 유지.</p>
   <table id="weekTable"><thead>
     <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
@@ -200,11 +200,11 @@
     · 주말 경쟁군 다수 매진 → 베웨 아래 밴드. <span class="gap-down" style="color:#0a8754;font-weight:700;">초록 추천가=내리는 신호</span>,
     <span style="color:#c0392b;font-weight:700;">빨강=올리는 신호</span>.<br><br>
     <b>평일 중심으로 보는 법.</b> 이 추적기의 목적은 주말이 아니라 <b>평일 공실을 채우는 것</b>. 평일은 우리가 경쟁군(굿데이·호텔휴)보다
-    얼마나 비싼지(경쟁군갭)가 핵심. 평점 9.4라 약간 위는 정상이지만, <b>갭이 +2만원 이상으로 벌어지는데 우리 잔여가 안 빠지면</b>
+    얼마나 비싼지(경쟁군갭)가 핵심. 실효 평점 8.0(인테리어·CS만 차이)이라 프리미엄은 제한적 — <b>갭이 +2만원 이상으로 벌어지는데 우리 잔여가 안 빠지면</b>
     프리미엄이 저항을 받는 신호 → 그 평일은 가격을 좁혀야 함. 반대로 갭이 있어도 잔여가 잘 빠지면 프리미엄이 먹히는 것.<br><br>
     <b>추이 띠 읽기.</b> 우리 잔여를 최근 며칠 왼→오로 나열. <span class="pill p-green" style="font-size:9px;">5+</span>가 계속이면 안 빠지는 것(주의),
     오른쪽으로 갈수록 단계가 낮아지면(5+→3~4→&lt;3) 잘 차는 것. 오늘이 1일차라 점 하나로 시작, 매일 쌓이며 기울기가 보임.<br><br>
-    <b>운영(4구간, ASOF 기준 자동 롤).</b> ① 정밀 D+1~14 하루 2회 풀스캔 — OURS_LOG에 잔여 스냅샷 누적(추이 열). ② 저빈도 D+15~30 주 1회. ③ 8월 카지노 특별(별도 탭) — 인상 관점. ④ 9월~ 미표시.
+    <b>운영(ASOF 기준 자동 롤).</b> ① 정밀 D+0~14 매일 풀스캔 — OURS_LOG에 잔여 스냅샷 누적(추이 열). ② 관찰 D+14~30 주 1회. ③ 8월 카지노 특별(별도 탭) — 인상 관점. ④ 9월~ 미표시.
     같은 index.html 덮어쓰기로 URL 유지, 깃허브 커밋에 이력 자동 보존.
   </div>
   </div><!-- /panel-track -->
@@ -219,7 +219,7 @@
           <th class="our2">우리 현재가</th><th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">N/객실 (비율)</span></th>
           <th class="our" title="dynRec 추천가">추천가</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="augBody"></tbody></table>
-    <p class="cap" style="margin-top:8px;">· 8월 경쟁사: <b>8/3~8/19는 관찰스캔(7/20)</b> 반영 — 가격 표시, <span class="obs-badge">차기시작</span>=rooms5 미포착(잔여 미확정). 8/21·22는 기존 실측. 나머지는 <span class="nq">미조회</span>. 우리 잔여·표시가는 7/12 Sirvoy 기준.</p>
+    <p class="cap" style="margin-top:8px;">· 8월 경쟁사: <b>8/1~8/31 전체 관찰스캔(7/20)</b> 반영 — 가격 표시, <span class="obs-badge">차기시작</span>=rooms5 미포착(차기 소진 시작·잔여 미확정, SO 아님). 우리 잔여·표시가는 7/12 Sirvoy 기준. 같은 데이터가 ①탭 하단 <b>②관찰 추적</b>에도 렌더됨.</p>
     <div class="note" style="margin-top:10px;background:#fdf6f0;border-color:#f0d9c0;"><b style="color:#c2780c;">📋 관찰구간 메모.</b> 관찰구간(D+14~30)은 잔여 미확정. <b>APT포커(8/7~16) 기간 굿데이 24~26만으로 급등 = 포커 프리미엄</b>. <b>8/13~15 260,000 최고</b>. 우리 8월 중순 가격 이 벤치마크 참고.</div>
   </div>
 
@@ -263,7 +263,7 @@ const OTA_DISCOUNT = 0.30;
 const netRate = p => p==null?null:Math.round(p*(1-OTA_DISCOUNT));   // 표시가 → 실판매가
 const listOf = p => p==null?null:Math.round(p/(1-OTA_DISCOUNT));    // 실판매가 → 표시가 환산(÷0.7)
 /* 저빈도(② D+15~30) 데이터 마지막 갱신 시각 — 각 판단열 asof 신선도 라벨용(24h 초과 시 주황). */
-const WEEKLY_ASOF = "2026-07-04T18:00";
+const WEEKLY_ASOF = "2026-07-20T09:00";   // 8월 전체 관찰 스캔 시각(Claude Code)
 /* CAPACITY: 월별 총 객실수(잔여 비율 판정 분모). 7월 8실 → 8월부터 10실 증설. 미등록 월은 10 기본. */
 const CAPACITY = { "2026-07": 8, "2026-08": 10, "2026-09": 10 };
 function capOf(dateStr){ return CAPACITY[dateStr.slice(0,7)] || 10; }
@@ -316,12 +316,9 @@ const DAILY = {
   "8/2":  {dow:"일",t:"wknd", comp:{gh:{p:90000,r:"5"},gd:{p:120000,r:"5"},hu:{p:120000,r:"5"},bw:{p:187848,r:"5"}}, our:{ourN:9,cur:150000}, flag:{lvl:"amber",txt:"잔여9 정체 - 표시가 150,000 유지 또는 소폭 인하"}}   // 🟡 잔9/10 · cap10
 };
 
-/* 저빈도 D+15~30 (ASOF+15 ~ ASOF+30, 7/19~8/3) — 주 1회 갱신. 경쟁사는 7/4 풀스캔 실측,
-   우리 잔여·현재가는 직전 실측 유지. rec 미지정=dynRec 자동계산. */
-const WEEKLY = {
-  // 7/25~8/2는 정밀창(오늘 7/20~D+13)에 편입되어 DAILY로 이동. 여기는 D+14~ 저빈도 구간(8/3~).
-  "8/3":  {dow:"월",t:"wkdy", comp:{gh:{p:90000,r:"5"},gd:{p:100000,r:"5"},hu:{p:140000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:9,cur:150000}}   // 8/3 관찰 실측(7/20 스캔)
-};
+/* ② 관찰(저빈도) D+14~30 — 주 1회 갱신. 8월 전체 관찰 데이터(COMP_OBSERVE)를 아래 병합 루프에서
+   AUGUST 행(경쟁 comp + 우리 잔여/표시가) 참조로 채운다. 8/1~8/31 전체가 ②탭에 렌더됨. */
+const WEEKLY = {};   // COMP_OBSERVE 병합 루프에서 8월 전체(8/1~8/31)로 채워짐(정적 하드코딩 없음)
 
 /* 8월 카지노 특별구간 (8/1~31) — "얼마나 높일까" 관점. 우리 잔여·표시가는 Sirvoy 실측(2026-07-12 전 31일 갱신, cap=10).
    경쟁사(comp)는 실측 5일(8/6·8/8·8/9·8/21·8/22)만 보유 — 나머지는 noScan:true(미조회). 가짜 숫자 금지, 추천은 이벤트/포커밴드 기준 또는 —.
@@ -365,10 +362,12 @@ const AUGUST = {
   "8/31": {dow:"월",t:"wkdy", noScan:true, comp:{}, our:{ourN:6,cur:143000}}
 };
 
-/* COMP_OBSERVE: 관찰구간(D+14~30, 8/3~8/19) rooms5 1콜 스캔 — Claude Code 7/20 실측.
+/* COMP_OBSERVE: 8월 전체(8/1~8/31) rooms5 1콜 관찰 스캔 — Claude Code 7/20 실측.
    값=가격(5실 포착) 또는 "차기시작"(5실 미포착=차기 소진 시작, 잔여수 미확정 · SO 아님).
-   ★ 잔여 미확정이라 정밀 COMP(DAILY)와 분리 저장. 아래 루프로 8월탭 행에만 병합(회색 배지 렌더). */
+   ★ 잔여 미확정이라 정밀 COMP(DAILY)와 분리 저장. 아래 루프로 8월탭(AUGUST)+②저빈도(WEEKLY)에 병합(회색 배지 렌더). */
 const COMP_OBSERVE = {
+  "2026-08-01":{"13790670":"차기시작","1794538":160000,"404435":300000,"239286":296010},
+  "2026-08-02":{"13790670":90000,"1794538":120000,"404435":120000,"239286":187848},
   "2026-08-03":{"13790670":90000,"1794538":100000,"404435":140000,"239286":165078},
   "2026-08-04":{"13790670":90000,"1794538":140000,"404435":120000,"239286":165078},
   "2026-08-05":{"13790670":90000,"1794538":140000,"404435":120000,"239286":165078},
@@ -385,7 +384,19 @@ const COMP_OBSERVE = {
   "2026-08-16":{"13790670":"차기시작","1794538":200000,"404435":"차기시작","239286":204930},
   "2026-08-17":{"13790670":90000,"1794538":100000,"404435":100000,"239286":204930},
   "2026-08-18":{"13790670":90000,"1794538":100000,"404435":100000,"239286":193545},
-  "2026-08-19":{"13790670":90000,"1794538":100000,"404435":100000,"239286":173052}
+  "2026-08-19":{"13790670":90000,"1794538":100000,"404435":100000,"239286":173052},
+  "2026-08-20":{"13790670":90000,"1794538":100000,"404435":120000,"239286":173052},
+  "2026-08-21":{"13790670":104400,"1794538":160000,"404435":180000,"239286":259578},
+  "2026-08-22":{"13790670":"차기시작","1794538":"차기시작","404435":350000,"239286":302841},
+  "2026-08-23":{"13790670":90000,"1794538":160000,"404435":150000,"239286":270394},
+  "2026-08-24":{"13790670":90000,"1794538":100000,"404435":100000,"239286":173052},
+  "2026-08-25":{"13790670":90000,"1794538":120000,"404435":100000,"239286":183868},
+  "2026-08-26":{"13790670":90000,"1794538":100000,"404435":100000,"239286":173052},
+  "2026-08-27":{"13790670":90000,"1794538":100000,"404435":100000,"239286":183868},
+  "2026-08-28":{"13790670":"차기시작","1794538":160000,"404435":120000,"239286":194684},
+  "2026-08-29":{"13790670":"차기시작","1794538":200000,"404435":250000,"239286":302841},
+  "2026-08-30":{"13790670":90000,"1794538":200000,"404435":120000,"239286":194684},
+  "2026-08-31":{"13790670":90000,"1794538":100000,"404435":100000,"239286":162236}
 };
 // 관찰 데이터를 8월탭(AUGUST) 해당 행에 병합: 가격→{p,r:"5"}, "차기시작"→{obs:true}. noScan 해제, observe 플래그.
 (function(){
@@ -399,6 +410,7 @@ const COMP_OBSERVE = {
       comp[IDMAP[id]] = (v==="차기시작") ? {obs:true} : {p:v, r:"5"};
     });
     row.comp=comp; row.noScan=false; row.observe=true;
+    WEEKLY[md]=row;   // ② 저빈도(관찰) 테이블에도 동일 8월 행 렌더(8/1~8/31 전체)
   });
 })();
 
@@ -517,7 +529,7 @@ function venueCode(v){ return /인스파이어/.test(v)?"ARENA":/파라다이스
       동시에 (2) 아래 COMP_LOG 맨 위에 새 타임스탬프 키로 그 시각의 14일치 스냅샷을 append.
       pruneLog()가 로드 시 7일(168h) 지난 스냅샷을 자동 삭제. 렌더는 시각으로 정렬하므로 순서 무관. */
 const COMP_LOG = {
-  "2026-07-20T09:00": {   // 7/20 Claude Code 계단검색 실측(정밀 14일). 게하 주말·강수요 SO = 7/20·21·24·25·27·31·8/1
+  "2026-07-20T09:00": {   // 7/20 Claude Code 실측 — 정밀 14일(계단검색 확정: SO) + 8월 전체 관찰(rooms5, "차기시작"=미포착·잔여미확정). 게하 주말·강수요 SO = 7/20·21·24·25·27·31·8/1
     "2026-07-20": {gh:"SO",   gd:"SO",   hu:120000, bw:167640},
     "2026-07-21": {gh:"SO",   gd:70000,  hu:100000, bw:167640},
     "2026-07-22": {gh:86400,  gd:120000, hu:120000, bw:156824},
@@ -531,7 +543,36 @@ const COMP_LOG = {
     "2026-07-30": {gh:103500, gd:100000, hu:120000, bw:156824},
     "2026-07-31": {gh:"SO",   gd:140000, hu:170000, bw:259578},
     "2026-08-01": {gh:"SO",   gd:160000, hu:300000, bw:296010},
-    "2026-08-02": {gh:90000,  gd:120000, hu:120000, bw:187848}
+    "2026-08-02": {gh:90000,  gd:120000, hu:120000, bw:187848},
+    "2026-08-03": {gh:90000,  gd:100000, hu:140000, bw:165078},
+    "2026-08-04": {gh:90000,  gd:140000, hu:120000, bw:165078},
+    "2026-08-05": {gh:90000,  gd:140000, hu:120000, bw:165078},
+    "2026-08-06": {gh:"차기시작", gd:140000, hu:160000, bw:"차기시작"},
+    "2026-08-07": {gh:"차기시작", gd:240000, hu:"차기시작", bw:"차기시작"},
+    "2026-08-08": {gh:"차기시작", gd:240000, hu:"차기시작", bw:"차기시작"},
+    "2026-08-09": {gh:"차기시작", gd:260000, hu:"차기시작", bw:"차기시작"},
+    "2026-08-10": {gh:"차기시작", gd:200000, hu:"차기시작", bw:"차기시작"},
+    "2026-08-11": {gh:"차기시작", gd:200000, hu:"차기시작", bw:"차기시작"},
+    "2026-08-12": {gh:103500, gd:200000, hu:170000, bw:"차기시작"},
+    "2026-08-13": {gh:"차기시작", gd:260000, hu:"차기시작", bw:"차기시작"},
+    "2026-08-14": {gh:"차기시작", gd:260000, hu:"차기시작", bw:"차기시작"},
+    "2026-08-15": {gh:"차기시작", gd:260000, hu:"차기시작", bw:"차기시작"},
+    "2026-08-16": {gh:"차기시작", gd:200000, hu:"차기시작", bw:204930},
+    "2026-08-17": {gh:90000,  gd:100000, hu:100000, bw:204930},
+    "2026-08-18": {gh:90000,  gd:100000, hu:100000, bw:193545},
+    "2026-08-19": {gh:90000,  gd:100000, hu:100000, bw:173052},
+    "2026-08-20": {gh:90000,  gd:100000, hu:120000, bw:173052},
+    "2026-08-21": {gh:104400, gd:160000, hu:180000, bw:259578},
+    "2026-08-22": {gh:"차기시작", gd:"차기시작", hu:350000, bw:302841},
+    "2026-08-23": {gh:90000,  gd:160000, hu:150000, bw:270394},
+    "2026-08-24": {gh:90000,  gd:100000, hu:100000, bw:173052},
+    "2026-08-25": {gh:90000,  gd:120000, hu:100000, bw:183868},
+    "2026-08-26": {gh:90000,  gd:100000, hu:100000, bw:173052},
+    "2026-08-27": {gh:90000,  gd:100000, hu:100000, bw:183868},
+    "2026-08-28": {gh:"차기시작", gd:160000, hu:120000, bw:194684},
+    "2026-08-29": {gh:"차기시작", gd:200000, hu:250000, bw:302841},
+    "2026-08-30": {gh:90000,  gd:200000, hu:120000, bw:194684},
+    "2026-08-31": {gh:90000,  gd:100000, hu:100000, bw:162236}
   },
   "2026-07-13T09:00": {   // 7/13 실측(7/14~24). 전 스냅(7/12) 대비: 게 7/14 103.5k→SO / 굿 7/14 160k→SO·7/17 120k→SO·7/24 160k→140k / 휴 7/14 100k→120k·7/17 SO→270k 재오픈·7/22 100k→120k·7/24 160k(유지) / 베 7/17 SO→SO(유지)·7/18 292k→194.7k·7/19 205.5k→194.7k·7/21 156.8k→167.6k·7/23 156.8k→167.6k·7/24 194.7k→227.1k
     "2026-07-14": {gh:"SO",   gd:"SO",   hu:120000, bw:162236},
@@ -1082,8 +1123,9 @@ function renderDecisionCells(date,row,opts){
   const cur=netRate(list);                                   // 실판매가(비교·방향 기준)
   const ourN=row.our?row.our.ourN:null;
   const cap=capOf(dISO(date));
-  const dyn=row.noScan?noScanRec(date,cur):dynRec(row,date);   // 미조회는 경쟁 기반 계산 금지
-  const recPrice=(row.our&&row.our.rec!=null)?row.our.rec:(dyn.price!=null?dyn.price:null);  // 추천 실판매가
+  const soldOut=(ourN===0);   // 우리 매진 → 추천가 계산 자체 skip(매진일은 추천 불필요)
+  const dyn=soldOut?{price:null,sig:'우리 매진',cls:'rec-flat',evHigh:false}:(row.noScan?noScanRec(date,cur):dynRec(row,date));   // 미조회는 경쟁 기반 계산 금지
+  const recPrice=soldOut?null:((row.our&&row.our.rec!=null)?row.our.rec:(dyn.price!=null?dyn.price:null));  // 추천 실판매가
   // 우리현재가: 실판매가 메인 + 표시가 보조
   const curCell=list==null
     ? '<span class="gap-na">'+((row.our&&row.our.curNote)||'미확인')+'</span>'
@@ -1095,7 +1137,8 @@ function renderDecisionCells(date,row,opts){
   else avail=ourN+'/'+cap+' <span class="avail-pct">('+Math.round(ourN/cap*100)+'%)</span>';
   if(opts.trend){ const tm=oursTrendMini(date); if(tm) avail+='<br>'+tm; }
   let recCell, recCls='rec-flat', recTitle='';
-  if(recPrice==null) recCell='<span class="gap-na">—</span>';
+  if(soldOut){ recCell='<span class="gap-na">매진(추천 불필요)</span>'; recTitle='우리 매진 — 추천가 계산 skip'; }
+  else if(recPrice==null) recCell='<span class="gap-na">—</span>';
   else{
     let dir='';
     if(cur!=null){                                    // 방향: 추천 실판매가 vs 현재 실판매가
@@ -1120,8 +1163,7 @@ function buildRow(d,row,opts){
   const dc=renderDecisionCells(d,row,opts);
   let zcls='', ztag='';
   if(opts.zone){ const dd=daysFromAsof(d);
-    if(dd<=7){ zcls=' zfine'; ztag=' <span class="zone-tag zt-fine">정밀</span>'; }        // D+0~7: 2회/일 정밀존
-    else if(dd<=14){ zcls=' zwatch'; ztag=' <span class="zone-tag zt-watch">관찰</span>'; } // D+8~14: 1회/일 관찰존
+    if(dd<=14){ zcls=' zfine'; ztag=' <span class="zone-tag zt-fine">정밀</span>'; }        // 정밀존: 오늘~D+14 매일(전 구간 정밀)
   }
   return '<tr class="'+(row.t)+(pokerOf(d)?' has-poker':'')+zcls+'">'
    +'<td class="date">'+d+' ('+row.dow+')'+ztag+(row.flag?'<span class="warn-flag wf-'+row.flag.lvl+'">'+(row.flag.lvl==='red'?'🔴':'🟡')+' '+row.flag.txt+'</span>':'')+'</td>'
@@ -1152,6 +1194,8 @@ function diffSnapshots(newer, older){ // 값 바뀐 날짜·경쟁사만 [{date,
     for(const comp of ["gh","gd","hu","bw"]){
       const a=o[comp], b=n[comp];
       if(a===undefined||b===undefined||a===b) continue;
+      const okVal=v=>typeof v==="number"||v==="SO";   // "차기시작"(관찰·잔여미확정)은 가격변동 비교 대상 아님 → skip
+      if(!okVal(a)||!okVal(b)) continue;
       const aSO=a==="SO", bSO=b==="SO";
       if(aSO&&bSO) continue;
       let dir, pct=null;
@@ -1330,7 +1374,7 @@ const DAILY_WIN_START = msKST(TODAY_KST), DAILY_WIN_END = DAILY_WIN_START + 13*8
 function inDailyWindow(d){ const ms=msKST(dISO(d)); return ms>=DAILY_WIN_START && ms<=DAILY_WIN_END; }
 // 탭·섹션 라벨 자동계산 (ASOF 기준 D+N → 실제 날짜)
 (function(){ const dk=Object.keys(DAILY).filter(inDailyWindow); document.getElementById('rng-daily').textContent=(dk[0]||'')+'~'+(dk[dk.length-1]||'')+' (2주)'; })();
-document.getElementById('rng-weekly').textContent='D+15~30 ('+asofPlus(15)+'~'+asofPlus(30)+')';
+(function(){ const wk=Object.keys(WEEKLY); document.getElementById('rng-weekly').textContent='8월 관찰 '+(wk[0]||'')+'~'+(wk[wk.length-1]||'')+' (주1회)'; })();
 renderUpcoming();
 renderEventCalendar();
 let db=''; for(const [d,row] of Object.entries(DAILY)){ if(!inDailyWindow(d)) continue; db+=buildRow(d,row,{trend:true,zone:true}); }  // ① 정밀: 오늘~+13일 롤링 · OURS_LOG 추이 + 정밀존/관찰존
