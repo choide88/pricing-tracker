@@ -319,7 +319,8 @@ const BK_YEAR = parseInt(ASOF,10)||2026;
    ★ 우리 cur는 Sirvoy '표시가'. 비교·추천·갭은 전부 netRate(cur)=표시가×0.7=실판매가로 계산됨.
    comp 잔여 표기(방식 v2·7/24): n=브라우저 실측 잔여수(객실타입별 드롭다운 max 합산) · r:"na"=MCP 가격만·잔여 미확인 · {p:null,r:"so"}=매진.
      (구 r:"5"/"34" 배지는 폐기 — rooms=5가 5실 남음을 뜻하지 않음이 검증됨. 8월탭 레거시만 r:"5" 유지)
-   flag(있으면)=셀 경고 배지 {lvl,ic,txt}. lvl=red/amber/orange/green/neutral(색), ic=표시 이모지. buildRow 날짜셀에 렌더.
+   flag(있으면)=셀 경고 배지 {lvl,ic,txt}. lvl=red/amber/orange/green/neutral(색), ic=표시 이모지. buildRow에서 fillFlag() 거쳐 렌더.
+     ★ txt 안의 {총재고}·{저가재고}·{최저}는 렌더 시 marketStats() 계산값으로 자동 치환 — 숫자 하드코딩 금지(수동값·계산값 불일치 원천 차단).
    [7/24 오후 D+10 실측·v3] rooms=1 MCP(가격·가부) + 브라우저 실측 잔여(오늘~+10·이벤트일). 저가재고(게하+굿데이) 지표 도입.
      · 가격정책: 게하=MCP값(Genius 할인가=손님 실결제가) · 베웨 7/27=156,824·8/2=176,463(브라우저 최저가, 환불정책 차이).
      · 게하 SO=7/24·25·26·27·30·8/1·8/6 · 휴 SO=7/25·8/1 · 굿데이 SO=7/24·25 · 베웨 SO=7/25·8/6. 7/25는 4곳 전부 매진.
@@ -328,20 +329,20 @@ const BK_YEAR = parseInt(ASOF,10)||2026;
 const DAILY = {
   // ----- 정밀추적 (오늘 7/24 롤링 ~ +13일, 7/24~8/6) · 우리 7/24 Sirvoy + 경쟁 rooms=1 MCP + 브라우저 실측잔여(n) -----
   // n=브라우저 실측 잔여 · r:"na"=미확인(MCP가격만·8/4·8/5) · {p:null,r:"so"}=매진 · 경쟁순서 게(13790670)/굿(1794538)/휴(404435)/베(239286)
-  "7/24": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:140000,n:8},bw:{p:194684,n:15}}, our:{ourN:2,cur:110000}, flag:{lvl:"amber",ic:"⏱",txt:"D-0 마감임박(오후3시). 저가2곳 매진·시장최저 140,000인데 우리 실판매 77,000. 재고소진 모드라 유지. ※인하 시점이 일렀던 것"}},  // ⏱ 마감임박
+  "7/24": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:140000,n:8},bw:{p:194684,n:15}}, our:{ourN:2,cur:110000}, flag:{lvl:"amber",ic:"⏱",txt:"D-0 마감임박(오후3시). 저가2곳 매진·시장최저 {최저}인데 우리 실판매 77,000. 재고소진 모드라 유지. ※인하 시점이 일렀던 것"}},  // ⏱ 마감임박
   "7/25": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}, flag:{lvl:"green",ic:"✅",txt:"4곳 전부 매진에서 완판. 최적 사례"}},  // ✅ 완전품귀 완판
-  "7/26": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:3},hu:{p:200000,n:5},bw:{p:302841,n:11}}, our:{ourN:7,cur:150000}, flag:{lvl:"amber",ic:"🟡",txt:"저가재고3(굿 잔3). 우리 150,000 적정"}},  // 🟡
-  "7/27": {dow:"월",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,n:4},hu:{p:120000,n:16},bw:{p:156824,n:12}}, our:{ourN:4,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"총재고30·저가재고4. 수요공백, 유지"}},  // 🟢 수요공백
-  "7/28": {dow:"화",t:"wkdy", comp:{gh:{p:77760,n:2},gd:{p:100000,n:5},hu:{p:140000,n:12},bw:{p:156824,n:14}}, our:{ourN:6,cur:120000}, flag:{lvl:"green",ic:"🟢",txt:"총재고33·저가재고7(게 잔2·굿 잔5). 게하 77,760이 바닥. 유지"}},  // 🟢
-  "7/29": {dow:"수",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:100000,n:5},hu:{p:120000,n:13},bw:{p:156824,n:14}}, our:{ourN:9,cur:120000}, flag:{lvl:"green",ic:"🟢",txt:"총재고38 최악 과잉·저가재고10. 게하도 잔5로 안 팔림. 인하 무의미, 유지"}},  // 🟢 최악 과잉
-  "7/30": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,n:1},hu:{p:120000,n:1},bw:{p:156824,n:13}}, our:{ourN:7,cur:120000}, flag:{lvl:"orange",ic:"🟠",txt:"저가재고 단1실! 게하매진·굿 잔1·휴 잔1. 시장최저 100,000인데 우리 실판매 84,000. 표시가 120,000→143,000~150,000 상향 권장"}},  // 🟠 상향기회
-  "7/31": {dow:"금",t:"wknd", comp:{gh:{p:93150,n:2},gd:{p:120000,n:5},hu:{p:170000,n:9},bw:{p:259578,n:7}}, our:{ourN:7,cur:200000}, flag:{lvl:"amber",ic:"🟡",txt:"저가재고7이나 게하 잔2로 소진임박. 200,000 유지하며 게하 매진 관찰"}},  // 🟡 소진임박
-  "8/1":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:2},hu:{p:null,r:"so"},bw:{p:204930,n:15}}, our:{ourN:8,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"저가재고2(굿 잔2). 베웨가 204,930으로 15실 방출. 상향 금지"}},  // 🟡 · 8월값 유지 · cap10
-  "8/2":  {dow:"일",t:"wknd", comp:{gh:{p:81000,n:5},gd:{p:160000,n:4},hu:{p:140000,n:14},bw:{p:176463,n:10}}, our:{ourN:9,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"총재고32·저가재고9. 8월 초 수요공백"}},  // 🟢 · 8월값 유지 · cap10
-  "8/3":  {dow:"월",t:"wkdy", comp:{gh:{p:81000,n:8},gd:{p:100000,n:8},hu:{p:120000,n:18},bw:{p:165078,n:15}}, our:{ourN:9,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"총재고49 최대 과잉·저가재고16. 8월 가격 낮게 설정 필요"}},  // 🟢 최대 과잉 · 8월값 유지 · cap10
+  "7/26": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:3},hu:{p:200000,n:5},bw:{p:302841,n:11}}, our:{ourN:7,cur:150000}, flag:{lvl:"amber",ic:"🟡",txt:"저가재고{저가재고}(굿 잔3). 우리 150,000 적정"}},  // 🟡
+  "7/27": {dow:"월",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,n:4},hu:{p:120000,n:16},bw:{p:156824,n:12}}, our:{ourN:4,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"총재고{총재고}·저가재고{저가재고}. 수요공백, 유지"}},  // 🟢 수요공백
+  "7/28": {dow:"화",t:"wkdy", comp:{gh:{p:77760,n:2},gd:{p:100000,n:5},hu:{p:140000,n:12},bw:{p:156824,n:14}}, our:{ourN:6,cur:120000}, flag:{lvl:"green",ic:"🟢",txt:"총재고{총재고}·저가재고{저가재고}(게 잔2·굿 잔5). 게하 77,760이 바닥. 유지"}},  // 🟢
+  "7/29": {dow:"수",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:100000,n:5},hu:{p:120000,n:13},bw:{p:156824,n:14}}, our:{ourN:9,cur:120000}, flag:{lvl:"green",ic:"🟢",txt:"총재고{총재고} 최악 과잉·저가재고{저가재고}. 게하도 잔5로 안 팔림. 인하 무의미, 유지"}},  // 🟢 최악 과잉
+  "7/30": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,n:1},hu:{p:120000,n:1},bw:{p:156824,n:13}}, our:{ourN:7,cur:120000}, flag:{lvl:"orange",ic:"🟠",txt:"저가재고 단{저가재고}실! 게하매진·굿 잔1·휴 잔1. 시장최저 {최저}인데 우리 실판매 84,000. 표시가 120,000→143,000~150,000 상향 권장"}},  // 🟠 상향기회
+  "7/31": {dow:"금",t:"wknd", comp:{gh:{p:93150,n:2},gd:{p:120000,n:5},hu:{p:170000,n:9},bw:{p:259578,n:7}}, our:{ourN:7,cur:200000}, flag:{lvl:"amber",ic:"🟡",txt:"저가재고{저가재고}이나 게하 잔2로 소진임박. 200,000 유지하며 게하 매진 관찰"}},  // 🟡 소진임박
+  "8/1":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:2},hu:{p:null,r:"so"},bw:{p:204930,n:15}}, our:{ourN:8,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"저가재고{저가재고}(굿 잔2). 베웨가 204,930으로 15실 방출. 상향 금지"}},  // 🟡 · 8월값 유지 · cap10
+  "8/2":  {dow:"일",t:"wknd", comp:{gh:{p:81000,n:5},gd:{p:160000,n:4},hu:{p:140000,n:14},bw:{p:176463,n:10}}, our:{ourN:9,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"총재고{총재고}·저가재고{저가재고}. 8월 초 수요공백"}},  // 🟢 · 8월값 유지 · cap10
+  "8/3":  {dow:"월",t:"wkdy", comp:{gh:{p:81000,n:8},gd:{p:100000,n:8},hu:{p:120000,n:18},bw:{p:165078,n:15}}, our:{ourN:9,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"총재고{총재고} 최대 과잉·저가재고{저가재고}. 8월 가격 낮게 설정 필요"}},  // 🟢 최대 과잉 · 8월값 유지 · cap10
   "8/4":  {dow:"화",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:140000,r:"na"},hu:{p:120000,r:"na"},bw:{p:165078,r:"na"}}, our:{ourN:9,cur:150000}},  // 미확인 · 8월값 유지 · cap10
   "8/5":  {dow:"수",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:140000,r:"na"},hu:{p:120000,r:"na"},bw:{p:165078,r:"na"}}, our:{ourN:9,cur:150000}},  // 미확인 · 8월값 유지 · cap10
-  "8/6":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:4},hu:{p:160000,n:3},bw:{p:null,r:"so"}}, our:{ourN:3,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"워터밤. 총재고 7실 품귀(게·베 매진). 300,000 유지 또는 상향"}}   // 🔴 워터밤 품귀 · 8월값 유지 · cap10
+  "8/6":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:4},hu:{p:160000,n:3},bw:{p:null,r:"so"}}, our:{ourN:3,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"워터밤. 총재고 {총재고}실 품귀(게·베 매진). 300,000 유지 또는 상향"}}   // 🔴 워터밤 품귀 · 8월값 유지 · cap10
 };
 
 /* ② 관찰(저빈도) D+14~30 — 주 1회 갱신. 8월 전체 관찰 데이터(COMP_OBSERVE)를 아래 병합 루프에서
@@ -1284,7 +1285,9 @@ function renderDecisionCells(date,row,opts){
    베웨는 재고 두껍게 들고 고가 호가라 총재고를 부풀림 — 실제 경쟁은 게하·굿데이. 저가재고가 우리 가격의 진짜 압력.
    판정(우선순위): 총재고<10 🔴품귀(상향) · 저가재고≤2 🟠저가소진(우리가 최저면 상향기회) · 저가재고≥8 🟢과잉(인하 무의미·유지) · 그외 🟡보통.
    avail: 매진(so)=0 · 실측 n=숫자 · 미확인(r:"na")=null. 저가 2곳 중 미확인 있으면 저가재고 판정 보류(부분집계). */
-function marketCell(row){
+/* 시장 지표 단일 계산원 — marketCell·fillFlag 공용. 여기서만 총재고/저가재고/최저가를 산출(수동 하드코딩 금지).
+   반환 {total,totalPartial, low(저가재고),lowPartial, minP, zone}. avail: so=0·n=숫자·na=null(미확인). */
+function marketStats(row){
   const c=row.comp||{}, K=["gh","gd","hu","bw"];
   const availOf=k=>{ const x=c[k]; if(!x) return null; if(x.p==null&&x.r==="so") return 0; if(typeof x.n==="number") return x.n; return null; };
   const a={}; K.forEach(k=>a[k]=availOf(k));
@@ -1292,21 +1295,35 @@ function marketCell(row){
   const totalPartial=K.some(k=>a[k]===null);
   const total=nums.reduce((s,k)=>s+a[k],0);
   const lowPartial=(a.gh===null||a.gd===null);            // 저가 2곳 중 미확인?
-  const lowStock=(a.gh||0)+(a.gd||0);                     // ★ 저가재고 = 게하+굿데이
+  const low=(a.gh||0)+(a.gd||0);                          // ★ 저가재고 = 게하+굿데이
   const prices=K.map(k=>c[k]).filter(x=>x&&x.p!=null).map(x=>x.p);
   const minP=prices.length?Math.min.apply(null,prices):null;
   let zone;
   if(!totalPartial && total<10) zone={t:"🔴품귀",c:"z-scarce"};
-  else if(!lowPartial && lowStock<=2) zone={t:"🟠저가소진",c:"z-ask"};
-  else if(!lowPartial && lowStock>=8) zone={t:"🟢과잉",c:"z-glut"};
+  else if(!lowPartial && low<=2) zone={t:"🟠저가소진",c:"z-ask"};
+  else if(!lowPartial && low>=8) zone={t:"🟢과잉",c:"z-glut"};
   else if(lowPartial) zone={t:"부분집계",c:"z-part"};
   else zone={t:"🟡보통",c:"z-normal"};
-  const lowStr=lowPartial
+  return {a, total, totalPartial, low, lowPartial, minP, zone};
+}
+/* 플래그 텍스트 토큰 치환 — 숫자 하드코딩 방지. {총재고}/{저가재고}/{최저}를 marketStats 계산값으로 렌더 시 대입.
+   미확인이면 '미확인'으로 대체. 수동 입력값과 계산값이 어긋날 여지를 원천 차단. */
+function fillFlag(txt,row){
+  if(!txt) return txt;
+  const s=marketStats(row);
+  return txt
+    .replace(/\{총재고\}/g,  s.totalPartial?'미확인':s.total)
+    .replace(/\{저가재고\}/g, s.lowPartial?'미확인':s.low)
+    .replace(/\{최저\}/g,    s.minP!=null?fmt(s.minP):'미확인');
+}
+function marketCell(row){
+  const s=marketStats(row);
+  const lowStr=s.lowPartial
     ? '<span class="nq">미확인</span>'
-    : lowStock+'실<span class="mkt-sub">게'+a.gh+'·굿'+a.gd+'</span>';
-  const totalStr=totalPartial?(nums.length?total+'+':'—'):''+total;
-  return '<span class="mkt-low">저가 '+lowStr+'</span> <span class="mkt-zone '+zone.c+'">'+zone.t+'</span>'
-    +'<br><span class="mkt-meta">총'+totalStr+'실 · 최저 '+(minP!=null?fmt(minP):'—')+'</span>';
+    : s.low+'실<span class="mkt-sub">게'+s.a.gh+'·굿'+s.a.gd+'</span>';
+  const totalStr=s.totalPartial?(Object.values(s.a).some(v=>typeof v==="number")?s.total+'+':'—'):''+s.total;
+  return '<span class="mkt-low">저가 '+lowStr+'</span> <span class="mkt-zone '+s.zone.c+'">'+s.zone.t+'</span>'
+    +'<br><span class="mkt-meta">총'+totalStr+'실 · 최저 '+(s.minP!=null?fmt(s.minP):'—')+'</span>';
 }
 /* ①②(가격추적) 행: 경쟁 4숙소 + 시장재고 + 공통 판단셀(현재가/갭/잔여/추천가) + 이벤트. opts: {trend, asof}. */
 function buildRow(d,row,opts){
@@ -1318,7 +1335,7 @@ function buildRow(d,row,opts){
     if(dd<=14){ zcls=' zfine'; ztag=' <span class="zone-tag zt-fine">정밀</span>'; }        // 정밀존: 오늘~D+14 매일(전 구간 정밀)
   }
   return '<tr class="'+(row.t)+(pokerOf(d)?' has-poker':'')+zcls+'">'
-   +'<td class="date">'+d+' ('+row.dow+')'+ztag+(row.flag?'<span class="warn-flag wf-'+row.flag.lvl+'">'+(row.flag.ic||(row.flag.lvl==='red'?'🔴':row.flag.lvl==='amber'?'🟡':''))+' '+row.flag.txt+'</span>':'')+'</td>'
+   +'<td class="date">'+d+' ('+row.dow+')'+ztag+(row.flag?'<span class="warn-flag wf-'+row.flag.lvl+'">'+(row.flag.ic||(row.flag.lvl==='red'?'🔴':row.flag.lvl==='amber'?'🟡':''))+' '+fillFlag(row.flag.txt,row)+'</span>':'')+'</td>'
    +'<td>'+compCell(c.gh,'gh',d)+'</td><td>'+compCell(c.gd,'gd',d)+'</td>'
    +'<td>'+compCell(c.hu,'hu',d)+'</td><td>'+compCell(c.bw,'bw',d)+'</td>'
    +'<td class="mktc">'+marketCell(row)+'</td>'
