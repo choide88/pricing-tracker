@@ -138,6 +138,23 @@
   .warn-flag{display:block;font-size:9px;font-weight:700;margin-top:3px;white-space:normal;max-width:165px;line-height:1.35;}
   .wf-red{color:#c0392b;} .wf-amber{color:#c2780c;}
   .obs-badge{display:inline-block;font-size:9.5px;font-weight:700;color:#6b7280;background:#f3f4f6;border:1px solid #d1d5db;border-radius:5px;padding:0 5px;}
+  /* 경쟁 셀 실측잔여 보조표기(가격 아래) */
+  .av-sub{display:block;font-size:9px;font-weight:700;color:#0a8754;margin-top:1px;}
+  .av-sub.nq{color:#9ca3af;font-style:italic;}
+  /* 시장재고·저가경쟁 열 */
+  th.mkt{background:#fff4ec;} td.mktc{background:#fff8f2;font-size:11px;line-height:1.5;}
+  tr.wknd td.mktc{background:#fff0e6;}
+  .mkt-total{font-weight:700;font-variant-numeric:tabular-nums;margin-right:4px;}
+  .mkt-zone{display:inline-block;font-size:10px;font-weight:700;border-radius:5px;padding:0 5px;white-space:nowrap;}
+  .z-scarce{color:#c0392b;background:#fdecec;border:1px solid #f3c0c0;}
+  .z-ask{color:#c2780c;background:#fff2e0;border:1px solid #f0d0a0;}
+  .z-glut{color:#0a8754;background:#eafaf1;border:1px solid #b8e6cd;}
+  .z-normal{color:#6b7280;background:#f3f4f6;border:1px solid #d1d5db;}
+  .z-part{color:#9ca3af;background:#fafafa;border:1px dashed #cbd5e1;}
+  .low{display:inline-block;font-size:9.5px;font-weight:700;margin-top:2px;}
+  .low-dead{color:#c0392b;} .low-alive{color:#1f6fb2;}
+  /* 확장 경고 플래그 색상 */
+  .wf-orange{color:#c2780c;} .wf-green{color:#0a8754;} .wf-neutral{color:#6b7280;}
 </style>
 </head>
 <body>
@@ -156,11 +173,11 @@
 
   <div id="panel-track" class="panel">
   <div id="daychange" style="margin:0 0 14px;padding:13px 16px;background:#eafaf1;border:1px solid #b8e6cf;border-radius:10px;">
-  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 7/23 정밀 갱신 (우리 Sirvoy + 경쟁 정밀 14일 계단검증완료)</h3>
+  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 7/24 갱신 (방식전환: rooms=1 MCP + 브라우저 실측잔여 + 시장총재고·저가경쟁 지표)</h3>
   <ul style="margin:0;padding-left:18px;font-size:12.5px;">
-    <li><b>경쟁 정밀 14일(7/23~8/5)</b>: rooms 5→3→1 계단검색을 <b>r1까지 전부 밟아 검증(28콜)</b>. 정밀구간 전부 <b>5+ 아니면 완전매진</b> — 중간구간(3-4/1-2) <b>0건</b>. SO 판정 전 r3·r1 확인 유지.</li>
-    <li><b>게하 매진 = 주말·강수요 조기경보</b>: 7/23·25·26·27·30·8/1 SO. <b>휴 7/25·8/1(토) SO · 굿데이 7/23·24 SO</b>. 굿데이·베웨는 그 외 여유(가격은 주말 급등).</li>
-    <li><b>🔴 7/26 인하 과함</b>: 게하매진·휴200k·베303k인데 우리 150k(실판매10.5만) → 250k 복구 권장. <b>🔴 7/28~30 하한붕괴</b>: 우리 실판매 77k로 게하(77,760) 미만 — 110k로 내려도 재고 안 빠짐=수요없는 날, 143k 복구 권장.</li>
+    <li><b>잔여 판정 v2</b>: rooms=5가 "5실 남음"을 뜻하지 않음이 검증돼 계단검색 폐기. <b>rooms=1로 가부만</b> 확인 + 오늘~+3·금토·이벤트일만 <b>브라우저에서 실제 잔여수</b> 실측(객실타입별 드롭다운 합산). 그 외 평일은 <b>미확인</b>.</li>
+    <li><b>신규 지표</b>: ①시장총재고(4곳 실측잔여 합) ②저가경쟁(게하·굿데이) 생존여부. <b>총재고 많아도 저가 매진이면 남은 건 비싼 방뿐 → 인하는 손해</b>. 🔴품귀·🟠호가시장·🟢과잉·🟡보통.</li>
+    <li><b>🟠 7/24 과인하</b>: 우리 실판매 77k인데 시장최저 휴140k·게하/굿데이 이미 매진 = 싼 경쟁 없음(15~17만도 팔렸을 것). <b>🟢 7/27 총재고 32실</b>(휴16·베12) 수요공백. <b>🟠 7/31</b> 게하 잔2로 저가 소진 임박 — 200k 인하 성급했을 수 있음.</li>
   </ul>
   <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 정밀존(오늘~D+13) 집중 관리. 경쟁 잔여는 셀 배지(5+/매진)로 표시, 우리 현재가·추천가는 실판매가(표시가×0.7) 기준. 관찰구간(D+14~30)은 <b>8월 포커시즌 탭</b>에 별도(잔여 미확정).</p>
 </div>
@@ -180,6 +197,7 @@
   <p class="cap"><b>우리 현재가·추천가는 실판매가(표시가×0.7, OTA 평균 −30%)</b> 기준. 경쟁군갭·추천가 모두 실판매가로 비교(표시가는 보조/툴팁). <b>정밀존(오늘~D+14)</b>은 매일 관리, 관찰존(D+14~30)은 주 1회 확인.</p>
   <table id="dailyTable"><thead>
     <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
+        <th class="mkt">시장재고<br><span style="font-weight:400;font-size:9px;color:#c2780c;">총잔여+저가경쟁</span></th>
         <th class="our2">우리 현재가</th><th class="gap">경쟁군갭<br><span style="font-weight:400;font-size:9px;color:#c2780c;">우리−경쟁최저</span></th>
         <th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">N/객실 (비율)</span></th><th class="our" title="dynRec 추천가">추천가<br><span style="font-weight:400;font-size:9px;color:#6b7280;">▲인상 ▼인하 =유지</span></th><th class="evcell">이벤트</th></tr>
   </thead><tbody id="dailyBody"></tbody></table>
@@ -189,6 +207,7 @@
   <p class="cap">멀리 있는 구간은 큰 흐름과 주말 경쟁 강도를 본다. 주 1회 갱신으로 충분. 우리 잔여·현재가는 직전 실측 유지.</p>
   <table id="weekTable"><thead>
     <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
+        <th class="mkt">시장재고<br><span style="font-weight:400;font-size:9px;color:#c2780c;">총잔여+저가경쟁</span></th>
         <th class="our2">우리 현재가</th><th class="gap">경쟁군갭</th><th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">N/객실 (비율)</span></th><th class="our" title="dynRec 추천가">추천가</th><th class="evcell">이벤트</th></tr>
   </thead><tbody id="weekBody"></tbody></table>
   </div>
@@ -206,7 +225,7 @@
     오른쪽으로 갈수록 단계가 낮아지면(5+→3~4→&lt;3) 잘 차는 것. 오늘이 1일차라 점 하나로 시작, 매일 쌓이며 기울기가 보임.<br><br>
     <b>운영(ASOF 기준 자동 롤).</b> ① 정밀 D+0~14 매일 풀스캔 — OURS_LOG에 잔여 스냅샷 누적(추이 열). ② 관찰 D+14~30 주 1회. ③ 8월 카지노 특별(별도 탭) — 인상 관점. ④ 9월~ 미표시.
     같은 index.html 덮어쓰기로 URL 유지, 깃허브 커밋에 이력 자동 보존.<br><br>
-    <b>📌 계단검색 검증완료(7/23, 28콜).</b> 정밀 14일 전 날짜를 rooms 5→3→1로 좁혀 확인한 결과 <b>중간구간(3~4/1~2) 0건</b>. 이 시장은 <b>5+ 아니면 완전매진의 이분법</b>으로 움직임 — SO 판정 전 r3·r1 확인은 계속 유지한다(만실 오판 방지).
+    <b>📌 판단기준 v2(7/24).</b> 총재고만으로는 부족 — <b>'저가경쟁(게하·굿데이) 생존 여부'를 병행</b>할 것. 총재고가 많아도 저가 2곳이 매진이면 <b>남은 건 비싼 방뿐이라 인하는 손해</b>(예: 7/24 총재고21실이지만 게하·굿데이 매진 → 우리 77k는 과인하). 또 rooms=5 검색은 "5실 남음"을 뜻하지 않음이 검증돼(7/23 게하 사례) <b>계단검색 폐기 → rooms=1 가부 + 브라우저 실측잔여</b>로 전환. 브라우저 미확인 날짜의 잔여는 추정하지 않고 "미확인"으로 남긴다.
   </div>
   </div><!-- /panel-track -->
 
@@ -256,9 +275,9 @@
 <script>
 /* DAILY_LOG: 날짜별 잔여 이력 배열(추이 띠용). 매일 아침 각 날짜에 오늘 잔여코드 push.
    r코드: "5"|"34"|"lt3"|"so"  */
-const ASOF = "2026-07-23";   // 표시는 "정밀"(LASTCHECK). ASOF 자체는 파싱용 순수 날짜 유지("정밀" 접미어는 LASTCHECK에)
-const NOTE_GENIUS = "게하 평일 1실가 77,760~93,150. 주말·강수요일 매진 다발(7/23·25·26·27·30·8/1 SO=조기경보). APT포커(8/7~16) 임박. 평점 7.3·리뷰 226건.";
-const LASTCHECK = "2026-07-23 정밀(계단 r1까지 검증)";
+const ASOF = "2026-07-24";   // 표시는 LASTCHECK. ASOF 자체는 파싱용 순수 날짜 유지(접미어는 LASTCHECK에)
+const NOTE_GENIUS = "게하 평일 1실가 77,760~93,150. 주말·강수요일 매진 다발(7/24·25·26·27·30·8/1·8/6 SO=조기경보). APT포커(8/7~16) 임박. 평점 7.4·리뷰 227건.";
+const LASTCHECK = "2026-07-24 (우리 Sirvoy + 경쟁 rooms=1 MCP 14일 + 브라우저 실측잔여 7일 · 시장총재고·저가경쟁 지표 도입)";
 /* OTA 평균 할인 — 우리 Sirvoy 표시가는 OTA에서 평균 30% 할인되어 실판매됨. 비교·추천·갭은 전부 실판매가(netRate) 기준. */
 const OTA_DISCOUNT = 0.30;
 const netRate = p => p==null?null:Math.round(p*(1-OTA_DISCOUNT));   // 표시가 → 실판매가
@@ -290,31 +309,32 @@ const BK_LINKS = {
 const BK_PARAMS = "group_adults=2&no_rooms=1&group_children=0";
 const BK_YEAR = parseInt(ASOF,10)||2026;
 
-/* 각 추적일: comp 4숙소 {p,r} 또는 {soEst:true}(조회불가=SO추정), our {ourN, cur=표시가}. 잔여 분모 7월 8실/8월 10실.
+/* 각 추적일: comp 4숙소 {p, n|r} 또는 {soEst:true}(조회불가), our {ourN, cur=표시가}. 잔여 분모 7월 cap=10.
    ★ 우리 cur는 Sirvoy '표시가'. 비교·추천·갭은 전부 netRate(cur)=표시가×0.7=실판매가로 계산됨.
-   comp의 r = 경쟁 잔여 배지("5"=5+ 여유 · "so"=매진). Claude Code 계단검색(rooms 5→3→1)으로 확정.
-   flag(있으면)=셀 경고 배지 {lvl:"red"|"amber", txt}. buildRow 날짜셀에 렌더.
-   [7/23 정밀·계단검증완료] 우리 Sirvoy 갱신 + 경쟁 정밀 14일(7/23~8/5) 계단검색 rooms 5→3→1 전부 확인(28콜). 중간구간(3-4/1-2) 0건 — 이 시장은 5+ 아니면 완전매진 이분법. SO 판정 전 r3·r1 확인 유지.
-     · 게하 SO=7/23·25·26·27·30·8/1 · 휴 SO=7/25·8/1 · 굿데이 SO=7/23·24. 굿데이·베웨는 그 외 여유(가격은 주말 급등).
-     · 🔴 7/26 인하 과함(게하매진·휴200k·베303k인데 우리 150k). 🔴 7/28~30 게하(77.76k)보다 싸짐(우리 실판매 77k) — 110k로도 재고 안 빠짐=수요없는 날, 143k 복구 권장.
-     · 🟡 7/31 잔7 정체이나 시장 17만 대비 적정. 8/1 저평가(경쟁 천장 베296k·게/휴 SO). 7월 cap=10. */
+   comp 잔여 표기(방식 v2·7/24): n=브라우저 실측 잔여수(객실타입별 드롭다운 max 합산) · r:"na"=MCP 가격만·잔여 미확인 · {p:null,r:"so"}=매진.
+     (구 r:"5"/"34" 배지는 폐기 — rooms=5가 5실 남음을 뜻하지 않음이 검증됨. 8월탭 레거시만 r:"5" 유지)
+   flag(있으면)=셀 경고 배지 {lvl,ic,txt}. lvl=red/amber/orange/green/neutral(색), ic=표시 이모지. buildRow 날짜셀에 렌더.
+   [7/24 방식전환] rooms=1 고정 MCP(가격·가부) + 브라우저 실측 잔여(오늘~+3·금토·이벤트일). 시장총재고+저가경쟁 지표 도입.
+     · 게하 SO=7/24·25·26·27·30·8/1·8/6 · 휴 SO=7/25·8/1 · 굿데이 SO=7/24 · 베웨 SO=7/25·8/6.
+     · 🟠 7/24 과인하(우리 실판매77k인데 시장최저 휴140k·저가경쟁 매진). 🟢 7/27 총재고32실 수요공백. 🟠 7/31 게하 잔2 저가소진중.
+     · 미확인(평일 7/28~30·8/2~5)=MCP 가격만, 잔여 브라우저 미확인. 7월 cap=10. */
 const DAILY = {
-  // ----- 정밀추적 (오늘 7/23 롤링 ~ +13일, 7/23~8/5) · 우리 7/23 Sirvoy + 경쟁 정밀(계단 r1까지 검증) -----
-  // null=SO(확정 매진, {p:null,r:"so"}) · 경쟁순서 게(gh=13790670)/굿(gd=1794538)/휴(hu=404435)/베(bw=239286)
-  "7/23": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:140000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 게·굿 SO · 우리 판매완료
-  "7/24": {dow:"금",t:"wknd", comp:{gh:{p:93150,r:"5"},gd:{p:null,r:"so"},hu:{p:140000,r:"5"},bw:{p:227131,r:"5"}}, our:{ourN:3,cur:150000}},  // 굿 SO
-  "7/25": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:240000,r:"5"},hu:{p:null,r:"so"},bw:{p:340692,r:"5"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}},  // 게·휴 SO · 우리 판매완료
-  "7/26": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,r:"5"},hu:{p:200000,r:"5"},bw:{p:302841,r:"5"}}, our:{ourN:7,cur:150000}, flag:{lvl:"red",txt:"인하 과함 - 게하매진·휴200k·베303k인데 우리 150k(실판매10.5만). 250k 복구 권장"}},  // 🔴 게 SO
-  "7/27": {dow:"월",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:167640,r:"5"}}, our:{ourN:4,cur:150000}},  // 게 SO
-  "7/28": {dow:"화",t:"wkdy", comp:{gh:{p:77760,r:"5"},gd:{p:100000,r:"5"},hu:{p:140000,r:"5"},bw:{p:156824,r:"5"}}, our:{ourN:6,cur:110000}, flag:{lvl:"red",txt:"게하(77,760)보다 싸짐 - 우리 실판매 77,000. 143k 복구 권장. 110k로 내려도 재고 안 빠짐 = 수요없는 날"}},  // 🔴 하한붕괴
-  "7/29": {dow:"수",t:"wkdy", comp:{gh:{p:77760,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:156824,r:"5"}}, our:{ourN:9,cur:110000}, flag:{lvl:"red",txt:"게하(77,760)보다 싸짐 - 우리 실판매 77,000. 143k 복구 권장. 110k로 내려도 재고 안 빠짐 = 수요없는 날"}},  // 🔴 하한붕괴
-  "7/30": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:156824,r:"5"}}, our:{ourN:7,cur:110000}, flag:{lvl:"red",txt:"게하(77,760)보다 싸짐 - 우리 실판매 77,000. 143k 복구 권장. 110k로 내려도 재고 안 빠짐 = 수요없는 날"}},  // 🔴 하한붕괴(게 SO)
-  "7/31": {dow:"금",t:"wknd", comp:{gh:{p:93150,r:"5"},gd:{p:120000,r:"5"},hu:{p:170000,r:"5"},bw:{p:259578,r:"5"}}, our:{ourN:7,cur:250000}, flag:{lvl:"amber",txt:"잔7 정체이나 시장 17만 대비 적정 - 유지"}},  // 🟡
-  "8/1":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"5"},hu:{p:null,r:"so"},bw:{p:296010,r:"5"}}, our:{ourN:8,cur:250000}, flag:{lvl:"red",txt:"저평가 - 경쟁 천장 베웨296k·게하/휴 매진인데 우리 실판매 17.5만. 표시가 25만→35만 검토"}},  // 🔴 저평가(게·휴 SO) · 8월값 유지 · cap10
-  "8/2":  {dow:"일",t:"wknd", comp:{gh:{p:81000,r:"5"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:187848,r:"5"}}, our:{ourN:9,cur:150000}, flag:{lvl:"amber",txt:"잔여9 정체 - 표시가 150,000 유지 또는 소폭 인하"}},  // 🟡 잔9/10 · 8월값 유지 · cap10
-  "8/3":  {dow:"월",t:"wkdy", comp:{gh:{p:81000,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:9,cur:150000}},  // 8월값 유지 · cap10
-  "8/4":  {dow:"화",t:"wkdy", comp:{gh:{p:81000,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:9,cur:150000}},  // 8월값 유지 · cap10
-  "8/5":  {dow:"수",t:"wkdy", comp:{gh:{p:81000,r:"5"},gd:{p:140000,r:"5"},hu:{p:120000,r:"5"},bw:{p:165078,r:"5"}}, our:{ourN:9,cur:150000}}   // 8월값 유지 · cap10
+  // ----- 정밀추적 (오늘 7/24 롤링 ~ +13일, 7/24~8/6) · 우리 7/24 Sirvoy + 경쟁 rooms=1 MCP + 브라우저 실측잔여(n) -----
+  // n=브라우저 실측 잔여 · r:"na"=미확인(MCP가격만) · {p:null,r:"so"}=매진 · 경쟁순서 게(13790670)/굿(1794538)/휴(404435)/베(239286)
+  "7/24": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:140000,n:8},bw:{p:227131,n:13}}, our:{ourN:2,cur:110000}, flag:{lvl:"orange",ic:"🟠",txt:"과인하 - 시장최저가 140,000(휴)인데 우리 실판매 77,000. 게하·굿데이 이미 매진이라 싼 경쟁 없음. 15~17만도 팔렸을 것"}},  // 🟠 저가소진 호가시장
+  "7/25": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:240000,n:2},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"매진(우리)"}, flag:{lvl:"green",ic:"✅",txt:"총재고 2실 품귀에서 완판. 최적 사례"}},  // ✅ 품귀 완판
+  "7/26": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:3},hu:{p:200000,n:5},bw:{p:302841,n:11}}, our:{ourN:7,cur:150000}, flag:{lvl:"amber",ic:"🟡",txt:"총재고19실이나 게하매진·굿데이 잔3. 150,000 적정, 표시 170,000까지 여지"}},  // 🟡 게 SO
+  "7/27": {dow:"월",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,n:4},hu:{p:120000,n:16},bw:{p:167640,n:12}}, our:{ourN:4,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"총재고 32실(휴16·베12) 공백. 수요 자체 없음, 가격무관. 유지"}},  // 🟢 과잉·수요공백
+  "7/28": {dow:"화",t:"wkdy", comp:{gh:{p:77760,r:"na"},gd:{p:100000,r:"na"},hu:{p:140000,r:"na"},bw:{p:156824,r:"na"}}, our:{ourN:6,cur:120000}, flag:{lvl:"neutral",ic:"⬜",txt:"잔여 미확인. 게하 77,760 대비 우리 실판매 84,000으로 다소 높음"}},  // ⬜ 미확인
+  "7/29": {dow:"수",t:"wkdy", comp:{gh:{p:77760,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:156824,r:"na"}}, our:{ourN:9,cur:120000}, flag:{lvl:"neutral",ic:"⬜",txt:"잔여 미확인. 게하 77,760 대비 우리 실판매 84,000으로 다소 높음"}},  // ⬜ 미확인
+  "7/30": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:156824,r:"na"}}, our:{ourN:7,cur:120000}, flag:{lvl:"neutral",ic:"⬜",txt:"잔여 미확인. 게하 77,760 대비 우리 실판매 84,000으로 다소 높음"}},  // ⬜ 미확인(게 SO)
+  "7/31": {dow:"금",t:"wknd", comp:{gh:{p:93150,n:2},gd:{p:120000,n:5},hu:{p:170000,n:9},bw:{p:259578,n:7}}, our:{ourN:7,cur:200000}, flag:{lvl:"orange",ic:"🟠",txt:"총재고23실이나 게하 잔2로 저가 소진중. 200,000 인하 성급했을 수 있음. 게하 매진시 우리 포지션 개선. 일단 유지 후 관찰"}},  // 🟠 저가소진 임박
+  "8/1":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:2},hu:{p:null,r:"so"},bw:{p:204930,n:14}}, our:{ourN:8,cur:250000}},  // 게·휴 SO · 8월값 유지 · cap10
+  "8/2":  {dow:"일",t:"wknd", comp:{gh:{p:81000,r:"na"},gd:{p:160000,r:"na"},hu:{p:140000,r:"na"},bw:{p:187848,r:"na"}}, our:{ourN:9,cur:150000}},  // 미확인 · 8월값 유지 · cap10
+  "8/3":  {dow:"월",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:165078,r:"na"}}, our:{ourN:9,cur:150000}},  // 미확인 · 8월값 유지 · cap10
+  "8/4":  {dow:"화",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:140000,r:"na"},hu:{p:120000,r:"na"},bw:{p:165078,r:"na"}}, our:{ourN:9,cur:150000}},  // 미확인 · 8월값 유지 · cap10
+  "8/5":  {dow:"수",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:140000,r:"na"},hu:{p:120000,r:"na"},bw:{p:165078,r:"na"}}, our:{ourN:9,cur:150000}},  // 미확인 · 8월값 유지 · cap10
+  "8/6":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:4},hu:{p:160000,n:3},bw:{p:null,r:"so"}}, our:{ourN:3,cur:300000}}   // 워터밤 이벤트 · 게·베 SO · 8월값 유지 · cap10
 };
 
 /* ② 관찰(저빈도) D+14~30 — 주 1회 갱신. 8월 전체 관찰 데이터(COMP_OBSERVE)를 아래 병합 루프에서
@@ -530,6 +550,22 @@ function venueCode(v){ return /인스파이어/.test(v)?"ARENA":/파라다이스
       동시에 (2) 아래 COMP_LOG 맨 위에 새 타임스탬프 키로 그 시각의 14일치 스냅샷을 append.
       pruneLog()가 로드 시 7일(168h) 지난 스냅샷을 자동 삭제. 렌더는 시각으로 정렬하므로 순서 무관. */
 const COMP_LOG = {
+  "2026-07-24T09:00": {   // 7/24 rooms=1 MCP(가격·가부). 전 스냅(7/23) 대비: 7/25 베웨 340,692→SO(매진전환)·7/26 굿 120k(유지)·휴 200k(유지)·7/27 베웨 167,640(유지)·8/1 베웨 296,010→204,930(하락)·8/1 굿 160k(유지). 게하 SO=7/24·25·26·27·30·8/1·8/6 · 휴 SO=7/25·8/1 · 베웨 SO=7/25·8/6.
+    "2026-07-24": {gh:"SO",   gd:"SO",   hu:140000, bw:227131},
+    "2026-07-25": {gh:"SO",   gd:240000, hu:"SO",   bw:"SO"},
+    "2026-07-26": {gh:"SO",   gd:120000, hu:200000, bw:302841},
+    "2026-07-27": {gh:"SO",   gd:100000, hu:120000, bw:167640},
+    "2026-07-28": {gh:77760,  gd:100000, hu:140000, bw:156824},
+    "2026-07-29": {gh:77760,  gd:100000, hu:120000, bw:156824},
+    "2026-07-30": {gh:"SO",   gd:100000, hu:120000, bw:156824},
+    "2026-07-31": {gh:93150,  gd:120000, hu:170000, bw:259578},
+    "2026-08-01": {gh:"SO",   gd:160000, hu:"SO",   bw:204930},
+    "2026-08-02": {gh:81000,  gd:160000, hu:140000, bw:187848},
+    "2026-08-03": {gh:81000,  gd:100000, hu:120000, bw:165078},
+    "2026-08-04": {gh:81000,  gd:140000, hu:120000, bw:165078},
+    "2026-08-05": {gh:81000,  gd:140000, hu:120000, bw:165078},
+    "2026-08-06": {gh:"SO",   gd:140000, hu:160000, bw:"SO"}
+  },
   "2026-07-23T09:00": {   // 7/23 정밀 — 정밀 14일(7/23~8/5) 계단검색 r5→r3→r1 전부 검증(28콜). 중간구간(3-4/1-2) 0건 = 5+ 아니면 완전매진. 전 스냅(7/21) 대비: 게하 7/23 77.76k→SO·7/26 93.15k→SO·7/30 93.15k→SO / 굿데이 7/24 100k→SO·7/23 100k→SO·7/26 160k→120k·8/2 180k→160k / 휴 7/23 160k→140k·7/25 SO(유지)·7/26 250k→200k·8/1 SO(유지) / 베 7/25 302.8k→340.7k·7/26 302.8k→302.8k. 게하 SO=7/23·25·26·27·30·8/1 · 휴 SO=7/25·8/1 · 굿데이 SO=7/23·24.
     "2026-07-23": {gh:"SO",   gd:"SO",   hu:140000, bw:167640},
     "2026-07-24": {gh:93150,  gd:"SO",   hu:140000, bw:227131},
@@ -811,6 +847,15 @@ const COMP_LOG = {
    스키마: {날짜ISO: {avail:잔여수, price:현재가}} (매진=avail:0, price:null).
    D+1~14 표의 "우리잔여(추이)" 열이 최근 3스냅샷을 비교해 7→7→5 ↓ 형태로 렌더. pruneLog(OURS_LOG)로 자동 정리. */
 const OURS_LOG = {
+  "2026-07-24T09:00": {   // 7/24 Sirvoy 스냅샷(7월 cap=10). 전 스냅(7/23) 대비: 7/24 잔3→2·150k→110k 인하·7/26 유지·7/27 유지·7/28 잔6·120k(110k→120k 소폭상향)·7/29 유지·120k·7/30 잔7·120k·7/31 잔7·250k→200k 인하. 8/1~8/6 8월값 유지.
+    "2026-07-24": {avail:2, price:110000}, "2026-07-25": {avail:0, price:null},
+    "2026-07-26": {avail:7, price:150000}, "2026-07-27": {avail:4, price:150000},
+    "2026-07-28": {avail:6, price:120000}, "2026-07-29": {avail:9, price:120000},
+    "2026-07-30": {avail:7, price:120000}, "2026-07-31": {avail:7, price:200000},
+    "2026-08-01": {avail:8, price:250000}, "2026-08-02": {avail:9, price:150000},
+    "2026-08-03": {avail:9, price:150000}, "2026-08-04": {avail:9, price:150000},
+    "2026-08-05": {avail:9, price:150000}, "2026-08-06": {avail:3, price:300000}
+  },
   "2026-07-23T09:00": {   // 7/23 Sirvoy 스냅샷(7월 cap=10). 전 스냅(7/21) 대비: 7/23 잔2→판매완료·7/24 잔4→3·250k→150k 인하·7/26 250k→150k 인하·7/27 잔6→4·7/28 잔8→6·143k→110k 인하·7/29 유지·110k 인하·7/30 잔9→7·110k 인하·7/31 잔8→7. 8/1~8/5 8월값 유지.
     "2026-07-23": {avail:0, price:null},   "2026-07-24": {avail:3, price:150000},
     "2026-07-25": {avail:0, price:null},   "2026-07-26": {avail:7, price:150000},
@@ -1004,9 +1049,14 @@ function compCell(c,key,d){
   if(c.obs) return '<span class="obs-badge" title="관찰(rooms5 1콜): 5실 미포착 = 차기 소진 시작. 잔여수 미확정(SO 아님).">차기시작</span>';  // 관찰구간 미포착: 잔여 미확정
   if(c.soEst) return '<span class="so-est" title="조회 불가. 정황상 매진 유력(예: 이벤트 겹침)이나 미확정.">SO추정</span>';  // 조회불가(매진 추정): 링크 없음
   if(c.p==null && c.r==="so") return '<span class="so">매진</span>';   // 매진: 링크 없음
-  const badge = c.r?rBadge(c.r):'';
   const cls = c.est?'price est':'price';
-  const inner = badge+'<span class="'+cls+'">'+fmt(c.p)+'</span>';
+  let inner;
+  if(typeof c.n==="number")       // 브라우저 실측 잔여수(가격 아래 "잔N")
+    inner='<span class="'+cls+'">'+fmt(c.p)+'</span><span class="av-sub">잔'+c.n+'</span>';
+  else if(c.r==="na")             // MCP 가격만 확인·잔여 미확인
+    inner='<span class="'+cls+'">'+fmt(c.p)+'</span><span class="av-sub nq">미확인</span>';
+  else                            // 레거시(8월탭 r:"5" 등) — 5+/3~4 배지 유지
+    inner=(c.r?rBadge(c.r):'')+'<span class="'+cls+'">'+fmt(c.p)+'</span>';
   const url = c.p!=null?bkUrl(key,d):null;
   return url ? '<a href="'+url+'" target="_blank" rel="noopener">'+inner+'</a>' : inner;
 }
@@ -1207,7 +1257,34 @@ function renderDecisionCells(date,row,opts){
   return {cur:curCell, gap:gapCell, avail:avail, rec:recCell, recCls:recCls, recTitle:recTitle};
 }
 
-/* ①②(가격추적) 행: 경쟁 4숙소 + 공통 판단셀(현재가/갭/잔여/추천가) + 이벤트. opts: {trend, asof}. */
+/* 시장재고·저가경쟁 셀 — 판단기준 v2(7/24). 총재고(4곳 실측 잔여 합)만으로는 부족하므로
+   '저가경쟁(게하·굿데이) 생존 여부'를 병행. 총재고 많아도 저가 매진이면 남은 건 비싼 방뿐 → 인하 손해.
+   판정: 총재고<10 🔴품귀(상향) · ≥20+저가소진 🟠호가시장(내리지말것) · ≥20+저가생존 🟢과잉(인하) · 그외 🟡보통.
+   실측 n 없는(미확인) 셀 포함 시 총재고 '부분집계'(임계판정 보류). 매진(so)=0실. */
+function marketCell(row){
+  const c=row.comp||{}, K=["gh","gd","hu","bw"];
+  let total=0, partial=false, hasNum=false;
+  K.forEach(k=>{ const x=c[k];
+    if(!x){ partial=true; return; }
+    if(x.p==null && x.r==="so") return;                 // 매진 = 0실
+    if(typeof x.n==="number"){ total+=x.n; hasNum=true; }
+    else partial=true;                                  // 미확인/미조회/레거시 배지
+  });
+  const isSO=k=>{ const x=c[k]; return !x || (x.p==null && x.r==="so"); };
+  const lowDead=isSO("gh") && isSO("gd");               // 저가 2곳(게하·굿데이) 모두 매진?
+  const low=lowDead?'<span class="low low-dead">저가소진🔥</span>':'<span class="low low-alive">저가생존</span>';
+  let zone, totalStr;
+  if(partial){ zone='<span class="mkt-zone z-part">부분집계</span>'; totalStr=hasNum?total+'실+':'—'; }
+  else{
+    totalStr=total+'실';
+    if(total<10) zone='<span class="mkt-zone z-scarce">🔴품귀</span>';
+    else if(total>=20 && lowDead) zone='<span class="mkt-zone z-ask">🟠호가시장</span>';
+    else if(total>=20) zone='<span class="mkt-zone z-glut">🟢과잉</span>';
+    else zone='<span class="mkt-zone z-normal">🟡보통</span>';
+  }
+  return '<span class="mkt-total">'+totalStr+'</span>'+zone+'<br>'+low;
+}
+/* ①②(가격추적) 행: 경쟁 4숙소 + 시장재고 + 공통 판단셀(현재가/갭/잔여/추천가) + 이벤트. opts: {trend, asof}. */
 function buildRow(d,row,opts){
   opts=opts||{};
   const c=row.comp;
@@ -1217,9 +1294,10 @@ function buildRow(d,row,opts){
     if(dd<=14){ zcls=' zfine'; ztag=' <span class="zone-tag zt-fine">정밀</span>'; }        // 정밀존: 오늘~D+14 매일(전 구간 정밀)
   }
   return '<tr class="'+(row.t)+(pokerOf(d)?' has-poker':'')+zcls+'">'
-   +'<td class="date">'+d+' ('+row.dow+')'+ztag+(row.flag?'<span class="warn-flag wf-'+row.flag.lvl+'">'+(row.flag.lvl==='red'?'🔴':'🟡')+' '+row.flag.txt+'</span>':'')+'</td>'
+   +'<td class="date">'+d+' ('+row.dow+')'+ztag+(row.flag?'<span class="warn-flag wf-'+row.flag.lvl+'">'+(row.flag.ic||(row.flag.lvl==='red'?'🔴':row.flag.lvl==='amber'?'🟡':''))+' '+row.flag.txt+'</span>':'')+'</td>'
    +'<td>'+compCell(c.gh,'gh',d)+'</td><td>'+compCell(c.gd,'gd',d)+'</td>'
    +'<td>'+compCell(c.hu,'hu',d)+'</td><td>'+compCell(c.bw,'bw',d)+'</td>'
+   +'<td class="mktc">'+marketCell(row)+'</td>'
    +'<td class="our2">'+dc.cur+'</td>'
    +'<td class="gapc">'+dc.gap+'</td>'
    +'<td class="our2">'+dc.avail+'</td>'
