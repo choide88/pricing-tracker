@@ -200,13 +200,14 @@
 
   <div id="panel-track" class="panel">
   <div id="daychange" style="margin:0 0 14px;padding:13px 16px;background:#eafaf1;border:1px solid #b8e6cf;border-radius:10px;">
-  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 8/3 갱신 (8월 전체 경쟁사 재실측·추천가 로직 실수령기준 클램프·AJPC 3박전략)</h3>
+  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 8/3 갱신 (9월 전체 경쟁사 재실측·포커 강도 재분류·RIIZE/EXO 신규)</h3>
   <ul style="margin:0;padding-left:18px;font-size:12.5px;">
-    <li><b>8월 전체(8/3~8/31) rooms=1 MCP + 브라우저 정밀/간소 차등 재실측</b> 반영. 정밀존(①탭)은 오늘부터 8/3~8/16으로 롤링, 8월 전체(②/AJPC 포함)는 ②탭에서 계속 관리.</li>
-    <li><b>C. 추천가 로직 버그 수정</b>: dynRec가 실수령 기준으로 계산한 목표가를 표시가로 역산(÷0.75)할 때, 배수(중재고+12%·요일가산·이벤트가산 등)가 중첩되며 우리 현재 표시가 대비 비현실적으로 폭등하는 사례 발견(예 구 8/1 46만·8/22 47만). <b>clampRec()</b> 신설 — 표시가 환산값이 (현재 표시가 or 경쟁사가) × 1.5를 넘으면 자동으로 상한까지 축소, sig에 "상한적용" 병기.</li>
-    <li><b>AJPC(8/21~30) 3박완화 전략</b>: 6박 최소숙박이 일본계 단기수요를 막고 있음이 실측 확인(5실 6박확정·5실 공실) → 과잉일(8/24~26·30) 빈방은 3박으로 완화, 콘서트일(8/22)만 6박 유지. <b>8/23 NCT여파 저가재고 품귀 → 상향</b>, <b>8/5 평일과잉 과가 → 하향 검토</b>.</li>
+    <li><b>9월 전체(9/1~9/30) rooms=1 MCP + 브라우저 정밀/간소 차등 재실측</b> 반영(게굿=정밀 9/3~14·18~20·25~26). 우리 9월 현황(8/3 스크린샷)도 전체 갱신 — <b>③ 9월 포커시즌 탭</b> 참조.</li>
+    <li><b>C. 포커 강도 재분류(중요)</b>: 기존 "APT·APPT·GOP=강함/AJPC=약함" 구분은 <b>틀렸음</b> — 실측 결과 <b>포커 단독일은 종류 무관하게 전부 약함</b>(APPT 9월 평일 저가재고 13~16=8월 AJPC와 동일). 강세를 만드는 건 포커가 아니라 <b>겹치는 콘서트</b>뿐(APT=8/8~9 2PM, AJPC=8/22 NCT, APPT=9/5~6 사플페·9/12~13 RIIZE, GOP=11/7 MCR). 모든 POKER_BANDS strength를 "낮음"으로 통일.</li>
+    <li><b>D. 9월 포커평일 대폭 하향</b>: 9/3·7~10·14 표시 300,000→160,000, 9/4·11(금) 386,000→220,000. <b>9/19 Vaundy 저가재고 품귀 → 300,000→386,000 상향</b>, 9/12 RIIZE 386,000 유지(420,000까지 여지).</li>
+    <li><b>E. 이벤트 신규·정정</b>: RIIZE 데뷔3주년 팬미팅(9/12~13, 인스파이어·전석매진) 신규 추가. EXO'verse 팬미팅(12/14) 신규. 8/22~23 NCT 이벤트명 "10주년 파티(THE SWEET DREAM HOTEL)"로 확정. 8/6 "워터밤" 라벨 오기 정정 — 실제 워터밤은 서울 10/17~18, 8/6 이벤트명은 확인필요로 변경(재고 품귀 자체는 실측 유지).</li>
   </ul>
-  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 정밀존(오늘~D+13, 8/3~8/16) 집중 관리. 경쟁 잔여는 셀 배지(잔N/여유/매진)로 표시, 우리 현재가·추천가는 실수령(표시가×0.75, 3일전 미판매시×0.70) 기준. AJPC 구간(D+18~27)은 <b>8월 포커시즌 탭</b>에서 3박전략과 함께 관리.</p>
+  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 정밀존(오늘~D+13, 8/3~8/16)은 ①탭에서 계속 관리. 9월(APPT·추석)은 ③ 9월 포커시즌 탭에서 콘서트 겹침일 중심으로 관리 — 순수 포커평일은 평일가 방어가 원칙.</p>
 </div>
   <div id="insight"></div>
   <div id="upcoming"></div>
@@ -257,7 +258,7 @@
     <b>🕒 판매창(마감 당일 오후3시 기준).</b> D-10~D-7=관찰 · D-7~D-4=고가 시도 · D-3~D-2=인하 판단 · D-1~당일=재고소진(최저가 정상).<br><br>
     <b>💱 MCP–브라우저 가격차 기록.</b> 게하는 MCP값(Genius 할인가=손님 실결제가) 채택. 베웨는 환불정책 차이가 있을 때 브라우저 최저가 채택(7/31 194,684·8/2 176,463), 그 외는 MCP=브라우저 일치.<br><br>
     <b>🎓 교훈 — 완판이 항상 최선은 아니다.</b> 8/8~14(2PM 콘서트+APT포커 이중수요)를 30만에 <b>조기 완판</b>했으나, 최상급 수요일은 <b>35만+로 더 높게·천천히</b> 판매했어야 함(조기 저가완판 주의). <b>3단계 전략</b>: 저가재고≥8이면 <b>절반 채우기 모드</b>, 잔여율≤50% & D+4 이상이면 <b>인상 타이밍</b>, 저가재고≤2면 상향 기회, 이벤트일은 선제 고가.<br><br>
-    <b>🃏 포커 리드타임·강도 구분(E·7/30 추가).</b> 같은 포커도 대응이 다르다. <b>APT·APPT·GOP</b>=국제·해외원정·조기예약형·<b>장기수요 강도 높음</b>(조기완판형) → D-30부터 고가 세팅. <b>AJPC II·III</b>=일본계 중형서킷·근거리 임박예약형·<b>장기수요 강도 낮음</b>(콘서트일만 강세, 포커 자체 프리미엄 거의 없음) → 초반 저가 허용 후 D-14~7 인상. <b>10/30~11/8 삼중이벤트</b>(GOP포커+WPT Seoul+MCR)는 하반기 최대구간 = 8월급 — 지금부터 고가세팅+MLOS(3박) 준비, 예약가능창 90일 유지(가격으로 통제). 상세·권장가는 ⑤ 이벤트 캘린더 하단 참조.
+    <b>🃏 포커 강도 재분류(C·8/3 수정).</b> 기존 "APT·APPT·GOP=강함/AJPC=약함" 구분은 <b>틀렸음</b> — 실측 결과 <b>포커 단독일은 종류 무관하게 전부 장기수요 약함</b>(참가자는 카지노 연계숙소 이용, 우리 숙소까지 안 퍼짐: APPT 9월 평일 저가재고 13~16=8월 AJPC와 동일). <b>강세를 만드는 건 포커가 아니라 겹치는 콘서트</b>뿐 — APT는 8/8~9 2PM, AJPC는 8/22 NCT, APPT는 9/5~6 사플페·9/12~13 RIIZE, GOP는 11/7 MCR이 겹치는 날만 강세. 리드타임(긴/짧)은 예약 시점 구분으로 여전히 유효 — 긴 리드타임(APT·APPT·GOP)은 D-30 조기예약형이라 미리 방을 채우되 평일가로, 짧은 리드타임(AJPC류)은 D-14~7 임박인상. <b>10/30~11/8 삼중이벤트</b>(GOP포커+WPT Seoul+MCR)는 하반기 최대구간 = 8월급이나 <b>MCR 겹치는 11/7만 강세</b>이고 나머지 평일은 방어가 — 지금부터 11/7 고가세팅+MLOS(3박) 준비, 예약가능창 90일 유지(가격으로 통제). 상세·권장가는 ⑤ 이벤트 캘린더 하단 참조.
   </div>
   </div><!-- /panel-track -->
 
@@ -277,11 +278,13 @@
   </div>
 
   <div id="panel-sep" class="panel" hidden>
-    <h2>9월 포커 시즌 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(APPT 9/3~14 · 저빈도 1회 풀스캔, 경쟁사 관점)</span></h2>
+    <h2>9월 포커 시즌 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(APPT 9/3~14 · 2026-08-03 rooms=1 MCP+브라우저 정밀/간소 재실측, 경쟁사+우리현황 반영)</span></h2>
     <div id="sepsum">
-      <h3>🌕 9월 포커·추석 메모</h3>
-      <p>· <b>9/11~13 둘째주말 강세 = APPT Korea 메인이벤트(9/10~14)</b> — 7년 만 부활한 PokerStars 투어(원인 확정).</p>
-      <p>· <b>추석 연휴=9/24~27</b> (당일 9/25). 게하가 어떤 이벤트에도 90k 고수했으나 <b>추석 9/23~26 4일만 115,200 인상</b> → 공항숙소=해외출국 성수기 강신호.</p>
+      <h3>🌕 9월 인사이트 (F·8/3)</h3>
+      <p>· <b>APPT 국제포커도 단독일은 약함</b>(경쟁사 저가재고 13~16, 시장최저 9만대) — 포커 강함/약함은 종류가 아니라 <b>콘서트 겹침 여부</b>로 갈림(C 재분류).</p>
+      <p>· <b>9월 강세일은 콘서트일(9/5~6 사플페·9/12~13 RIIZE·9/19~20 Vaundy·9/26 기무라)뿐</b> — 나머지 APPT 포커평일(9/3·7~10·14)은 표시 300,000이 과가, 160,000선 평일가로 하향.</p>
+      <p>· <b>GOP(10/30~11/8)도 동일 원리</b> — MCR 겹치는 11/7만 강세, 나머지 평일은 방어가로 접근 주의.</p>
+      <p>· <b>추석 연휴=9/23~27</b>(당일 9/25). 게하 9/23~26 4일만 115,200 인상 → 공항숙소=해외출국 성수기 강신호(유지).</p>
     </div>
     <table id="sepTable"><thead>
       <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
@@ -289,7 +292,7 @@
           <th class="our2">우리 현재가</th><th class="our2">우리잔여<br><span style="font-weight:400;font-size:9px;color:#6b7280;">N/객실 (비율)</span></th>
           <th class="our" title="dynRec 추천가">추천가</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="sepBody"></tbody></table>
-    <p class="cap" style="margin-top:8px;">· 2026-07-04 조회분. 경쟁 4열(게하/굿데이/호텔휴/베웨) + 경쟁매진 요약(=SO+조회불가 합산 /4, 4/4면 빨강). 추천가는 dynRec(경쟁사 기준, 우리 잔여 미확보→재고미상, 설명은 셀 hover). <span class="ev-tag sep-tag-strong">강세</span> 9/11~13 · <span class="ev-tag sep-tag-chuseok">추석</span> 9/23~26.</p>
+    <p class="cap" style="margin-top:8px;">· 2026-08-03 rooms=1 MCP+브라우저 재실측(게굿=정밀 9/3~14·18~20·25~26·휴=간소·그 외 순수평일=가격만/미확인). 경쟁 4열(게하/굿데이/호텔휴/베웨) + 경쟁매진 요약(=SO+조회불가 합산 /4, 4/4면 빨강). 추천가는 dynRec(실수령 기준, clampRec 상한 적용). <span class="ev-tag sep-tag-strong">강세</span>=콘서트 겹침일(9/5~6·12~13·19~20) · <span class="ev-tag sep-tag-chuseok">추석</span> 9/23~26.</p>
   </div>
 
   <div id="panel-log" class="panel" hidden>
@@ -355,7 +358,7 @@ const BK_YEAR = parseInt(ASOF,10)||2026;
    [8/3 갱신] 8월 전체 rooms=1 MCP + 브라우저 차등 실측(게굿=정밀 8/3~13·20~30·휴=간소·베=가격만, 8/14~19는 가격만·잔여 미확인).
      · 가격정책: 게하=MCP값 고정 90,000(21·28만 104,400 주말가) · 베웨=MCP=브라우저 일치(불일치 시 브라우저 최저 채택).
      · 게하 SO=8/6·7·8·9·12·13·15 · 굿데이 SO=8/3·7·9·13 · 휴 SO=8/7·8·9·10·11·13·15 · 베웨 SO=8/6·7·8·9·13·15.
-     · 🔴 8/5 평일과잉 과가(200,000→120,000 하향 검토, F). 🎯 8/6 워터밤·8/7~ APT포커 장기수요(강도 높음).
+     · 🔴 8/5 평일과잉 과가(200,000→120,000 하향 검토, F). 🎯 8/6 인근 이벤트(확인필요)·8/7~ APT포커(포커 단독=약함, 강세는 콘서트 겹침일뿐).
    할인(A, 7/30): 실수령 메인=×0.75(평소 25%), 3일전(D-3) 미판매시=×0.70 — 각 현재가 셀에 "(3일전 Y)" 병기.
    추천가(C, 8/3): clampRec()로 표시가 환산이 현재가/경쟁사가 대비 1.5배 넘으면 자동 상한. */
 const DAILY = {
@@ -364,7 +367,7 @@ const DAILY = {
   "8/3":  {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:4},gd:{p:null,r:"so"},hu:{p:117392,n:4},bw:{p:137249,r:"free"}}, our:{ourN:5,cur:110000}},
   "8/4":  {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:1},gd:{p:120000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:137249,r:"free"}}, our:{ourN:3,cur:200000}},
   "8/5":  {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:120000,n:6},hu:{p:140000,n:10,approx:true},bw:{p:137249,r:"free"}}, our:{ourN:10,cur:200000}, flag:{lvl:"red",ic:"🔴",txt:"평일 과잉에 과가(경쟁 게9만·굿12만·휴14만·저가재고{저가재고}). 200,000→120,000 하향 검토"}},
-  "8/6":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:4},hu:{p:160000,n:7},bw:{p:null,r:"so"}}, our:{ourN:4,cur:300000}, flag:{lvl:"event",ic:"🎯",txt:"워터밤 이벤트. 총재고{총재고}실(게굿휴) 품귀. 300,000 유지"}},
+  "8/6":  {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:4},hu:{p:160000,n:7},bw:{p:null,r:"so"}}, our:{ourN:4,cur:300000}, flag:{lvl:"event",ic:"🎯",txt:"인근 이벤트(확인필요·워터밤 아님). 총재고{총재고}실(게굿휴) 품귀. 300,000 유지"}},
   "8/7":  {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, flag:{lvl:"event",ic:"🎯",txt:"APT포커 개막(강도 높음). 저가재고{저가재고}. 판매완료 유지"}},
   "8/8":  {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:260000,n:2},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, flag:{lvl:"neutral",ic:"⬜",txt:"2PM+APT 이중수요 판매완료. 교훈: 조기저가완판 대신 35만+ 천천히 검토(다음 유사 이벤트 적용)"}},
   "8/9":  {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}},
@@ -394,7 +397,7 @@ const AUGUST = {
   "8/3":  {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:4},gd:{p:null,r:"so"},hu:{p:117392,n:4},bw:{p:137249,r:"free"}}, our:{ourN:5,cur:110000}},
   "8/4":  {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:1},gd:{p:120000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:137249,r:"free"}}, our:{ourN:3,cur:200000}},
   "8/5":  {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:120000,n:6},hu:{p:140000,n:10,approx:true},bw:{p:137249,r:"free"}}, our:{ourN:10,cur:200000}, flag:{lvl:"red",ic:"🔴",txt:"평일 과잉에 과가(경쟁 게9만·굿12만·휴14만·저가재고{저가재고}). 200,000→120,000 하향 검토"}},
-  "8/6":  {dow:"목",t:"wkdy",ev:"tour", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:4},hu:{p:160000,n:7},bw:{p:null,r:"so"}}, our:{ourN:4,cur:300000}, flag:{lvl:"event",ic:"🎯",txt:"워터밤 이벤트. 총재고{총재고}실(게굿휴) 품귀. 300,000 유지"}},
+  "8/6":  {dow:"목",t:"wkdy",ev:"tour", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:4},hu:{p:160000,n:7},bw:{p:null,r:"so"}}, our:{ourN:4,cur:300000}, flag:{lvl:"event",ic:"🎯",txt:"인근 이벤트(확인필요·워터밤 아님). 총재고{총재고}실(게굿휴) 품귀. 300,000 유지"}},
   "8/7":  {dow:"금",t:"wknd",ev:"tour", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, flag:{lvl:"event",ic:"🎯",txt:"APT포커 개막(강도 높음). 저가재고{저가재고}. 판매완료 유지"}},
   "8/8":  {dow:"토",t:"wknd",ev:"tour", comp:{gh:{p:null,r:"so"},gd:{p:260000,n:2},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, flag:{lvl:"neutral",ic:"⬜",txt:"2PM+APT 이중수요 판매완료. 교훈: 조기저가완판 대신 35만+ 천천히 검토(다음 유사 이벤트 적용)"}},
   "8/9":  {dow:"일",t:"wknd",ev:"tour", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}},
@@ -446,39 +449,41 @@ const COMP_OBSERVE = {
   Object.keys(AUGUST).forEach(function(md){ WEEKLY[md]=AUGUST[md]; });
 })();
 
-/* 9월 추석 특수 (9/1~30) — 저빈도 1회 풀스캔, 경쟁사 관점(우리 잔여 미포함).
-   comp: {p,r} 또는 {soEst:true}(조회불가=매진 추정). hl:"strong"(★강세 9/11~13)·"chuseok"(★추석특수 9/23~26). note=비고. */
+/* 9월 (9/1~30) — 8/3 rooms=1 MCP+브라우저 정밀/간소 재실측(게굿=정밀 9/3~14·18~20·25~26·휴=간소·그 외 순수평일=가격만/미확인).
+   comp 포맷은 DAILY와 동일: {p,n,approx}·{p,r:"free"}(베웨)·{p,r:"na"}(미확인)·{p:null,r:"so"}(매진). 우리(our)=8/3 Sirvoy(10실).
+   [8/3 갱신] C: 포커 강도 재분류 — APPT 단독일도 저가재고13~16으로 8월 AJPC와 동일하게 약함 확인. 강세는 콘서트 겹침(사플페 9/5~6·RIIZE 9/12~13·Vaundy 9/19~20)뿐.
+   hl:"strong"=콘서트 겹침일·"chuseok"=추석연휴. flag=D섹션 가격조정 신호(경쟁사 실측 기반, 텍스트 내 구체 수치는 8/3 스캔 당시 설명 그대로 유지). */
 const SEPTEMBER = {
-  "9/1":  {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:129789,r:"5"}}, note:""},
-  "9/2":  {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:129789,r:"5"}}, note:""},
-  "9/3":  {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, note:""},
-  "9/4":  {dow:"금",t:"wknd", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:120000,r:"5"},bw:{p:194684,r:"5"}}, note:""},
-  "9/5":  {dow:"토",t:"wknd", comp:{gh:{soEst:true},gd:{soEst:true},hu:{soEst:true},bw:{soEst:true}}, our:{rec:245000}, note:"사운드플래닛 페스티벌(9/5~6) · 경쟁 4곳 완판추정 · 선제 최고가 표시350k"},
-  "9/6":  {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"5"},gd:{p:200000,r:"5"},hu:{p:120000,r:"5"},bw:{p:194684,r:"5"}}, note:"사운드플래닛 페스티벌"},
-  "9/7":  {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
-  "9/8":  {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
-  "9/9":  {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:140000,r:"5"},bw:{p:162236,r:"5"}}, note:""},
-  "9/10": {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:140000,r:"5"},bw:{p:162236,r:"5"}}, note:""},
-  "9/11": {dow:"금",t:"wknd",hl:"strong", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:180000,r:"5"},bw:{p:248762,r:"5"}}, note:"★강세"},
-  "9/12": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:200000,r:"5"},bw:{soEst:true}}, note:"★강세"},
-  "9/13": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:180000,r:"5"},bw:{p:162236,r:"5"}}, note:"★강세"},
-  "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
-  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
-  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, note:""},
-  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, note:""},
-  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:103500,r:"5"},gd:{p:160000,r:"5"},hu:{p:120000,r:"5"},bw:{p:194684,r:"5"}}, note:""},
-  "9/19": {dow:"토",t:"wknd", comp:{gh:{p:104400,r:"5"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{soEst:true}}, note:""},
-  "9/20": {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:173052,r:"5"}}, note:""},
-  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, note:""},
-  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, note:"추석 전날"},
-  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"5"},gd:{p:180000,r:"5"},hu:{p:100000,r:"5"},bw:{p:151421,r:"5"}}, note:"★추석연휴 · 게하 첫 90k 돌파"},
-  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"5"},gd:{p:180000,r:"5"},hu:{p:120000,r:"5"},bw:{p:151421,r:"5"}}, note:"★추석"},
-  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:115200,r:"5"},gd:{p:160000,r:"5"},hu:{p:140000,r:"5"},bw:{p:194684,r:"5"}}, note:"★추석 당일"},
-  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:115200,r:"5"},gd:{p:180000,r:"5"},hu:{p:140000,r:"5"},bw:{p:194684,r:"5"}}, note:"★추석연휴"},
-  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"5"},gd:{p:180000,r:"5"},hu:{p:100000,r:"5"},bw:{p:162236,r:"5"}}, note:"연휴 마지막(게하 복귀)"},
-  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:120000,r:"5"},bw:{p:140605,r:"5"}}, note:"연휴 후 복귀"},
-  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""},
-  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"5"},gd:{p:100000,r:"5"},hu:{p:100000,r:"5"},bw:{p:140605,r:"5"}}, note:""}
+  "9/1":  {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:123970,r:"free"}}, our:{ourN:7,cur:150000}},
+  "9/2":  {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:123970,r:"free"}}, our:{ourN:8,cur:150000}},
+  "9/3":  {dow:"목",t:"wkdy", comp:{gh:{p:97200,n:8},gd:{p:100000,n:7},hu:{p:140000,n:10,approx:true},bw:{p:168245,r:"free"}}, our:{ourN:8,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"경쟁사 저가재고13~16·시장최저9만인데 우리 실수령22.5만(3배). 포커단독 약함. 표시 300,000→160,000 하향"}},
+  "9/4":  {dow:"금",t:"wknd", comp:{gh:{p:104400,n:7},gd:{p:160000,n:6},hu:{p:300000,n:4},bw:{p:259578,r:"free"}}, our:{ourN:8,cur:386000}, flag:{lvl:"amber",ic:"🟡",txt:"포커단독+금요일. 386,000→220,000"}},
+  "9/5":  {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:300000,n:1},bw:{p:null,r:"so"}}, our:{ourN:7,cur:386000}, flag:{lvl:"orange",ic:"🟠",txt:"사플페. 386,000 유지하되 저가재고4라 초강세는 아님, 안 빠지면 할인"}},
+  "9/6":  {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:97200,n:5},gd:{p:200000,n:7},hu:{p:230000,n:8},bw:{p:194810,r:"free"}}, our:{ourN:7,cur:300000}, flag:{lvl:"orange",ic:"🟠",txt:"300,000→220,000 소폭"}},
+  "9/7":  {dow:"월",t:"wkdy", comp:{gh:{p:97200,n:9},gd:{p:100000,n:8},hu:{p:100000,n:10,approx:true},bw:{p:132825,r:"free"}}, our:{ourN:8,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"경쟁사 저가재고13~16·시장최저9만인데 우리 실수령22.5만(3배). 포커단독 약함. 표시 300,000→160,000 하향"}},
+  "9/8":  {dow:"화",t:"wkdy", comp:{gh:{p:97200,n:8},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:141680,r:"free"}}, our:{ourN:8,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"경쟁사 저가재고13~16·시장최저9만인데 우리 실수령22.5만(3배). 포커단독 약함. 표시 300,000→160,000 하향"}},
+  "9/9":  {dow:"수",t:"wkdy", comp:{gh:{p:97200,n:7},gd:{p:100000,n:7},hu:{p:140000,n:10,approx:true},bw:{p:159390,r:"free"}}, our:{ourN:8,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"경쟁사 저가재고13~16·시장최저9만인데 우리 실수령22.5만(3배). 포커단독 약함. 표시 300,000→160,000 하향"}},
+  "9/10": {dow:"목",t:"wkdy", comp:{gh:{p:97200,n:7},gd:{p:120000,n:2},hu:{p:140000,n:10,approx:true},bw:{p:159390,r:"free"}}, our:{ourN:8,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"경쟁사 저가재고13~16·시장최저9만인데 우리 실수령22.5만(3배). 포커단독 약함. 표시 300,000→160,000 하향"}},
+  "9/11": {dow:"금",t:"wknd", comp:{gh:{p:104400,n:7},gd:{p:160000,n:7},hu:{p:180000,n:10,approx:true},bw:{p:267162,r:"free"}}, our:{ourN:8,cur:386000}, flag:{lvl:"amber",ic:"🟡",txt:"포커단독+금요일. 386,000→220,000"}},
+  "9/12": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:1},hu:{p:300000,n:3},bw:{p:null,r:"so"}}, our:{ourN:8,cur:386000}, flag:{lvl:"green",ic:"🟢",txt:"RIIZE 3주년 전석매진+인스파이어360도. 저가재고3 품귀. 386,000 유지, 420,000까지 여지"}},
+  "9/13": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:97200,n:3},gd:{p:160000,n:6},hu:{p:150000,n:10,approx:true},bw:{p:194810,r:"free"}}, our:{ourN:8,cur:300000}, flag:{lvl:"green",ic:"✅",txt:"300,000 적정 유지"}},
+  "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:97200,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:168245,r:"free"}}, our:{ourN:8,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"경쟁사 저가재고13~16·시장최저9만인데 우리 실수령22.5만(3배). 포커단독 약함. 표시 300,000→160,000 하향"}},
+  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:8,cur:143000}},
+  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:9,cur:143000}},
+  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:9,cur:143000}},
+  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:104400,n:6},gd:{p:160000,n:8},hu:{p:180000,n:10,approx:true},bw:{p:184956,r:"free"}}, our:{ourN:10,cur:193000}},
+  "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:104400,n:6},gd:{p:160000,n:8},hu:{p:180000,n:8},bw:{p:null,r:"so"}}, our:{ourN:9,cur:300000}, flag:{lvl:"green",ic:"🟢",txt:"Vaundy 일본원정매진. 저가재고2 품귀·시장최저20만인데 우리 실수령22.5만. 300,000→386,000 상향"}},
+  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:97200,n:8},gd:{p:100000,n:7},hu:{p:127187,n:10,approx:true},bw:{p:184956,r:"free"}}, our:{ourN:10,cur:193000}, flag:{lvl:"amber",ic:"🟡",txt:"이틀째. 193,000→250,000 상향"}},
+  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:143000}},
+  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:143000}, note:"추석 전날"},
+  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"na"},gd:{p:180000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:300000}, note:"★추석연휴"},
+  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"na"},gd:{p:180000,r:"na"},hu:{p:160000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:8,cur:300000}, note:"★추석"},
+  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:115200,n:6},gd:{p:160000,n:8},hu:{p:180000,n:10,approx:true},bw:{p:184956,r:"free"}}, our:{ourN:5,cur:300000}, note:"★추석 당일"},
+  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:115200,n:7},gd:{p:180000,n:8},hu:{p:180000,n:6},bw:{p:184956,r:"free"}}, our:{ourN:5,cur:300000}, flag:{lvl:"orange",ic:"🟠",txt:"기무라 팬미팅(콘서트보단 약). 300,000 유지"}},
+  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"na"},gd:{p:180000,r:"na"},hu:{p:100000,r:"na"},bw:{p:184956,r:"free"}}, our:{ourN:10,cur:300000}, note:"연휴 마지막"},
+  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:10,cur:300000}, note:"연휴 후 복귀"},
+  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:8,cur:143000}},
+  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:10,cur:143000}}
 };
 
 /* EVENTS: 인근 공연/축제 캘린더 = 가격 알림 선행지표. 키=날짜ISO. 정적 데이터라 로그 대상 아님.
@@ -497,17 +502,20 @@ const EVENTS = {
   "2026-07-12": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-07-22": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
   "2026-07-23": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
-  "2026-08-06": {name:"워터밤 인천", venue:"파라다이스컬처파크", impact:"high", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
-  "2026-08-22": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", strength:"최강", type:"official", cat:"concert", note:"AJPC포커 중첩 이중수요·완판 실측", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-08-23": {name:"NCT DREAM 10주년", venue:"인스파이어", impact:"high", strength:"강", type:"official", cat:"concert", note:"AJPC포커 기간(단독은 아님)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-09-05": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", strength:"최강", type:"official", cat:"concert", note:"APPT포커 중첩 이중수요·완판 실측", url:"https://soundplanetfestival.co.kr"},
-  "2026-09-06": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", strength:"강", type:"official", cat:"concert", note:"APPT포커 기간(페스티벌 2일차)", url:"https://soundplanetfestival.co.kr"},
-  "2026-09-19": {name:"Vaundy HORO", venue:"인스파이어", impact:"high", strength:"강", type:"official", cat:"concert", note:"전석매진·일본원정 수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-09-20": {name:"Vaundy HORO", venue:"인스파이어", impact:"high", strength:"강", type:"official", cat:"concert", note:"전석매진·일본원정 수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-09-26": {name:"기무라 타쿠야", venue:"인스파이어", impact:"high", strength:"강", type:"official", cat:"concert", note:"일본 톱스타·신규(교차검증)·추석연휴 겹침", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-06": {name:"확인필요", venue:"파라다이스컬처파크", impact:"watch", type:"official", cat:"concert", tbd:true, note:"[E·8/3 정정] 기존 '워터밤 인천' 라벨 오기 — 워터밤은 서울 10/17~18 개최로 확인됨, 인천 무관. 8/6 실제 이벤트명 미상이나 그날 재고 품귀(게굿휴베 4곳중 3곳 SO)는 실측 확인됨"},
+  "2026-08-22": {name:"NCT DREAM 10주년 파티", venue:"인스파이어", impact:"high", strength:"최강", scale:"대", type:"official", cat:"concert", note:"THE SWEET DREAM HOTEL·AJPC포커 중첩 이중수요·완판 실측", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-08-23": {name:"NCT DREAM 10주년 파티", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", note:"THE SWEET DREAM HOTEL·AJPC포커 기간(단독은 아님)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-05": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", note:"APPT포커 중첩 이중수요·완판 실측", url:"https://soundplanetfestival.co.kr"},
+  "2026-09-06": {name:"사운드플래닛페스티벌", venue:"파라다이스컬처파크", impact:"high", strength:"강", scale:"중", type:"official", cat:"concert", note:"APPT포커 기간(페스티벌 2일차)", url:"https://soundplanetfestival.co.kr"},
+  "2026-09-12": {name:"RIIZE 데뷔3주년 팬미팅", venue:"인스파이어", impact:"high", strength:"최강", scale:"대", type:"official", cat:"concert", note:"전석매진·360도 개방형·SM대형 아티스트·APPT포커 중첩 이중수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-13": {name:"RIIZE 데뷔3주년 팬미팅", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", note:"전석매진·360도 개방형·APPT포커 기간(단독은 아님)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-19": {name:"Vaundy HORO", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", note:"전석매진·일본원정 수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-20": {name:"Vaundy HORO", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", note:"전석매진·일본원정 수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-09-26": {name:"기무라 타쿠야", venue:"인스파이어", impact:"high", strength:"강", scale:"중", type:"official", cat:"concert", note:"일본 톱스타 팬미팅(콘서트보단 약)·신규(교차검증)·추석연휴 겹침", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   // ── 하반기(10~12월) 추가 ──────────────────────────────
-  "2026-12-05": {name:"YUURI", venue:"인스파이어", impact:"high", strength:"최강", type:"official", cat:"concert", note:"일본원정·신규·AJPC III 포커 중첩=이중수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-06": {name:"YUURI", venue:"인스파이어", impact:"high", strength:"최강", type:"official", cat:"concert", note:"일본원정·신규·AJPC III 포커 중첩=이중수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-05": {name:"YUURI", venue:"인스파이어", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", note:"일본원정·신규·AJPC III 포커 중첩=이중수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-06": {name:"YUURI", venue:"인스파이어", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", note:"일본원정·신규·AJPC III 포커 중첩=이중수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-14": {name:"EXO'verse 팬미팅", venue:"인스파이어", impact:"high", strength:"최강", scale:"대", type:"official", cat:"concert", note:"6인 완전체 1년8개월만·중화권 원정 수요·2회공연(AJPC III 포커 중첩기간)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-12-27": {name:"CHROMA KEY 002", venue:"클럽 크로마", impact:"high", strength:"강", type:"official", cat:"concert", note:"글로벌 DJ EDM 파티·신규", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   // ── 확인필요(날짜만 선점, 아티스트 미정) ─ tbd:true → 회색 렌더 ──
   "2026-10-31": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, note:"아티스트 확인필요·GOP포커 중첩기간"},
@@ -515,17 +523,16 @@ const EVENTS = {
   "2026-11-02": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, note:"아티스트 확인필요·GOP포커 중첩기간"},
   "2026-11-29": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, note:"아티스트 확인필요"},
   "2026-11-30": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, note:"아티스트 확인필요"},
-  "2026-12-13": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, note:"아티스트 확인필요·AJPC III 포커 중첩기간"},
-  "2026-12-14": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, note:"아티스트 확인필요·AJPC III 포커 중첩기간"}
+  "2026-12-13": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, note:"아티스트 확인필요·AJPC III 포커 중첩기간"}
 };
 /* POKER_EVENTS: 파라다이스 카지노 포커 대회 = 지속형 최우선 동인(10일씩 방 채움·전원 외국인=공항숙소·일부 日편중).
    기간 전개하며 일차(dayNum/total) 계산 후 EVENTS[k].poker로 병합. 콘서트와 겹치면 병존(둘 다 표시, 포커 우선). */
 const POKER_EVENTS = [
-  {start:"2026-08-07", end:"2026-08-16", name:"APT Incheon 2026", jpHeavy:true,  leadTime:"long",  strength:"high", url:"https://somuchpoker.com/events-calendar/apt/2026/apt-incheon-2026", note:"40억GTD·메인 8/9~15·2025년 日엔트리 37.8%(1위)·국제 원정多 D-30 조기세팅·장기수요 강도 높음(8/7~15 우리 완판 증거)"},
-  {start:"2026-08-21", end:"2026-08-30", name:"AJPC Samurai Circuit II", jpHeavy:true,  leadTime:"short", strength:"low",  url:"https://samurai.ajpc.jp/", note:"일본주최·전과정 日어진행·8/22 최대SO 원인·임박예약 D-14~7 인상·장기수요 강도 낮음(중형서킷·예약 저조) — 8/22 강세는 콘서트(NCT)가 원인, 포커 아님"},
-  {start:"2026-09-03", end:"2026-09-14", name:"APPT Korea (PokerStars)", jpHeavy:false, leadTime:"long",  strength:"high", url:"https://maineventtravel.com/tour/appt", note:"7년만 부활·국제 원정多·메인 9/10~14 = 9/11~13 강세 원인·D-30 조기세팅·장기수요 강도 높음(국제대회)"},
-  {start:"2026-10-30", end:"2026-11-08", name:"GOP Incheon Labyrinth", jpHeavy:false, leadTime:"long",  strength:"high", url:"https://somuchpoker.com/", note:"대형대회·원정多·WPT Seoul+MCR 중첩 삼중이벤트·D-30 조기 고가세팅·장기수요 강도 높음 — 단 평일수요는 10월 경쟁사 재확인 필요"},
-  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, leadTime:"short", strength:"low",  url:"https://samurai.ajpc.jp/", note:"일본주최 중형서킷·근거리 임박예약 D-14~7 인상·12/5~6 YUURI 중첩·장기수요 강도 낮음(AJPC II와 동일 성격)"}
+  {start:"2026-08-07", end:"2026-08-16", name:"APT Incheon 2026", jpHeavy:true,  leadTime:"long",  strength:"low", url:"https://somuchpoker.com/events-calendar/apt/2026/apt-incheon-2026", note:"40억GTD·메인 8/9~15·2025년 日엔트리 37.8%(1위)·국제 원정多. [C·8/3 재분류] 포커 단독일은 장기수요 약함 — 8/8~9만 2PM 콘서트 겹쳐 강세였고 나머지 평일은 약했음(참가자는 카지노연계숙소 이용)"},
+  {start:"2026-08-21", end:"2026-08-30", name:"AJPC Samurai Circuit II", jpHeavy:true,  leadTime:"short", strength:"low",  url:"https://samurai.ajpc.jp/", note:"일본주최·전과정 日어진행·임박예약 D-14~7 인상. 포커 단독일 장기수요 약함(예약 저조 실측) — 8/22 강세는 콘서트(NCT)가 원인, 포커 아님"},
+  {start:"2026-09-03", end:"2026-09-14", name:"APPT Korea (PokerStars)", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://maineventtravel.com/tour/appt", note:"7년만 부활·국제 원정多·메인 9/10~14. [C·8/3 재분류] 실측 결과 포커 단독일 저가재고 13~16(8월 AJPC와 동일 약세) — 강세는 사플페(9/5~6)·RIIZE(9/12~13) 콘서트 겹침일뿐"},
+  {start:"2026-10-30", end:"2026-11-08", name:"GOP Incheon Labyrinth", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://somuchpoker.com/", note:"대형대회·원정多·WPT Seoul+MCR 중첩 삼중이벤트. [C·8/3 재분류] 포커 단독일은 장기수요 약함 원칙 적용 — MCR 겹치는 11/7만 강세, 나머지 평일은 방어가(10월 경쟁사 재확인 필요)"},
+  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, leadTime:"short", strength:"low",  url:"https://samurai.ajpc.jp/", note:"일본주최 중형서킷·근거리 임박예약 D-14~7 인상·12/5~6 YUURI 중첩·포커 단독일 장기수요 약함(AJPC II와 동일 성격)"}
 ];
 POKER_EVENTS.forEach(function(ev){
   const parse=s=>{ const p=s.split('-').map(Number); return Date.UTC(p[0],p[1]-1,p[2]); };   // UTC 고정(TZ 무관, off-by-one 방지)
@@ -543,14 +550,15 @@ POKER_EVENTS.forEach(function(ev){
    1층 = POKER_BANDS: 인천 파라다이스 카지노 개최 확정 3대 포커대회(상시밴드). 이중수요 판정 기준.
          (POKER_EVENTS는 표 배지·프리미엄용 별개 저장소 — 미래·미확정 대회 포함.)
    2층 = EVENTS(cat:"concert"): 인천 개최 확인 콘서트 스팟. */
-/* strength(E·7/30 신규): 포커밴드별 장기수요 강도 — 같은 "포커"도 체급이 다름이 실측 확인됨.
-   "high"=대형국제·원정多·조기완판형(APT·APPT·GOP) / "low"=일본주최 중형서킷·예약 저조·콘서트일만 강세(AJPC II·III). */
+/* strength(C·8/3 재분류): 전 포커밴드 "low"로 통일 — 실측 결과 포커 단독일은 종류 무관하게 장기수요 약함
+   (참가자는 카지노 연계숙소 이용, 우리 숙소까지 안 퍼짐). 강세를 만드는 건 포커가 아니라 겹치는 콘서트뿐
+   (APT=8/8~9 2PM, AJPC=8/22 NCT, APPT=9/5~6 사플페·9/12~13 RIIZE, GOP=11/7 MCR). 이 콘서트 중첩은 EVENTS(cat:concert)에 별도 기록. */
 const POKER_BANDS = [
-  {id:"APT",   name:"APT Incheon",             start:"2026-08-07", end:"2026-08-16", venue:"파라다이스 카지노", leadTime:"long",  strength:"high", note:"40억GTD·메인 8/9~15·2025 日엔트리 37.8%(1위)·대형국제 해외원정多 → D-30 조기예약, 고가 조기세팅. 장기수요 강도 높음(8/7~15 우리 완판이 증거)"},
-  {id:"AJPC",  name:"AJPC Samurai Circuit II", start:"2026-08-21", end:"2026-08-30", venue:"파라다이스 카지노", leadTime:"short", strength:"low",  note:"일본주최·전과정 日어진행·8/22 최대SO 원인·근거리/현지 임박예약 → 초반 저가허용, D-14~7 인상. 장기수요 강도 낮음(중형서킷·예약 저조 실측) — 8/22 강세는 콘서트(NCT)가 만드는 것이지 포커 아님"},
-  {id:"APPT",  name:"APPT Korea",              start:"2026-09-03", end:"2026-09-14", venue:"파라다이스 카지노", leadTime:"long",  strength:"high", note:"7년만 부활 PokerStars 국제대회·원정多·메인 9/10~14 → D-30 조기 고가세팅. 장기수요 강도 높음(국제대회)"},
-  {id:"GOP",   name:"GOP Incheon Labyrinth",  start:"2026-10-30", end:"2026-11-08", venue:"파라다이스 카지노", leadTime:"long",  strength:"high", note:"대형대회·원정多 → 조기세팅. WPT Seoul(인스파이어 카지노)·MCR 콘서트 중첩 = 삼중이벤트(하반기 최대구간). 장기수요 강도 높음(대형대회) — 단 평일수요는 10월 경쟁사 재확인 필요"},
-  {id:"AJPC3", name:"AJPC Samurai Circuit III",start:"2026-12-04", end:"2026-12-13", venue:"파라다이스 카지노", leadTime:"short", strength:"low",  note:"일본주최 중형서킷·근거리 임박예약 → 초반 저가허용, D-14~7 인상. 12/5~6 YUURI(일본원정) 중첩=이중수요. 장기수요 강도 낮음(AJPC II와 동일 성격)"}
+  {id:"APT",   name:"APT Incheon",             start:"2026-08-07", end:"2026-08-16", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"40억GTD·메인 8/9~15·2025 日엔트리 37.8%(1위)·대형국제 해외원정多. [C·8/3 재분류] 포커 단독일은 장기수요 약함 — 8/8~9만 2PM 콘서트 겹쳐 강세였고 나머지 평일은 약했음(실측 반영은 못했으나 AJPC·APPT와 원리 동일)"},
+  {id:"AJPC",  name:"AJPC Samurai Circuit II", start:"2026-08-21", end:"2026-08-30", venue:"파라다이스 카지노", leadTime:"short", strength:"low",  note:"일본주최·전과정 日어진행·근거리/현지 임박예약 → 초반 저가허용, D-14~7 인상. 포커 단독일 장기수요 약함(중형서킷·예약 저조 실측) — 8/22 강세는 콘서트(NCT)가 만드는 것이지 포커 아님"},
+  {id:"APPT",  name:"APPT Korea",              start:"2026-09-03", end:"2026-09-14", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"7년만 부활 PokerStars 국제대회·원정多·메인 9/10~14. [C·8/3 재분류] 실측: 포커 단독 평일(9/3·7~10·14) 저가재고 13~16, 시장최저 9만대 — 8월 AJPC와 동일하게 약함. 강세는 9/5~6 사플페·9/12~13 RIIZE 콘서트 겹침일뿐"},
+  {id:"GOP",   name:"GOP Incheon Labyrinth",  start:"2026-10-30", end:"2026-11-08", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"대형대회·원정多 → 조기세팅. WPT Seoul(인스파이어 카지노)·MCR 콘서트 중첩 = 삼중이벤트(하반기 최대구간). [C·8/3 재분류] 포커 단독일은 장기수요 약함 원칙 적용 — MCR 겹치는 11/7만 강세, 나머지 평일은 과한 프리미엄 금지(10월 경쟁사 재확인 필요)"},
+  {id:"AJPC3", name:"AJPC Samurai Circuit III",start:"2026-12-04", end:"2026-12-13", venue:"파라다이스 카지노", leadTime:"short", strength:"low",  note:"일본주최 중형서킷·근거리 임박예약 → 초반 저가허용, D-14~7 인상. 12/5~6 YUURI(일본원정) 중첩=이중수요. 포커 단독일 장기수요 약함(AJPC II·APPT와 동일 성격)"}
 ];
 // 요일: 반드시 KST 정오 기준(자정 사용 시 UTC 밀림으로 요일 하루 오차). "YYYY-MM-DD" → 한글요일.
 const KDOW=["일","월","화","수","목","금","토"];
@@ -577,6 +585,22 @@ function venueCode(v){ return /인스파이어/.test(v)?"ARENA":/파라다이스
       동시에 (2) 아래 COMP_LOG 맨 위에 새 타임스탬프 키로 그 시각의 14일치 스냅샷을 append.
       pruneLog()가 로드 시 7일(168h) 지난 스냅샷을 자동 삭제. 렌더는 시각으로 정렬하므로 순서 무관. */
 const COMP_LOG = {
+  "2026-08-03T10:00": {   // 8/3 스캔 — 9월 전체(9/1~30) rooms=1 MCP+브라우저 정밀/간소 재실측(게굿=정밀 9/3~14·18~20·25~26·휴=간소). 9월은 8월 스캔과 겹치는 날짜 없어 직전 대비 비교 불가 — 최초 관측치. 핵심: APPT포커 단독 평일(9/3·7~10·14) 저가재고 13~16으로 8월 AJPC와 동일하게 약함 확인(C 재분류 근거).
+    "2026-09-01": {gh:97200,  gd:100000, hu:120000, bw:123970},
+    "2026-09-02": {gh:97200,  gd:100000, hu:100000, bw:123970},
+    "2026-09-03": {gh:97200,  gd:100000, hu:140000, bw:168245},
+    "2026-09-04": {gh:104400, gd:160000, hu:300000, bw:259578},
+    "2026-09-05": {gh:"SO",   gd:"SO",   hu:300000, bw:"SO"},
+    "2026-09-06": {gh:97200,  gd:200000, hu:230000, bw:194810},
+    "2026-09-07": {gh:97200,  gd:100000, hu:100000, bw:132825},
+    "2026-09-08": {gh:97200,  gd:100000, hu:120000, bw:141680},
+    "2026-09-09": {gh:97200,  gd:100000, hu:140000, bw:159390},
+    "2026-09-10": {gh:97200,  gd:120000, hu:140000, bw:159390},
+    "2026-09-11": {gh:104400, gd:160000, hu:180000, bw:267162},
+    "2026-09-12": {gh:"SO",   gd:180000, hu:300000, bw:"SO"},
+    "2026-09-13": {gh:97200,  gd:160000, hu:150000, bw:194810},
+    "2026-09-14": {gh:97200,  gd:100000, hu:120000, bw:168245}
+  },
   "2026-08-03T09:00": {   // 8/3 갱신(8월 전체 rooms=1 MCP+브라우저 정밀/간소 재실측, 여기 14일 스냅샷은 정밀존 8/3~8/16). 직전(7/30) 대비: 게하 81,000→90,000 일괄 인상(+11%)·굿데이 8/3·7·9 매진 전환(저가재고 추가 소진)·베웨 8/3~5·10~12 구간 전반 하락(-10~22%)·휴 8/12 170,000→230,000 급등(+35%).
     "2026-08-03": {gh:90000,  gd:"SO",   hu:117392, bw:137249},
     "2026-08-04": {gh:90000,  gd:120000, hu:120000, bw:137249},
@@ -1639,9 +1663,9 @@ function renderEventCalendar(){
       : b.leadTime==="short"
       ? '<span class="lt-badge lt-short" title="리드타임 긺=조기고가세팅 / 짧음=임박인상">짧은리드·임박인상</span>' : '';
     const st = b.strength==="high"
-      ? '<span class="lt-badge" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;" title="장기수요 강도: 높음(조기완판형)/낮음(콘서트일만 강세)">강도:높음</span>'
+      ? '<span class="lt-badge" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;" title="포커 단독일=장기숙박 수요 약함(참가자는 카지노연계숙소 이용). 강세는 콘서트 겹치는 날. APT가 강했던 건 8/8~9 2PM 때문.">강도:높음</span>'
       : b.strength==="low"
-      ? '<span class="lt-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;" title="장기수요 강도: 높음(조기완판형)/낮음(콘서트일만 강세)">강도:낮음</span>' : '';
+      ? '<span class="lt-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;" title="포커 단독일=장기숙박 수요 약함(참가자는 카지노연계숙소 이용). 강세는 콘서트 겹치는 날. APT가 강했던 건 8/8~9 2PM 때문.">강도:낮음</span>' : '';
     l1+='<tr class="has-poker"><td class="date">'+rangeOf(b.start,b.end)+'</td>'
       +'<td style="text-align:left;"><span class="ec-b ec-pk">🟡 '+b.id+'</span> '+b.name+lt+st+'</td>'
       +'<td title="파라다이스 카지노">PCITY</td>'
@@ -1656,7 +1680,7 @@ function renderEventCalendar(){
   for(const k of cKeys){
     const e=EVENTS[k], last=cg[cg.length-1];
     if(last&&last.name===e.name&&tsMillis(k)-tsMillis(last.lastKey)===86400000){ last.lastKey=k; if(doubleDemand(k)) last.dd.push(k); }
-    else cg.push({name:e.name,venue:e.venue,impact:e.impact,strength:e.strength,note:e.note,url:e.url,tbd:e.tbd,firstKey:k,lastKey:k,dd:doubleDemand(k)?[k]:[]});
+    else cg.push({name:e.name,venue:e.venue,impact:e.impact,strength:e.strength,scale:e.scale,note:e.note,url:e.url,tbd:e.tbd,firstKey:k,lastKey:k,dd:doubleDemand(k)?[k]:[]});
   }
   cg.sort((a,b)=>a.firstKey<b.firstKey?-1:a.firstKey>b.firstKey?1:0);
   let l2='<h3 class="ec-h" style="margin-top:15px;">2층 · 콘서트 스팟 <span class="ec-hsub">🟢 스파이크형 / 🔴 이중수요=최고가</span></h3>'
@@ -1674,6 +1698,7 @@ function renderEventCalendar(){
       +'<td class="date">'+rangeOf(g.firstKey,g.lastKey)+'</td>'
       +'<td>'+badge+'</td>'
       +'<td class="ec-name-td" style="text-align:left;" title="'+esc(full)+'">'+g.name
+        +(g.scale?' <span class="lt-badge" style="background:#ede9fe;color:#6d28d9;border:1px solid #ddd6fe;" title="규모(참고): 대=대형아티스트/전석매진급, 중=중형·팬미팅급">'+g.scale+'</span>':'')
         +(full?'<span class="ev-venue">'+full+'</span>':'')+'</td>'
       +'<td title="'+esc(g.venue||'')+'">'+venueCode(g.venue)+'</td>'
       +'<td><span class="'+scls+'">'+str+'</span></td>'
