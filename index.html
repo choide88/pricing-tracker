@@ -312,8 +312,8 @@
 /* DAILY_LOG: 날짜별 잔여 이력 배열(추이 띠용). 매일 아침 각 날짜에 오늘 잔여코드 push.
    r코드: "5"|"34"|"lt3"|"so"  */
 const ASOF = "2026-08-03";   // 표시는 LASTCHECK. ASOF 자체는 파싱용 순수 날짜 유지(접미어는 LASTCHECK에)
-const NOTE_GENIUS = "게하 평일 1실가 MCP(Genius) 90,000 고정(정가×0.9 부근). 주말·강수요일 매진 다발(8/6~9·12~13·15 SO). 8/21~30 AJPC 구간도 8/22·23·27·29 SO. 평점 7.4·리뷰 245건.";
-const LASTCHECK = "2026-08-03 (8월 전체 rooms=1 + 잔여 차등 재실측: 게굿=정밀(8/3~13·20~30)·휴=간소·베=가격만 · 추천가 실수령클램프 · AJPC 3박완화전략)";
+const NOTE_GENIUS = "게하 평일 1실가 MCP(Genius) 81,000~93,960(8/9 재실측, 종전 90,000대비 하락). 주말·강수요일 매진 다발(8/6~9·12~13·15 SO). 8/21~30 AJPC 구간은 8/20·22·23·29 SO(8/27은 재오픈 확인, 잔2). 평점 7.4·리뷰 259건.";
+const LASTCHECK = "2026-08-09 (AJPC 구간 8/20~8/31 rooms=1 MCP+브라우저 차등 재실측: 게굿=정밀·휴=간소(≥10은 approx)·베웨=브라우저 최저가 채택 · 우리쪽 ourN/cur/flag는 이번 턴 미갱신 · 8/3 이전 갱신분 하단 유지)";
 /* 할인구조 2단계(7/30 정정) — 평소=25% 할인(대부분 예약, 실수령 메인표시) · 3일전 미판매시=30% 할인(막판 자동적용).
    메인 실수령=×0.75(DISCOUNT_NORMAL). 비교·추천·저평가 판정은 전부 이 메인(0.75) 기준. 3일전 값(×0.70)은 셀에 "(3일전 Y)"로 병기만. */
 const DISCOUNT_NORMAL = 0.25;   // 평소(대부분 예약) — 메인 실수령 기준
@@ -411,18 +411,18 @@ const AUGUST = {
   "8/17": {dow:"월",t:"wkdy", comp:{gh:{p:90000,r:"na"},gd:{p:100000,r:"na"},hu:{p:117392,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}},
   "8/18": {dow:"화",t:"wkdy", comp:{gh:{p:90000,r:"na"},gd:{p:100000,r:"na"},hu:{p:98145,r:"na"},bw:{p:150535,r:"free"}}, our:{ourN:1,cur:214500}},
   "8/19": {dow:"수",t:"wkdy", comp:{gh:{p:90000,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}},
-  "8/20": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:3},gd:{p:100000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:4,cur:150000}},
-  "8/21": {dow:"금",t:"wknd", comp:{gh:{p:104400,n:4},gd:{p:160000,n:7},hu:{p:200000,n:10,approx:true},bw:{p:246603,r:"free"}}, our:{ourN:4,cur:200000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
+  "8/20": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,n:2},hu:{p:120000,n:14},bw:{p:167079,r:"free"}}, our:{ourN:4,cur:150000}},
+  "8/21": {dow:"금",t:"wknd", comp:{gh:{p:93960,n:2},gd:{p:160000,n:7},hu:{p:160000,n:14},bw:{p:250611,r:"free"}}, our:{ourN:4,cur:200000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
   "8/22": {dow:"토",t:"wknd",ev:"event", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:318780,r:"free"}}, our:{ourN:1,cur:300000}, flag:{lvl:"event",ic:"🎯",txt:"NCT콘서트 강세(AJPC 아님). 4곳중3매진·베웨318k. 300,000 잔1 완벽·유지"}},
-  "8/23": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,n:2},hu:{p:200000,n:10,approx:true},bw:{p:221375,r:"free"}}, our:{ourN:4,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"저가재고2 품귀(NCT여파). 시장최저20만·베22만인데 우리 실수령11.3만. 150,000→200,000 상향"}},
-  "8/24": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:7},gd:{p:100000,n:6},hu:{p:100000,n:8},bw:{p:150535,r:"free"}}, our:{ourN:5,cur:150000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
-  "8/25": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:5},gd:{p:120000,n:7},hu:{p:100000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:5,cur:150000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
-  "8/26": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:8},gd:{p:100000,n:8},hu:{p:100000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:5,cur:150000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
-  "8/27": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,n:5},hu:{p:100000,n:7},bw:{p:150535,r:"free"}}, our:{ourN:5,cur:150000}, flag:{lvl:"amber",ic:"🟡",txt:"AJPC평일~주말. 평일가 유지, 8/29(토) 잔7이나 저가재고3이라 300,000 유지하며 3일전할인 대기"}},
-  "8/28": {dow:"금",t:"wknd", comp:{gh:{p:104400,n:1},gd:{p:160000,n:8},hu:{p:160000,n:10,approx:true},bw:{p:267162,r:"free"}}, our:{ourN:6,cur:200000}, flag:{lvl:"amber",ic:"🟡",txt:"AJPC평일~주말. 평일가 유지, 8/29(토) 잔7이나 저가재고3이라 300,000 유지하며 3일전할인 대기"}},
-  "8/29": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:3},hu:{p:200000,n:2},bw:{p:287706,r:"free"}}, our:{ourN:7,cur:300000}, flag:{lvl:"amber",ic:"🟡",txt:"AJPC평일~주말. 평일가 유지, 8/29(토) 잔7이나 저가재고3이라 300,000 유지하며 3일전할인 대기"}},
-  "8/30": {dow:"일",t:"wknd", comp:{gh:{p:90000,n:9},gd:{p:200000,n:8},hu:{p:140000,n:10,approx:true},bw:{p:184956,r:"free"}}, our:{ourN:7,cur:150000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
-  "8/31": {dow:"월",t:"wkdy", comp:{gh:{p:90000,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:141680,r:"free"}}, our:{ourN:7,cur:150000}}
+  "8/23": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,n:3},hu:{p:210000,n:4},bw:{p:233831,r:"free"}}, our:{ourN:4,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"저가재고2 품귀(NCT여파). 시장최저20만·베22만인데 우리 실수령11.3만. 150,000→200,000 상향"}},
+  "8/24": {dow:"월",t:"wkdy", comp:{gh:{p:81000,n:10},gd:{p:100000,n:8,approx:true},hu:{p:120000,n:17,approx:true},bw:{p:167079,r:"free"}}, our:{ourN:5,cur:150000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
+  "8/25": {dow:"화",t:"wkdy", comp:{gh:{p:81000,n:6},gd:{p:120000,n:4},hu:{p:100000,n:20,approx:true},bw:{p:167079,r:"free"}}, our:{ourN:5,cur:150000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
+  "8/26": {dow:"수",t:"wkdy", comp:{gh:{p:81000,n:14,approx:true},gd:{p:100000,n:8,approx:true},hu:{p:100000,n:13},bw:{p:167079,r:"free"}}, our:{ourN:5,cur:150000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
+  "8/27": {dow:"목",t:"wkdy", comp:{gh:{p:81000,n:2},gd:{p:100000,n:4},hu:{p:120000,n:15,approx:true},bw:{p:173201,r:"free"}}, our:{ourN:5,cur:150000}, flag:{lvl:"amber",ic:"🟡",txt:"AJPC평일~주말. 평일가 유지, 8/29(토) 잔7이나 저가재고3이라 300,000 유지하며 3일전할인 대기"}},
+  "8/28": {dow:"금",t:"wknd", comp:{gh:{p:93960,n:2},gd:{p:160000,n:8,approx:true},hu:{p:180000,n:8},bw:{p:271501,r:"free"}}, our:{ourN:6,cur:200000}, flag:{lvl:"amber",ic:"🟡",txt:"AJPC평일~주말. 평일가 유지, 8/29(토) 잔7이나 저가재고3이라 300,000 유지하며 3일전할인 대기"}},
+  "8/29": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:2},hu:{p:null,r:"so"},bw:{p:285234,r:"free"}}, our:{ourN:7,cur:300000}, flag:{lvl:"amber",ic:"🟡",txt:"AJPC평일~주말. 평일가 유지, 8/29(토) 잔7이나 저가재고3이라 300,000 유지하며 3일전할인 대기"}},
+  "8/30": {dow:"일",t:"wknd", comp:{gh:{p:81000,n:7,approx:true},gd:{p:200000,n:8,approx:true},hu:{p:140000,n:10},bw:{p:187955,r:"free"}}, our:{ourN:7,cur:150000}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 가격 150,000 유지"}},
+  "8/31": {dow:"월",t:"wkdy", comp:{gh:{p:81000,n:7,approx:true},gd:{p:100000,n:8,approx:true},hu:{p:100000,n:24,approx:true},bw:{p:156634,r:"free"}}, our:{ourN:7,cur:150000}}
 };
 
 /* COMP_OBSERVE: 8/1·8/2 rooms5 1콜 관찰 스캔(잔여) — Claude Code 7/20 실측, 이번(8/3) 턴에 재실측 대상 아니라 그대로 유지.
