@@ -143,7 +143,7 @@
   .avail-pct{font-size:9.5px;color:#6b7280;font-weight:400;}
   .avail-trend{display:inline-block;font-size:9px;color:#6b7280;font-family:monospace;}
   .list-sub{display:block;font-size:9px;color:#9ca3af;font-weight:400;}   /* 표시가 보조(실판매가 메인 아래) */
-  .late-tag{font-size:9px;color:#9ca3af;font-weight:600;margin-left:3px;}  /* 3일전(×0.70) 병기 — 메인 옆 인라인 */
+  .late-tag{font-size:9px;color:#9ca3af;font-weight:600;margin-left:3px;}  /* 3일전(×0.80) 병기 — 메인 옆 인라인 */
   .zone-tag{display:inline-block;font-size:8.5px;font-weight:700;color:#fff;border-radius:3px;padding:0 4px;margin-left:5px;vertical-align:middle;}
   .zt-fine{background:#0a8754;} .zt-watch{background:#9ca3af;}
   tr.zfine td.date{box-shadow:inset 3px 0 0 #0a8754;} tr.zwatch td.date{box-shadow:inset 3px 0 0 #d1d5db;}
@@ -200,18 +200,15 @@
 
   <div id="panel-track" class="panel">
   <div id="daychange" style="margin:0 0 14px;padding:13px 16px;background:#eafaf1;border:1px solid #b8e6cf;border-radius:10px;">
-  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 8/18 갱신 (Sirvoy 실측 반영·8/22 NCT가 고정·8/29·30 상향보류)</h3>
+  <h3 style="margin:0 0 7px;font-size:14px;color:#0a8754;">📈 8/28 갱신 (할인율 정정·경쟁사갱신·우리현황·9월 Vaundy 품귀상향)</h3>
   <ul style="margin:0;padding-left:18px;font-size:12.5px;">
-    <li><b>우리 재고·가격 8/18 Sirvoy 실측 전체 반영</b>: 8/18·20·21 판매마감 전환, 8/19 잔1·170,000. 8/24~27 잔여 5→3~4실로 축소(수요 진행). 8/28 잔6→5·200,000→160,000. 8/31 잔7·120,000 유지.</li>
-    <li><b>🔒 8/22(NCT) 잔3·300,000 — 의도적 인하 확정, 변경금지</b>. 기존 400,000에서 낮춘 값을 그대로 고정 표기(추천가 로직 무시하도록 flag에 명시).</li>
-    <li><b>⚠ 8/29·8/30 상향 보류</b>: 경쟁사는 급등(8/29 게하 8→11.3만·휴 SO→25만·베웨 28.5→30.1만 / 8/30 베웨 +37% 18.8→25.8만)했으나 <b>우리 재고는 잔5·잔7로 안 빠지는 상태</b> → 추천가 변경 없이 배너에만 "경쟁사 급등 관측되나 자체재고 과잉으로 상향 보류" 명시.</li>
-    <li><b>9월 장기구간(9/1~15) 14박7실 검토용 스캔</b>(8/17 실시): <b>9/5(사플페)·9/12(RIIZE) 모두 게굿휴베 4곳 전부 SO로 완전매진 확정</b> — 장기 벌크딜에서 할인 대상 제외하고 420,000+ 상향 권장, 나머지 12박만 그룹 할인 풀 대상.</li>
-    <li><b>이벤트 캘린더 점검(③, 8/17 실시)</b>: 이승철 40주년 콘서트(12/12, 인스파이어) 신규 확정 추가 — AJPC III 중첩 이중수요 가능. SBS가요대전 연말판(12/25)은 2026년 미발표(확인필요 유지). WPT Seoul·MCR·GOP는 기존 반영값과 일치.</li>
-    <li><b>이벤트 캘린더 재조사(⑤, 8/23 실시)</b>: 인터파크 인스파이어 라인업에 &amp;TEAM 'BLAZE THE WAY'·LE SSERAFIM 'PUREFLOW'·CORTIS TOUR 정식등록 확인(날짜 미공개, 10/31~11/2·11/29~30·12/13 tbd 슬롯 매칭 유력) — 매칭시 10/31~11/2는 GOP+MCR 중첩 삼중이벤트 가능. 파라다이스시티 크리스마스 마켓(11/14~1/1) 신규 배경수요 확인. 마츠다 세이코(2/22 인스파이어)는 이미 지난 상반기 건으로 하반기 캘린더와 무관 확인(목록 미등재). Vaundy 9/19~20 Play&amp;Stay 숙박패키지 판매 재확인.</li>
-    <li><b>⚠ XMF 2026 정식추가(⑤, 8/23)</b>: 10/3~4 파라다이스컬처파크, 헤드라이너 아도(일본원정)·한일 합동 22팀·10/3 개천절 연휴 중첩=이중호재. <b>8월초 조사에서 발견됐으나 트래커 반영이 누락됐던 건 복구</b> — 기존 "10월 초중순 한산" 판단 정정(10/3~5 강세, 10월 중순만 한산, 10/30~ 삼중이벤트).</li>
-    <li><b>⚠ 미확인 항목</b>: Chrome 브라우저 미접속으로 <b>게하·굿데이 정밀 잔여수(Stage 2)</b>는 여전히 재확인 못함 — comp는 8/17 MCP 가격·매진여부만(r:"na") 유지. 브라우저 연결 후 재실측 필요.</li>
+    <li><b>🔴 [A] 할인율 구조 정정(가장 중요)</b>: 기존 "평소 25%(×0.75)/3일전 30%(×0.70)"으로 반영돼 있던 값이 <b>실제와 반대(오기)</b>였음 확인 — <b>평소 15%(×0.85) / 3일전 추가 5%(총 20%, ×0.80)</b>로 정정. 경쟁군갭·추천가·저평가 판정·과거 판단 전부 이 새 기준(×0.85)으로 재계산됨(DISCOUNT_NORMAL/LATE 상수 변경만으로 전 테이블 자동 반영).</li>
+    <li><b>[B] 경쟁사 8/28 재스캔 반영</b>: 8/28~9/10 정밀구간 + 9/18~20(Vaundy)·9/25~26(기무라) 이벤트일, 게하=MCP값(hotel_id 13790670 정확 매칭)·굿데이/휴=브라우저 정밀·간소 실측·베웨=브라우저 최저가 채택(MCP와 다수 불일치 확인, 예 8/28 MCP 279,565인데 브라우저는 만실).</li>
+    <li><b>[C] 우리현황 8/28 스크린샷 전체 갱신</b>: 8/28·29 만실, 9/5·9/6 마감, 9/9~9/14 APPT 단체 판매완료, 9/15 신규 마감 전환. 9월 하순(9/16~30) 잔여수 소폭 정정(9/17 11→10·9/18 12→11·9/21~23 11~12→10 등).</li>
+    <li><b>🟢 [D] 9/19 Vaundy — 경쟁사 품귀로 진짜 수요 확인, 상향</b>: 게하 잔2·휴 잔1로 저가재고 품귀, 베웨는 완전 만실인데 <b>우리만 잔10 미판매</b> → 250,000→<b>300,000</b> 상향(실수령 25.5만). 9/20(이틀째) 170,000→200,000도 상향. 9/18(전날)은 250,000 유지하며 예약유입 관찰.</li>
+    <li><b>✅ [E] 9/25~26 기무라 300,000 유지 확인</b>: 잔6로 소진 중, 경쟁사 저가재고 3~4실로 타이트. 9/24(전날) 230,000 반영 확인(원정 조기입국 적중). 9/16~17·21~23·27~30 평일 과잉(잔10~11)은 150,000~170,000 유지, 3일전 할인으로 소진.</li>
   </ul>
-  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 정밀존(오늘~D+13, 8/18~8/31)은 ①탭에서 계속 관리. 9월(APPT·추석)은 ③ 9월 포커시즌 탭에서 콘서트 겹침일 중심으로 관리 — 순수 포커평일은 평일가 방어가 원칙.</p>
+  <p style="margin:7px 0 0;font-size:11.5px;color:#6b7280;">해석: 정밀존(오늘~D+13, 8/28~9/10)은 ①탭에서 계속 관리. 9월(Vaundy·기무라)은 ③ 9월 포커시즌 탭에서 콘서트 겹침일 중심으로 관리 — 순수 평일은 평일가 방어가 원칙.</p>
 </div>
   <div id="insight"></div>
   <div id="upcoming"></div>
@@ -226,7 +223,7 @@
   </div>
 
   <h2>① 정밀 추적 — <span id="rng-daily"></span> <span style="font-size:12px;font-weight:400;color:#9ca3af;">(<span class="zone-tag zt-fine">정밀</span> D+0~14 매일 · <span class="zone-tag zt-watch">관찰</span> D+0~30 주1회)</span></h2>
-  <p class="cap"><b>우리 현재가·추천가는 실수령(표시가×0.75, 평소 25%할인) 메인 + (3일전 ×0.70) 병기</b> 기준. 경쟁군갭·추천가·저평가 판정 모두 이 실수령(×0.75)으로 비교(표시가는 보조/툴팁). <b>정밀존(오늘~D+14)</b>은 매일 관리, 관찰존(오늘~D+30, 한 달)은 주 1회 확인. [과거숨김·8/23] 오늘 이전 날짜는 두 존 모두 자동 숨김(ASOF 기준 동적 필터).</p>
+  <p class="cap"><b>우리 현재가·추천가는 실수령(표시가×0.85, 평소 15%할인) 메인 + (3일전 ×0.80) 병기</b> 기준. 경쟁군갭·추천가·저평가 판정 모두 이 실수령(×0.85)으로 비교(표시가는 보조/툴팁). <b>정밀존(오늘~D+14)</b>은 매일 관리, 관찰존(오늘~D+30, 한 달)은 주 1회 확인. [과거숨김·8/23] 오늘 이전 날짜는 두 존 모두 자동 숨김(ASOF 기준 동적 필터).</p>
   <table id="dailyTable"><thead>
     <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
         <th class="mkt">저가재고<br><span style="font-weight:400;font-size:9px;color:#c2780c;">게+굿 · 총·최저</span></th>
@@ -258,7 +255,7 @@
     <b>운영(ASOF 기준 자동 롤).</b> ① 정밀 D+0~14 매일 풀스캔 — OURS_LOG에 잔여 스냅샷 누적(추이 열). ② 관찰 D+14~30 주 1회. ③ 8월 카지노 특별(별도 탭) — 인상 관점. ④ 9월~ 미표시.
     같은 index.html 덮어쓰기로 URL 유지, 깃허브 커밋에 이력 자동 보존.<br><br>
     <b>📌 판단기준 v3.</b> 총재고보다 <b>'저가재고(게하+굿데이 잔여합)'가 핵심</b>. 베웨는 대형·상시여유(D·7/30부터 "여유"로만 표기, 총재고 계산에서 제외)라 실제 우리 가격을 압박하는 경쟁은 게하·굿데이뿐 — <b>저가재고≤2면 우리가 올릴 기회, ≥8이면 인하해도 안 팔리니 무의미</b>(예: 7/31·8/1 저가재고 0=상향기회 · 8/3 저가재고 11=과잉). 총재고=게+굿+휴만 합산(휴는 간소 확인, ≥10은 근사). rooms=5≠5실(계단검색 폐기), rooms=1 가부 + 브라우저 차등 실측만 사용, 미확인은 추정 없이 "미확인".<br><br>
-    <b>💰 할인율 2단계(A·7/30 정정).</b> 평소=25% 할인 → 실수령(메인)=표시가×0.75(대부분의 예약). <b>3일전(D-3)까지 미판매 시</b>=30% 할인 → 실수령=표시가×0.70(막판 자동적용). 우리 현재가 셀은 "실수령(3일전 Y)" 형식으로 병기 — 3일전 낮은 가격은 정상 소진 모드이지 과인하가 아님. 경쟁사 비교·저평가 판정·추천가는 전부 메인(×0.75) 기준.<br><br>
+    <b>💰 할인율 2단계(A·8/28 정정).</b> 기존에 25%/30%(×0.75/×0.70)로 반영돼 있던 값이 실제와 반대(오기)였음 — 정정: 평소=15% 할인 → 실수령(메인)=표시가×0.85(대부분의 예약). <b>3일전(D-3)까지 미판매 시</b>=추가 5%(총 20%) 할인 → 실수령=표시가×0.80(막판 자동적용). 우리 현재가 셀은 "실수령(3일전 Y)" 형식으로 병기 — 3일전 낮은 가격은 정상 소진 모드이지 과인하가 아님. 경쟁사 비교·저평가 판정·추천가는 전부 메인(×0.85) 기준.<br><br>
     <b>🕒 판매창(마감 당일 오후3시 기준).</b> D-10~D-7=관찰 · D-7~D-4=고가 시도 · D-3~D-2=인하 판단 · D-1~당일=재고소진(최저가 정상).<br><br>
     <b>💱 MCP–브라우저 가격차 기록.</b> 게하는 MCP값(Genius 할인가=손님 실결제가) 채택. 베웨는 환불정책 차이가 있을 때 브라우저 최저가 채택(7/31 194,684·8/2 176,463), 그 외는 MCP=브라우저 일치.<br><br>
     <b>🎓 교훈 — 완판이 항상 최선은 아니다.</b> 8/8~14(2PM 콘서트+APT포커 이중수요)를 30만에 <b>조기 완판</b>했으나, 최상급 수요일은 <b>35만+로 더 높게·천천히</b> 판매했어야 함(조기 저가완판 주의). <b>3단계 전략</b>: 저가재고≥8이면 <b>절반 채우기 모드</b>, 잔여율≤50% & D+4 이상이면 <b>인상 타이밍</b>, 저가재고≤2면 상향 기회, 이벤트일은 선제 고가.<br><br>
@@ -315,18 +312,19 @@
 <script>
 /* DAILY_LOG: 날짜별 잔여 이력 배열(추이 띠용). 매일 아침 각 날짜에 오늘 잔여코드 push.
    r코드: "5"|"34"|"lt3"|"so"  */
-const ASOF = "2026-08-23";   // 표시는 LASTCHECK. ASOF 자체는 파싱용 순수 날짜 유지(접미어는 LASTCHECK에)
-const NOTE_GENIUS = "게하 8/23 재실측(브라우저 단독, MCP 이름매칭 실패로 대체): 평일 1실가 79,200 고정(종전 MCP 81,000에서 소폭 하락). 8/26 SO→79,200 재오픈(완화), 8/29 113,400→SO 전환(타이트). 8/23~9/2 구간 게굿휴 브라우저 정밀 잔여수 신규 확보(종전 r:\"na\" 미확인에서 n:숫자로 갱신). 9월 APPT 콘서트일(9/5 사플페·9/12 RIIZE)은 게굿휴베 4곳 전부 SO로 확대(당초 잔여 소량 있던 데서 완전매진 전환) — 리뷰 280건.";
-const LASTCHECK = "2026-08-23 (Sirvoy 스크린샷 기준 우리 재고·가격 8/23~9/30 전체 갱신 · 8/23·8/31 판매마감 신규 전환 · 8/29 200,000 유지(잔5→4 자연소진) · 8/23~9/2 경쟁사(게굿휴베)는 MCP+브라우저 재실측(게하=브라우저 단독, MCP 이름매칭 실패) — 게굿 정밀 n·휴 간소 n(≥10은 approx) 확보 · 9/9~9/14 APPT 주최기관 B2B 단체 8룸 판매완료(평균 실수령 13만) · 9/19·9/20 Vaundy 상향 반영(386,000·250,000) · 9/16~17·21~23·27~30 평일 과잉(잔10~12) · 추천가 로직 실수령 기준 통일(E) · WEEKLY_ASOF 갱신)";
-/* 할인구조 2단계(7/30 정정) — 평소=25% 할인(대부분 예약, 실수령 메인표시) · 3일전 미판매시=30% 할인(막판 자동적용).
-   메인 실수령=×0.75(DISCOUNT_NORMAL). 비교·추천·저평가 판정은 전부 이 메인(0.75) 기준. 3일전 값(×0.70)은 셀에 "(3일전 Y)"로 병기만. */
-const DISCOUNT_NORMAL = 0.25;   // 평소(대부분 예약) — 메인 실수령 기준
-const DISCOUNT_LATE   = 0.30;   // 3일전(D-3)까지 미판매 시 막판 자동할인
-const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(메인, ×0.75)
-const netRateLate = p => p==null?null:Math.round(p*(1-DISCOUNT_LATE));    // 표시가 → 실수령(3일전, ×0.70)
-const listOf = p => p==null?null:Math.round(p/(1-DISCOUNT_NORMAL));       // 실수령(메인) → 표시가 환산(÷0.75)
+const ASOF = "2026-08-28";   // 표시는 LASTCHECK. ASOF 자체는 파싱용 순수 날짜 유지(접미어는 LASTCHECK에)
+const NOTE_GENIUS = "[B·8/28] 게하=MCP값 채택(정확한 hotel_id 13790670 매칭 확인). 8/28~9/10 정밀구간 전체 게굿휴 브라우저 정밀/간소 잔여 재실측 완료(드롭다운 실측 n, 휴는 ≥10 근사). 베웨는 MCP-브라우저 불일치 다수 확인(예 8/28 MCP 279,565인데 브라우저는 만실) → 전 날짜 브라우저 최저가·매진여부 채택. 9/18~20(Vaundy)·9/25~26(기무라) 이벤트일도 동일 방식 재스캔.";
+const LASTCHECK = "2026-08-28 (Sirvoy 스크린샷 기준 우리 재고·가격 8/28~9/30 전체 갱신 · [A] 할인율 정정: 기존 25%/30%(×0.75/×0.70)가 실제와 반대로 반영돼 있던 오류 수정 → 15%/20%(×0.85/×0.80)로 정정, 경쟁군갭·추천가·저평가 판정 전부 재계산 · [B] 경쟁사 8/28 스캔 반영(게하=MCP·베웨=브라우저최저, 8/28~9/10 정밀+9/18~20·9/25~26 이벤트일) · [C] 우리현황 8/28 스크린샷 전체 갱신 · [D] 9/19 Vaundy 경쟁사 품귀 확인 250,000→300,000 상향, 9/20 170,000→200,000 상향 · [E] 9/25~26 기무라 300,000 유지 확인, 9/16~17·21~23·27~30 평일과잉 유지)";
+/* 할인구조 2단계(A·8/28 정정) — 기존 25%/30%(×0.75/×0.70)로 반영돼 있던 게 실제와 반대·오류였음. 정정:
+   평소=15% 할인(대부분 예약, 실수령 메인표시) · 3일전 미판매시=추가 5%(총 20%) 할인(막판 자동적용).
+   메인 실수령=×0.85(DISCOUNT_NORMAL). 비교·추천·저평가 판정은 전부 이 메인(0.85) 기준. 3일전 값(×0.80)은 셀에 "(3일전 Y)"로 병기만. */
+const DISCOUNT_NORMAL = 0.15;   // 평소(대부분 예약) — 메인 실수령 기준 [A·8/28: 0.25→0.15 정정]
+const DISCOUNT_LATE   = 0.20;   // 3일전(D-3)까지 미판매 시 막판 자동할인(총 20%) [A·8/28: 0.30→0.20 정정]
+const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(메인, ×0.85)
+const netRateLate = p => p==null?null:Math.round(p*(1-DISCOUNT_LATE));    // 표시가 → 실수령(3일전, ×0.80)
+const listOf = p => p==null?null:Math.round(p/(1-DISCOUNT_NORMAL));       // 실수령(메인) → 표시가 환산(÷0.85)
 /* 저빈도(② D+15~30) 데이터 마지막 갱신 시각 — 각 판단열 asof 신선도 라벨용(24h 초과 시 주황). */
-const WEEKLY_ASOF = "2026-08-23T09:00";   // 8월 전체 관찰 스캔 시각(Claude Code) — [F·8/23] 옛값(07/20) 잔존 정정, 최신 갱신시각으로 교체
+const WEEKLY_ASOF = "2026-08-28T09:00";   // 8월 전체 관찰 스캔 시각(Claude Code) — [B·8/28] 최신 갱신시각으로 교체
 /* CAPACITY: 월별 총 객실수(잔여 비율 판정 분모). 7월 8실 · 8월부터 10실. 미등록 월은 10 기본.
    ★ 7/30 정정: 7월은 실제 8실(이전 "8→10실 증설" 가정은 오기 — 7/29 잔9 등 구값이 남긴 흔적, 현재 창(7/30~)엔 해당 없어 정정). */
 const CAPACITY = { "2026-07": 8, "2026-08": 10, "2026-09": 10 };
@@ -354,7 +352,7 @@ const BK_PARAMS = "group_adults=2&no_rooms=1&group_children=0";
 const BK_YEAR = parseInt(ASOF,10)||2026;
 
 /* 각 추적일: comp 4숙소 {p, n|r} 또는 {soEst:true}(조회불가), our {ourN, cur=표시가}. 잔여 분모 7월 cap=8·8월 cap=10.
-   ★ 우리 cur는 Sirvoy '표시가'. 비교·추천·갭은 전부 netRate(cur)=표시가×0.75=실수령(메인)으로 계산됨. 3일전(×0.70)은 셀에 병기만.
+   ★ 우리 cur는 Sirvoy '표시가'. 비교·추천·갭은 전부 netRate(cur)=표시가×0.85=실수령(메인)으로 계산됨. 3일전(×0.80)은 셀에 병기만.
    comp 잔여 표기(D·7/30 차등화): gh·gd=브라우저 정밀 실측 n(핵심지표) · hu=간소 확인 n(<10 정확) 또는 n:10,approx:true(드롭다운 상한="≥10")
      · bw=r:"free"(대형·항상 여유, 잔여수 안 셈·"여유"만 표기) · r:"na"=MCP 가격만·잔여 미확인 · {p:null,r:"so"}=매진.
    flag(있으면)=셀 경고 배지 {lvl,ic,txt}. lvl=red/amber/orange/green/event/neutral(색), ic=표시 이모지. buildRow에서 fillFlag() 거쳐 렌더.
@@ -363,29 +361,25 @@ const BK_YEAR = parseInt(ASOF,10)||2026;
      · 가격정책: 게하=MCP값 고정 90,000(21·28만 104,400 주말가) · 베웨=MCP=브라우저 일치(불일치 시 브라우저 최저 채택).
      · 게하 SO=8/6·7·8·9·12·13·15 · 굿데이 SO=8/3·7·9·13 · 휴 SO=8/7·8·9·10·11·13·15 · 베웨 SO=8/6·7·8·9·13·15.
      · 🔴 8/5 평일과잉 과가(200,000→120,000 하향 검토, F). 🎯 8/6 인근 이벤트(확인필요)·8/7~ APT포커(포커 단독=약함, 강세는 콘서트 겹침일뿐).
-   할인(A, 7/30): 실수령 메인=×0.75(평소 25%), 3일전(D-3) 미판매시=×0.70 — 각 현재가 셀에 "(3일전 Y)" 병기.
+   할인(A, 8/28 정정): 실수령 메인=×0.85(평소 15%), 3일전(D-3) 미판매시=×0.80(총 20%) — 각 현재가 셀에 "(3일전 Y)" 병기.
    추천가(C, 8/3): clampRec()로 표시가 환산이 현재가/경쟁사가 대비 1.5배 넘으면 자동 상한. */
 const DAILY = {
-  // ----- 정밀추적 (오늘 8/23 롤링 ~ +13일, 8/23~9/5) · AUGUST 데이터를 그대로 미러링(comp·our=8/23 재실측/Sirvoy 갱신). 9/1~9/2는 SEPTEMBER our값과 동일 미러링, 9/3~9/5는 DAILY 키 미생성(다음 롤링시 SEPTEMBER에서 편입) -----
+  // ----- 정밀추적 (오늘 8/28 롤링 ~ +13일, 8/28~9/10) · [B·8/28] 게굿휴베 전체 rooms=1 MCP+브라우저 재실측. [C·8/28] 우리=8/28 Sirvoy 스크린샷 -----
   // 경쟁순서 게(13790670)/굿(1794538)/휴(404435)/베(239286)
-  "8/17": {dow:"월",t:"wkdy", comp:{gh:{p:90000,r:"na"},gd:{p:100000,r:"na"},hu:{p:117392,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}},
-  "8/18": {dow:"화",t:"wkdy", comp:{gh:{p:90000,r:"na"},gd:{p:100000,r:"na"},hu:{p:98145,r:"na"},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}},
-  "8/19": {dow:"수",t:"wkdy", comp:{gh:{p:90000,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:150535,r:"free"}}, our:{ourN:1,cur:170000}},
-  "8/20": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:140000,r:"na"},bw:{p:172040,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"게굿 SO 유지(잔여 좁음). 8/18 Sirvoy 실측: 우리도 판매마감 전환"}},
-  "8/21": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,r:"na"},hu:{p:250000,r:"na"},bw:{p:258060,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"red",ic:"🔴",txt:"AJPC과잉(저가재고{저가재고}). 경쟁사도 안 참. 6박 최소숙박이 짧은수요 막는 중 → 빈방 3박으로 완화 권장. 8/18 Sirvoy 실측: 판매마감 전환"}},
-  "8/22": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,r:"na"},hu:{p:null,r:"so"},bw:{p:301070,r:"free"}}, our:{ourN:3,cur:300000}, flag:{lvl:"neutral",ic:"🔒",txt:"NCT 10주년. 8/18 Sirvoy 실측: 잔3·300,000으로 의도적 인하 확정 — 이 가격 변경 금지(추천가 로직 무시). 게하휴 SO 유지, 굿데이 20만"}},
-  "8/23": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,n:1},hu:{p:null,r:"so"},bw:{p:268813,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"8/23 재실측: 게하·휴 동시 SO(품귀 심화). 저가재고1(굿데이 22만 유일). 우리는 판매마감."}},
-  "8/24": {dow:"월",t:"wkdy", comp:{gh:{p:79200,n:4},gd:{p:100000,n:3},hu:{p:120000,n:6},bw:{p:139783,r:"free"}}, our:{ourN:3,cur:120000}, flag:{lvl:"red",ic:"🔴",txt:"8/23 재실측: 베웨 -18.8%(17.2→14.0만) 급락, 굿데이 8→10만 반등. 게하 79,200 소폭하락. 우리 150,000→120,000 하향(잔3 유지)"}},
-  "8/25": {dow:"화",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:5},hu:{p:120000,n:2},bw:{p:182793,r:"free"}}, our:{ourN:3,cur:120000}, flag:{lvl:"red",ic:"🔴",txt:"8/23 재실측: 게하 SO 유지. 우리 150,000→120,000 하향(잔3 유지)"}},
-  "8/26": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:6},gd:{p:80000,n:4},hu:{p:120000,n:1},bw:{p:182793,r:"free"}}, our:{ourN:3,cur:120000}, flag:{lvl:"amber",ic:"🟡",txt:"8/23 재실측: 게하 SO→79,200 재오픈(완화 신호). 우리 150,000→120,000 하향(잔3 유지)"}},
-  "8/27": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:4,cur:120000}, flag:{lvl:"orange",ic:"🟠",txt:"8/23 재실측: 저가재고2(소진임박). 우리 150,000→120,000 하향(잔4 유지)"}},
-  "8/28": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:6},hu:{p:230000,n:1},bw:{p:279565,r:"free"}}, our:{ourN:4,cur:160000}, flag:{lvl:"orange",ic:"🟠",txt:"8/23 재실측: 휴 잔1 타이트. 우리 잔5→4 자연소진, 160,000 유지"}},
-  "8/29": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:210000,n:2},bw:{p:301070,r:"free"}}, our:{ourN:4,cur:200000}, flag:{lvl:"red",ic:"🔴",txt:"8/23 재실측: 게하·굿데이 동시 SO 전환(완전매진), 휴는 오히려 -16%(25→21만) 하락 — 저가경쟁 완전 매진. 우리 잔5→4, 200,000 유지"}},
-  "8/30": {dow:"일",t:"wknd", comp:{gh:{p:79200,n:4},gd:{p:180000,n:7},hu:{p:140000,n:5},bw:{p:258060,r:"free"}}, our:{ourN:7,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"8/23 재실측: 저가재고 11실로 완화(전일 매진에서 반전). 우리 잔7·150,000 유지"}},
-  "8/31": {dow:"월",t:"wkdy", comp:{gh:{p:79200,n:7},gd:{p:70000,n:8},hu:{p:120000,n:3},bw:{p:161288,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"neutral",ic:"🔒",txt:"8/23 재실측: 굿데이 7만 저가 유지. 우리 잔7→판매마감 전환(완전 소진)"}},
-  // ----- 9/1·9/2는 ASOF(8/23) 기준 14일 롤링창(8/23~9/5)에 포함되어 신규 편입. SEPTEMBER our값과 동일 미러링 -----
-  "9/1": {dow:"화",t:"wkdy", comp:{gh:{p:79200,n:9},gd:{p:100000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:7,cur:170000}},
-  "9/2": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:8},gd:{p:100000,n:8},hu:{p:120000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:6,cur:170000}}
+  "8/28": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"red",ic:"🔴",txt:"[B·8/28] 재실측: 게굿휴베 4곳 전부 만실(완전품귀). 우리도 판매마감"}},
+  "8/29": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:338700,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[B·8/28] 재실측: 게굿휴 3곳 만실, 베웨만 338,700 여유. 우리도 판매마감"}},
+  "8/30": {dow:"일",t:"wknd", comp:{gh:{p:74520,n:3},gd:{p:120000,n:7},hu:{p:120000,n:3},bw:{p:193545,r:"free"}}, our:{ourN:3,cur:100000}},
+  "8/31": {dow:"월",t:"wkdy", comp:{gh:{p:68040,n:7},gd:{p:70000,n:8},hu:{p:100000,n:10,approx:true},bw:{p:161288,r:"free"}}, our:{ourN:4,cur:120000}},
+  "9/1": {dow:"화",t:"wkdy", comp:{gh:{p:64800,n:8},gd:{p:80000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:5,cur:120000}},
+  "9/2": {dow:"수",t:"wkdy", comp:{gh:{p:64800,n:8},gd:{p:80000,n:8},hu:{p:100000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:6,cur:120000}},
+  "9/3": {dow:"목",t:"wkdy", comp:{gh:{p:72900,n:5},gd:{p:120000,n:4},hu:{p:120000,n:4},bw:{p:193545,r:"free"}}, our:{ourN:6,cur:120000}},
+  "9/4": {dow:"금",t:"wknd", comp:{gh:{p:117450,n:2},gd:{p:180000,n:4},hu:{p:140000,n:6},bw:{p:258060,r:"free"}}, our:{ourN:6,cur:200000}},
+  "9/5": {dow:"토",t:"wknd", comp:{gh:{p:117450,n:1},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[B·8/28] 재실측: 게하만 잔1로 남고 굿휴베 3곳 만실(품귀). 우리도 판매마감"}},
+  "9/6": {dow:"일",t:"wknd", comp:{gh:{p:76950,n:3},gd:{p:200000,n:8},hu:{p:120000,n:6},bw:{p:193545,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}},
+  "9/7": {dow:"월",t:"wkdy", comp:{gh:{p:76950,n:9},gd:{p:120000,n:4},hu:{p:100000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:1,cur:170000}},
+  "9/8": {dow:"화",t:"wkdy", comp:{gh:{p:76950,n:2},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"}}, our:{ourN:1,cur:170000}},
+  "9/9": {dow:"수",t:"wkdy", comp:{gh:{p:76950,n:7},gd:{p:100000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 판매완료(9/9~14, SEPTEMBER 9/9 메모 참조)"},
+  "9/10": {dow:"목",t:"wkdy", comp:{gh:{p:76950,n:6},gd:{p:160000,n:1},hu:{p:120000,n:8},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 판매완료(9/9~14, SEPTEMBER 9/9 메모 참조)"}
 };
 
 /* ② 관찰(저빈도) D+14~30 — 주 1회 갱신. 8월 전체 관찰 데이터(COMP_OBSERVE)를 아래 병합 루프에서
@@ -394,7 +388,7 @@ const WEEKLY = {};   // COMP_OBSERVE 병합 루프에서 8월 전체(8/1~8/31)�
 
 /* 8월 카지노 특별구간 (8/1~31) — "얼마나 높일까" 관점. 우리 잔여·표시가는 Sirvoy 실측(2026-08-03 갱신, cap=10).
    경쟁사(comp)는 8/3~31 rooms=1 MCP+브라우저 차등 재실측(게굿=정밀 8/3~13·20~30·휴=간소·8/14~19·31=가격만·잔여미확인). 8/1·8/2만 미재실측(구 COMP_OBSERVE 유지).
-   ev:"tour" 대회기간(8/6~16)·"event" 8/22 단일이벤트. rec(있으면)=권장 실수령(표시가×0.75).
+   ev:"tour" 대회기간(8/6~16)·"event" 8/22 단일이벤트. rec(있으면)=권장 실수령(표시가×0.85).
    [8/3 갱신] 8/3~8/31 우리현황(B)+경쟁사(A) 전체 갱신. 8/7~8/15 판매완료·8/16~17·19 판매마감.
      · AJPC(8/21~30) 3박완화 전략(D·E): 6박이 일본계 단기수요 막음(실측 5실확정·5실공실) → 과잉일 3박 완화, 콘서트일(8/22)만 6박 유지.
      · 8/23 NCT여파 저가재고 품귀→상향(D). 8/5 평일과잉 과가→하향 검토(F). */
@@ -462,36 +456,36 @@ const COMP_OBSERVE = {
    [8/3 갱신] C: 포커 강도 재분류 — APPT 단독일도 저가재고13~16으로 8월 AJPC와 동일하게 약함 확인. 강세는 콘서트 겹침(사플페 9/5~6·RIIZE 9/12~13·Vaundy 9/19~20)뿐.
    hl:"strong"=콘서트 겹침일·"chuseok"=추석연휴. flag=D섹션 가격조정 신호(경쟁사 실측 기반, 텍스트 내 구체 수치는 8/3 스캔 당시 설명 그대로 유지). */
 const SEPTEMBER = {
-  "9/1":  {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:123970,r:"free"}}, our:{ourN:7,cur:170000}},
-  "9/2":  {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:123970,r:"free"}}, our:{ourN:6,cur:170000}},
-  "9/3":  {dow:"목",t:"wkdy", comp:{gh:{p:97200,n:8},gd:{p:100000,n:7},hu:{p:140000,n:10,approx:true},bw:{p:168245,r:"free"}}, our:{ourN:6,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/23] 표시가 300,000→170,000 하향 적용 완료(포커단독 약함 재확인, 경쟁 저가재고 여전 두터움)"}},
-  "9/4":  {dow:"금",t:"wknd", comp:{gh:{p:104400,n:7},gd:{p:160000,n:6},hu:{p:300000,n:4},bw:{p:259578,r:"free"}}, our:{ourN:6,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"[E·8/23] 포커단독+금요일. 표시가 386,000→250,000 하향 적용(기존 220,000 권장보다 소폭 높게 유지)"}},
-  "9/5":  {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:5,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"[E·8/23] 사플페 강세일 그대로(콘서트 확정)이나 실제 적용가는 386,000→250,000으로 하향됨(당초 420,000+ 상향 권장과 반대 방향) — 가격 재점검 필요"}},
-  "9/6":  {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:97200,n:5},gd:{p:200000,n:7},hu:{p:230000,n:8},bw:{p:194810,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}},
-  "9/7":  {dow:"월",t:"wkdy", comp:{gh:{p:97200,n:9},gd:{p:100000,n:8},hu:{p:100000,n:10,approx:true},bw:{p:132825,r:"free"}}, our:{ourN:1,cur:170000}, flag:{lvl:"orange",ic:"🟠",txt:"[E·8/23] 표시가 300,000→170,000 하향 적용 완료. 잔1 타이트"}},
-  "9/8":  {dow:"화",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:161288,r:"free"}}, our:{ourN:1,cur:170000}, flag:{lvl:"orange",ic:"🟠",txt:"[E·8/23] 표시가 300,000→170,000 하향 적용 완료. 잔1 타이트, 시장최저 8만대 지속"}},
-  "9/9":  {dow:"수",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:193545,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, flag:{lvl:"green",ic:"🤝",txt:"[C·8/23] APPT 주최기관 B2B 단체 8룸 판매완료(할인없이 평균 실수령 13만, 룸별 체크인 제각각). 포커 B2B 교훈: 개별 저가경쟁 대신 주최기관 단체문의가 제값받고 대량판매 — 9/9~14 완판이 증거. GOP(10/30~11/8)·AJPC III(12/4~13)도 주최측 B2B 우선 타진"}},
-  "9/10": {dow:"목",t:"wkdy", comp:{gh:{p:97200,n:7},gd:{p:120000,n:2},hu:{p:140000,n:10,approx:true},bw:{p:159390,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
+  "9/1":  {dow:"화",t:"wkdy", comp:{gh:{p:64800,n:8},gd:{p:80000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:5,cur:120000}},
+  "9/2":  {dow:"수",t:"wkdy", comp:{gh:{p:64800,n:8},gd:{p:80000,n:8},hu:{p:100000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:6,cur:120000}},
+  "9/3":  {dow:"목",t:"wkdy", comp:{gh:{p:72900,n:5},gd:{p:120000,n:4},hu:{p:120000,n:4},bw:{p:193545,r:"free"}}, our:{ourN:6,cur:120000}},
+  "9/4":  {dow:"금",t:"wknd", comp:{gh:{p:117450,n:2},gd:{p:180000,n:4},hu:{p:140000,n:6},bw:{p:258060,r:"free"}}, our:{ourN:6,cur:200000}},
+  "9/5":  {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:117450,n:1},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[B·8/28] 재실측: 게하만 잔1로 남고 굿휴베 3곳 만실(품귀). 우리도 판매마감"}},
+  "9/6":  {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:76950,n:3},gd:{p:200000,n:8},hu:{p:120000,n:6},bw:{p:193545,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}},
+  "9/7":  {dow:"월",t:"wkdy", comp:{gh:{p:76950,n:9},gd:{p:120000,n:4},hu:{p:100000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:1,cur:170000}},
+  "9/8":  {dow:"화",t:"wkdy", comp:{gh:{p:76950,n:2},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"}}, our:{ourN:1,cur:170000}},
+  "9/9":  {dow:"수",t:"wkdy", comp:{gh:{p:76950,n:7},gd:{p:100000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, flag:{lvl:"green",ic:"🤝",txt:"[C·8/23] APPT 주최기관 B2B 단체 8룸 판매완료(할인없이 평균 실수령 13만, 룸별 체크인 제각각). 포커 B2B 교훈: 개별 저가경쟁 대신 주최기관 단체문의가 제값받고 대량판매 — 9/9~14 완판이 증거. GOP(10/30~11/8)·AJPC III(12/4~13)도 주최측 B2B 우선 타진"}},
+  "9/10": {dow:"목",t:"wkdy", comp:{gh:{p:76950,n:6},gd:{p:160000,n:1},hu:{p:120000,n:8},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/11": {dow:"금",t:"wknd", comp:{gh:{p:104400,n:7},gd:{p:160000,n:7},hu:{p:180000,n:10,approx:true},bw:{p:267162,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/12": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/13": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:81000,r:"na"},gd:{p:180000,r:"na"},hu:{p:150000,r:"na"},bw:{p:193545,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:97200,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:168245,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
-  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:1,cur:170000}, flag:{lvl:"orange",ic:"🟠",txt:"8/23 재실측: 잔8→1 급감(단기 예약 유입), 143,000→170,000 상향"}},
-  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:11,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:104400,n:6},gd:{p:160000,n:8},hu:{p:180000,n:10,approx:true},bw:{p:184956,r:"free"}}, our:{ourN:12,cur:250000}},
-  "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:104400,n:6},gd:{p:160000,n:8},hu:{p:180000,n:8},bw:{p:null,r:"so"}}, our:{ourN:11,cur:386000}, flag:{lvl:"green",ic:"🟢",txt:"[D·8/23] 일본원정 매진·Play&Stay 숙박패키지. 현재 250,000→386,000 상향. 잔11이나 D-27이라 이제 원정예약 시작"}},
-  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:97200,n:8},gd:{p:100000,n:7},hu:{p:127187,n:10,approx:true},bw:{p:184956,r:"free"}}, our:{ourN:11,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/23] 이틀째. 170,000→250,000 상향"}},
-  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:12,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔12, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:11,cur:150000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"na"},gd:{p:180000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:11,cur:150000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"na"},gd:{p:180000,r:"na"},hu:{p:160000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:8,cur:150000}, note:"★추석"},
-  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:115200,n:6},gd:{p:160000,n:8},hu:{p:180000,n:10,approx:true},bw:{p:184956,r:"free"}}, our:{ourN:7,cur:300000}, note:"★추석 당일"},
-  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:115200,n:7},gd:{p:180000,n:8},hu:{p:180000,n:6},bw:{p:184956,r:"free"}}, our:{ourN:7,cur:300000}, flag:{lvl:"orange",ic:"🟠",txt:"기무라 팬미팅(콘서트보단 약). 300,000 유지"}},
-  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"na"},gd:{p:180000,r:"na"},hu:{p:100000,r:"na"},bw:{p:184956,r:"free"}}, our:{ourN:12,cur:150000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔12, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:12,cur:150000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔12, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:10,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:10,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[G·8/23] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}}
+  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[C·8/28] 8/28 스크린샷: 잔1→마감 전환(완전 소진)"}},
+  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:8},hu:{p:180000,n:9},bw:{p:279565,r:"free"}}, our:{ourN:11,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/28] Vaundy 전날 — 원정 조기입국 대비. 250,000 유지, 예약유입 관찰"}},
+  "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:125550,n:2},gd:{p:160000,n:6},hu:{p:200000,n:1},bw:{p:null,r:"so"}}, our:{ourN:10,cur:300000}, flag:{lvl:"green",ic:"🟢",txt:"[D·8/28] 경쟁사 저가재고2 품귀=수요 진짜. 우리만 잔10 미판매. 250,000→300,000 상향(실수령 25.5만). 경쟁사 상위가 확인시 추가상향 여지"}},
+  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:109350,n:7},gd:{p:140000,n:7},hu:{p:140000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:9,cur:200000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/28] Vaundy 이틀째. 170,000→200,000 상향"}},
+  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:150000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"na"},gd:{p:180000,r:"na"},hu:{p:120000,r:"na"},bw:{p:168245,r:"free"}}, our:{ourN:10,cur:150000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:115200,r:"na"},gd:{p:180000,r:"na"},hu:{p:160000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:6,cur:230000}, note:"★추석", flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 전날 — 230,000 반영됨. 원정 조기입국 적중"}},
+  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,n:5},gd:{p:160000,n:8},hu:{p:210000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:6,cur:300000}, note:"★추석 당일", flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 — 300,000 잔6 소진중. 경쟁사 저가재고3~4. 유지"}},
+  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,n:8},gd:{p:180000,n:8},hu:{p:180000,n:7},bw:{p:301070,r:"free"}}, our:{ourN:6,cur:300000}, flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 — 300,000 잔6 소진중. 경쟁사 저가재고3~4. 유지"}},
+  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:97200,r:"na"},gd:{p:180000,r:"na"},hu:{p:100000,r:"na"},bw:{p:184956,r:"free"}}, our:{ourN:11,cur:150000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:11,cur:150000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:9,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔9, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:97200,r:"na"},gd:{p:100000,r:"na"},hu:{p:100000,r:"na"},bw:{p:177100,r:"free"}}, our:{ourN:11,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}}
 };
 // [과거숨김·8/23] ②관찰탭이 오늘~D+30(9월 포함)을 보여주려면 SEPTEMBER도 WEEKLY에 병합돼야 함 — 기존엔 AUGUST만 병합되어 9월이 안 보였음.
 Object.keys(SEPTEMBER).forEach(function(md){ WEEKLY[md]=SEPTEMBER[md]; });
@@ -609,6 +603,27 @@ function venueCode(v){ return /인스파이어/.test(v)?"ARENA":/파라다이스
       동시에 (2) 아래 COMP_LOG 맨 위에 새 타임스탬프 키로 그 시각의 14일치 스냅샷을 append.
       pruneLog()가 로드 시 7일(168h) 지난 스냅샷을 자동 삭제. 렌더는 시각으로 정렬하므로 순서 무관. */
 const COMP_LOG = {
+  "2026-08-28T09:00": {   // 8/28 스캔 — 정밀존 8/28~9/10 rooms=1 MCP+브라우저 재실측(게하=MCP값·정확 매칭·굿휴=브라우저 정밀/간소·베웨=브라우저 최저, MCP-브라우저 다수 불일치 확인) + 9/18~20·9/25~26 이벤트일 병행 재실측. 직전(8/23) 대비: 8/28 게굿휴베 4곳 전부 SO 신규(직전엔 굿120k·휴23만·베27.9만 있었음, 완전품귀로 전환)·8/29 베웨만 33.87만 여유(직전 게굿휴 전부 SO는 동일)·게하가 전반 79,200→68,040~76,950으로 추가 하락·9/5 게굿휴베 4곳 SO→게하만 11.7만 재오픈.
+    "2026-08-28": {gh:"SO",   gd:"SO",   hu:"SO",   bw:"SO"},
+    "2026-08-29": {gh:"SO",   gd:"SO",   hu:"SO",   bw:338700},
+    "2026-08-30": {gh:74520,  gd:120000, hu:120000, bw:193545},
+    "2026-08-31": {gh:68040,  gd:70000,  hu:100000, bw:161288},
+    "2026-09-01": {gh:64800,  gd:80000,  hu:120000, bw:139783},
+    "2026-09-02": {gh:64800,  gd:80000,  hu:100000, bw:139783},
+    "2026-09-03": {gh:72900,  gd:120000, hu:120000, bw:193545},
+    "2026-09-04": {gh:117450, gd:180000, hu:140000, bw:258060},
+    "2026-09-05": {gh:117450, gd:"SO",   hu:"SO",   bw:"SO"},
+    "2026-09-06": {gh:76950,  gd:200000, hu:120000, bw:193545},
+    "2026-09-07": {gh:76950,  gd:120000, hu:100000, bw:150535},
+    "2026-09-08": {gh:76950,  gd:80000,  hu:120000, bw:161288},
+    "2026-09-09": {gh:76950,  gd:100000, hu:120000, bw:"SO"},
+    "2026-09-10": {gh:76950,  gd:160000, hu:120000, bw:"SO"},
+    "2026-09-18": {gh:"SO",   gd:160000, hu:180000, bw:279565},
+    "2026-09-19": {gh:125550, gd:160000, hu:200000, bw:"SO"},
+    "2026-09-20": {gh:109350, gd:140000, hu:140000, bw:193545},
+    "2026-09-25": {gh:129600, gd:160000, hu:210000, bw:193545},
+    "2026-09-26": {gh:129600, gd:180000, hu:180000, bw:301070}
+  },
   "2026-08-23T09:00": {   // 8/23 스캔 — 정밀존 8/23~9/2 rooms=1 MCP+브라우저 재실측(게하=브라우저 단독·MCP 이름매칭 실패로 대체, 게굿=정밀 n, 휴=간소 n/≥10approx, 베웨=MCP+브라우저 일치). 9/3~9/5는 이번 턴 미스캔이라 SEPTEMBER 기존값 그대로 병기. 직전(8/9) 대비: 8/23 휴 21→SO 전환(품귀 심화)·8/26 게하 SO→79,200 재오픈(완화)·8/29 게하·굿데이 동시 SO 전환(완전매진, 8/9엔 각각 가격 있었음)·게하가 전반 81,000→79,200(-1,800)로 소폭 추가하락.
     "2026-08-23": {gh:"SO",   gd:220000, hu:"SO",   bw:268813},
     "2026-08-24": {gh:79200,  gd:100000, hu:120000, bw:139783},
@@ -1016,6 +1031,26 @@ const COMP_LOG = {
    스키마: {날짜ISO: {avail:잔여수, price:현재가}} (매진=avail:0, price:null).
    D+1~14 표의 "우리잔여(추이)" 열이 최근 3스냅샷을 비교해 7→7→5 ↓ 형태로 렌더. pruneLog(OURS_LOG)로 자동 정리. */
 const OURS_LOG = {
+  "2026-08-28T09:00": {   // [C·8/28] 8/28 Sirvoy 스크린샷 전체 갱신(8월·9월 cap=10). 전 스냅(8/18) 대비: 8/28·29 잔5→만실(완전소진)·8/30 잔7→잔3·100k(재고 새 사이클 시작)·9/5·9/6 마감 신규·9/9~14 APPT B2B 단체 판매완료·9/15 잔1→마감·9/17 잔11→10·9/18 잔12→11·9/19 386k→300k([D] 경쟁사 품귀 확인 재상향, 잔11→10)·9/20 250k→200k([D] 잔11→9)·9/21~23 잔11~12→10·9/24 잔8·150k→잔6·230k([E] 원정 조기입국 적중)·9/25~26 잔7→6(300k 유지, [E] 확인)·9/27~28 잔12→11·9/29 잔10→9·9/30 잔10→11.
+    "2026-08-28": {avail:0, price:null},   "2026-08-29": {avail:0, price:null},
+    "2026-08-30": {avail:3, price:100000}, "2026-08-31": {avail:4, price:120000},
+    "2026-09-01": {avail:5, price:120000}, "2026-09-02": {avail:6, price:120000},
+    "2026-09-03": {avail:6, price:120000}, "2026-09-04": {avail:6, price:200000},
+    "2026-09-05": {avail:0, price:null},   "2026-09-06": {avail:0, price:null},
+    "2026-09-07": {avail:1, price:170000}, "2026-09-08": {avail:1, price:170000},
+    "2026-09-09": {avail:0, price:null},   "2026-09-10": {avail:0, price:null},
+    "2026-09-11": {avail:0, price:null},   "2026-09-12": {avail:0, price:null},
+    "2026-09-13": {avail:0, price:null},   "2026-09-14": {avail:0, price:null},
+    "2026-09-15": {avail:0, price:null},
+    "2026-09-16": {avail:10,price:170000}, "2026-09-17": {avail:10,price:170000},
+    "2026-09-18": {avail:11,price:250000}, "2026-09-19": {avail:10,price:300000},
+    "2026-09-20": {avail:9, price:200000}, "2026-09-21": {avail:10,price:150000},
+    "2026-09-22": {avail:10,price:150000}, "2026-09-23": {avail:10,price:150000},
+    "2026-09-24": {avail:6, price:230000}, "2026-09-25": {avail:6, price:300000},
+    "2026-09-26": {avail:6, price:300000}, "2026-09-27": {avail:11,price:150000},
+    "2026-09-28": {avail:11,price:150000}, "2026-09-29": {avail:9, price:150000},
+    "2026-09-30": {avail:11,price:150000}
+  },
   "2026-08-18T09:00": {   // 8/18 Sirvoy 실측(8월 cap=10). 전 스냅(8/3) 대비 신규 구간(8/18~8/31): 8/18·20·21 판매마감·8/19 잔1(170,000)·8/22 NCT 잔3(400k→300k 의도적 인하 확정)·8/23 잔4(300k)·8/24~26 잔3(150k)·8/27 잔4(150k)·8/28 잔5(200k→160k)·8/29 잔5(250k→200k, 경쟁사 급등에도 상향보류)·8/30 잔7(120k→150k, 상향보류)·8/31 잔7(120k).
     "2026-08-18": {avail:0, price:null},   "2026-08-19": {avail:1, price:170000},
     "2026-08-20": {avail:0, price:null},   "2026-08-21": {avail:0, price:null},
@@ -1373,13 +1408,13 @@ function clampRec(price,row,sig){
 function dynRec(row,date){
   const c=row.comp||{};
   // [E·8/23 수정] 경쟁사가는 표시가(raw)로 저장되어 있음 — netRate()로 실수령 환산 후에만 우리(cur, 이미 실수령)와
-  // 같은 스케일에서 비교/가산한다. 예전엔 표시가를 그대로 실수령인 것처럼 써서 최종 표시가 역산(listOf, ÷0.75) 시
+  // 같은 스케일에서 비교/가산한다. 예전엔 표시가를 그대로 실수령인 것처럼 써서 최종 표시가 역산(listOf, ÷0.85) 시
   // 이중환산으로 폭등했음(예 구 8/1 46만). 배수는 전부 이 실수령 기준끼리만 적용하고, 표시가 환산은 렌더 시 1회만.
   const gh=[c.gd,c.hu].filter(x=>x&&x.p!=null).map(x=>netRate(x.p));   // 경쟁군(굿·휴), 실수령 환산
   const compLo=gh.length?Math.min.apply(null,gh):null;
   const compHi=gh.length?Math.max.apply(null,gh):null;
   const bw=c.bw&&c.bw.p!=null?netRate(c.bw.p):null;
-  const cur=row.our&&row.our.cur!=null?netRate(row.our.cur):null;   // 앵커=우리 실수령(표시가×0.75)
+  const cur=row.our&&row.our.cur!=null?netRate(row.our.cur):null;   // 앵커=우리 실수령(표시가×0.85)
   const ourN=row.our?row.our.ourN:null;
   const cap=capOf(dISO(date));
   const ratio=ourN!=null?ourN/cap:null;                       // null=미상 → 고재고 취급
@@ -1464,7 +1499,7 @@ function renderDecisionCells(date,row,opts){
   const soldOut=(ourN===0);   // 우리 매진 → 추천가 계산 자체 skip(매진일은 추천 불필요)
   const dyn=soldOut?{price:null,sig:'우리 매진',cls:'rec-flat',evHigh:false}:(row.noScan?noScanRec(date,cur):dynRec(row,date));   // 미조회는 경쟁 기반 계산 금지
   const recPrice=soldOut?null:((row.our&&row.our.rec!=null)?row.our.rec:(dyn.price!=null?dyn.price:null));  // 추천 실판매가
-  // 우리현재가: 실수령(메인,×0.75) + (3일전 ×0.70 병기) + 표시가 보조 (A·7/30 할인율 25/30 정정)
+  // 우리현재가: 실수령(메인,×0.85) + (3일전 ×0.80 병기) + 표시가 보조 (A·8/28 할인율 15/20 정정)
   const curCell=list==null
     ? '<span class="gap-na">'+((row.our&&row.our.curNote)||'미확인')+'</span>'
     : fmt(cur)+'<span class="late-tag">(3일전 '+fmt(netRateLate(list))+')</span>'+'<span class="list-sub">표시 '+fmt(list)+'</span>';
@@ -1918,7 +1953,7 @@ for(const [d,row] of Object.entries(DAILY)){
   if(row.t!=="wkdy"||row.our.cur==null) continue;
   const pool=[row.comp.gd,row.comp.hu].filter(x=>x&&x.p!=null).map(x=>x.p);
   if(!pool.length) continue;
-  const lo=Math.min(...pool), gap=netRate(row.our.cur)-lo;   // A·7/30: 저평가 판정도 실수령(×0.75) 기준
+  const lo=Math.min(...pool), gap=netRate(row.our.cur)-lo;   // A·8/28: 저평가 판정도 실수령(×0.85) 기준
   const n=row.our.ourN;
   // 많이 남음(6+/8) + 경쟁군보다 비쌈 → 공실 위험 1순위
   if(n!=null && n>=6 && gap>=15000){
