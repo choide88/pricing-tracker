@@ -303,7 +303,7 @@
   </div>
 
   <div id="panel-evt" class="panel" hidden>
-    <h2>이벤트 캘린더 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(2층 구조 · 다국어 한/일/중/영 + 포커 3대회 교차검증 완료본)</span></h2>
+    <h2>이벤트 캘린더 <span style="font-size:12px;font-weight:400;color:#9ca3af;">(2층 구조 · 다국어 한/일/중/영 + 포커 3대회 교차검증 · 9/3 12월까지 전면갱신)</span></h2>
     <p class="cap">배지: <span class="ec-b ec-dd">🔴 이중수요</span>(콘서트 최강 + 포커밴드 중첩 = 최고가) · <span class="ec-b ec-con">🟢 콘서트</span> · <span class="ec-b ec-pk">🟡 포커밴드</span> · <span class="ec-b ec-tbd">❔ 확인필요</span>(날짜만 선점) · <span class="ec-b ec-week">⚪ 평일</span>. 포커 리드타임 <span class="lt-badge lt-long">긴</span>=조기고가세팅 / <span class="lt-badge lt-short">짧</span>=임박인상. 장소 <b>ARENA</b>=인스파이어 · <b>PCITY</b>=파라다이스. hover 상세.</p>
     <div id="evtLayers"></div>
   </div>
@@ -493,14 +493,11 @@ Object.keys(SEPTEMBER).forEach(function(md){ WEEKLY[md]=SEPTEMBER[md]; });
 /* EVENTS: 인근 공연/축제 캘린더 = 가격 알림 선행지표. 키=날짜ISO. 정적 데이터라 로그 대상 아님.
    콘서트/페스티벌 = 스파이크형(1~2일). type:"official"(공식) · cat:"concert" · impact high(빨강)/mid(주황).
    포커 대회(지속형 주동인)는 아래 POKER_EVENTS에서 기간 전개하며 EVENTS[k].poker에 병합. */
-/* [F·8/23 재조사] 인터파크 인스파이어 하반기 라인업 정식등록 확인(날짜 미공개, 확인중) — 아래 tbd 슬롯
-   (10/31~11/2 · 11/29~30 · 12/13)에 매칭될 가능성 높음. 티켓오픈시 날짜 확정 예정.
-   · &TEAM 'BLAZE THE WAY' in INCHEON — HYBE 한일그룹·일본원정, Play&Stay 숙박패키지 판매중, 규모 大
-   · LE SSERAFIM 'PUREFLOW' in INCHEON — 글로벌 걸그룹, 규모 大
-   · CORTIS TOUR in INCHEON — 규모 中
-   특히 10/31~11/2 매칭시 GOP+MCR 중첩 삼중이벤트로 하반기 최강 구간 가능성.
+/* [A·9/3 정정] &TEAM 'BLAZE THE WAY'·LE SSERAFIM 'PUREFLOW'·CORTIS TOUR는 전부 2026년 7월 공연으로 이미 종료 확인(각 7/4~5·7/11~12·7/18~19, 위 목록에 기록됨) — 아래 tbd 슬롯(10/31~11/2 · 12/13)의 매칭 후보에서 제외.
+   [B·9/3] 나무위키 인스파이어 공식 라인업 교차검증으로 하반기 신규 확정 다수 발견: JX(10/9~11)·ILLIT 앙코르(10/17~18)·DAY6 5th 팬미팅(10/23~25)·NMIXX 월드투어 피날레(11/27~29) — 아래 EVENTS에 정식 반영, 기존 11/29~30 tbd 슬롯은 NMIXX로 해소되어 삭제.
    · INK 인천 K-pop 페스티벌 — 10월 개최설, 날짜 미정(확인필요 — ISO 날짜 확정시 EVENTS 추가 예정, 별도 tbd 슬롯 없음).
    [이벤트점검 로그]
+   2026-09-03 | 4개국어+3장소(인스파이어 나무위키·파라다이스 K콘서트가이드·Pokerfors) | XMF→EDC 정정·10월 대형공연 4건 발견(JX/ILLIT/DAY6/NMIXX)·포커명 정정·AJPC III 강등 | 나무위키 공연목록이 인스파이어 확정 라인업 확인에 최적
    2026-08-23 | 4개국어+공식소스(인터파크·파라다이스·StagePick·나무위키) | 신규 &TEAM·르세라핌·CORTIS 발견(날짜확인중)·크리스마스마켓 확인 | 인터파크 인스파이어 라인업이 신규 조기포착에 유효
    2026-08-23 | XMF 누락 발견·정식추가 | 8월초 발견했으나 반영블록 누락됐던 건 — 반영 검증 중요성 확인 */
 const EVENTS = {
@@ -511,7 +508,7 @@ const EVENTS = {
   "2026-08-08": {name:"2PM 'THE RETURN'", venue:"인스파이어", impact:"high", strength:"최강", type:"official", cat:"concert", note:"APT포커 중첩 이중수요·완판 실측", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-08-09": {name:"2PM 'THE RETURN'", venue:"인스파이어", impact:"high", strength:"최강", type:"official", cat:"concert", note:"APT포커 중첩 이중수요·완판 실측", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-08-20": {name:"김범수·홍이삭(컴패션)", venue:"파라다이스 그랜드볼룸", impact:"watch", strength:"약중", type:"official", cat:"concert", note:"어린이후원 초청행사(일반판매X)·수요 제한적 → 프리미엄 약중", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
-  "2026-11-07": {name:"My Chemical Romance 내한(4만명)", venue:"파라다이스컬처파크", impact:"high", strength:"최강", type:"official", cat:"concert", farBig:true, note:"GOP포커+WPT Seoul 중첩 = 삼중이벤트(하반기 최대수요)", url:"https://coldsurf.io/venue/파라다이스시티호텔"},
+  "2026-11-07": {name:"My Chemical Romance 내한(2만명, 예매부진)", venue:"파라다이스컬처파크", impact:"high", strength:"강", scale:"중", type:"official", cat:"concert", farBig:true, note:"[C·9/3 재확인] 예매부진으로 4만명→2만명 규모 정정. GOP포커+WPT Seoul 중첩 = 삼중이벤트 구간이나 MCR 단독 프리미엄은 하향 검토", url:"https://coldsurf.io/venue/파라다이스시티호텔"},
   "2026-07-11": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-07-12": {name:"르세라핌 PUREFLOW", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-07-22": {name:"원더풀 풀파티", venue:"파라다이스", impact:"mid", type:"official", cat:"concert", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"},
@@ -526,31 +523,40 @@ const EVENTS = {
   "2026-09-19": {name:"Vaundy HORO", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", note:"전석매진·일본원정 수요·Play&Stay 숙박패키지 판매 확인(E·8/23 재확인)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-09-20": {name:"Vaundy HORO", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", note:"전석매진·일본원정 수요·Play&Stay 숙박패키지 판매 확인(E·8/23 재확인)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-09-26": {name:"기무라 타쿠야", venue:"인스파이어", impact:"high", strength:"강", scale:"중", type:"official", cat:"concert", note:"일본 톱스타 팬미팅(콘서트보단 약)·신규(교차검증)·추석연휴 겹침", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-10-03": {name:"XMF 2026 (Xnterstellar Music Festival)", venue:"파라다이스컬처파크", impact:"high", strength:"최강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[F·8/23 정식추가·8월초 발견 후 반영누락 복구] 한일 합동 22팀 1일차·헤드라이너 아도(Ado, 일본 국립경기장 단독공연급)·윤하·루시·FT아일랜드·콜드레인·개천절 연휴 중첩=이중호재·일본원정 수요 큼·티켓 8/3 예스24 오픈"},
-  "2026-10-04": {name:"XMF 2026 (Xnterstellar Music Festival)", venue:"파라다이스컬처파크", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[F·8/23 정식추가·8월초 발견 후 반영누락 복구] 한일 합동 22팀 2일차(YB·사우시독·히라테유리나 등)·연휴 겹침·일본원정 수요(사우시독·노벨브라이트 등)"},
+  "2026-10-03": {name:"EDC KOREA (Electric Daisy Carnival)", venue:"인스파이어 아레나", impact:"high", strength:"최강", scale:"특大", type:"official", cat:"concert", farBig:true, note:"[A·9/3 정정] 기존 'XMF/아도' 정보는 오류 — 나무위키 인스파이어 공식 라인업 교차검증 결과 EDC KOREA로 정정. 1일차. 세계최대급 EDM 페스티벌·글로벌 원정수요·개천절 연휴 중첩=이중호재·규모 특大", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-10-04": {name:"EDC KOREA (Electric Daisy Carnival)", venue:"인스파이어 아레나", impact:"high", strength:"최강", scale:"특大", type:"official", cat:"concert", farBig:true, note:"[A·9/3 정정] 기존 'XMF/아도' 정보는 오류 — EDC KOREA 2일차. 세계최대급 EDM 페스티벌·글로벌 원정수요·개천절 연휴 겹침", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   // ── 하반기(10~12월) 추가 ──────────────────────────────
   "2026-12-05": {name:"YUURI", venue:"인스파이어", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", farBig:true, note:"일본원정·신규·AJPC III 포커 중첩=이중수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-12-06": {name:"YUURI", venue:"인스파이어", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", farBig:true, note:"일본원정·신규·AJPC III 포커 중첩=이중수요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-14": {name:"EXO'verse 팬미팅", venue:"인스파이어", impact:"high", strength:"최강", scale:"대", type:"official", cat:"concert", farBig:true, note:"6인 완전체 1년8개월만·중화권 원정 수요·2회공연(AJPC III 포커 중첩기간)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-27": {name:"CHROMA KEY 002", venue:"클럽 크로마", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"글로벌 DJ EDM 파티·신규", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-12": {name:"이승철 40주년 콘서트 THE VOICE", venue:"인스파이어", impact:"mid", strength:"중", type:"official", cat:"concert", note:"[③8/17 신규 확인] 데뷔40주년 전국투어·일반예매 8/12 시작(FS 19.8만/VIP 18.7만/R 16.5만)·AJPC III 포커(12/4~13) 중첩=이중수요 가능성. 국내 중장년층 팬덤 중심(원정수요는 YUURI·EXO 대비 약함 추정)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-25": {name:"SBS 가요대전(연말)", venue:"인스파이어", impact:"watch", type:"official", cat:"concert", tbd:true, note:"[D·8/23 재확인] 2026년판 아직 공식발표 없음(8/23 기준, 8/17 대비 변동없음). 2025년판은 12/25 인스파이어 아레나서 개최 확인(전례). 2026 여름판(SBS 가요대전 Summer)은 8/9 킨텍스(일산)서 별도 개최 완료 — 연말판 장소·개최여부 재확인 필요"},
+  "2026-12-14": {name:"EXO'verse 팬미팅", venue:"인스파이어", impact:"high", type:"official", cat:"concert", tbd:true, farBig:true, note:"[A·9/3 강등] 나무위키 2026년 인스파이어 공연목록에 미등재 — 2025년 12/14 개최분과 혼동 가능성. 확인 전까지 미정 취급(6인 완전체 1년8개월만·중화권 원정 수요·2회공연 추정은 2025년 정보일 수 있음)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-27": {name:"CHROMA KEY 002", venue:"클럽 크로마", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"[C·9/3 재확인] 글로벌 DJ EDM 파티. 클럽 크로마는 금·토 상시 부트레그쇼 운영 배경수요 위에 얹히는 플래그십 파티", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-12": {name:"이승철 40주년 콘서트 THE VOICE", venue:"인스파이어", impact:"mid", strength:"중", type:"official", cat:"concert", farBig:true, note:"[③8/17 신규 확인·B·9/3 나무위키 재확인] 데뷔40주년 전국투어·일반예매 8/12 시작(FS 19.8만/VIP 18.7만/R 16.5만)·AJPC III 포커(12/4~13, ❔확인필요) 중첩=이중수요 가능성. 국내 중장년층 팬덤 중심(원정수요는 YUURI·EXO 대비 약함 추정)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-25": {name:"SBS 가요대전(연말)", venue:"인스파이어", impact:"watch", type:"official", cat:"concert", tbd:true, farBig:true, note:"[D·9/3 재확인] 2026년판 아직 공식발표 없음(9/3 기준, 8/23 대비 변동없음). 2023·2024·2025년 3년 연속 인스파이어 아레나서 개최(전례). 확정시 특大 규모 — 발표시점 추적 필요"},
   // ── 확인필요(날짜만 선점, 아티스트 미정) ─ tbd:true → 회색 렌더 ──
-  "2026-10-31": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"아티스트 확인필요·GOP포커 중첩기간·[F·8/23] &TEAM/르세라핌/CORTIS 매칭 유력(매칭시 GOP+MCR 중첩 삼중이벤트=하반기 최강)"},
-  "2026-11-01": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"아티스트 확인필요·GOP포커 중첩기간·[F·8/23] &TEAM/르세라핌/CORTIS 매칭 유력"},
-  "2026-11-02": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"아티스트 확인필요·GOP포커 중첩기간·[F·8/23] &TEAM/르세라핌/CORTIS 매칭 유력"},
-  "2026-11-29": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"아티스트 확인필요·[F·8/23] &TEAM/르세라핌/CORTIS 매칭 유력"},
-  "2026-11-30": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"아티스트 확인필요·[F·8/23] &TEAM/르세라핌/CORTIS 매칭 유력"},
-  "2026-12-13": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"아티스트 확인필요·AJPC III 포커 중첩기간·[F·8/23] &TEAM/르세라핌/CORTIS 매칭 유력"}
+  "2026-10-31": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"[A·9/3] 아티스트 확인필요·GOP포커 중첩기간. 기존 &TEAM/르세라핌/CORTIS 매칭 추정은 3팀 전부 7월 공연으로 이미 종료 확인되어 후보에서 제외 — 재확인 대상"},
+  "2026-11-01": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"[A·9/3] 아티스트 확인필요·GOP포커 중첩기간. 기존 &TEAM/르세라핌/CORTIS 매칭 추정은 3팀 전부 7월 공연으로 이미 종료 확인되어 후보에서 제외 — 재확인 대상"},
+  "2026-11-02": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"[A·9/3] 아티스트 확인필요·GOP포커 중첩기간. 기존 &TEAM/르세라핌/CORTIS 매칭 추정은 3팀 전부 7월 공연으로 이미 종료 확인되어 후보에서 제외 — 재확인 대상"},
+  "2026-12-13": {name:"인스파이어 공연(미정)", venue:"인스파이어", type:"official", cat:"concert", tbd:true, farBig:true, note:"[A·9/3] 아티스트 확인필요·AJPC III 포커(❔확인필요) 중첩기간. 기존 &TEAM/르세라핌/CORTIS 매칭 추정은 3팀 전부 7월 공연으로 이미 종료 확인되어 후보에서 제외 — 재확인 대상"},
+  "2026-10-09": {name:"JX 콘서트 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"중", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 나무위키 인스파이어 공식 라인업 확인·3일간 개최(10/9~11)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-10-10": {name:"JX 콘서트 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"중", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 나무위키 인스파이어 공식 라인업 확인·3일간 개최(10/9~11)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-10-11": {name:"JX 콘서트 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"중", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 나무위키 인스파이어 공식 라인업 확인·3일간 개최(10/9~11)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-10-17": {name:"ILLIT 앙코르 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 글로벌 걸그룹·나무위키 인스파이어 공식 라인업 확인", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-10-18": {name:"ILLIT 앙코르 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 글로벌 걸그룹·나무위키 인스파이어 공식 라인업 확인", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-10-23": {name:"DAY6 5th 팬미팅 in 인천", venue:"인스파이어", impact:"high", strength:"최강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 대형팬덤·3일간 개최(10/23~25)·나무위키 인스파이어 공식 라인업 확인", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-10-24": {name:"DAY6 5th 팬미팅 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 대형팬덤·3일간 개최(10/23~25)·나무위키 인스파이어 공식 라인업 확인", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-10-25": {name:"DAY6 5th 팬미팅 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 대형팬덤·3일간 개최(10/23~25)·나무위키 인스파이어 공식 라인업 확인", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-11-27": {name:"NMIXX 월드투어 피날레 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 월드투어 피날레·3일간 개최(11/27~29)·나무위키 인스파이어 공식 라인업 확인. 기존 11/29~30 확인필요(미정) 슬롯을 NMIXX가 해소", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-11-28": {name:"NMIXX 월드투어 피날레 in 인천", venue:"인스파이어", impact:"high", strength:"최강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 월드투어 피날레·3일간 개최(11/27~29)·나무위키 인스파이어 공식 라인업 확인", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-11-29": {name:"NMIXX 월드투어 피날레 in 인천", venue:"인스파이어", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"[B·9/3 신규] 월드투어 피날레 마지막날(11/27~29)·나무위키 인스파이어 공식 라인업 확인", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"}
 };
 /* POKER_EVENTS: 파라다이스 카지노 포커 대회 = 지속형 최우선 동인(10일씩 방 채움·전원 외국인=공항숙소·일부 日편중).
    기간 전개하며 일차(dayNum/total) 계산 후 EVENTS[k].poker로 병합. 콘서트와 겹치면 병존(둘 다 표시, 포커 우선). */
 const POKER_EVENTS = [
   {start:"2026-08-07", end:"2026-08-16", name:"APT Incheon 2026", jpHeavy:true,  leadTime:"long",  strength:"low", url:"https://somuchpoker.com/events-calendar/apt/2026/apt-incheon-2026", note:"40억GTD·메인 8/9~15·2025년 日엔트리 37.8%(1위)·국제 원정多. [C·8/3 재분류] 포커 단독일은 장기수요 약함 — 8/8~9만 2PM 콘서트 겹쳐 강세였고 나머지 평일은 약했음(참가자는 카지노연계숙소 이용)"},
   {start:"2026-08-21", end:"2026-08-30", name:"AJPC Samurai Circuit II", jpHeavy:true,  leadTime:"short", strength:"low",  url:"https://samurai.ajpc.jp/", note:"일본주최·전과정 日어진행·임박예약 D-14~7 인상. 포커 단독일 장기수요 약함(예약 저조 실측) — 8/22 강세는 콘서트(NCT)가 원인, 포커 아님"},
-  {start:"2026-09-03", end:"2026-09-14", name:"APPT Korea (PokerStars)", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://maineventtravel.com/tour/appt", note:"7년만 부활·국제 원정多·메인 9/10~14. [C·8/3 재분류] 실측 결과 포커 단독일 저가재고 13~16(8월 AJPC와 동일 약세) — 강세는 사플페(9/5~6)·RIIZE(9/12~13) 콘서트 겹침일뿐"},
-  {start:"2026-10-30", end:"2026-11-08", name:"GOP Incheon Labyrinth", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://somuchpoker.com/", note:"대형대회·원정多·WPT Seoul+MCR 중첩 삼중이벤트. [C·8/3 재분류] 포커 단독일은 장기수요 약함 원칙 적용 — MCR 겹치는 11/7만 강세, 나머지 평일은 방어가(10월 경쟁사 재확인 필요)"},
-  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, leadTime:"short", strength:"low",  url:"https://samurai.ajpc.jp/", note:"일본주최 중형서킷·근거리 임박예약 D-14~7 인상·12/5~6 YUURI 중첩·포커 단독일 장기수요 약함(AJPC II와 동일 성격)"}
+  {start:"2026-09-03", end:"2026-09-14", name:"Asian Pacific Poker Tour (PokerStars)", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://maineventtravel.com/tour/appt", note:"[A·9/3 정식명칭 정정: APPT=Asian Pacific Poker Tour] 7년만 부활·국제 원정多·메인 9/10~14·현재 진행중. [C·8/3 재분류] 실측 결과 포커 단독일 저가재고 13~16(8월 AJPC와 동일 약세) — 강세는 사플페(9/5~6)·RIIZE(9/12~13) 콘서트 겹침일뿐"},
+  {start:"2026-10-30", end:"2026-11-08", name:"GOP Incheon Labyrinth", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://somuchpoker.com/", note:"대형대회·원정多·WPT Seoul+MCR 중첩 삼중이벤트(MCR은 [C·9/3] 2만명·예매부진으로 정정). [C·8/3 재분류] 포커 단독일은 장기수요 약함 원칙 적용 — MCR 겹치는 11/7만 강세, 나머지 평일은 방어가(10월 경쟁사 재확인 필요)"},
+  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, leadTime:"short", strength:"low", tbd:true, url:"https://samurai.ajpc.jp/", note:"[D·9/3 확정→확인필요 강등] Pokerfors 공식 캘린더에 2026년 12월 AJPC 미등재(2025년엔 있었으나 2026 하반기 발표 안됨) — 개최여부 재확인 필요. 발표시 12/5~6 YUURI 중첩·포커 단독일 장기수요 약함(AJPC II·APPT와 동일 성격) 원칙 유지"}
 ];
 POKER_EVENTS.forEach(function(ev){
   const parse=s=>{ const p=s.split('-').map(Number); return Date.UTC(p[0],p[1]-1,p[2]); };   // UTC 고정(TZ 무관, off-by-one 방지)
@@ -574,9 +580,9 @@ POKER_EVENTS.forEach(function(ev){
 const POKER_BANDS = [
   {id:"APT",   name:"APT Incheon",             start:"2026-08-07", end:"2026-08-16", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"40억GTD·메인 8/9~15·2025 日엔트리 37.8%(1위)·대형국제 해외원정多. [C·8/3 재분류] 포커 단독일은 장기수요 약함 — 8/8~9만 2PM 콘서트 겹쳐 강세였고 나머지 평일은 약했음(실측 반영은 못했으나 AJPC·APPT와 원리 동일). ★실측확정(8/9): 포커 단독 장기수요 없음, 콘서트일만 강세"},
   {id:"AJPC",  name:"AJPC Samurai Circuit II", start:"2026-08-21", end:"2026-08-30", venue:"파라다이스 카지노", leadTime:"short", strength:"low",  note:"일본주최·전과정 日어진행·근거리/현지 임박예약 → 초반 저가허용, D-14~7 인상. 포커 단독일 장기수요 약함(중형서킷·예약 저조 실측) — 8/22 강세는 콘서트(NCT)가 만드는 것이지 포커 아님. ★실측확정(8/9): 포커 단독 장기수요 없음, 콘서트일만 강세(D+15~21 임박까지도 저가재고 10~14 유지 확인)"},
-  {id:"APPT",  name:"APPT Korea",              start:"2026-09-03", end:"2026-09-14", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"7년만 부활 PokerStars 국제대회·원정多·메인 9/10~14. [C·8/3 재분류] 실측: 포커 단독 평일(9/3·7~10·14) 저가재고 13~16, 시장최저 9만대 — 8월 AJPC와 동일하게 약함. 강세는 9/5~6 사플페·9/12~13 RIIZE 콘서트 겹침일뿐. ★실측확정(8/9): 포커 단독 장기수요 없음, 콘서트일만 강세"},
-  {id:"GOP",   name:"GOP Incheon Labyrinth",  start:"2026-10-30", end:"2026-11-08", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"대형대회·원정多 → 조기세팅. WPT Seoul(인스파이어 카지노)·MCR 콘서트 중첩 = 삼중이벤트(하반기 최대구간). [C·8/3 재분류] 포커 단독일은 장기수요 약함 원칙 적용 — MCR 겹치는 11/7만 강세, 나머지 평일은 과한 프리미엄 금지(10월 경쟁사 재확인 필요). ★실측확정(8/9): 포커 단독 장기수요 없음, 콘서트일만 강세(AJPC 8/9 실측 근거로 동일적용)"},
-  {id:"AJPC3", name:"AJPC Samurai Circuit III",start:"2026-12-04", end:"2026-12-13", venue:"파라다이스 카지노", leadTime:"short", strength:"low",  note:"일본주최 중형서킷·근거리 임박예약 → 초반 저가허용, D-14~7 인상. 12/5~6 YUURI(일본원정) 중첩=이중수요. 포커 단독일 장기수요 약함(AJPC II·APPT와 동일 성격)"}
+  {id:"APPT",  name:"Asian Pacific Poker Tour",              start:"2026-09-03", end:"2026-09-14", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"[A·9/3 정식명칭 정정: APPT=Asian Pacific Poker Tour] 7년만 부활 PokerStars 국제대회·원정多·메인 9/10~14·현재 진행중. [C·8/3 재분류] 실측: 포커 단독 평일(9/3·7~10·14) 저가재고 13~16, 시장최저 9만대 — 8월 AJPC와 동일하게 약함. 강세는 9/5~6 사플페·9/12~13 RIIZE 콘서트 겹침일뿐. ★실측확정(8/9): 포커 단독 장기수요 없음, 콘서트일만 강세"},
+  {id:"GOP",   name:"GOP Incheon Labyrinth",  start:"2026-10-30", end:"2026-11-08", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"대형대회·원정多 → 조기세팅. WPT Seoul(인스파이어 카지노)·MCR 콘서트 중첩 = 삼중이벤트. [C·9/3] MCR은 예매부진으로 4만→2만명 규모 정정. [C·8/3 재분류] 포커 단독일은 장기수요 약함 원칙 적용 — MCR 겹치는 11/7만 강세, 나머지 평일은 과한 프리미엄 금지(10월 경쟁사 재확인 필요). ★실측확정(8/9): 포커 단독 장기수요 없음, 콘서트일만 강세(AJPC 8/9 실측 근거로 동일적용)"},
+  {id:"AJPC3", name:"AJPC Samurai Circuit III",start:"2026-12-04", end:"2026-12-13", venue:"파라다이스 카지노", leadTime:"short", strength:"low", tbd:true, note:"[D·9/3 확정→확인필요 강등] Pokerfors 공식 캘린더에 2026년 12월 AJPC 미등재(2025년엔 있었으나 2026 하반기 발표 안됨) — 개최여부 재확인 필요. 발표시: 일본주최 중형서킷·근거리 임박예약 → 초반 저가허용, D-14~7 인상. 12/5~6 YUURI(일본원정) 중첩=이중수요 가능. 포커 단독일 장기수요 약함(AJPC II·APPT와 동일 성격) 원칙 적용"}
 ];
 // 요일: 반드시 KST 정오 기준(자정 사용 시 UTC 밀림으로 요일 하루 오차). "YYYY-MM-DD" → 한글요일.
 const KDOW=["일","월","화","수","목","금","토"];
@@ -1761,7 +1767,7 @@ function renderEventCalendar(){
 
   // ── 1층: 포커 상시밴드 ───────────────────────────
   // [과거숨김·8/23] 종료일(end)이 오늘(TODAY_MS) 이전인 대회는 완전히 끝났으므로 숨김. 미래 대회는 거리 제한 없이 항상 표시.
-  let l1='<h3 class="ec-h">1층 · 포커 상시밴드 <span class="ec-hsub">🟡 지속형 주동인 — 인천 파라다이스 카지노 확정 3대회</span></h3>'
+  let l1='<h3 class="ec-h">1층 · 포커 상시밴드 <span class="ec-hsub">🟡 지속형 주동인 — 인천 파라다이스 카지노 5대회(AJPC III는 [D·9/3] 확인필요)</span></h3>'
     +'<table class="ec-t"><thead><tr><th class="date">기간</th><th style="text-align:left;">대회</th><th>장소</th><th style="text-align:left;">비고(hover 상세)</th></tr></thead><tbody>';
   for(const b of POKER_BANDS.filter(b=>msKST(b.end)>=TODAY_MS)){
     const lt = b.leadTime==="long"
@@ -1772,8 +1778,9 @@ function renderEventCalendar(){
       ? '<span class="lt-badge" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca;" title="포커 단독일=장기숙박 수요 약함(참가자는 카지노연계숙소 이용). 강세는 콘서트 겹치는 날. APT가 강했던 건 8/8~9 2PM 때문.">강도:높음</span>'
       : b.strength==="low"
       ? '<span class="lt-badge" style="background:#f3f4f6;color:#6b7280;border:1px solid #d1d5db;" title="포커 단독일=장기숙박 수요 약함(참가자는 카지노연계숙소 이용). 강세는 콘서트 겹치는 날. APT가 강했던 건 8/8~9 2PM 때문.">강도:낮음</span>' : '';
-    l1+='<tr class="has-poker"><td class="date">'+rangeOf(b.start,b.end)+'</td>'
-      +'<td style="text-align:left;"><span class="ec-b ec-pk">🟡 '+b.id+'</span> '+b.name+lt+st+'</td>'
+    const bBadge = b.tbd ? '<span class="ec-b ec-tbd">❔ 확인필요</span>' : '<span class="ec-b ec-pk">🟡 '+b.id+'</span>';
+    l1+='<tr class="'+(b.tbd?'':'has-poker')+'"><td class="date">'+rangeOf(b.start,b.end)+'</td>'
+      +'<td style="text-align:left;">'+bBadge+' '+b.name+lt+st+'</td>'
       +'<td title="파라다이스 카지노">PCITY</td>'
       +'<td class="ec-note-td" title="'+esc(b.note)+'">'+b.note+'</td></tr>';
   }
@@ -1845,28 +1852,33 @@ function renderEventCalendar(){
 
   // ── 하반기(10~12월) 핵심 운영 블록 ──────────────────────
   const fall='<div id="fallops">'
-    +'<h4>🎤 10월 초 — XMF 2026 + 개천절 연휴 (10/3~5 강세구간)</h4>'
-    +'<span class="fo-badge">🎤 XMF 2026(Xnterstellar Music Festival) 10/3~4 · 파라다이스컬처파크 · 한일 합동 22팀</span>'
-    +' <span style="font-size:11.5px;color:#9a3412;">헤드라이너 아도(Ado)·일본원정 수요 큼. 10/3 개천절 연휴 중첩=이중호재.</span>'
+    +'<h4>🎤 10월 전체 — 대형공연 밀집월(재분류, E·9/3)</h4>'
+    +'<p style="font-size:11.5px;color:#9a3412;margin:0 0 6px;"><b>[E·9/3] 기존 "10월 초중순 한산" 판단 폐기</b> — 10월은 거의 매 주말 대형공연: EDC(특大)·JX·ILLIT·DAY6 + 10/30부터 GOP포커. <b>10월 전체를 이벤트 강세월로 재설정</b>, 공연 없는 순수 화~목 평일만 평일가 적용.</p>'
     +'<ul style="margin:6px 0 0 18px;font-size:12.5px;">'
-    +'<li>🔴 <b>10/3(토)</b> XMF 1일차(아도 헤드라이너·일본원정)+개천절. 이벤트 최고가</li>'
-    +'<li>🔴 <b>10/4(일)</b> XMF 2일차+연휴. 고가</li>'
+    +'<li>🔴 <b>10/3~4(토·일)</b> EDC KOREA(특大·세계최대급 EDM)+개천절 연휴. 이벤트 최고가</li>'
+    +'<li>🟢 <b>10/9~11(금~일)</b> JX 콘서트 in 인천(3일)</li>'
+    +'<li>🟢 <b>10/17~18(토·일)</b> ILLIT 앙코르 in 인천(글로벌 걸그룹)</li>'
+    +'<li>🔴 <b>10/23~25(금~일)</b> DAY6 5th 팬미팅 in 인천(3일·대형팬덤)</li>'
+    +'<li>⚪ <b>10/12~16·10/19~22·10/26~29</b> 순수 평일 구간(공연 없음) — 평일가 방어</li>'
+    +'<li>🔥 <b>10/30~</b> GOP포커 삼중이벤트 구간 재개(아래 참조)</li>'
     +'</ul>'
-    +'<p style="font-size:11.5px;color:#6b7280;margin:6px 0 0;">[F·8/23 수정] 기존 "10월 초중순 한산" 판단 정정 — XMF로 10월 초(10/3~5)는 강세, 10월 중순(추석후~10/29)만 평일가로 한산, 10/30부터 삼중이벤트(GOP+WPT+MCR) 재개.</p>'
-    +'<h4 style="margin-top:18px;">🔥 하반기 핵심 — 10/30~11/8 삼중이벤트 (하반기 최대구간·8월급)</h4>'
-    +'<span class="fo-badge">🔥 삼중이벤트 = GOP포커 + WPT Seoul포커 + MCR(4만급)</span>'
-    +' <span style="font-size:11.5px;color:#9a3412;">8월(APT+2PM)급 최대수요. 지금부터 고가세팅+MLOS 준비.</span>'
+    +'<h4 style="margin-top:18px;">🔥 하반기 핵심 — 10/30~11/8 삼중이벤트 (GOP+WPT+MCR)</h4>'
+    +'<span class="fo-badge">🔥 삼중이벤트 = GOP포커 + WPT Seoul포커 + MCR(2만명·예매부진)</span>'
+    +' <span style="font-size:11.5px;color:#9a3412;">[C·9/3 재확인] MCR은 예매부진으로 4만→2만명 규모 정정. 그래도 GOP+WPT 겹침구간이라 지금부터 고가세팅+MLOS 준비는 유효.</span>'
     +'<div class="fo-sub">운영 플래그 3</div><ul>'
     +'<li><b>1) MLOS(최소숙박) 3박 검토</b> — 포커 장기투숙 수요·턴오버 청소부담↓. 핵심주말(10/31토·11/7토)은 3박 요구로 주말빼먹기 차단, 순수평일은 2박 완화. 실제세팅은 10월초 경쟁사 MLOS 확인 후.</li>'
     +'<li><b>2) ⚠️ 조기예약 진행중</b>(D-95부터 원정 유입 확인) — APT형 조기예약 패턴. 평상시가면 <b>즉시 이벤트가(30만+) 상향</b>. <span class="fo-warn">8/8~14 조기완판 실수 반복금지.</span></li>'
     +'<li><b>3) 예약가능창 90일 유지</b>(축소금지) — 조기 원정예약이 이득. 창 막지 말고 <b>가격으로 통제</b>.</li>'
     +'</ul>'
+    +'<div class="fo-sub">🃏 포커 숙박 인사이트(F·9/3, B2B 강화)</div>'
+    +'<div class="wpt-note">🏨 APT는 조기 프리등록시 최대 8박 무료 호텔 제공(파라다이스). 포커 대회가 숙박을 대량 이동시킴(우리 APPT 단체 8룸이 그 예). GOP(10/30~11/8)도 주최측 B2B 단체 우선 타진. 포커는 개별 약하지만 주최 단체는 제값 대량판매.</div>'
     +'<div class="fo-sub">🔴 우리 현황 경고 (10월 실측)</div><ul>'
     +'<li class="fo-warn">10/30(금)·10/31(토) 현재 225,000 = 삼중이벤트인데 일반 주말가·<b>이벤트가 미세팅</b> → 정밀 권장가는 하단 <b>📅 미래 이벤트 세팅</b> 표 참고(25% 할인 재계산 반영).</li>'
     +'<li>10/2~5(추석연휴) 현재 20~30만 = 적정, 유지. D-70이라 경쟁사 보며 조정.</li>'
     +'</ul>'
-    +'<span class="fo-badge dd2">💜 이중수요 12/4~6 = AJPC III포커 + YUURI(일본원정)</span>'
-    +' <span style="font-size:11.5px;color:#6d28d9;">일본계 중형포커 + 일본원정 콘서트. AJPC=짧은리드 → 초반 저가허용 후 D-14~7 인상.</span>'
+    +'<span class="fo-badge dd2">💜 이중수요 12/4~6 = AJPC III포커(❔확인필요) + YUURI(일본원정)</span>'
+    +' <span style="font-size:11.5px;color:#6d28d9;">일본계 중형포커 + 일본원정 콘서트. AJPC=짧은리드 → 초반 저가허용 후 D-14~7 인상. [D·9/3] AJPC III는 Pokerfors 공식 캘린더에 2026년 12월분 미등재 — 확인필요로 강등.</span>'
+    +'<div class="wpt-note" style="margin-top:8px;">🎧 <b>크로마키/클럽 크로마 상시 운영</b>(C·9/3 재확인) — 글로벌 DJ 부트레그쇼, 금·토 상시 운영. 주말 배경수요 상시요인(12/27 CHROMA KEY 002는 이 위에 얹히는 플래그십 파티).</div>'
     +'<div class="wpt-note" style="margin-top:8px;">❄️ <b>파라다이스 겨울 일루미네이션 11/14~2027-2/22</b> — 배경수요↑(매주 화 휴무). 겨울 전기간 완만한 상시 프리미엄 배경요인.</div>'
     +'<div class="wpt-note" style="margin-top:6px;">🎄 <b>파라다이스시티 크리스마스 마켓 11/14~2027-1/1</b>(B·8/23 신규) — 무료입장 실내마켓·디저트 17개 브랜드, 겨울 일루미네이션과 세트 배경수요. 12월 주말 방문객 증가 배경요인, 크리스마스주간(12/24~26) 강세.</div>'
     +'</div>';
@@ -1878,7 +1890,7 @@ function renderEventCalendar(){
     {d:"11/1(일)",  rec:233000, note:""},
     {d:"11/2~11/5(평일)", rec:173000, note:"경쟁사 무방비·평상가 — 과한 프리미엄 금지"},
     {d:"11/6(금)",  rec:227000, note:""},
-    {d:"11/7(토·MCR)", rec:360000, note:"하반기 최강·품귀"},
+    {d:"11/7(토·MCR)", rec:360000, note:"[C·9/3] MCR 2만명·예매부진으로 정정(기존 4만명 오류) — 가격 재검토 필요, GOP+WPT 겹침은 유효"},
     {d:"11/8(일)",  rec:213000, note:""}
   ];
   const futureSet='<div id="futureset">'
