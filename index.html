@@ -350,6 +350,8 @@ const BK_LINKS = {
 };
 const BK_PARAMS = "group_adults=2&no_rooms=1&group_children=0";
 const BK_YEAR = parseInt(ASOF_PRICE,10)||2026;
+// 우리 숙소(hotel_id 16359322, 슬러그 확인됨) — 우리 현재가 셀 링크용.
+const OUR_BK_URL = "https://www.booking.com/hotel/kr/paradise-walk-residence.ko.html";
 
 /* ── 날짜 헬퍼(먼저 정의 — TODAY_KST 계산에 필요) ─────────── */
 const KDOW=["일","월","화","수","목","금","토"];
@@ -486,6 +488,10 @@ function bkUrl(key,d){
   const sep=base.indexOf('?')>=0?'&':'?';
   return base+sep+'checkin='+ci+'&checkout='+co+'&'+BK_PARAMS;
 }
+function ourUrl(d){   // 우리 숙소 부킹닷컴 링크(날짜별 checkin/checkout)
+  const {ci,co}=bkDates(d);
+  return OUR_BK_URL+'?checkin='+ci+'&checkout='+co+'&group_adults=2&no_rooms=1&selected_currency=KRW';
+}
 /* 경쟁사 셀(간소화) — 가격만 표시. 만실=완전매진, 데이터 없으면 "-". */
 function compCellSimple(c,key,d){
   if(!c || c.p==null){
@@ -538,9 +544,12 @@ function buildMonthRow(md, iso){
   const noteHtml = row&&row.note ? ' <span class="note-ic" title="'+esc(row.note)+'">📝</span>' : '';
 
   let ourCur;
-  if(row && row.our && row.our.cur!=null) ourCur = fmt(row.our.cur)+'<span class="list-sub">실 '+fmt(netRate(row.our.cur))+'</span>';
-  else if(row && row.our && row.our.curNote) ourCur = '<span class="gap-na">'+row.our.curNote+'</span>';
-  else ourCur = '<span class="gap-na">-</span>';
+  if(row && row.our && row.our.cur!=null){
+    const inner = fmt(row.our.cur)+'<span class="list-sub">실 '+fmt(netRate(row.our.cur))+'</span>';
+    ourCur = '<a href="'+ourUrl(md)+'" target="_blank" rel="noopener">'+inner+'</a>';
+  } else if(row && row.our && row.our.curNote){
+    ourCur = '<a href="'+ourUrl(md)+'" target="_blank" rel="noopener"><span class="gap-na">'+row.our.curNote+'</span></a>';
+  } else ourCur = '<span class="gap-na">-</span>';
 
   let ourAvail;
   if(row && row.our && row.our.ourN!=null) ourAvail = row.our.ourN===0 ? '<span class="so">매진</span>' : row.our.ourN+'/'+capOf(iso);
