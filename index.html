@@ -1022,7 +1022,7 @@ renderEventCalendar();
 (function(){
   const ins=[];
   for(const [d,row] of Object.entries(TRACK)){
-    if(row.t!=="wkdy"||row.our.cur==null) continue;
+    if(row.t!=="wkdy"||!row.our||row.our.cur==null) continue;
     const pool=[row.comp.gd,row.comp.hu].filter(x=>x&&x.p!=null).map(x=>x.p);
     if(!pool.length) continue;
     const lo=Math.min(...pool), gap=netRate(row.our.cur)-lo;
