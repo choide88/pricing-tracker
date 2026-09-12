@@ -13,7 +13,7 @@
 데이터는 `index.html` 안의 `<script>` 블록에 있는 JS 객체에 하드코딩되어 있습니다:
 
 - **`TRACK`** — 날짜별 단일 객체(옛 DAILY/WEEKLY/AUGUST/SEPTEMBER 통합). 키는 `"M/D"`. 각 날짜에 경쟁 4숙소 `comp.{gh,gd,hu,bw}` (`{p,n,approx}` 실측잔여 · `{p,r:"free"}` 베웨 · `{p,r:"na"}` 잔여미확인 · `{p:null,r:"so"}` 매진), 우리 `our:{ourN,cur,rec?,curNote?}`, 선택적 `flag:{lvl,ic,txt}`(배지+툴팁), `note`(📝 아이콘 툴팁), `hl:"strong"|"chuseok"`(강세/추석 태그)를 담습니다.
-  - **오늘(KST, `TODAY_KST`, 실제 시계 기준) 이전 날짜는 항상 삭제** — ASOF가 아니라 실기기 날짜 기준으로 매일 자동 롤링되므로, `TRACK`엔 오늘 이후 날짜만 남겨둔다.
+  - **오늘(KST, `TODAY_KST`, 실제 시계 기준) 이전 날짜는 항상 삭제** — `ASOF_PRICE`가 아니라 실기기 날짜 기준으로 매일 자동 롤링되므로, `TRACK`엔 오늘 이후 날짜만 남겨둔다.
   - 가격표(①탭)는 `renderPriceTable()`이 `TODAY_KST`부터 훑으며: `TRACK`에 데이터가 있는 날은 상세(D0~D13)/간단(D14~D30, 경쟁사 열 `.dim`)로 렌더하고, 데이터 없는 날은 `EVENTS`에 이벤트가 있을 때만 이벤트 전용 행(colspan)으로 표시한다.
 - **`EVENTS`** / **`POKER_EVENTS`** / **`POKER_BANDS`** — 이벤트 캘린더(②탭)용, 그대로 유지. 지난 이벤트는 `TODAY_MS` 기준으로 렌더 시 자동 숨김(데이터는 안 지움 — 포커밴드 강도 근거 등 상호참조가 있어서).
 - **`COMP_LOG`** / **`OURS_LOG`** — 조회 시각별 스냅샷. `pruneLog(log, 3)`이 매 로드 시 **최근 3개만** 자동으로 남기고 나머지는 삭제(더 오래된 이력은 git 커밋 기록으로 충분).
@@ -32,6 +32,8 @@
 2. **우리 잔여** — Sirvoy 실재고 기준. 각 날짜의 `our.ourN`·`our.cur`를 갱신하고, `OURS_LOG`에 오늘 타임스탬프로 새 스냅샷을 추가(자동으로 최근 3개만 유지됨).
 3. **경쟁사 데이터** — 부킹닷컴에서 경쟁 4숙소의 가격(`p`)과 잔여를 확인해 `TRACK[...].comp`를 갱신하고, `COMP_LOG`에도 새 스냅샷을 추가.
 4. 새 날짜(예: D+30이 되는 날)를 `TRACK`에 추가할 때는 `dow`(한글 요일)·`t`(`wknd`/`wkdy`)를 실제 캘린더에 맞게 채운다.
-5. 상단 기준일 상수 `ASOF`만 갱신하면 페이지 상단 날짜바(오늘 vs 데이터기준 배지)가 자동으로 다시 계산된다. 주 1회는 `EVENTS`/`POKER_EVENTS`/`POKER_BANDS`도 필요 시 갱신.
+5. 상단 기준일 상수는 2개로 분리되어 있다 — **가격/현황을 갱신하는 커밋은 `ASOF_PRICE`만** 바꾼다. `ASOF_EVENT`는 건드리지 않는다.
+6. 이벤트 캘린더(`EVENTS`/`POKER_EVENTS`/`POKER_BANDS`)를 점검·갱신하는 날에는 **`ASOF_EVENT`만** 갱신한다(가격 갱신과 같은 날이어도 `ASOF_PRICE`는 그 커밋에서 건드리지 않음 — 두 기준일은 서로 독립).
+   상단 날짜바는 오늘(`TODAY_KST`, 실제 시계) · 💰가격표 기준(`ASOF_PRICE`, 경과 3일↑🟡·7일↑🔴) · 🎤이벤트 기준(`ASOF_EVENT`, 경과 14일↑🟡·30일↑🔴)을 각각 배지로 자동 표시한다.
 
 같은 `index.html`을 덮어쓰기로 갱신해 URL을 유지하고, git 커밋으로 매일 이력을 자동 보존합니다.

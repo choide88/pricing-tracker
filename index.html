@@ -177,8 +177,12 @@
 
   <div class="datebar">
     <div class="db-block"><span class="db-ico">📅</span><span class="db-label">오늘</span><span class="db-val" id="dbToday">—</span></div>
-    <div class="db-block"><span class="db-ico">🕒</span><span class="db-label">데이터 기준</span><span class="db-val" id="dbAsof">—</span></div>
-    <span id="dbBadge"></span>
+  </div>
+  <div class="datebar">
+    <div class="db-block"><span class="db-ico">💰</span><span class="db-label">가격표 기준</span><span class="db-val" id="dbAsofPrice">—</span></div>
+    <span id="dbBadgePrice"></span>
+    <div class="db-block"><span class="db-ico">🎤</span><span class="db-label">이벤트 기준</span><span class="db-val" id="dbAsofEvent">—</span></div>
+    <span id="dbBadgeEvent"></span>
   </div>
 
   <div class="tabs">
@@ -302,7 +306,9 @@
 
 <script>
 /* ── 날짜 상수·환율 ─────────────────────────────────────── */
-const ASOF = "2026-08-28";   // 데이터(가격·잔여) 마지막 스캔/갱신일 — 매일 갱신 시 이 값만 바꾸면 상단 배지가 자동 계산됨
+// 데이터 기준일 2종 — 서로 독립적으로 관리(가격 갱신 커밋은 ASOF_PRICE만, 이벤트 갱신 커밋은 ASOF_EVENT만 바꾼다).
+const ASOF_PRICE = "2026-08-28";   // 경쟁사 스캔·우리현황(TRACK/COMP_LOG/OURS_LOG) 마지막 갱신일
+const ASOF_EVENT = "2026-09-10";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const DISCOUNT_NORMAL = 0.15;   // 평소(대부분 예약) — 메인 실수령 기준
 const DISCOUNT_LATE   = 0.20;   // 3일전(D-3)까지 미판매 시 막판 자동할인(총 20%)
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(메인, ×0.85)
@@ -326,7 +332,7 @@ const BK_LINKS = {
   bw: "https://www.booking.com/hotel/kr/best-western-premier-incheon-airport.html"
 };
 const BK_PARAMS = "group_adults=2&no_rooms=1&group_children=0";
-const BK_YEAR = parseInt(ASOF,10)||2026;
+const BK_YEAR = parseInt(ASOF_PRICE,10)||2026;
 
 /* ── 날짜 헬퍼(먼저 정의 — TODAY_KST 계산에 필요) ─────────── */
 const KDOW=["일","월","화","수","목","금","토"];
@@ -335,7 +341,7 @@ function msKST(iso){ return new Date(iso+"T12:00:00+09:00").getTime(); }
 function isoShift(iso,days){ const p=iso.split('-').map(Number); const d=new Date(Date.UTC(p[0],p[1]-1,p[2])+days*86400000); return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0'); }
 function dISO(d){ const p=d.split('/'); return BK_YEAR+'-'+String(+p[0]).padStart(2,'0')+'-'+String(+p[1]).padStart(2,'0'); }
 function todayKST(){ return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date()); }
-// [C] 과거숨김은 ASOF가 아니라 실제 오늘(KST) 기준 — 매일 열 때마다 자동으로 하루씩 굴러감.
+// 과거숨김은 ASOF_PRICE가 아니라 실제 오늘(KST) 기준 — 매일 열 때마다 자동으로 하루씩 굴러감.
 const TODAY_KST = todayKST();
 const TODAY_MS = msKST(TODAY_KST);
 const WEEKLY_WIN_END = TODAY_MS + 30*86400000;   // 오늘~D+30 창(이벤트 캘린더 2층에서 사용)
@@ -1093,16 +1099,23 @@ function renderEventCalendar(){
   document.getElementById('evtLayers').innerHTML=l1+l2+farL+gap+fall+futureSet;
 }
 
-/* ── 상단 날짜바(오늘/데이터기준/경과배지) ─────────────────── */
+/* ── 상단 날짜바(오늘 + 가격표기준/이벤트기준 경과배지) ─────
+   가격표(ASOF_PRICE)는 자주 갱신해야 하는 데이터라 임계값을 낮게(3일/7일),
+   이벤트(ASOF_EVENT)는 가끔 갱신해도 되는 데이터라 임계값을 높게(14일/30일) 잡는다. */
+function asofBadge(asofDate, warnAt, staleAt){
+  const diffDays = Math.round((TODAY_MS - msKST(asofDate))/86400000);
+  let cls,label;
+  if(diffDays<warnAt){ cls='db-fresh'; label='🟢 최신'; }
+  else if(diffDays<staleAt){ cls='db-warn'; label='🟡 '+diffDays+'일 전'; }
+  else { cls='db-stale'; label='🔴 '+diffDays+'일 전 · 갱신 필요'; }
+  return '<span class="db-badge '+cls+'">'+label+'</span>';
+}
 (function(){
   document.getElementById('dbToday').textContent = TODAY_KST+' ('+dowKST(TODAY_KST)+')';
-  document.getElementById('dbAsof').textContent = ASOF+' ('+dowKST(ASOF)+')';
-  const diffDays = Math.round((TODAY_MS - msKST(ASOF))/86400000);
-  let cls,label;
-  if(diffDays<=1){ cls='db-fresh'; label='🟢 최신'; }
-  else if(diffDays<=3){ cls='db-warn'; label='🟡 '+diffDays+'일 전'; }
-  else { cls='db-stale'; label='🔴 '+diffDays+'일 전 · 업데이트 필요'; }
-  document.getElementById('dbBadge').innerHTML='<span class="db-badge '+cls+'">'+label+'</span>';
+  document.getElementById('dbAsofPrice').textContent = ASOF_PRICE+' ('+dowKST(ASOF_PRICE)+')';
+  document.getElementById('dbAsofEvent').textContent = ASOF_EVENT+' ('+dowKST(ASOF_EVENT)+')';
+  document.getElementById('dbBadgePrice').innerHTML = asofBadge(ASOF_PRICE, 3, 7);
+  document.getElementById('dbBadgeEvent').innerHTML = asofBadge(ASOF_EVENT, 14, 30);
 })();
 
 renderUpcoming();
