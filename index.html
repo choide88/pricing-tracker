@@ -395,8 +395,15 @@ const ASOF_OURS = "2026-09-13";    // 우리 숙소(TRACK[*].our) 잔여·현재
 const DISCOUNT_NORMAL = 0.20;
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(×0.80)
 const listOf = p => p==null?null:Math.round(p/(1-DISCOUNT_NORMAL));       // 실수령 → 표시가 환산(÷0.80)
-const CAPACITY = { "2026-09": 10 };   // 월별 총 객실수(잔여 비율 판정 분모). 미등록 월은 10 기본.
-function capOf(dateStr){ return CAPACITY[dateStr.slice(0,7)] || 10; }
+// 총 객실수(잔여 비율 판정 분모) — 날짜 구간별. ~2026-10-10=11실, 2026-10-11~=13실(증실). 지난 날짜는 화면에 안 뜨므로 별도 구간 불필요.
+const CAPACITY_RULES = [
+  {from:"2026-01-01", to:"2026-10-10", n:11},
+  {from:"2026-10-11", to:"2026-12-31", n:13}
+];
+function capOf(dateStr){
+  for(const r of CAPACITY_RULES){ if(dateStr>=r.from && dateStr<=r.to) return r.n; }
+  return 13;
+}
 
 const BK_LINKS = {
   gh: "https://www.booking.com/hotel/kr/inceongonghang-guest-house.html",
