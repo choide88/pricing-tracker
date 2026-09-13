@@ -385,7 +385,7 @@ const ASOF_PRICE = "2026-09-12";   // 가격 스캔(MCP 가격만 빠르게) 마
 const ASOF_STOCK = "2026-09-13";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-09-12";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일
-const ASOF_AGODA_STOCK = null;     // 아고다 잔여는 사용자 자유입력(AGODA_AVAIL, localStorage)이라 "기준일" 개념이 약하지만, 형식 통일을 위해 유지. 필요시 마지막 일괄점검일로 채워 사용.
+const ASOF_AGODA_STOCK = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
 const DISCOUNT_NORMAL = 0.15;   // 평소(대부분 예약) — 메인 실수령 기준
 const DISCOUNT_LATE   = 0.20;   // 3일전(D-3)까지 미판매 시 막판 자동할인(총 20%)
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(메인, ×0.85)
@@ -532,23 +532,23 @@ const TRACK = {
 const AGODA_COMP = {
   /* 9/13~10/13(전체 4주): 2026-09-13 브라우저 실측 — 가격+매진여부(so) 확인. */
   "9/13": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
-  "9/14": {gogo:{p:56045}, icngh:{p:null,r:"so"}, sky:{p:72064}},
-  "9/15": {gogo:{p:56045}, icngh:{p:54163}, sky:{p:66951}},
-  "9/16": {gogo:{p:55998}, icngh:{p:53627}, sky:{p:66897}},
-  "9/17": {gogo:{p:56066}, icngh:{p:53205}, sky:{p:67456}},
-  "9/18": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:126501}},
-  "9/19": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:208437}},
-  "9/20": {gogo:{p:93803}, icngh:{p:74693}, sky:{p:111729}},
-  "9/21": {gogo:{p:56066}, icngh:{p:57788}, sky:{p:67423}},
-  "9/22": {gogo:{p:56019}, icngh:{p:57734}, sky:{p:68107}},
-  "9/23": {gogo:{p:56093}, icngh:{p:74163}, sky:{p:89625}},
-  "9/24": {gogo:{p:84368}, icngh:{p:null,r:"so"}, sky:{p:111712}},
-  "9/25": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:136394}},
-  "9/26": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:149413}},
-  "9/27": {gogo:{p:56066}, icngh:{p:56992}, sky:{p:96486}},
-  "9/28": {gogo:{p:56019}, icngh:{p:56945}, sky:{p:66699}},
-  "9/29": {gogo:{p:56093}, icngh:{p:57739}, sky:{p:66786}},
-  "9/30": {gogo:{p:56046}, icngh:{p:57691}, sky:{p:66891}},
+  "9/14": {gogo:{p:56045,n:1}, icngh:{p:null,r:"so"}, sky:{p:72064,n:1}},
+  "9/15": {gogo:{p:56045,n:1}, icngh:{p:54163,n:1}, sky:{p:66951,n:1}},
+  "9/16": {gogo:{p:55998,n:1}, icngh:{p:53627,n:1}, sky:{p:66897,n:1}},
+  "9/17": {gogo:{p:56066,n:1}, icngh:{p:53205,n:1}, sky:{p:67456,n:1}},
+  "9/18": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:126501,n:1}},
+  "9/19": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:208437,n:1}},
+  "9/20": {gogo:{p:93803,n:1}, icngh:{p:74693,n:1}, sky:{p:111729,n:1}},
+  "9/21": {gogo:{p:56066,n:1}, icngh:{p:57788,n:1}, sky:{p:67423,n:1}},
+  "9/22": {gogo:{p:56019,n:1}, icngh:{p:57734,n:1}, sky:{p:68107,n:1}},
+  "9/23": {gogo:{p:56093,n:1}, icngh:{p:74163,n:1}, sky:{p:89625,n:1}},
+  "9/24": {gogo:{p:84368,n:1}, icngh:{p:null,r:"so"}, sky:{p:111712,n:1}},
+  "9/25": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:136394,n:1}},
+  "9/26": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:149413,n:1}},
+  "9/27": {gogo:{p:56066,n:1}, icngh:{p:56992,n:1}, sky:{p:96486,n:1}},
+  "9/28": {gogo:{p:56019,n:1}, icngh:{p:56945,n:1}, sky:{p:66699,n:1}},
+  "9/29": {gogo:{p:56093,n:1}, icngh:{p:57739,n:1}, sky:{p:66786,n:1}},
+  "9/30": {gogo:{p:56046,n:1}, icngh:{p:57691,n:1}, sky:{p:66891,n:1}},
   "10/1": {gogo:{p:56039}, icngh:{p:51976}, sky:{p:95702}},
   "10/2": {gogo:{p:null,r:"so"}, icngh:{p:92495}, sky:{p:185677}},
   "10/3": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
@@ -700,10 +700,12 @@ function agodaPriceCell(c,key,d){
   const label = (c && c.p!=null) ? fmt(c.p) : '-';
   return url ? '<a href="'+url+'" target="_blank" rel="noopener" class="ag-pricelink">'+label+'</a>' : label;
 }
-/* 아고다 잔여 자유입력 — 숫자·"만실"·"5+" 등 뭐든 입력 가능. 엔터/포커스아웃 시 AGODA_AVAIL에 저장(하단 delegated 리스너). */
-function agodaAvailInput(key, md){
+/* 아고다 잔여 자유입력 — 숫자·"만실"·"5+" 등 뭐든 입력 가능. 엔터/포커스아웃 시 AGODA_AVAIL에 저장(하단 delegated 리스너).
+   AGODA_AVAIL(사용자 수동입력)이 있으면 그 값이 최우선. 없으면 c.n/c.r(브라우저 스캔값)을 자동으로 채워 보여주되, 그대로 입력칸이라 언제든 덮어쓸 수 있음. */
+function agodaAvailInput(c, key, md){
   const k = key+'_'+md;
-  const val = AGODA_AVAIL[k] || '';
+  const auto = (c && c.r==="so") ? '만실' : (c && c.n!=null) ? String(c.n) : '';
+  const val = AGODA_AVAIL[k]!=null ? AGODA_AVAIL[k] : auto;
   return '<span class="ag-avail"><input type="text" class="ag-input" data-key="'+k+'" placeholder="입력" value="'+esc(val)+'"><span class="ag-ic">✏️</span></span>';
 }
 function eventInfo(d){ return EVENTS[dISO(d)]||null; }
@@ -767,9 +769,9 @@ function buildMonthRow(md, iso){
    +'<td class="bkc">'+compCellSimple(c.gd,'gd',md)+'</td>'
    +'<td class="bkc">'+compCellSimple(c.hu,'hu',md)+'</td>'
    +'<td class="bkc">'+compCellSimple(c.bw,'bw',md)+'</td>'
-   +'<td class="agc">'+agodaPriceCell(ag.gogo,'gogo',md)+agodaAvailInput('gogo',md)+'</td>'
-   +'<td class="agc">'+agodaPriceCell(ag.icngh,'icngh',md)+agodaAvailInput('icngh',md)+'</td>'
-   +'<td class="agc">'+agodaPriceCell(ag.sky,'sky',md)+agodaAvailInput('sky',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.gogo,'gogo',md)+agodaAvailInput(ag.gogo,'gogo',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.icngh,'icngh',md)+agodaAvailInput(ag.icngh,'icngh',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.sky,'sky',md)+agodaAvailInput(ag.sky,'sky',md)+'</td>'
    +'<td class="our2">'+ourCur+'</td>'
    +'<td class="our2">'+ourAvail+'</td>'
    +'<td class="evcell">'+eventCell(md)+'</td></tr>';
