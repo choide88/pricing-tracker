@@ -680,7 +680,13 @@ function compCellSimple(c,key,d){
     return '<span class="gap-na">-</span>';
   }
   const url = bkUrl(key,d);
-  return url ? '<a href="'+url+'" target="_blank" rel="noopener">'+fmt(c.p)+'</a>' : fmt(c.p);
+  const priceHtml = url ? '<a href="'+url+'" target="_blank" rel="noopener">'+fmt(c.p)+'</a>' : fmt(c.p);
+  let availHtml = '';
+  if(c.n!=null){
+    const label = c.approx ? (c.n+'+') : ('잔'+c.n);
+    availHtml = '<span class="list-sub comp-avail">'+label+'</span>';
+  }
+  return priceHtml+availHtml;
 }
 /* 아고다 가격 셀 — 데이터 없어도(현재 전부 "-") 항상 해당 날짜 아고다 페이지로 링크(수동 확인용). */
 function agodaUrl(key,d){
