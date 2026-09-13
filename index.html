@@ -382,7 +382,7 @@
 /* ── 날짜 상수·환율 ─────────────────────────────────────── */
 // 데이터 기준일 3종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
 const ASOF_PRICE = "2026-09-12";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
-const ASOF_STOCK = "2026-08-28";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
+const ASOF_STOCK = "2026-09-13";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-09-12";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = null;     // 아고다 잔여는 사용자 자유입력(AGODA_AVAIL, localStorage)이라 "기준일" 개념이 약하지만, 형식 통일을 위해 유지. 필요시 마지막 일괄점검일로 채워 사용.
@@ -429,24 +429,24 @@ const WEEKLY_WIN_END = TODAY_MS + 30*86400000;   // 오늘~D+30 창(이벤트 �
    hl:"strong"=콘서트 겹침일·"chuseok"=추석연휴. flag={lvl,ic,txt}=배지+툴팁(화면엔 아이콘만, 설명은 title). */
 const TRACK = {
   "9/12": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
-  "9/13": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:140000,r:"na"},hu:{p:null,r:"so"},bw:{p:317195,r:"na"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
-  "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:77760,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:150535,r:"na"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
-  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:77760,r:"na"},gd:{p:120000,r:"na"},hu:{p:120000,r:"na"},bw:{p:150535,r:"na"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[C·8/28] 8/28 스크린샷: 잔1→마감 전환(완전 소진)"}},
-  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:77760,r:"na"},gd:{p:80000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:77760,r:"na"},gd:{p:80000,r:"na"},hu:{p:120000,r:"na"},bw:{p:204298,r:"na"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,r:"na"},hu:{p:250000,r:"na"},bw:{p:279565,r:"na"}}, our:{ourN:11,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/28] Vaundy 전날 — 원정 조기입국 대비. 250,000 유지, 예약유입 관찰"}},
-  "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:311823,r:"na"}}, our:{ourN:10,cur:300000}, flag:{lvl:"green",ic:"🟢",txt:"[9/12 재스캔] 게하·굿·휴 3곳 완전 만실, 베웨만 31.2만 — 진짜 강수요 확인. 250,000→300,000 상향 유지"}},
-  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:87480,r:"na"},gd:{p:140000,r:"na"},hu:{p:180000,r:"na"},bw:{p:247308,r:"na"}}, our:{ourN:9,cur:200000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/28] Vaundy 이틀째. 170,000→200,000 상향"}},
-  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:87480,r:"na"},gd:{p:140000,r:"na"},hu:{p:160000,r:"na"},bw:{p:139783,r:"na"}}, our:{ourN:10,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:87480,r:"na"},gd:{p:100000,r:"na"},hu:{p:170000,r:"na"},bw:{p:139783,r:"na"}}, our:{ourN:10,cur:150000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,r:"na"},gd:{p:80000,r:"na"},hu:{p:170000,r:"na"},bw:{p:139783,r:"na"}}, our:{ourN:10,cur:150000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,r:"na"},gd:{p:160000,r:"na"},hu:{p:160000,r:"na"},bw:{p:301070,r:"na"}}, our:{ourN:6,cur:230000}, note:"★추석", flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 전날 — 230,000 반영됨. 원정 조기입국 적중"}},
-  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:null,r:"so"},gd:{p:160000,r:"na"},hu:{p:200000,r:"na"},bw:{p:279565,r:"na"}}, our:{ourN:6,cur:300000}, note:"★추석 당일", flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 — 300,000 잔6 소진중. 경쟁사 저가재고3~4. 유지"}},
-  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,r:"na"},gd:{p:180000,r:"na"},hu:{p:350000,r:"na"},bw:{p:301070,r:"na"}}, our:{ourN:6,cur:300000}, flag:{lvl:"green",ic:"✅",txt:"[9/12 재스캔] 기무라 당일 휴 35만까지 급등(평시 12만 대비 +190%) — 300,000 잔6 소진중. 유지"}},
-  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:64800,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:193545,r:"na"}}, our:{ourN:11,cur:150000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:64800,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}, our:{ourN:11,cur:150000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:64800,r:"na"},gd:{p:140000,r:"na"},hu:{p:120000,r:"na"},bw:{p:150535,r:"na"}}, our:{ourN:9,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔9, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:64800,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}, our:{ourN:11,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/13": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:0},hu:{p:null,r:"so"},bw:{p:317195,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
+  "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:77760,n:3},gd:{p:100000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
+  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:77760,n:6},gd:{p:120000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[C·8/28] 8/28 스크린샷: 잔1→마감 전환(완전 소진)"}},
+  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:77760,n:2},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:80000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:204298,r:"free"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:7},hu:{p:250000,n:4},bw:{p:279565,r:"free"}}, our:{ourN:11,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/28] Vaundy 전날 — 원정 조기입국 대비. 250,000 유지, 예약유입 관찰"}},
+  "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:311823,r:"free"}}, our:{ourN:10,cur:300000}, flag:{lvl:"green",ic:"🟢",txt:"[9/12 재스캔] 게하·굿·휴 3곳 완전 만실, 베웨만 31.2만 — 진짜 강수요 확인. 250,000→300,000 상향 유지"}},
+  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:87480,n:8},gd:{p:140000,n:5},hu:{p:180000,n:5},bw:{p:247308,r:"free"}}, our:{ourN:9,cur:200000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/28] Vaundy 이틀째. 170,000→200,000 상향"}},
+  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:87480,n:6},gd:{p:140000,n:6},hu:{p:160000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:10,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:87480,n:10},gd:{p:100000,n:6},hu:{p:170000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:10,cur:150000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:16},gd:{p:80000,n:8},hu:{p:170000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:10,cur:150000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:10},gd:{p:160000,n:7},hu:{p:160000,n:6},bw:{p:301070,r:"free"}}, our:{ourN:6,cur:230000}, note:"★추석", flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 전날 — 230,000 반영됨. 원정 조기입국 적중"}},
+  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:7},hu:{p:200000,n:5},bw:{p:279565,r:"free"}}, our:{ourN:6,cur:300000}, note:"★추석 당일", flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 — 300,000 잔6 소진중. 경쟁사 저가재고3~4. 유지"}},
+  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,n:8},gd:{p:180000,n:7},hu:{p:350000,n:1},bw:{p:301070,r:"free"}}, our:{ourN:6,cur:300000}, flag:{lvl:"green",ic:"✅",txt:"[9/12 재스캔] 기무라 당일 휴 35만까지 급등(평시 12만 대비 +190%) — 300,000 잔6 소진중. 유지"}},
+  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:64800,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:11,cur:150000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:64800,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:150000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:64800,n:12},gd:{p:140000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:9,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔9, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:64800,n:4},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
 
   /* ── 10~12월: 2026-09-12 경쟁사 MCP 가격 스캔 반영(가격만, 잔여 미실측=r:"na"/"so"). 우리(our) 데이터 없음 → 화면엔 "-". ── */
   "10/1": {dow:"목",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:160000,r:"na"},hu:{p:120000,r:"na"},bw:{p:193545,r:"na"}}},
