@@ -47,11 +47,14 @@
   tr.wknd td.agc{background:#fef1ee;}
   .ag-pricelink{color:#b91c1c;text-decoration:none;}
   .ag-pricelink:hover{text-decoration:underline;}
-  .ag-avail{display:inline-flex;align-items:center;gap:2px;margin-left:4px;}
-  .ag-input{width:42px;font-size:10.5px;padding:1px 4px;border:1px solid #f3c9c9;border-radius:4px;background:#fff7f6;color:#9f1239;text-align:center;font-family:inherit;}
-  .ag-input::placeholder{color:#e2a5a5;}
-  .ag-input:focus{outline:none;border-color:#e0455a;background:#fff;}
-  .ag-ic{font-size:9px;opacity:.6;}
+  /* 잔여 표시 — 부킹(comp-avail)·아고다(avail-edit) 공용. 자동값=회색(list-sub와 동일 톤), 수동수정값=파란색 굵게, 빈칸=옅은 placeholder. */
+  .avail-edit{display:block;font-size:9px;cursor:pointer;}
+  .avail-auto{color:#9ca3af;font-weight:400;}
+  .avail-manual{color:#1f5fa8;font-weight:700;}
+  .avail-empty{color:#cbd5e1;font-style:italic;}
+  .avail-edit:hover{text-decoration:underline dotted;}
+  .avail-input{width:46px;font-size:9px;padding:0 3px;border:1px solid #93c5fd;border-radius:3px;background:#fff;color:#1f5fa8;text-align:center;font-family:inherit;}
+  .avail-input:focus{outline:none;border-color:#1f5fa8;}
   .so{color:var(--red);font-weight:700;font-size:11px;}
   .price{font-weight:600;}
   td a{color:inherit;text-decoration:none;}
@@ -701,13 +704,22 @@ function agodaPriceCell(c,key,d){
   const label = (c && c.p!=null) ? fmt(c.p) : '-';
   return url ? '<a href="'+url+'" target="_blank" rel="noopener" class="ag-pricelink">'+label+'</a>' : label;
 }
-/* 아고다 잔여 자유입력 — 숫자·"만실"·"5+" 등 뭐든 입력 가능. 엔터/포커스아웃 시 AGODA_AVAIL에 저장(하단 delegated 리스너).
-   AGODA_AVAIL(사용자 수동입력)이 있으면 그 값이 최우선. 없으면 c.n/c.r(브라우저 스캔값)을 자동으로 채워 보여주되, 그대로 입력칸이라 언제든 덮어쓸 수 있음. */
-function agodaAvailInput(c, key, md){
+/* 아고다 잔여 — 부킹(comp-avail)과 동일한 "잔N" 텍스트 스타일. 평소엔 회색 텍스트, 클릭하면 입력모드로 바뀌어
+   숫자·"만실"·"5+" 등 뭐든 입력 가능(엔터/포커스아웃 시 저장). AGODA_AVAIL에 값이 있으면 그게 "수동입력"(파란색),
+   없으면 c.n/c.r(브라우저 스캔값)을 자동으로 보여줌(회색) — AGODA_AVAIL 존재 여부 자체가 auto/manual 플래그. */
+function agodaAvailAuto(c){
+  if(c && c.r==="so") return '만실';
+  if(c && c.n!=null) return '잔'+c.n+(c.approx?'+':'');
+  return '';
+}
+function agodaAvailCell(c, key, md){
   const k = key+'_'+md;
-  const auto = (c && c.r==="so") ? '만실' : (c && c.n!=null) ? String(c.n) : '';
-  const val = AGODA_AVAIL[k]!=null ? AGODA_AVAIL[k] : auto;
-  return '<span class="ag-avail"><input type="text" class="ag-input" data-key="'+k+'" placeholder="입력" value="'+esc(val)+'"><span class="ag-ic">✏️</span></span>';
+  const manual = AGODA_AVAIL[k];
+  const isManual = manual!=null && manual!=='';
+  const auto = agodaAvailAuto(c);
+  const shown = isManual ? manual : auto;
+  const cls = isManual ? 'avail-manual' : (shown ? 'avail-auto' : 'avail-empty');
+  return '<span class="avail-edit '+cls+'" data-key="'+k+'" tabindex="0">'+esc(shown||'잔여?')+'</span>';
 }
 function eventInfo(d){ return EVENTS[dISO(d)]||null; }
 function pokerOf(d){ const e=eventInfo(d); return e&&e.poker?e.poker:null; }
@@ -770,9 +782,9 @@ function buildMonthRow(md, iso){
    +'<td class="bkc">'+compCellSimple(c.gd,'gd',md)+'</td>'
    +'<td class="bkc">'+compCellSimple(c.hu,'hu',md)+'</td>'
    +'<td class="bkc">'+compCellSimple(c.bw,'bw',md)+'</td>'
-   +'<td class="agc">'+agodaPriceCell(ag.gogo,'gogo',md)+agodaAvailInput(ag.gogo,'gogo',md)+'</td>'
-   +'<td class="agc">'+agodaPriceCell(ag.icngh,'icngh',md)+agodaAvailInput(ag.icngh,'icngh',md)+'</td>'
-   +'<td class="agc">'+agodaPriceCell(ag.sky,'sky',md)+agodaAvailInput(ag.sky,'sky',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.gogo,'gogo',md)+agodaAvailCell(ag.gogo,'gogo',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.icngh,'icngh',md)+agodaAvailCell(ag.icngh,'icngh',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.sky,'sky',md)+agodaAvailCell(ag.sky,'sky',md)+'</td>'
    +'<td class="our2">'+ourCur+'</td>'
    +'<td class="our2">'+ourAvail+'</td>'
    +'<td class="evcell">'+eventCell(md)+'</td></tr>';
@@ -1191,17 +1203,40 @@ renderLog();
   document.getElementById('tab-'+n).addEventListener('click',function(){showTab(n);});
 });
 
-/* 아고다 잔여 자유입력 — 엔터 또는 포커스아웃 시 AGODA_AVAIL(localStorage)에 저장. 행이 재렌더될 때도 계속 동작하도록 delegated 리스너 사용. */
+/* 아고다 잔여 클릭수정 — .avail-edit 텍스트를 클릭하면 입력창으로 바뀌고, 엔터/포커스아웃 시 AGODA_AVAIL(localStorage)에 저장.
+   빈칸으로 지우면 수동입력 해제(자동값으로 복귀). 입력값이 자동값과 같고 원래 수동입력이 아니었다면 수동으로 표시하지 않음
+   (그냥 클릭만 하고 아무 것도 안 바꾼 경우 파란색으로 바뀌는 것을 방지). 행이 재렌더돼도 계속 동작하도록 delegated 리스너 사용. */
+function splitAvailKey(k){ const i=k.indexOf('_'); return [k.slice(0,i), k.slice(i+1)]; }
+document.addEventListener('click', function(e){
+  const span = e.target.closest && e.target.closest('.avail-edit');
+  if(!span) return;
+  const k = span.dataset.key;
+  const seed = span.textContent==='잔여?' ? '' : span.textContent;
+  const input = document.createElement('input');
+  input.type='text'; input.className='avail-input'; input.dataset.key=k; input.value=seed;
+  span.replaceWith(input);
+  input.focus(); input.select();
+});
 document.addEventListener('focusout', function(e){
   const t=e.target;
-  if(t && t.classList && t.classList.contains('ag-input')){
-    const key=t.dataset.key, val=t.value.trim();
-    if(val) AGODA_AVAIL[key]=val; else delete AGODA_AVAIL[key];
-    saveAgodaAvail();
-  }
+  if(!(t && t.classList && t.classList.contains('avail-input'))) return;
+  const k=t.dataset.key, val=t.value.trim();
+  const [hotelKey, md] = splitAvailKey(k);
+  const auto = agodaAvailAuto((AGODA_COMP[md]||{})[hotelKey]);
+  if(val===''){ delete AGODA_AVAIL[k]; }
+  else if(val===auto && AGODA_AVAIL[k]==null){ /* 자동값과 동일 + 원래 수동 아니었으면 그대로 자동 유지 */ }
+  else { AGODA_AVAIL[k]=val; }
+  saveAgodaAvail();
+  const isManual = AGODA_AVAIL[k]!=null;
+  const shown = isManual ? AGODA_AVAIL[k] : auto;
+  const span = document.createElement('span');
+  span.className = 'avail-edit '+(isManual?'avail-manual':(shown?'avail-auto':'avail-empty'));
+  span.dataset.key = k; span.tabIndex = 0;
+  span.textContent = shown || '잔여?';
+  t.replaceWith(span);
 });
 document.addEventListener('keydown', function(e){
-  if(e.key==='Enter' && e.target && e.target.classList && e.target.classList.contains('ag-input')) e.target.blur();
+  if(e.key==='Enter' && e.target && e.target.classList && e.target.classList.contains('avail-input')) e.target.blur();
 });
 </script>
 </body>
