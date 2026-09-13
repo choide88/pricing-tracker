@@ -197,6 +197,7 @@
 
   <div class="datebar">
     <div class="db-row"><span class="db-item"><span class="db-ico">📅</span><span class="db-label">오늘</span><span class="db-val" id="dbToday">—</span></span></div>
+    <div class="db-row"><span class="db-item"><span class="db-ico">🏠</span><span class="db-label">우리 현황</span><span class="db-val" id="dbAsofOurs">—</span><span id="dbBadgeOurs"></span></span></div>
     <div class="db-row">
       <span class="db-item"><span class="db-ico">💰</span><span class="db-label">부킹 가격</span><span class="db-val" id="dbAsofPrice">—</span><span id="dbBadgePrice"></span></span>
       <span class="db-sep">·</span>
@@ -212,7 +213,7 @@
 
   <div id="insight"></div>
   <div id="upcoming"></div>
-  <p class="cap">경쟁사 7곳 가격 표시(부킹 4곳+아고다 3곳) — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 아고다 잔여칸(✏️)은 자유 입력 후 이 브라우저에 자동 저장됨. 우리 현재가는 표시가 + 실수령(×0.85) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
+  <p class="cap">경쟁사 7곳 가격 표시(부킹 4곳+아고다 3곳) — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 아고다 잔여칸(✏️)은 자유 입력 후 이 브라우저에 자동 저장됨. 우리 현재가는 표시가 + 실수령(×0.80) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
 
   <div class="tabs">
     <button id="tab-m9" class="tab active">① 9월</button>
@@ -332,9 +333,9 @@
     </details>
 
     <details class="opsblock">
-      <summary>💰 할인율 2단계</summary>
-      <p>평소=15% 할인 → 실수령(메인)=표시가×0.85(대부분의 예약). <b>3일전(D-3)까지 미판매 시</b>=추가 5%(총 20%) 할인 → 실수령=표시가×0.80(막판 자동적용).
-      경쟁사 비교·저평가 판정·추천가는 전부 메인(×0.85) 기준.</p>
+      <summary>💰 할인율 20% (프로모션 중첩)</summary>
+      <p>International 15% + 조기/막판 5% 프로모션이 상시 중첩 적용되어 실제 평균 할인은 20% — 3일전(D-3) 단계별 할인 구분 없이 <b>단일 20%를 항상 적용</b>.
+      실수령=표시가×0.80. 경쟁사 비교·저평가 판정·추천가는 전부 이 ×0.80 기준.</p>
     </details>
 
     <details class="opsblock">
@@ -380,17 +381,17 @@
 
 <script>
 /* ── 날짜 상수·환율 ─────────────────────────────────────── */
-// 데이터 기준일 3종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
+// 데이터 기준일 6종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
 const ASOF_PRICE = "2026-09-12";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
 const ASOF_STOCK = "2026-09-13";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-09-12";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
-const DISCOUNT_NORMAL = 0.15;   // 평소(대부분 예약) — 메인 실수령 기준
-const DISCOUNT_LATE   = 0.20;   // 3일전(D-3)까지 미판매 시 막판 자동할인(총 20%)
-const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(메인, ×0.85)
-const netRateLate = p => p==null?null:Math.round(p*(1-DISCOUNT_LATE));    // 표시가 → 실수령(3일전, ×0.80)
-const listOf = p => p==null?null:Math.round(p/(1-DISCOUNT_NORMAL));       // 실수령(메인) → 표시가 환산(÷0.85)
+const ASOF_OURS = "2026-09-13";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
+// International 15% + 조기/막판 5% 프로모션이 상시 중첩되어 실제 평균 할인은 20% 단일 — 3일전 단계 구분 없음.
+const DISCOUNT_NORMAL = 0.20;
+const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(×0.80)
+const listOf = p => p==null?null:Math.round(p/(1-DISCOUNT_NORMAL));       // 실수령 → 표시가 환산(÷0.80)
 const CAPACITY = { "2026-09": 10 };   // 월별 총 객실수(잔여 비율 판정 분모). 미등록 월은 10 기본.
 function capOf(dateStr){ return CAPACITY[dateStr.slice(0,7)] || 10; }
 
@@ -432,21 +433,21 @@ const TRACK = {
   "9/13": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:0},hu:{p:null,r:"so"},bw:{p:317195,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:77760,n:3},gd:{p:100000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:77760,n:6},gd:{p:120000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[C·8/28] 8/28 스크린샷: 잔1→마감 전환(완전 소진)"}},
-  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:77760,n:2},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:80000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:204298,r:"free"}}, our:{ourN:10,cur:170000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:7},hu:{p:250000,n:4},bw:{p:279565,r:"free"}}, our:{ourN:11,cur:250000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/28] Vaundy 전날 — 원정 조기입국 대비. 250,000 유지, 예약유입 관찰"}},
-  "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:311823,r:"free"}}, our:{ourN:10,cur:300000}, flag:{lvl:"green",ic:"🟢",txt:"[9/12 재스캔] 게하·굿·휴 3곳 완전 만실, 베웨만 31.2만 — 진짜 강수요 확인. 250,000→300,000 상향 유지"}},
-  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:87480,n:8},gd:{p:140000,n:5},hu:{p:180000,n:5},bw:{p:247308,r:"free"}}, our:{ourN:9,cur:200000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·8/28] Vaundy 이틀째. 170,000→200,000 상향"}},
-  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:87480,n:6},gd:{p:140000,n:6},hu:{p:160000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:10,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:87480,n:10},gd:{p:100000,n:6},hu:{p:170000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:10,cur:150000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:16},gd:{p:80000,n:8},hu:{p:170000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:10,cur:150000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔10, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:10},gd:{p:160000,n:7},hu:{p:160000,n:6},bw:{p:301070,r:"free"}}, our:{ourN:6,cur:230000}, note:"★추석", flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 전날 — 230,000 반영됨. 원정 조기입국 적중"}},
-  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:7},hu:{p:200000,n:5},bw:{p:279565,r:"free"}}, our:{ourN:6,cur:300000}, note:"★추석 당일", flag:{lvl:"green",ic:"✅",txt:"[E·8/28] 기무라 — 300,000 잔6 소진중. 경쟁사 저가재고3~4. 유지"}},
-  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,n:8},gd:{p:180000,n:7},hu:{p:350000,n:1},bw:{p:301070,r:"free"}}, our:{ourN:6,cur:300000}, flag:{lvl:"green",ic:"✅",txt:"[9/12 재스캔] 기무라 당일 휴 35만까지 급등(평시 12만 대비 +190%) — 300,000 잔6 소진중. 유지"}},
-  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:64800,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:11,cur:150000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:64800,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:150000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:64800,n:12},gd:{p:140000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:9,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔9, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
-  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:64800,n:4},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:150000}, flag:{lvl:"green",ic:"🟢",txt:"[E·8/28] 평일 과잉·유지 — 잔11, 150,000~170,000선 유지하며 3일전 할인으로 소진"}},
+  "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:77760,n:2},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:9,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔9, 110,000선"}},
+  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:80000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:204298,r:"free"}}, our:{ourN:10,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔10, 110,000선"}},
+  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:7},hu:{p:250000,n:4},bw:{p:279565,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 전날 — 원정 조기입국 대비. 130,000, 예약유입 관찰"}},
+  "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:311823,r:"free"}}, our:{ourN:7,cur:180000}, flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 게하·굿·휴 3곳 완전 만실, 베웨만 31.2만 — 진짜 강수요 확인. 현재 180,000"}},
+  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:87480,n:8},gd:{p:140000,n:5},hu:{p:180000,n:5},bw:{p:247308,r:"free"}}, our:{ourN:7,cur:170000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 이틀째. 170,000 유지"}},
+  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:87480,n:6},gd:{p:140000,n:6},hu:{p:160000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔8, 130,000선"}},
+  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:87480,n:10},gd:{p:100000,n:6},hu:{p:170000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:300000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 추석 전날 — 300,000, 잔8"}},
+  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:16},gd:{p:80000,n:8},hu:{p:170000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:350000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 추석연휴 — 350,000, 잔8"}},
+  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:10},gd:{p:160000,n:7},hu:{p:160000,n:6},bw:{p:301070,r:"free"}}, our:{ourN:5,cur:350000}, note:"★추석", flag:{lvl:"green",ic:"✅",txt:"[E·9/13] 기무라 전날 — 350,000 반영됨. 원정 조기입국 적중"}},
+  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:7},hu:{p:200000,n:5},bw:{p:279565,r:"free"}}, our:{ourN:7,cur:350000}, note:"★추석 당일", flag:{lvl:"green",ic:"✅",txt:"[E·9/13] 기무라 — 350,000, 잔7. 경쟁사 저가재고3~4 참고"}},
+  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,n:8},gd:{p:180000,n:7},hu:{p:350000,n:1},bw:{p:301070,r:"free"}}, our:{ourN:7,cur:350000}, flag:{lvl:"green",ic:"✅",txt:"[9/13 갱신] 기무라 당일 휴 35만까지 급등(평시 12만 대비 +190%) — 350,000, 잔7"}},
+  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:64800,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:10,cur:350000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 연휴 마지막 — 350,000, 잔10"}},
+  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:64800,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:110000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
+  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:64800,n:12},gd:{p:140000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:9,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔9, 110,000선"}},
+  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:64800,n:4},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
 
   /* ── 10~12월: 2026-09-12 경쟁사 MCP 가격 스캔 반영(가격만, 잔여 미실측=r:"na"/"so"). 우리(our) 데이터 없음 → 화면엔 "-". ── */
   "10/1": {dow:"목",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:160000,r:"na"},hu:{p:120000,r:"na"},bw:{p:193545,r:"na"}}},
@@ -1139,6 +1140,8 @@ function asofValText(d){ return d ? (d+' ('+dowKST(d)+')') : '—'; }
 function asofBadgeOrNA(d, warnAt, staleAt){ return d ? asofBadge(d, warnAt, staleAt) : '<span class="db-badge db-stale">🔴 미실시</span>'; }
 (function(){
   document.getElementById('dbToday').textContent = asofValText(TODAY_KST);
+  document.getElementById('dbAsofOurs').textContent = asofValText(ASOF_OURS);
+  document.getElementById('dbBadgeOurs').innerHTML = asofBadgeOrNA(ASOF_OURS, 3, 7);
   document.getElementById('dbAsofPrice').textContent = asofValText(ASOF_PRICE);
   document.getElementById('dbAsofAgoda').textContent = asofValText(ASOF_AGODA);
   document.getElementById('dbAsofStock').textContent = asofValText(ASOF_STOCK);
