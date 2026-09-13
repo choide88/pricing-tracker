@@ -527,10 +527,10 @@ const TRACK = {
 };
 
 /* AGODA_COMP: 아고다 3곳(고고하우스·인천공항게스트하우스·스카이게스텔) 가격 스캔 결과. 키는 TRACK과 동일 "M/D".
-   {gogo:{p}, icngh:{p}, sky:{p}} — 아직 스캔 전이라 비어있음(전부 "-"로 표시, 셀은 클릭 가능한 링크는 유지).
+   {gogo:{p}, icngh:{p}, sky:{p}} — 아직 스캔 안 한 날짜는 "-"로 표시(셀은 클릭 가능한 링크는 유지).
    잔여는 이 객체가 아니라 AGODA_AVAIL(브라우저 localStorage 자유입력)로 별도 관리 — 아래 참고. */
 const AGODA_COMP = {
-  /* 9/13~9/27(2주치): 2026-09-13 브라우저 실측 — 가격+매진여부(so) 확인. 9/28~10/13은 아직 미실시. */
+  /* 9/13~10/13(전체 4주): 2026-09-13 브라우저 실측 — 가격+매진여부(so) 확인. */
   "9/13": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
   "9/14": {gogo:{p:56045}, icngh:{p:null,r:"so"}, sky:{p:72064}},
   "9/15": {gogo:{p:56045}, icngh:{p:54163}, sky:{p:66951}},
@@ -545,7 +545,23 @@ const AGODA_COMP = {
   "9/24": {gogo:{p:84368}, icngh:{p:null,r:"so"}, sky:{p:111712}},
   "9/25": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:136394}},
   "9/26": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:149413}},
-  "9/27": {gogo:{p:56066}, icngh:{p:56992}, sky:{p:96486}}
+  "9/27": {gogo:{p:56066}, icngh:{p:56992}, sky:{p:96486}},
+  "9/28": {gogo:{p:56019}, icngh:{p:56945}, sky:{p:66699}},
+  "9/29": {gogo:{p:56093}, icngh:{p:57739}, sky:{p:66786}},
+  "9/30": {gogo:{p:56046}, icngh:{p:57691}, sky:{p:66891}},
+  "10/1": {gogo:{p:56039}, icngh:{p:51976}, sky:{p:95702}},
+  "10/2": {gogo:{p:null,r:"so"}, icngh:{p:92495}, sky:{p:185677}},
+  "10/3": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
+  "10/4": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
+  "10/5": {gogo:{p:56093}, icngh:{p:75163}, sky:{p:98544}},
+  "10/6": {gogo:{p:56046}, icngh:{p:56328}, sky:{p:98159}},
+  "10/7": {gogo:{p:56039}, icngh:{p:null,r:"so"}, sky:{p:98425}},
+  "10/8": {gogo:{p:56073}, icngh:{p:57719}, sky:{p:81596}},
+  "10/9": {gogo:{p:81384}, icngh:{p:null,r:"so"}, sky:{p:209280}},
+  "10/10": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:222085}},
+  "10/11": {gogo:{p:56093}, icngh:{p:66052}, sky:{p:111440}},
+  "10/12": {gogo:{p:56046}, icngh:{p:51984}, sky:{p:73226}},
+  "10/13": {gogo:{p:56039}, icngh:{p:51976}, sky:{p:73789}}
 };
 
 /* AGODA_AVAIL: 아고다 3곳 잔여 자유입력값 저장소. 키="hotelKey_M/D"(예: "gogo_9/13") → 사용자가 입력한 임의 문자열.
