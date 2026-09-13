@@ -376,7 +376,7 @@
 const ASOF_PRICE = "2026-09-12";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
 const ASOF_STOCK = "2026-08-28";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-09-12";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
-const ASOF_AGODA = null;           // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일 — 아직 스캔 전이라 null(🔴 미실시로 표시)
+const ASOF_AGODA = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = null;     // 아고다 잔여는 사용자 자유입력(AGODA_AVAIL, localStorage)이라 "기준일" 개념이 약하지만, 형식 통일을 위해 유지. 필요시 마지막 일괄점검일로 채워 사용.
 const DISCOUNT_NORMAL = 0.15;   // 평소(대부분 예약) — 메인 실수령 기준
 const DISCOUNT_LATE   = 0.20;   // 3일전(D-3)까지 미판매 시 막판 자동할인(총 20%)
@@ -521,7 +521,24 @@ const TRACK = {
 /* AGODA_COMP: 아고다 3곳(고고하우스·인천공항게스트하우스·스카이게스텔) 가격 스캔 결과. 키는 TRACK과 동일 "M/D".
    {gogo:{p}, icngh:{p}, sky:{p}} — 아직 스캔 전이라 비어있음(전부 "-"로 표시, 셀은 클릭 가능한 링크는 유지).
    잔여는 이 객체가 아니라 AGODA_AVAIL(브라우저 localStorage 자유입력)로 별도 관리 — 아래 참고. */
-const AGODA_COMP = {};
+const AGODA_COMP = {
+  /* 9/13~9/27(2주치): 2026-09-13 브라우저 실측 — 가격+매진여부(so) 확인. 9/28~10/13은 아직 미실시. */
+  "9/13": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
+  "9/14": {gogo:{p:56045}, icngh:{p:null,r:"so"}, sky:{p:72064}},
+  "9/15": {gogo:{p:56045}, icngh:{p:54163}, sky:{p:66951}},
+  "9/16": {gogo:{p:55998}, icngh:{p:53627}, sky:{p:66897}},
+  "9/17": {gogo:{p:56066}, icngh:{p:53205}, sky:{p:67456}},
+  "9/18": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:126501}},
+  "9/19": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:208437}},
+  "9/20": {gogo:{p:93803}, icngh:{p:74693}, sky:{p:111729}},
+  "9/21": {gogo:{p:56066}, icngh:{p:57788}, sky:{p:67423}},
+  "9/22": {gogo:{p:56019}, icngh:{p:57734}, sky:{p:68107}},
+  "9/23": {gogo:{p:56093}, icngh:{p:74163}, sky:{p:89625}},
+  "9/24": {gogo:{p:84368}, icngh:{p:null,r:"so"}, sky:{p:111712}},
+  "9/25": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:136394}},
+  "9/26": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:149413}},
+  "9/27": {gogo:{p:56066}, icngh:{p:56992}, sky:{p:96486}}
+};
 
 /* AGODA_AVAIL: 아고다 3곳 잔여 자유입력값 저장소. 키="hotelKey_M/D"(예: "gogo_9/13") → 사용자가 입력한 임의 문자열.
    localStorage에 저장되어 새로고침·재방문해도 유지됨(이 브라우저 한정, git에는 저장 안 됨). */
@@ -648,6 +665,7 @@ function agodaUrl(key,d){
   return base+'?adults=2&rooms=1&checkIn='+ci+'&los=1&currencyCode=KRW';
 }
 function agodaPriceCell(c,key,d){
+  if(c && c.r==="so") return '<span class="so">만실</span>';
   const url = agodaUrl(key,d);
   const label = (c && c.p!=null) ? fmt(c.p) : '-';
   return url ? '<a href="'+url+'" target="_blank" rel="noopener" class="ag-pricelink">'+label+'</a>' : label;
