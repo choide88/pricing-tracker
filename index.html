@@ -35,6 +35,23 @@
   tr.wknd td.date{color:var(--red);font-weight:700;}
   tr.wkdy td.date{color:#1f5fa8;}
   tr.wknd td.our{background:#e7f0fb;}tr.wknd td.our2{background:#dff5e9;}tr.wknd td.gapc{background:#ffe9da;}
+  /* 채널 색 구분: 부킹닷컴=파랑 계열, 아고다=빨강 계열 (헤더 그룹라벨 + 셀 옅은 배경) */
+  tr.grouprow th{font-size:9.5px;font-weight:700;padding:2px 4px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  .grp-bk{background:#bfdbfe;color:#1e3a8a;}
+  .grp-ag{background:#fecdd3;color:#9f1239;}
+  th.bkcol{background:#dbeafe;color:#1e40af;}
+  th.agcol{background:#fde3da;color:#b91c1c;}
+  td.bkc{background:#fafcff;}
+  td.agc{background:#fffaf9;}
+  tr.wknd td.bkc{background:#f0f6fd;}
+  tr.wknd td.agc{background:#fef1ee;}
+  .ag-pricelink{color:#b91c1c;text-decoration:none;}
+  .ag-pricelink:hover{text-decoration:underline;}
+  .ag-avail{display:inline-flex;align-items:center;gap:2px;margin-left:4px;}
+  .ag-input{width:42px;font-size:10.5px;padding:1px 4px;border:1px solid #f3c9c9;border-radius:4px;background:#fff7f6;color:#9f1239;text-align:center;font-family:inherit;}
+  .ag-input::placeholder{color:#e2a5a5;}
+  .ag-input:focus{outline:none;border-color:#e0455a;background:#fff;}
+  .ag-ic{font-size:9px;opacity:.6;}
   .so{color:var(--red);font-weight:700;font-size:11px;}
   .price{font-weight:600;}
   td a{color:inherit;text-decoration:none;}
@@ -156,12 +173,14 @@
   .dim{opacity:.5;}
   tr.ev-only td{background:#fafbfc;color:#6b7280;}
   tr.ev-only td.date{color:#374151;font-weight:700;}
-  .datebar{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin:10px 0 16px;padding:14px 18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;}
-  .db-block{display:flex;align-items:baseline;gap:7px;}
-  .db-ico{font-size:19px;}
-  .db-label{font-size:12px;color:#6b7280;font-weight:600;}
-  .db-val{font-size:21px;font-weight:800;color:#1a1a1a;}
-  .db-badge{font-size:13px;font-weight:800;padding:5px 13px;border-radius:20px;}
+  .datebar{display:flex;flex-direction:column;gap:3px;margin:10px 0 16px;padding:9px 16px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;}
+  .db-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;font-size:12.5px;}
+  .db-item{display:inline-flex;align-items:baseline;gap:4px;}
+  .db-ico{font-size:13px;}
+  .db-label{font-size:11.5px;color:#6b7280;font-weight:600;}
+  .db-val{font-size:12.5px;font-weight:700;color:#1a1a1a;}
+  .db-sep{color:#cbd5e1;}
+  .db-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;}
   .db-fresh{background:#eafaf1;color:#0a8754;border:1px solid #b8e6cf;}
   .db-warn{background:#fff2e0;color:#c2780c;border:1px solid #f0d0a0;}
   .db-stale{background:#fdecec;color:#c0392b;border:1px solid #f3c0c0;}
@@ -177,20 +196,23 @@
   <b>전략 v2:</b> 평일은 경쟁사(굿데이·호텔휴, 평점 7.3~7.6) 수준으로 <b>방어(인상 자제)</b>, <b>금·토·이벤트일은 공격적 인상</b>. 같은 오피스텔 건물이라 시설 차별화 없음 — 인테리어·CS만 차이(실효 평점 8.0).</p>
 
   <div class="datebar">
-    <div class="db-block"><span class="db-ico">📅</span><span class="db-label">오늘</span><span class="db-val" id="dbToday">—</span></div>
-  </div>
-  <div class="datebar">
-    <div class="db-block"><span class="db-ico">💰</span><span class="db-label">가격표 기준</span><span class="db-val" id="dbAsofPrice">—</span></div>
-    <span id="dbBadgePrice"></span>
-    <div class="db-block"><span class="db-ico">📦</span><span class="db-label">재고 기준</span><span class="db-val" id="dbAsofStock">—</span></div>
-    <span id="dbBadgeStock"></span>
-    <div class="db-block"><span class="db-ico">🎤</span><span class="db-label">이벤트 기준</span><span class="db-val" id="dbAsofEvent">—</span></div>
-    <span id="dbBadgeEvent"></span>
+    <div class="db-row"><span class="db-item"><span class="db-ico">📅</span><span class="db-label">오늘</span><span class="db-val" id="dbToday">—</span></span></div>
+    <div class="db-row">
+      <span class="db-item"><span class="db-ico">💰</span><span class="db-label">부킹 가격</span><span class="db-val" id="dbAsofPrice">—</span><span id="dbBadgePrice"></span></span>
+      <span class="db-sep">·</span>
+      <span class="db-item"><span class="db-ico">🏨</span><span class="db-label">아고다 가격</span><span class="db-val" id="dbAsofAgoda">—</span><span id="dbBadgeAgoda"></span></span>
+    </div>
+    <div class="db-row">
+      <span class="db-item"><span class="db-ico">📦</span><span class="db-label">부킹 재고</span><span class="db-val" id="dbAsofStock">—</span><span id="dbBadgeStock"></span></span>
+      <span class="db-sep">·</span>
+      <span class="db-item"><span class="db-ico">🏨</span><span class="db-label">아고다 재고</span><span class="db-val" id="dbAsofAgodaStock">—</span><span id="dbBadgeAgodaStock"></span></span>
+    </div>
+    <div class="db-row"><span class="db-item"><span class="db-ico">🎤</span><span class="db-label">이벤트</span><span class="db-val" id="dbAsofEvent">—</span><span id="dbBadgeEvent"></span></span></div>
   </div>
 
   <div id="insight"></div>
   <div id="upcoming"></div>
-  <p class="cap">경쟁사 4곳 가격 표시 — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 우리 현재가는 표시가 + 실수령(×0.85) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
+  <p class="cap">경쟁사 7곳 가격 표시(부킹 4곳+아고다 3곳) — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 아고다 잔여칸(✏️)은 자유 입력 후 이 브라우저에 자동 저장됨. 우리 현재가는 표시가 + 실수령(×0.85) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
 
   <div class="tabs">
     <button id="tab-m9" class="tab active">① 9월</button>
@@ -204,7 +226,12 @@
   <div id="panel-m9" class="panel">
     <h2>9월 <span class="cap-inline">오늘 이후 날짜만 표시</span></h2>
     <table class="montable"><thead>
-      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
+      <tr class="grouprow"><th class="date"></th>
+          <th colspan="4" class="grp-bk">부킹닷컴</th>
+          <th colspan="3" class="grp-ag">아고다</th>
+          <th colspan="2"></th><th></th></tr>
+      <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th><th class="agcol">스카이게스텔</th>
           <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="body-m9"></tbody></table>
   </div>
@@ -212,7 +239,12 @@
   <div id="panel-m10" class="panel" hidden>
     <h2>10월 <span class="cap-inline">오늘 이후 날짜만 표시</span></h2>
     <table class="montable"><thead>
-      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
+      <tr class="grouprow"><th class="date"></th>
+          <th colspan="4" class="grp-bk">부킹닷컴</th>
+          <th colspan="3" class="grp-ag">아고다</th>
+          <th colspan="2"></th><th></th></tr>
+      <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th><th class="agcol">스카이게스텔</th>
           <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="body-m10"></tbody></table>
   </div>
@@ -220,7 +252,12 @@
   <div id="panel-m11" class="panel" hidden>
     <h2>11월 <span class="cap-inline">오늘 이후 날짜만 표시</span></h2>
     <table class="montable"><thead>
-      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
+      <tr class="grouprow"><th class="date"></th>
+          <th colspan="4" class="grp-bk">부킹닷컴</th>
+          <th colspan="3" class="grp-ag">아고다</th>
+          <th colspan="2"></th><th></th></tr>
+      <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th><th class="agcol">스카이게스텔</th>
           <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="body-m11"></tbody></table>
   </div>
@@ -228,7 +265,12 @@
   <div id="panel-m12" class="panel" hidden>
     <h2>12월 <span class="cap-inline">오늘 이후 날짜만 표시</span></h2>
     <table class="montable"><thead>
-      <tr><th class="date">날짜</th><th>게하</th><th>굿데이</th><th>호텔휴</th><th>베웨</th>
+      <tr class="grouprow"><th class="date"></th>
+          <th colspan="4" class="grp-bk">부킹닷컴</th>
+          <th colspan="3" class="grp-ag">아고다</th>
+          <th colspan="2"></th><th></th></tr>
+      <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th><th class="agcol">스카이게스텔</th>
           <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="body-m12"></tbody></table>
   </div>
@@ -334,6 +376,8 @@
 const ASOF_PRICE = "2026-09-12";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
 const ASOF_STOCK = "2026-08-28";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-09-12";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
+const ASOF_AGODA = null;           // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일 — 아직 스캔 전이라 null(🔴 미실시로 표시)
+const ASOF_AGODA_STOCK = null;     // 아고다 잔여는 사용자 자유입력(AGODA_AVAIL, localStorage)이라 "기준일" 개념이 약하지만, 형식 통일을 위해 유지. 필요시 마지막 일괄점검일로 채워 사용.
 const DISCOUNT_NORMAL = 0.15;   // 평소(대부분 예약) — 메인 실수령 기준
 const DISCOUNT_LATE   = 0.20;   // 3일전(D-3)까지 미판매 시 막판 자동할인(총 20%)
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(메인, ×0.85)
@@ -352,6 +396,13 @@ const BK_PARAMS = "group_adults=2&no_rooms=1&group_children=0";
 const BK_YEAR = parseInt(ASOF_PRICE,10)||2026;
 // 우리 숙소(hotel_id 16359322, 슬러그 확인됨) — 우리 현재가 셀 링크용.
 const OUR_BK_URL = "https://www.booking.com/hotel/kr/paradise-walk-residence.ko.html";
+
+// 아고다 3곳 — 링크용(가격 셀 클릭 시 해당 날짜로 이동). 가격 데이터는 AGODA_COMP(스캔으로 채움), 잔여는 AGODA_AVAIL(사용자 자유입력).
+const AGODA_LINKS = {
+  gogo:  "https://www.agoda.com/ko-kr/incheon-airport-gogo-house/hotel/incheon-kr.html",
+  icngh: "https://www.agoda.com/ko-kr/incheon-airport-incheon-geusthouse/hotel/incheon-kr.html",
+  sky:   "https://www.agoda.com/ko-kr/sky-guestel/hotel/incheon-kr.html"
+};
 
 /* ── 날짜 헬퍼(먼저 정의 — TODAY_KST 계산에 필요) ─────────── */
 const KDOW=["일","월","화","수","목","금","토"];
@@ -467,6 +518,18 @@ const TRACK = {
   "12/31": {dow:"목",t:"wkdy", comp:{gh:{p:121500,r:"na"},gd:{p:180000,r:"na"},hu:{p:170000,r:"na"},bw:{p:225803,r:"na"}}}
 };
 
+/* AGODA_COMP: 아고다 3곳(고고하우스·인천공항게스트하우스·스카이게스텔) 가격 스캔 결과. 키는 TRACK과 동일 "M/D".
+   {gogo:{p}, icngh:{p}, sky:{p}} — 아직 스캔 전이라 비어있음(전부 "-"로 표시, 셀은 클릭 가능한 링크는 유지).
+   잔여는 이 객체가 아니라 AGODA_AVAIL(브라우저 localStorage 자유입력)로 별도 관리 — 아래 참고. */
+const AGODA_COMP = {};
+
+/* AGODA_AVAIL: 아고다 3곳 잔여 자유입력값 저장소. 키="hotelKey_M/D"(예: "gogo_9/13") → 사용자가 입력한 임의 문자열.
+   localStorage에 저장되어 새로고침·재방문해도 유지됨(이 브라우저 한정, git에는 저장 안 됨). */
+const AGODA_AVAIL_KEY = 'agodaAvailV1';
+let AGODA_AVAIL = {};
+try{ AGODA_AVAIL = JSON.parse(localStorage.getItem(AGODA_AVAIL_KEY)||'{}'); }catch(e){ AGODA_AVAIL = {}; }
+function saveAgodaAvail(){ try{ localStorage.setItem(AGODA_AVAIL_KEY, JSON.stringify(AGODA_AVAIL)); }catch(e){} }
+
 /* EVENTS: 인근 공연/축제 캘린더(가격 알림 선행지표) + POKER_EVENTS(포커 대회, 지속형)가 여기 병합됨. */
 const EVENTS = {
   "2026-07-04": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
@@ -578,6 +641,23 @@ function compCellSimple(c,key,d){
   const url = bkUrl(key,d);
   return url ? '<a href="'+url+'" target="_blank" rel="noopener">'+fmt(c.p)+'</a>' : fmt(c.p);
 }
+/* 아고다 가격 셀 — 데이터 없어도(현재 전부 "-") 항상 해당 날짜 아고다 페이지로 링크(수동 확인용). */
+function agodaUrl(key,d){
+  const base = AGODA_LINKS[key]; if(!base) return null;
+  const {ci} = bkDates(d);
+  return base+'?adults=2&rooms=1&checkIn='+ci+'&los=1&currencyCode=KRW';
+}
+function agodaPriceCell(c,key,d){
+  const url = agodaUrl(key,d);
+  const label = (c && c.p!=null) ? fmt(c.p) : '-';
+  return url ? '<a href="'+url+'" target="_blank" rel="noopener" class="ag-pricelink">'+label+'</a>' : label;
+}
+/* 아고다 잔여 자유입력 — 숫자·"만실"·"5+" 등 뭐든 입력 가능. 엔터/포커스아웃 시 AGODA_AVAIL에 저장(하단 delegated 리스너). */
+function agodaAvailInput(key, md){
+  const k = key+'_'+md;
+  const val = AGODA_AVAIL[k] || '';
+  return '<span class="ag-avail"><input type="text" class="ag-input" data-key="'+k+'" placeholder="입력" value="'+esc(val)+'"><span class="ag-ic">✏️</span></span>';
+}
 function eventInfo(d){ return EVENTS[dISO(d)]||null; }
 function pokerOf(d){ const e=eventInfo(d); return e&&e.poker?e.poker:null; }
 function esc(s){ return (s||'').replace(/"/g,'&quot;'); }
@@ -615,6 +695,7 @@ function buildMonthRow(md, iso){
   const dow = dowKST(iso);
   const wknd = (dow==='토'||dow==='일');
   const c = row ? (row.comp||{}) : {};
+  const ag = AGODA_COMP[md] || {};
   const hlCls = row&&row.hl==='strong' ? ' sep-strong' : row&&row.hl==='chuseok' ? ' sep-chuseok' : '';
   const hlTag = row&&row.hl==='strong' ? ' <span class="ev-tag sep-tag-strong">강세</span>' : row&&row.hl==='chuseok' ? ' <span class="ev-tag sep-tag-chuseok">추석</span>' : '';
   const flagHtml = row&&row.flag ? '<span class="warn-flag wf-'+row.flag.lvl+'" title="'+esc(row.flag.txt)+'">'+(row.flag.ic||'🔵')+'</span>' : '';
@@ -634,10 +715,13 @@ function buildMonthRow(md, iso){
 
   return '<tr class="'+(wknd?'wknd':'wkdy')+hlCls+(pokerOf(md)?' has-poker':'')+'">'
    +'<td class="date">'+md+' ('+dow+')'+hlTag+flagHtml+noteHtml+'</td>'
-   +'<td>'+compCellSimple(c.gh,'gh',md)+'</td>'
-   +'<td>'+compCellSimple(c.gd,'gd',md)+'</td>'
-   +'<td>'+compCellSimple(c.hu,'hu',md)+'</td>'
-   +'<td>'+compCellSimple(c.bw,'bw',md)+'</td>'
+   +'<td class="bkc">'+compCellSimple(c.gh,'gh',md)+'</td>'
+   +'<td class="bkc">'+compCellSimple(c.gd,'gd',md)+'</td>'
+   +'<td class="bkc">'+compCellSimple(c.hu,'hu',md)+'</td>'
+   +'<td class="bkc">'+compCellSimple(c.bw,'bw',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.gogo,'gogo',md)+agodaAvailInput('gogo',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.icngh,'icngh',md)+agodaAvailInput('icngh',md)+'</td>'
+   +'<td class="agc">'+agodaPriceCell(ag.sky,'sky',md)+agodaAvailInput('sky',md)+'</td>'
    +'<td class="our2">'+ourCur+'</td>'
    +'<td class="our2">'+ourAvail+'</td>'
    +'<td class="evcell">'+eventCell(md)+'</td></tr>';
@@ -657,7 +741,7 @@ function renderMonthTab(monthNum, tbodyId){
     if(iso < TODAY_KST) continue;   // 오늘 이전 자동 숨김
     html += buildMonthRow(monthNum+'/'+day, iso);
   }
-  document.getElementById(tbodyId).innerHTML = html || '<tr><td colspan="8" class="gap-na" style="text-align:center;padding:20px;">이번 달 남은 날짜 없음</td></tr>';
+  document.getElementById(tbodyId).innerHTML = html || '<tr><td colspan="11" class="gap-na" style="text-align:center;padding:20px;">이번 달 남은 날짜 없음</td></tr>';
 }
 
 /* ── 변동로그(최근 3개만 자동 유지) ─────────────────────── */
@@ -1001,14 +1085,20 @@ function asofBadge(asofDate, warnAt, staleAt){
   else { cls='db-stale'; label='🔴 '+diffDays+'일 전 · 갱신 필요'; }
   return '<span class="db-badge '+cls+'">'+label+'</span>';
 }
+function asofValText(d){ return d ? (d+' ('+dowKST(d)+')') : '—'; }
+function asofBadgeOrNA(d, warnAt, staleAt){ return d ? asofBadge(d, warnAt, staleAt) : '<span class="db-badge db-stale">🔴 미실시</span>'; }
 (function(){
-  document.getElementById('dbToday').textContent = TODAY_KST+' ('+dowKST(TODAY_KST)+')';
-  document.getElementById('dbAsofPrice').textContent = ASOF_PRICE+' ('+dowKST(ASOF_PRICE)+')';
-  document.getElementById('dbAsofStock').textContent = ASOF_STOCK+' ('+dowKST(ASOF_STOCK)+')';
-  document.getElementById('dbAsofEvent').textContent = ASOF_EVENT+' ('+dowKST(ASOF_EVENT)+')';
-  document.getElementById('dbBadgePrice').innerHTML = asofBadge(ASOF_PRICE, 3, 7);
-  document.getElementById('dbBadgeStock').innerHTML = asofBadge(ASOF_STOCK, 14, 30);
-  document.getElementById('dbBadgeEvent').innerHTML = asofBadge(ASOF_EVENT, 14, 30);
+  document.getElementById('dbToday').textContent = asofValText(TODAY_KST);
+  document.getElementById('dbAsofPrice').textContent = asofValText(ASOF_PRICE);
+  document.getElementById('dbAsofAgoda').textContent = asofValText(ASOF_AGODA);
+  document.getElementById('dbAsofStock').textContent = asofValText(ASOF_STOCK);
+  document.getElementById('dbAsofAgodaStock').textContent = asofValText(ASOF_AGODA_STOCK);
+  document.getElementById('dbAsofEvent').textContent = asofValText(ASOF_EVENT);
+  document.getElementById('dbBadgePrice').innerHTML = asofBadgeOrNA(ASOF_PRICE, 3, 7);
+  document.getElementById('dbBadgeAgoda').innerHTML = asofBadgeOrNA(ASOF_AGODA, 7, 14);
+  document.getElementById('dbBadgeStock').innerHTML = asofBadgeOrNA(ASOF_STOCK, 14, 30);
+  document.getElementById('dbBadgeAgodaStock').innerHTML = asofBadgeOrNA(ASOF_AGODA_STOCK, 14, 30);
+  document.getElementById('dbBadgeEvent').innerHTML = asofBadgeOrNA(ASOF_EVENT, 14, 30);
 })();
 
 renderUpcoming();
@@ -1046,6 +1136,19 @@ pruneLog(OURS_LOG, 3);
 renderLog();
 ['m9','m10','m11','m12','evt','ops'].forEach(function(n){
   document.getElementById('tab-'+n).addEventListener('click',function(){showTab(n);});
+});
+
+/* 아고다 잔여 자유입력 — 엔터 또는 포커스아웃 시 AGODA_AVAIL(localStorage)에 저장. 행이 재렌더될 때도 계속 동작하도록 delegated 리스너 사용. */
+document.addEventListener('focusout', function(e){
+  const t=e.target;
+  if(t && t.classList && t.classList.contains('ag-input')){
+    const key=t.dataset.key, val=t.value.trim();
+    if(val) AGODA_AVAIL[key]=val; else delete AGODA_AVAIL[key];
+    saveAgodaAvail();
+  }
+});
+document.addEventListener('keydown', function(e){
+  if(e.key==='Enter' && e.target && e.target.classList && e.target.classList.contains('ag-input')) e.target.blur();
 });
 </script>
 </body>
