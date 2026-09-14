@@ -560,19 +560,37 @@ const AGODA_COMP = {
   "9/28": {gogo:{p:56019,n:1}, icngh:{p:56945,n:1}, sky:{p:66699,n:1}},
   "9/29": {gogo:{p:56093,n:1}, icngh:{p:57739,n:1}, sky:{p:66786,n:1}},
   "9/30": {gogo:{p:56046,n:1}, icngh:{p:57691,n:1}, sky:{p:66891,n:1}},
-  "10/1": {gogo:{p:56039}, icngh:{p:51976}, sky:{p:95702}},
-  "10/2": {gogo:{p:null,r:"so"}, icngh:{p:92495}, sky:{p:185677}},
+  "10/1": {gogo:{p:56039,r:"free"}, icngh:{p:51976,n:1}, sky:{p:95702,n:1}},
+  "10/2": {gogo:{p:null,r:"so"}, icngh:{p:92495,n:0}, sky:{p:185677,n:1}},
   "10/3": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
   "10/4": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
-  "10/5": {gogo:{p:56093}, icngh:{p:75163}, sky:{p:98544}},
-  "10/6": {gogo:{p:56046}, icngh:{p:56328}, sky:{p:98159}},
-  "10/7": {gogo:{p:56039}, icngh:{p:null,r:"so"}, sky:{p:98425}},
-  "10/8": {gogo:{p:56073}, icngh:{p:57719}, sky:{p:81596}},
-  "10/9": {gogo:{p:81384}, icngh:{p:null,r:"so"}, sky:{p:209280}},
-  "10/10": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:222085}},
-  "10/11": {gogo:{p:56093}, icngh:{p:66052}, sky:{p:111440}},
-  "10/12": {gogo:{p:56046}, icngh:{p:51984}, sky:{p:73226}},
-  "10/13": {gogo:{p:56039}, icngh:{p:51976}, sky:{p:73789}}
+  "10/5": {gogo:{p:56093,r:"free"}, icngh:{p:75163,n:1}, sky:{p:98544,n:1}},
+  "10/6": {gogo:{p:56046,n:4}, icngh:{p:56328,n:1}, sky:{p:98159,n:1}},
+  "10/7": {gogo:{p:56039,r:"free"}, icngh:{p:null,r:"so"}, sky:{p:98425,n:0}},
+  "10/8": {gogo:{p:56073,r:"free"}, icngh:{p:57719,n:1}, sky:{p:81596,n:0}},
+  "10/9": {gogo:{p:81384,n:1}, icngh:{p:null,r:"so"}, sky:{p:209280,n:0}},
+  "10/10": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:222085,n:0}},
+  "10/11": {gogo:{p:56093,n:5}, icngh:{p:66052,n:1}, sky:{p:111440,n:0}},
+  "10/12": {gogo:{p:56046,r:"free"}, icngh:{p:51984,n:2}, sky:{p:73226,n:1}},
+  "10/13": {gogo:{p:56039,r:"free"}, icngh:{p:51976,n:3}, sky:{p:73789,n:1}},
+  "10/14": {gogo:{r:"free"}, icngh:{n:1}, sky:{n:1}},
+  "10/15": {gogo:{r:"free"}, icngh:{n:2}, sky:{n:1}},
+  "10/16": {gogo:{n:2}, icngh:{n:1}, sky:{n:1}},
+  "10/17": {gogo:{r:"so"}, icngh:{r:"so"}, sky:{r:"so"}},
+  "10/18": {gogo:{r:"free"}, icngh:{n:1}, sky:{n:1}},
+  "10/19": {gogo:{r:"free"}, icngh:{n:1}, sky:{n:1}},
+  "10/20": {gogo:{r:"free"}, icngh:{n:1}, sky:{r:"so"}},
+  "10/21": {gogo:{r:"free"}, icngh:{n:2}, sky:{n:1}},
+  "10/22": {gogo:{r:"free"}, icngh:{n:2}, sky:{n:1}},
+  "10/23": {gogo:{n:1}, icngh:{r:"so"}, sky:{r:"so"}},
+  "10/24": {gogo:{r:"so"}, icngh:{n:1}, sky:{r:"so"}},
+  "10/25": {gogo:{n:4}, icngh:{n:1}, sky:{n:1}},
+  "10/26": {gogo:{r:"free"}, icngh:{n:1}, sky:{r:"so"}},
+  "10/27": {gogo:{r:"free"}, icngh:{n:3}, sky:{n:1}},
+  "10/28": {gogo:{r:"free"}, icngh:{n:1}, sky:{r:"so"}},
+  "10/29": {gogo:{r:"free"}, icngh:{n:1}, sky:{r:"so"}},
+  "10/30": {gogo:{n:1}, icngh:{n:1}, sky:{r:"so"}},
+  "10/31": {gogo:{r:"so"}, icngh:{r:"so"}, sky:{r:"so"}}
 };
 
 /* AGODA_AVAIL: 아고다 3곳 잔여 자유입력값 저장소. 키="hotelKey_M/D"(예: "gogo_9/13") → 사용자가 입력한 임의 문자열.
@@ -716,6 +734,7 @@ function agodaPriceCell(c,key,d){
    없으면 c.n/c.r(브라우저 스캔값)을 자동으로 보여줌(회색) — AGODA_AVAIL 존재 여부 자체가 auto/manual 플래그. */
 function agodaAvailAuto(c){
   if(c && c.r==="so") return '만실';
+  if(c && c.r==="free") return '여유';
   if(c && c.n!=null) return '잔'+c.n+(c.approx?'+':'');
   return '';
 }
