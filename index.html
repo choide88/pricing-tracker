@@ -86,10 +86,14 @@
   .est{color:var(--grey);font-style:italic;font-weight:400;}
   .note{font-size:12px;color:var(--muted);margin-top:16px;padding:13px 15px;background:#fafafa;border:1px solid var(--line);border-radius:10px;}
   .note b{color:var(--ink);}
-  #insight{margin:0 0 18px;padding:14px 16px;background:#f0f7ff;border:1px solid #c5dbf5;border-radius:10px;}
-  #insight h3{margin:0 0 8px;font-size:14px;color:#1f5fa8;}
-  #insight ul{margin:0;padding-left:18px;} #insight li{font-size:12.5px;margin:3px 0;}
-  #insight .none{color:#9ca3af;font-size:12.5px;}
+  #memoLog{margin:0 0 18px;padding:14px 16px;background:#f0f7ff;border:1px solid #c5dbf5;border-radius:10px;}
+  #memoLog h3{margin:0 0 10px;font-size:14px;color:#1f5fa8;}
+  #memoLog details.memoblock{margin:0 0 8px;border:1px solid #c5dbf5;border-radius:8px;padding:7px 11px;background:#fff;}
+  #memoLog details.memoblock:last-child{margin-bottom:0;}
+  #memoLog summary{cursor:pointer;font-weight:700;font-size:12.5px;color:#1f5fa8;}
+  #memoLog details[open] summary{margin-bottom:6px;}
+  #memoLog ul{margin:0;padding-left:18px;} #memoLog li{font-size:12.5px;margin:3px 0;color:#374151;}
+  #memoLog .none{color:#9ca3af;font-size:12.5px;}
   td.our.sig-mid{color:#c2780c;} td.our.sig-flat{color:#6b7280;}
   .ev-tag{display:inline-block;font-size:9px;font-weight:700;color:#fff;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:middle;}
   .pk-badge{background:#c0392b;color:#fff;border:1px solid #a5281b;}
@@ -215,6 +219,7 @@
     <div class="db-row"><span class="db-item"><span class="db-ico">🎤</span><span class="db-label">이벤트</span><span class="db-val" id="dbAsofEvent">—</span><span id="dbBadgeEvent"></span></span></div>
   </div>
 
+  <div id="memoLog"></div>
   <div id="upcoming"></div>
   <p class="cap">경쟁사 7곳 가격 표시(부킹 4곳+아고다 3곳) — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 부킹·아고다 잔여칸(✏️)은 자유 입력 후 이 브라우저에 자동 저장됨(수정하면 ✓ 표시). 우리 현재가는 표시가 + 실수령(×0.80) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
 
@@ -913,6 +918,26 @@ function showTab(name){
   if(mm) renderUpcoming(+mm[1]);   // 월 탭 전환 시 "다가오는 이벤트"도 그 달 기준으로 갱신
 }
 
+/* MEMO_LOG — 스캔할 때마다 발견한 특이 변동을 사람이 정리한 메모. 배열, 최신이 앞(unshift로 추가).
+   {date:"스캔일(M/D)", channel:"부킹"|"아고다"|"할인율"|..., baseDate:"직전 스캔일(M/D)"|"첫 조회"|"정정" 등, items:["..."]}
+   baseDate가 "M/D" 형식이면 헤더에 "(M/D 대비)"로, 아니면("첫 조회"/"정정" 등) 그대로 괄호 안에 표시.
+   COMP_LOG/OURS_LOG처럼 git 커밋으로 이력이 쌓이는 수동 큐레이션 로그 — 스캔할 때 이전 COMP_LOG 스냅샷과 비교해
+   매진전환/해제·가격 ±20% 급변·잔여 급변을 발견하면 새 블록으로 맨 앞에 추가할 것(가지치기 없음, 전체 보관). */
+const MEMO_LOG = [
+  {date:"9/13", channel:"부킹", baseDate:"9/3", items:[
+    "굿데이 9/13 매진 전환 (9/3 14만→만실) — 수요 타이트",
+    "9/26 휴 12만→35만 급등 — 기무라 원정 수요",
+    "10/11부터 우리 객실 13실로 증가"
+  ]},
+  {date:"9/13", channel:"아고다", baseDate:"첫 조회", items:[
+    "아고다 3곳 평일 5.4~6.8만 = 우리 실수령의 절반. 같은 오피스텔급인데 우리가 2배 비쌈, 평일가 재검토 필요",
+    "이벤트일(9/19·9/26)엔 아고다도 만실/20만 = 우리 고가 유효"
+  ]},
+  {date:"9/13", channel:"할인율", baseDate:"정정", items:[
+    "프로모션 중첩(International 15%+조기/막판 5%)로 실제 평균 20% 할인. 실수령=표시가×0.80으로 정정(기존 0.85)"
+  ]}
+];
+
 /* COMP_LOG / OURS_LOG — 조회 시각 → 스냅샷. 최근 3개만 보관(pruneLog가 자동 강제). 더 오래된 이력은 git 커밋 참조. */
 const COMP_LOG = {
   "2026-08-28T09:00": {
@@ -1007,6 +1032,26 @@ const OURS_LOG = {
     "2026-08-15": {avail:0, price:null},   "2026-08-16": {avail:0, price:null}
   }
 };
+
+/* ── 변동 메모 (스캔할 때마다 위에 쌓이는 큐레이션 메모, MEMO_LOG 기반) ────────────────────────── */
+function memoHeaderLabel(m){
+  const baseLabel = /^\d{1,2}\/\d{1,2}$/.test(m.baseDate) ? (m.baseDate+' 대비') : m.baseDate;
+  return m.date+' '+m.channel+' ('+baseLabel+')';
+}
+function renderMemoLog(){
+  const box = document.getElementById('memoLog');
+  if(!box) return;
+  if(!MEMO_LOG.length){ box.innerHTML=''; return; }
+  const OPEN_COUNT = 4;   // 최근 3~5블록 펼침 기준(중간값)
+  let html = '<h3>📝 변동 메모</h3>';
+  MEMO_LOG.forEach(function(m, i){
+    const openAttr = i < OPEN_COUNT ? ' open' : '';
+    html += '<details class="memoblock"'+openAttr+'><summary>'+esc(memoHeaderLabel(m))+'</summary><ul>'
+      + m.items.map(function(it){ return '<li>'+esc(it)+'</li>'; }).join('')
+      + '</ul></details>';
+  });
+  box.innerHTML = html;
+}
 
 /* ── 다가오는 이벤트 (현재 보는 월 탭 기준) ────────────────────────── */
 function renderUpcoming(monthNum){
@@ -1215,6 +1260,7 @@ function asofBadgeOrNA(d, warnAt, staleAt){ return d ? asofBadge(d, warnAt, stal
   document.getElementById('dbBadgeEvent').innerHTML = asofBadgeOrNA(ASOF_EVENT, 14, 30);
 })();
 
+renderMemoLog();
 renderUpcoming(9);   // 초기 활성 탭은 9월
 renderEventCalendar();
 [9,10,11,12].forEach(function(m){
