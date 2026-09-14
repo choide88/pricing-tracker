@@ -47,10 +47,11 @@
   tr.wknd td.agc{background:#fef1ee;}
   .ag-pricelink{color:#b91c1c;text-decoration:none;}
   .ag-pricelink:hover{text-decoration:underline;}
-  /* 잔여 표시 — 부킹(comp-avail)·아고다(avail-edit) 공용. 자동값=회색(list-sub와 동일 톤), 수동수정값=파란색 굵게, 빈칸=옅은 placeholder. */
+  /* 잔여 표시 — 부킹·아고다 공용 클릭수정(avail-edit). 자동값·수동값 모두 같은 회색, 수동수정값에만 초록 체크(✓) 표시. */
   .avail-edit{display:block;font-size:9px;cursor:pointer;}
   .avail-auto{color:#9ca3af;font-weight:400;}
-  .avail-manual{color:#1f5fa8;font-weight:700;}
+  .avail-manual{color:#9ca3af;font-weight:400;}
+  .manual-check{color:#16a34a;font-weight:700;}
   .avail-empty{color:#cbd5e1;font-style:italic;}
   .avail-edit:hover{text-decoration:underline dotted;}
   .avail-input{width:46px;font-size:9px;padding:0 3px;border:1px solid #93c5fd;border-radius:3px;background:#fff;color:#1f5fa8;text-align:center;font-family:inherit;}
@@ -214,9 +215,8 @@
     <div class="db-row"><span class="db-item"><span class="db-ico">🎤</span><span class="db-label">이벤트</span><span class="db-val" id="dbAsofEvent">—</span><span id="dbBadgeEvent"></span></span></div>
   </div>
 
-  <div id="insight"></div>
   <div id="upcoming"></div>
-  <p class="cap">경쟁사 7곳 가격 표시(부킹 4곳+아고다 3곳) — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 아고다 잔여칸(✏️)은 자유 입력 후 이 브라우저에 자동 저장됨. 우리 현재가는 표시가 + 실수령(×0.80) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
+  <p class="cap">경쟁사 7곳 가격 표시(부킹 4곳+아고다 3곳) — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 부킹·아고다 잔여칸(✏️)은 자유 입력 후 이 브라우저에 자동 저장됨(수정하면 ✓ 표시). 우리 현재가는 표시가 + 실수령(×0.80) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
 
   <div class="tabs">
     <button id="tab-m9" class="tab active">① 9월</button>
@@ -600,6 +600,12 @@ let AGODA_AVAIL = {};
 try{ AGODA_AVAIL = JSON.parse(localStorage.getItem(AGODA_AVAIL_KEY)||'{}'); }catch(e){ AGODA_AVAIL = {}; }
 function saveAgodaAvail(){ try{ localStorage.setItem(AGODA_AVAIL_KEY, JSON.stringify(AGODA_AVAIL)); }catch(e){} }
 
+/* BOOK_AVAIL: 부킹 3곳(게하·굿데이·휴) 잔여 자유입력값 저장소 — AGODA_AVAIL과 동일 구조/용도(브라우저 localStorage 한정). */
+const BOOK_AVAIL_KEY = 'bookAvailV1';
+let BOOK_AVAIL = {};
+try{ BOOK_AVAIL = JSON.parse(localStorage.getItem(BOOK_AVAIL_KEY)||'{}'); }catch(e){ BOOK_AVAIL = {}; }
+function saveBookAvail(){ try{ localStorage.setItem(BOOK_AVAIL_KEY, JSON.stringify(BOOK_AVAIL)); }catch(e){} }
+
 /* EVENTS: 인근 공연/축제 캘린더(가격 알림 선행지표) + POKER_EVENTS(포커 대회, 지속형)가 여기 병합됨. */
 const EVENTS = {
   "2026-07-04": {name:"&TEAM 콘서트", venue:"인스파이어", impact:"high", type:"official", cat:"concert", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
@@ -702,20 +708,14 @@ function ourUrl(d){   // 우리 숙소 부킹닷컴 링크(날짜별 checkin/che
   const {ci,co}=bkDates(d);
   return OUR_BK_URL+'?checkin='+ci+'&checkout='+co+'&group_adults=2&no_rooms=1&selected_currency=KRW';
 }
-/* 경쟁사 셀(간소화) — 가격만 표시. 만실=완전매진, 데이터 없으면 "-". */
+/* 경쟁사 가격 셀 — 가격만 표시. 만실=완전매진, 데이터 없으면 "-". 잔여는 bookAvailCell()이 별도 표시(게하·굿데이·휴만). */
 function compCellSimple(c,key,d){
   if(!c || c.p==null){
     if(c && c.r==="so") return '<span class="so">만실</span>';
     return '<span class="gap-na">-</span>';
   }
   const url = bkUrl(key,d);
-  const priceHtml = url ? '<a href="'+url+'" target="_blank" rel="noopener">'+fmt(c.p)+'</a>' : fmt(c.p);
-  let availHtml = '';
-  if(c.n!=null){
-    const label = c.approx ? (c.n+'+') : ('잔'+c.n);
-    availHtml = '<span class="list-sub comp-avail">'+label+'</span>';
-  }
-  return priceHtml+availHtml;
+  return url ? '<a href="'+url+'" target="_blank" rel="noopener">'+fmt(c.p)+'</a>' : fmt(c.p);
 }
 /* 아고다 가격 셀 — 데이터 없어도(현재 전부 "-") 항상 해당 날짜 아고다 페이지로 링크(수동 확인용). */
 function agodaUrl(key,d){
@@ -729,9 +729,9 @@ function agodaPriceCell(c,key,d){
   const label = (c && c.p!=null) ? fmt(c.p) : '-';
   return url ? '<a href="'+url+'" target="_blank" rel="noopener" class="ag-pricelink">'+label+'</a>' : label;
 }
-/* 아고다 잔여 — 부킹(comp-avail)과 동일한 "잔N" 텍스트 스타일. 평소엔 회색 텍스트, 클릭하면 입력모드로 바뀌어
-   숫자·"만실"·"5+" 등 뭐든 입력 가능(엔터/포커스아웃 시 저장). AGODA_AVAIL에 값이 있으면 그게 "수동입력"(파란색),
-   없으면 c.n/c.r(브라우저 스캔값)을 자동으로 보여줌(회색) — AGODA_AVAIL 존재 여부 자체가 auto/manual 플래그. */
+/* 아고다·부킹 공용 잔여 클릭수정 — "잔N" 텍스트 스타일. 클릭하면 입력모드로 바뀌어 숫자·"만실"·"5+" 등 뭐든
+   입력 가능(엔터/포커스아웃 시 저장). AGODA_AVAIL/BOOK_AVAIL에 값이 있으면 "수동입력"(값 옆에 초록 ✓ 표시),
+   없으면 c.n/c.r(브라우저 스캔값)을 자동으로 보여줌 — 자동/수동 모두 같은 회색, ✓ 유무로만 구분. */
 function agodaAvailAuto(c){
   if(c && c.r==="so") return '만실';
   if(c && c.r==="free") return '여유';
@@ -745,7 +745,25 @@ function agodaAvailCell(c, key, md){
   const auto = agodaAvailAuto(c);
   const shown = isManual ? manual : auto;
   const cls = isManual ? 'avail-manual' : (shown ? 'avail-auto' : 'avail-empty');
-  return '<span class="avail-edit '+cls+'" data-key="'+k+'" tabindex="0">'+esc(shown||'잔여?')+'</span>';
+  const checkHtml = isManual ? ' <span class="manual-check">✓</span>' : '';
+  return '<span class="avail-edit '+cls+'" data-store="ag" data-key="'+k+'" data-val="'+esc(shown)+'" tabindex="0">'+esc(shown||'잔여?')+checkHtml+'</span>';
+}
+/* 부킹 3곳(게하·굿데이·휴) 전용 — agodaAvailAuto/agodaAvailCell과 동일 패턴, 소스만 TRACK[md].comp[key]. */
+function bookAvailAuto(c){
+  if(!c) return '';
+  if(c.r==="so") return '만실';
+  if(c.n!=null) return c.approx ? (c.n+'+') : ('잔'+c.n);
+  return '';
+}
+function bookAvailCell(c, key, md){
+  const k = key+'_'+md;
+  const manual = BOOK_AVAIL[k];
+  const isManual = manual!=null && manual!=='';
+  const auto = bookAvailAuto(c);
+  const shown = isManual ? manual : auto;
+  const cls = isManual ? 'avail-manual' : (shown ? 'avail-auto' : 'avail-empty');
+  const checkHtml = isManual ? ' <span class="manual-check">✓</span>' : '';
+  return '<span class="avail-edit '+cls+'" data-store="bk" data-key="'+k+'" data-val="'+esc(shown)+'" tabindex="0">'+esc(shown||'잔여?')+checkHtml+'</span>';
 }
 function eventInfo(d){ return EVENTS[dISO(d)]||null; }
 function pokerOf(d){ const e=eventInfo(d); return e&&e.poker?e.poker:null; }
@@ -804,9 +822,9 @@ function buildMonthRow(md, iso){
 
   return '<tr class="'+(wknd?'wknd':'wkdy')+hlCls+(pokerOf(md)?' has-poker':'')+'">'
    +'<td class="date">'+md+' ('+dow+')'+hlTag+flagHtml+noteHtml+'</td>'
-   +'<td class="bkc">'+compCellSimple(c.gh,'gh',md)+'</td>'
-   +'<td class="bkc">'+compCellSimple(c.gd,'gd',md)+'</td>'
-   +'<td class="bkc">'+compCellSimple(c.hu,'hu',md)+'</td>'
+   +'<td class="bkc">'+compCellSimple(c.gh,'gh',md)+bookAvailCell(c.gh,'gh',md)+'</td>'
+   +'<td class="bkc">'+compCellSimple(c.gd,'gd',md)+bookAvailCell(c.gd,'gd',md)+'</td>'
+   +'<td class="bkc">'+compCellSimple(c.hu,'hu',md)+bookAvailCell(c.hu,'hu',md)+'</td>'
    +'<td class="bkc">'+compCellSimple(c.bw,'bw',md)+'</td>'
    +'<td class="agc">'+agodaPriceCell(ag.gogo,'gogo',md)+agodaAvailCell(ag.gogo,'gogo',md)+'</td>'
    +'<td class="agc">'+agodaPriceCell(ag.icngh,'icngh',md)+agodaAvailCell(ag.icngh,'icngh',md)+'</td>'
@@ -891,6 +909,8 @@ function showTab(name){
     document.getElementById('panel-'+n).hidden = n!==name;
     document.getElementById('tab-'+n).classList.toggle('active', n===name);
   });
+  const mm = name.match(/^m(\d+)$/);
+  if(mm) renderUpcoming(+mm[1]);   // 월 탭 전환 시 "다가오는 이벤트"도 그 달 기준으로 갱신
 }
 
 /* COMP_LOG / OURS_LOG — 조회 시각 → 스냅샷. 최근 3개만 보관(pruneLog가 자동 강제). 더 오래된 이력은 git 커밋 참조. */
@@ -988,11 +1008,14 @@ const OURS_LOG = {
   }
 };
 
-/* ── 다가오는 이벤트 (오늘~D+14) ────────────────────────── */
-function renderUpcoming(){
-  const todayMs=TODAY_MS, horizon=todayMs+14*86400000;
+/* ── 다가오는 이벤트 (현재 보는 월 탭 기준) ────────────────────────── */
+function renderUpcoming(monthNum){
+  const dim=daysInMonth(BK_YEAR,monthNum);
+  const startIso=BK_YEAR+'-'+String(monthNum).padStart(2,'0')+'-01';
+  const endIso=BK_YEAR+'-'+String(monthNum).padStart(2,'0')+'-'+String(dim).padStart(2,'0');
+  const lowMs=Math.max(TODAY_MS, tsMillis(startIso+"T00:00")), highMs=tsMillis(endIso+"T00:00");
   const md=iso=>{const p=iso.split('-');return (+p[1])+'/'+(+p[2]);};
-  const keys=Object.keys(EVENTS).filter(k=>{const t=tsMillis(k+"T00:00");return t>=todayMs&&t<=horizon;}).sort();
+  const keys=Object.keys(EVENTS).filter(k=>{const t=tsMillis(k+"T00:00");return t>=lowMs&&t<=highMs;}).sort();
   const pkG=[], coG=[];
   for(const k of keys){
     const e=EVENTS[k];
@@ -1008,8 +1031,8 @@ function renderUpcoming(){
     }
   }
   const range=g=>g.firstKey===g.lastKey?md(g.firstKey):md(g.firstKey)+'~'+md(g.lastKey);
-  let html='<h3>📅 다가오는 이벤트 (오늘~14일)</h3>';
-  if(!pkG.length&&!coG.length) html+='<div class="none">14일 내 등록 이벤트 없음</div>';
+  let html='<h3>📅 '+monthNum+'월 이벤트</h3>';
+  if(!pkG.length&&!coG.length) html+='<div class="none">'+monthNum+'월 등록 이벤트 없음</div>';
   for(const g of pkG)
     html+='<div class="uprow"><span class="upd">'+range(g)+'</span><span class="evb pk-badge">🃏 '+g.name+(g.jp?' 🇯🇵':'')+'</span><span class="upv">파라다이스 카지노</span></div>';
   for(const g of coG){
@@ -1192,35 +1215,12 @@ function asofBadgeOrNA(d, warnAt, staleAt){ return d ? asofBadge(d, warnAt, stal
   document.getElementById('dbBadgeEvent').innerHTML = asofBadgeOrNA(ASOF_EVENT, 14, 30);
 })();
 
-renderUpcoming();
+renderUpcoming(9);   // 초기 활성 탭은 9월
 renderEventCalendar();
 [9,10,11,12].forEach(function(m){
   renderMonthTab(m, 'body-m'+m);
   if(monthIsPast(m)) document.getElementById('tab-m'+m).classList.add('tab-past');
 });
-
-// 인사이트: 평일 중 우리 방이 많이 남았는데(공실 위험) 경쟁군보다 비싼 날
-(function(){
-  const ins=[];
-  for(const [d,row] of Object.entries(TRACK)){
-    if(row.t!=="wkdy"||!row.our||row.our.cur==null) continue;
-    const pool=[row.comp.gd,row.comp.hu].filter(x=>x&&x.p!=null).map(x=>x.p);
-    if(!pool.length) continue;
-    const lo=Math.min(...pool), gap=netRate(row.our.cur)-lo;
-    const n=row.our.ourN;
-    if(n!=null && n>=6 && gap>=15000){
-      ins.push({mag:n*100000+gap, html:d+' ('+row.dow+') <b class="gap-prem">잔여 '+n+'/'+capOf(dISO(d))+' 많이 빔</b> + 우리 '+fmt(netRate(row.our.cur))+' vs 경쟁군 '+fmt(lo)+' (<b>+'+fmt(gap)+'</b>) → 가격 내려 선점 권장'});
-    } else if(n!=null && n>=6){
-      ins.push({mag:n*10000, html:d+' ('+row.dow+') 잔여 '+n+'/'+capOf(dISO(d))+' — 많이 빔. 경쟁군과 동일선까지 낮춰 선점 여지'});
-    }
-  }
-  ins.sort((a,b)=>b.mag-a.mag);
-  const box=document.getElementById('insight');
-  box.innerHTML='<h3>📌 평일 공실 인사이트</h3>'+
-    (ins.length?'<ul>'+ins.slice(0,6).map(x=>'<li>'+x.html+'</li>').join('')+'</ul>'
-     :'<p class="none">평일 공실 위험 날짜 없음.</p>')
-    +'<p style="font-size:11.5px;color:#6b7280;margin:8px 0 0;">※ 우리 잔여는 Sirvoy 실재고 기준. 매일 갱신하면 추이 띠에 개수가 쌓여 "빠지는 속도"가 보인다.</p>';
-})();
 
 pruneLog(COMP_LOG, 3);
 pruneLog(OURS_LOG, 3);
@@ -1229,36 +1229,39 @@ renderLog();
   document.getElementById('tab-'+n).addEventListener('click',function(){showTab(n);});
 });
 
-/* 아고다 잔여 클릭수정 — .avail-edit 텍스트를 클릭하면 입력창으로 바뀌고, 엔터/포커스아웃 시 AGODA_AVAIL(localStorage)에 저장.
+/* 부킹·아고다 잔여 클릭수정 공용 — .avail-edit 텍스트를 클릭하면 입력창으로 바뀌고, 엔터/포커스아웃 시
+   AGODA_AVAIL 또는 BOOK_AVAIL(localStorage)에 저장. data-store="ag"|"bk"로 어느 쪽인지 구분.
    빈칸으로 지우면 수동입력 해제(자동값으로 복귀). 입력값이 자동값과 같고 원래 수동입력이 아니었다면 수동으로 표시하지 않음
-   (그냥 클릭만 하고 아무 것도 안 바꾼 경우 파란색으로 바뀌는 것을 방지). 행이 재렌더돼도 계속 동작하도록 delegated 리스너 사용. */
+   (그냥 클릭만 하고 아무 것도 안 바꾼 경우 ✓가 붙는 것을 방지). 행이 재렌더돼도 계속 동작하도록 delegated 리스너 사용. */
 function splitAvailKey(k){ const i=k.indexOf('_'); return [k.slice(0,i), k.slice(i+1)]; }
 document.addEventListener('click', function(e){
   const span = e.target.closest && e.target.closest('.avail-edit');
   if(!span) return;
-  const k = span.dataset.key;
-  const seed = span.textContent==='잔여?' ? '' : span.textContent;
+  const k = span.dataset.key, store = span.dataset.store;
+  const seed = span.dataset.val || '';
   const input = document.createElement('input');
-  input.type='text'; input.className='avail-input'; input.dataset.key=k; input.value=seed;
+  input.type='text'; input.className='avail-input'; input.dataset.key=k; input.dataset.store=store; input.value=seed;
   span.replaceWith(input);
   input.focus(); input.select();
 });
 document.addEventListener('focusout', function(e){
   const t=e.target;
   if(!(t && t.classList && t.classList.contains('avail-input'))) return;
-  const k=t.dataset.key, val=t.value.trim();
+  const k=t.dataset.key, store=t.dataset.store, val=t.value.trim();
   const [hotelKey, md] = splitAvailKey(k);
-  const auto = agodaAvailAuto((AGODA_COMP[md]||{})[hotelKey]);
-  if(val===''){ delete AGODA_AVAIL[k]; }
-  else if(val===auto && AGODA_AVAIL[k]==null){ /* 자동값과 동일 + 원래 수동 아니었으면 그대로 자동 유지 */ }
-  else { AGODA_AVAIL[k]=val; }
-  saveAgodaAvail();
-  const isManual = AGODA_AVAIL[k]!=null;
-  const shown = isManual ? AGODA_AVAIL[k] : auto;
+  const storeObj = store==='ag' ? AGODA_AVAIL : BOOK_AVAIL;
+  const c = store==='ag' ? (AGODA_COMP[md]||{})[hotelKey] : ((TRACK[md]||{}).comp||{})[hotelKey];
+  const auto = store==='ag' ? agodaAvailAuto(c) : bookAvailAuto(c);
+  if(val===''){ delete storeObj[k]; }
+  else if(val===auto && storeObj[k]==null){ /* 자동값과 동일 + 원래 수동 아니었으면 그대로 자동 유지 */ }
+  else { storeObj[k]=val; }
+  if(store==='ag') saveAgodaAvail(); else saveBookAvail();
+  const isManual = storeObj[k]!=null;
+  const shown = isManual ? storeObj[k] : auto;
   const span = document.createElement('span');
   span.className = 'avail-edit '+(isManual?'avail-manual':(shown?'avail-auto':'avail-empty'));
-  span.dataset.key = k; span.tabIndex = 0;
-  span.textContent = shown || '잔여?';
+  span.dataset.key = k; span.dataset.store = store; span.dataset.val = shown||''; span.tabIndex = 0;
+  span.innerHTML = esc(shown||'잔여?') + (isManual ? ' <span class="manual-check">✓</span>' : '');
   t.replaceWith(span);
 });
 document.addEventListener('keydown', function(e){
