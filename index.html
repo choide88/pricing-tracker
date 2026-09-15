@@ -391,7 +391,7 @@
 /* ── 날짜 상수·환율 ─────────────────────────────────────── */
 // 데이터 기준일 6종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
 const ASOF_PRICE = "2026-09-12";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
-const ASOF_STOCK = "2026-09-13";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
+const ASOF_STOCK = "2026-09-15";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-09-12";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
@@ -447,13 +447,13 @@ const TRACK = {
   "9/12": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/13": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:0},hu:{p:null,r:"so"},bw:{p:317195,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:77760,n:3},gd:{p:100000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
-  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:77760,n:6},gd:{p:120000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[C·8/28] 8/28 스크린샷: 잔1→마감 전환(완전 소진)"}},
+  "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:77760,n:6},gd:{p:100000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[C·8/28] 8/28 스크린샷: 잔1→마감 전환(완전 소진)"}},
   "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:77760,n:2},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:9,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔9, 110,000선"}},
-  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:80000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:204298,r:"free"}}, our:{ourN:10,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔10, 110,000선"}},
-  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:7},hu:{p:250000,n:4},bw:{p:279565,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 전날 — 원정 조기입국 대비. 130,000, 예약유입 관찰"}},
+  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:80000,n:4},hu:{p:120000,n:10,approx:true},bw:{p:204298,r:"free"}}, our:{ourN:10,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔10, 110,000선"}},
+  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:6},hu:{p:140000,n:7},bw:{p:279565,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 전날 — 원정 조기입국 대비. 130,000, 예약유입 관찰"}},
   "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:311823,r:"free"}}, our:{ourN:7,cur:180000}, flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 게하·굿·휴 3곳 완전 만실, 베웨만 31.2만 — 진짜 강수요 확인. 현재 180,000"}},
-  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:87480,n:8},gd:{p:140000,n:5},hu:{p:180000,n:5},bw:{p:247308,r:"free"}}, our:{ourN:7,cur:170000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 이틀째. 170,000 유지"}},
-  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:87480,n:6},gd:{p:140000,n:6},hu:{p:160000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔8, 130,000선"}},
+  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:87480,n:8},gd:{p:140000,n:5},hu:{p:140000,n:6},bw:{p:247308,r:"free"}}, our:{ourN:7,cur:170000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 이틀째. 170,000 유지"}},
+  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:87480,n:6},gd:{p:140000,n:6},hu:{p:180000,n:9},bw:{p:150535,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔8, 130,000선"}},
   "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:87480,n:10},gd:{p:100000,n:6},hu:{p:170000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:300000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 추석 전날 — 300,000, 잔8"}},
   "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:16},gd:{p:80000,n:8},hu:{p:170000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:350000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 추석연휴 — 350,000, 잔8"}},
   "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:10},gd:{p:160000,n:7},hu:{p:160000,n:6},bw:{p:301070,r:"free"}}, our:{ourN:5,cur:350000}, note:"★추석", flag:{lvl:"green",ic:"✅",txt:"[E·9/13] 기무라 전날 — 350,000 반영됨. 원정 조기입국 적중"}},
@@ -924,6 +924,12 @@ function showTab(name){
    COMP_LOG/OURS_LOG처럼 git 커밋으로 이력이 쌓이는 수동 큐레이션 로그 — 스캔할 때 이전 COMP_LOG 스냅샷과 비교해
    매진전환/해제·가격 ±20% 급변·잔여 급변을 발견하면 새 블록으로 맨 앞에 추가할 것(가지치기 없음, 전체 보관). */
 const MEMO_LOG = [
+  {date:"9/15", channel:"부킹", baseDate:"9/13", items:[
+    "휴 9/18 25만→14만 대폭 인하(-44%), 잔여도 4→7 증가 — Vaundy 전날(금) 수요가 예상보다 약해 방어가 무너짐",
+    "휴 9/20 18만→14만 인하(-22%), 잔여 5→6 — Vaundy 이틀째(일)도 휴는 저항 없이 인하",
+    "9/19(토, Vaundy 당일)은 게하·굿데이·휴 여전히 완전 만실, 베웨도 31.2만 그대로 — 피크 당일만 강수요 유지, 전후일은 약함",
+    "굿데이 9/15 12만→10만(-16.7%), 베웨 9/15 15.1만→17.2만(+14.3%) — 평일 소폭 등락, 특이사항 아님"
+  ]},
   {date:"9/13", channel:"부킹", baseDate:"9/3", items:[
     "굿데이 9/13 매진 전환 (9/3 14만→만실) — 수요 타이트",
     "9/26 휴 12만→35만 급등 — 기무라 원정 수요",
@@ -940,6 +946,15 @@ const MEMO_LOG = [
 
 /* COMP_LOG / OURS_LOG — 조회 시각 → 스냅샷. 최근 3개만 보관(pruneLog가 자동 강제). 더 오래된 이력은 git 커밋 참조. */
 const COMP_LOG = {
+  "2026-09-15T09:00": {
+    "2026-09-15": {gh:77760, gd:100000, hu:120000, bw:172040},
+    "2026-09-16": {gh:77760, gd:80000,  hu:120000, bw:139783},
+    "2026-09-17": {gh:77760, gd:80000,  hu:120000, bw:204298},
+    "2026-09-18": {gh:"SO",  gd:120000, hu:140000, bw:279565},
+    "2026-09-19": {gh:"SO",  gd:"SO",   hu:"SO",   bw:311823},
+    "2026-09-20": {gh:87480, gd:140000, hu:140000, bw:247308},
+    "2026-09-21": {gh:87480, gd:140000, hu:180000, bw:150535}
+  },
   "2026-08-28T09:00": {
     "2026-08-28": {gh:"SO",   gd:"SO",   hu:"SO",   bw:"SO"},
     "2026-08-29": {gh:"SO",   gd:"SO",   hu:"SO",   bw:338700},
