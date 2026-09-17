@@ -391,7 +391,7 @@
 /* ── 날짜 상수·환율 ─────────────────────────────────────── */
 // 데이터 기준일 6종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
 const ASOF_PRICE = "2026-09-12";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
-const ASOF_STOCK = "2026-09-15";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
+const ASOF_STOCK = "2026-09-17";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-09-12";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
@@ -449,20 +449,20 @@ const TRACK = {
   "9/14": {dow:"월",t:"wkdy", comp:{gh:{p:77760,n:3},gd:{p:100000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"APPT B2B 단체 8룸 판매완료(9/9 메모 참조)"},
   "9/15": {dow:"화",t:"wkdy", comp:{gh:{p:77760,n:6},gd:{p:100000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"orange",ic:"🟠",txt:"[C·8/28] 8/28 스크린샷: 잔1→마감 전환(완전 소진)"}},
   "9/16": {dow:"수",t:"wkdy", comp:{gh:{p:77760,n:2},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:9,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔9, 110,000선"}},
-  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:80000,n:4},hu:{p:120000,n:10,approx:true},bw:{p:204298,r:"free"}}, our:{ourN:10,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔10, 110,000선"}},
-  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:6},hu:{p:140000,n:7},bw:{p:279565,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 전날 — 원정 조기입국 대비. 130,000, 예약유입 관찰"}},
+  "9/17": {dow:"목",t:"wkdy", comp:{gh:{p:77760,n:5},gd:{p:100000,n:1},hu:{p:120000,n:10,approx:true},bw:{p:204298,r:"free"}}, our:{ourN:10,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔10, 110,000선"}},
+  "9/18": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:120000,n:6},hu:{p:250000,n:2},bw:{p:279565,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 전날 — 원정 조기입국 대비. 130,000, 예약유입 관찰"}},
   "9/19": {dow:"토",t:"wknd",hl:"strong", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:311823,r:"free"}}, our:{ourN:7,cur:180000}, flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 게하·굿·휴 3곳 완전 만실, 베웨만 31.2만 — 진짜 강수요 확인. 현재 180,000"}},
-  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:87480,n:8},gd:{p:140000,n:5},hu:{p:140000,n:6},bw:{p:247308,r:"free"}}, our:{ourN:7,cur:170000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 이틀째. 170,000 유지"}},
-  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:87480,n:6},gd:{p:140000,n:6},hu:{p:180000,n:9},bw:{p:150535,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔8, 130,000선"}},
-  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:87480,n:10},gd:{p:100000,n:6},hu:{p:170000,n:8},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:300000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 추석 전날 — 300,000, 잔8"}},
-  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:16},gd:{p:80000,n:8},hu:{p:170000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:350000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 추석연휴 — 350,000, 잔8"}},
-  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:10},gd:{p:160000,n:7},hu:{p:160000,n:6},bw:{p:301070,r:"free"}}, our:{ourN:5,cur:350000}, note:"★추석", flag:{lvl:"green",ic:"✅",txt:"[E·9/13] 기무라 전날 — 350,000 반영됨. 원정 조기입국 적중"}},
-  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:7},hu:{p:200000,n:5},bw:{p:279565,r:"free"}}, our:{ourN:7,cur:350000}, note:"★추석 당일", flag:{lvl:"green",ic:"✅",txt:"[E·9/13] 기무라 — 350,000, 잔7. 경쟁사 저가재고3~4 참고"}},
-  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,n:8},gd:{p:180000,n:7},hu:{p:350000,n:1},bw:{p:301070,r:"free"}}, our:{ourN:7,cur:350000}, flag:{lvl:"green",ic:"✅",txt:"[9/13 갱신] 기무라 당일 휴 35만까지 급등(평시 12만 대비 +190%) — 350,000, 잔7"}},
-  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:64800,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:10,cur:350000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 연휴 마지막 — 350,000, 잔10"}},
-  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:64800,n:10},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:110000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
-  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:64800,n:12},gd:{p:140000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:9,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔9, 110,000선"}},
-  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:64800,n:4},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
+  "9/20": {dow:"일",t:"wknd",hl:"strong", comp:{gh:{p:87480,n:2},gd:{p:140000,n:4},hu:{p:210000,n:5},bw:{p:247308,r:"free"}}, our:{ourN:7,cur:170000}, flag:{lvl:"amber",ic:"🟡",txt:"[D·9/13] Vaundy 이틀째. 170,000 유지"}},
+  "9/21": {dow:"월",t:"wkdy", comp:{gh:{p:87480,n:4},gd:{p:140000,n:5},hu:{p:180000,n:7},bw:{p:150535,r:"free"}}, our:{ourN:8,cur:130000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔8, 130,000선"}},
+  "9/22": {dow:"화",t:"wkdy", comp:{gh:{p:87480,n:14},gd:{p:100000,n:6},hu:{p:160000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:8,cur:300000}, note:"추석 전날", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 추석 전날 — 300,000, 잔8"}},
+  "9/23": {dow:"수",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:16},gd:{p:80000,n:7},hu:{p:180000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:8,cur:350000}, note:"★추석연휴", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 추석연휴 — 350,000, 잔8"}},
+  "9/24": {dow:"목",t:"wkdy",hl:"chuseok", comp:{gh:{p:93960,n:6},gd:{p:160000,n:5},hu:{p:180000,n:4},bw:{p:338700,r:"free"}}, our:{ourN:5,cur:350000}, note:"★추석", flag:{lvl:"green",ic:"✅",txt:"[E·9/13] 기무라 전날 — 350,000 반영됨. 원정 조기입국 적중"}},
+  "9/25": {dow:"금",t:"wknd",hl:"chuseok", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:3},hu:{p:200000,n:3},bw:{p:279565,r:"free"}}, our:{ourN:7,cur:350000}, note:"★추석 당일", flag:{lvl:"green",ic:"✅",txt:"[E·9/13] 기무라 — 350,000, 잔7. 경쟁사 저가재고3~4 참고"}},
+  "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,n:6},gd:{p:180000,n:6},hu:{p:250000,n:3},bw:{p:301070,r:"free"}}, our:{ourN:7,cur:350000}, flag:{lvl:"green",ic:"✅",txt:"[9/13 갱신] 기무라 당일 휴 35만까지 급등(평시 12만 대비 +190%) — 350,000, 잔7"}},
+  "9/27": {dow:"일",t:"wknd", comp:{gh:{p:74520,n:2},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:10,cur:350000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 연휴 마지막 — 350,000, 잔10"}},
+  "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:64800,n:8},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:139783,r:"free"}}, our:{ourN:11,cur:110000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
+  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:64800,n:8},gd:{p:140000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:9,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔9, 110,000선"}},
+  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:74520,n:2},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:150535,r:"free"}}, our:{ourN:11,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
 
   /* ── 10~12월: 2026-09-12 경쟁사 MCP 가격 스캔 반영(가격만, 잔여 미실측=r:"na"/"so"). 우리(our) 데이터 없음 → 화면엔 "-". ── */
   "10/1": {dow:"목",t:"wkdy", comp:{gh:{p:81000,n:14},gd:{p:160000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}},
@@ -551,20 +551,20 @@ const AGODA_COMP = {
   "9/14": {gogo:{p:56045,n:1}, icngh:{p:null,r:"so"}, sky:{p:72064,n:1}},
   "9/15": {gogo:{p:56045,n:1}, icngh:{p:54163,n:1}, sky:{p:66951,n:1}},
   "9/16": {gogo:{p:55998,n:1}, icngh:{p:53627,n:1}, sky:{p:66897,n:1}},
-  "9/17": {gogo:{p:56066,n:1}, icngh:{p:53205,n:1}, sky:{p:67456,n:1}},
-  "9/18": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:126501,n:1}},
-  "9/19": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:208437,n:1}},
-  "9/20": {gogo:{p:93803,n:1}, icngh:{p:74693,n:1}, sky:{p:111729,n:1}},
-  "9/21": {gogo:{p:56066,n:1}, icngh:{p:57788,n:1}, sky:{p:67423,n:1}},
-  "9/22": {gogo:{p:56019,n:1}, icngh:{p:57734,n:1}, sky:{p:68107,n:1}},
-  "9/23": {gogo:{p:56093,n:1}, icngh:{p:74163,n:1}, sky:{p:89625,n:1}},
-  "9/24": {gogo:{p:84368,n:1}, icngh:{p:null,r:"so"}, sky:{p:111712,n:1}},
-  "9/25": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:136394,n:1}},
-  "9/26": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:149413,n:1}},
-  "9/27": {gogo:{p:56066,n:1}, icngh:{p:56992,n:1}, sky:{p:96486,n:1}},
-  "9/28": {gogo:{p:56019,n:1}, icngh:{p:56945,n:1}, sky:{p:66699,n:1}},
-  "9/29": {gogo:{p:56093,n:1}, icngh:{p:57739,n:1}, sky:{p:66786,n:1}},
-  "9/30": {gogo:{p:56046,n:1}, icngh:{p:57691,n:1}, sky:{p:66891,n:1}},
+  "9/17": {gogo:{p:56066,n:1}, icngh:{p:53205,n:1}, sky:{p:null,r:"so"}},
+  "9/18": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
+  "9/19": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
+  "9/20": {gogo:{p:93803,n:1}, icngh:{p:74693,n:1}, sky:{p:null,r:"so"}},
+  "9/21": {gogo:{p:56066,n:1}, icngh:{p:57788,n:1}, sky:{p:null,r:"so"}},
+  "9/22": {gogo:{p:56019,n:1}, icngh:{p:57734,n:1}, sky:{p:null,r:"so"}},
+  "9/23": {gogo:{p:56093,n:1}, icngh:{p:74163,n:1}, sky:{p:null,r:"so"}},
+  "9/24": {gogo:{p:84368,n:1}, icngh:{p:null}, sky:{p:null,r:"so"}},
+  "9/25": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
+  "9/26": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
+  "9/27": {gogo:{p:56066,n:1}, icngh:{p:56992,n:1}, sky:{p:null,r:"so"}},
+  "9/28": {gogo:{p:56019,n:1}, icngh:{p:56945,n:1}, sky:{p:null,r:"so"}},
+  "9/29": {gogo:{p:56093,n:1}, icngh:{p:57739,n:1}, sky:{p:null,r:"so"}},
+  "9/30": {gogo:{p:56046,n:1}, icngh:{p:57691,n:1}, sky:{p:null,r:"so"}},
   "10/1": {gogo:{p:56039,r:"free"}, icngh:{p:51976,n:1}, sky:{p:95702,n:1}},
   "10/2": {gogo:{p:null,r:"so"}, icngh:{p:92495,n:0}, sky:{p:185677,n:1}},
   "10/3": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
@@ -924,6 +924,15 @@ function showTab(name){
    COMP_LOG/OURS_LOG처럼 git 커밋으로 이력이 쌓이는 수동 큐레이션 로그 — 스캔할 때 이전 COMP_LOG 스냅샷과 비교해
    매진전환/해제·가격 ±20% 급변·잔여 급변을 발견하면 새 블록으로 맨 앞에 추가할 것(가지치기 없음, 전체 보관). */
 const MEMO_LOG = [
+  {date:"9/17", channel:"부킹", baseDate:"9/15", items:[
+    "휴 9/18 14만→25만 재급등(+78.6%) — 9/13(25만)→9/15(14만)→9/17(25만) 롤러코스터, 방어가 산정 시 휴 참고 시 주의",
+    "휴 9/20 14만→21만 급등(+50%) — 원래 9/13 기준(18만)보다도 더 높아짐, Vaundy 이틀째 수요 재확인",
+    "휴 9/26(기무라 당일) 35만→25만 인하(-28.6%) — 이건 롤러코스터가 아니라 진짜 완화(9/13 대비)",
+    "굿데이 9/17 8만→10만(+25%)",
+    "게하·굿데이 9/17~30 잔여 정밀 재측정 완료 — 게하 9/22·23 잔14·16으로 여유, 9/18·19·25 매진 유지",
+    "아고다 스카이게스텔 9/17~30 전 기간 만실 확인(신규) — 이전 스캔엔 매일 가격이 잡혔는데 이번엔 14일 내내 품절",
+    "아고다 고고하우스·인천공항게하 — 기존에 매진(so)이던 9/18·19·24·25·26이 전부 예약 가능으로 재개, 단 가격은 미확인(가격·잔여 없음, '-' 표시)"
+  ]},
   {date:"9/15", channel:"부킹", baseDate:"9/13", items:[
     "휴 9/18 25만→14만 대폭 인하(-44%), 잔여도 4→7 증가 — Vaundy 전날(금) 수요가 예상보다 약해 방어가 무너짐",
     "휴 9/20 18만→14만 인하(-22%), 잔여 5→6 — Vaundy 이틀째(일)도 휴는 저항 없이 인하",
@@ -946,6 +955,22 @@ const MEMO_LOG = [
 
 /* COMP_LOG / OURS_LOG — 조회 시각 → 스냅샷. 최근 3개만 보관(pruneLog가 자동 강제). 더 오래된 이력은 git 커밋 참조. */
 const COMP_LOG = {
+  "2026-09-17T09:00": {
+    "2026-09-17": {gh:77760, gd:100000, hu:120000, bw:204298},
+    "2026-09-18": {gh:"SO",  gd:120000, hu:250000, bw:279565},
+    "2026-09-19": {gh:"SO",  gd:"SO",   hu:"SO",   bw:311823},
+    "2026-09-20": {gh:87480, gd:140000, hu:210000, bw:247308},
+    "2026-09-21": {gh:87480, gd:140000, hu:180000, bw:150535},
+    "2026-09-22": {gh:87480, gd:100000, hu:160000, bw:139783},
+    "2026-09-23": {gh:93960, gd:80000,  hu:180000, bw:150535},
+    "2026-09-24": {gh:93960, gd:160000, hu:180000, bw:338700},
+    "2026-09-25": {gh:"SO",  gd:160000, hu:200000, bw:279565},
+    "2026-09-26": {gh:129600,gd:180000, hu:250000, bw:301070},
+    "2026-09-27": {gh:74520, gd:100000, hu:120000, bw:193545},
+    "2026-09-28": {gh:64800, gd:100000, hu:120000, bw:139783},
+    "2026-09-29": {gh:64800, gd:140000, hu:120000, bw:150535},
+    "2026-09-30": {gh:74520, gd:100000, hu:120000, bw:150535}
+  },
   "2026-09-15T09:00": {
     "2026-09-15": {gh:77760, gd:100000, hu:120000, bw:172040},
     "2026-09-16": {gh:77760, gd:80000,  hu:120000, bw:139783},
