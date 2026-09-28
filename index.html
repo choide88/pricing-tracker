@@ -86,14 +86,6 @@
   .est{color:var(--grey);font-style:italic;font-weight:400;}
   .note{font-size:12px;color:var(--muted);margin-top:16px;padding:13px 15px;background:#fafafa;border:1px solid var(--line);border-radius:10px;}
   .note b{color:var(--ink);}
-  #memoLog{margin:0 0 18px;padding:14px 16px;background:#f0f7ff;border:1px solid #c5dbf5;border-radius:10px;}
-  #memoLog h3{margin:0 0 10px;font-size:14px;color:#1f5fa8;}
-  #memoLog details.memoblock{margin:0 0 8px;border:1px solid #c5dbf5;border-radius:8px;padding:7px 11px;background:#fff;}
-  #memoLog details.memoblock:last-child{margin-bottom:0;}
-  #memoLog summary{cursor:pointer;font-weight:700;font-size:12.5px;color:#1f5fa8;}
-  #memoLog details[open] summary{margin-bottom:6px;}
-  #memoLog ul{margin:0;padding-left:18px;} #memoLog li{font-size:12.5px;margin:3px 0;color:#374151;}
-  #memoLog .none{color:#9ca3af;font-size:12.5px;}
   td.our.sig-mid{color:#c2780c;} td.our.sig-flat{color:#6b7280;}
   .ev-tag{display:inline-block;font-size:9px;font-weight:700;color:#fff;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:middle;}
   .pk-badge{background:#c0392b;color:#fff;border:1px solid #a5281b;}
@@ -219,7 +211,6 @@
     <div class="db-row"><span class="db-item"><span class="db-ico">🎤</span><span class="db-label">이벤트</span><span class="db-val" id="dbAsofEvent">—</span><span id="dbBadgeEvent"></span></span></div>
   </div>
 
-  <div id="memoLog"></div>
   <div id="upcoming"></div>
   <p class="cap">경쟁사 7곳 가격 표시(부킹 4곳+아고다 3곳) — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 부킹·아고다 잔여칸(✏️)은 자유 입력 후 이 브라우저에 자동 저장됨(수정하면 ✓ 표시). 우리 현재가는 표시가 + 실수령(×0.80) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
 
@@ -237,10 +228,10 @@
     <table class="montable"><thead>
       <tr class="grouprow"><th class="date"></th>
           <th colspan="4" class="grp-bk">부킹닷컴</th>
-          <th colspan="3" class="grp-ag">아고다</th>
+          <th colspan="2" class="grp-ag">아고다</th>
           <th colspan="2"></th><th></th></tr>
       <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th>
-          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th><th class="agcol">스카이게스텔</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th>
           <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="body-m9"></tbody></table>
   </div>
@@ -250,10 +241,10 @@
     <table class="montable"><thead>
       <tr class="grouprow"><th class="date"></th>
           <th colspan="4" class="grp-bk">부킹닷컴</th>
-          <th colspan="3" class="grp-ag">아고다</th>
+          <th colspan="2" class="grp-ag">아고다</th>
           <th colspan="2"></th><th></th></tr>
       <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th>
-          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th><th class="agcol">스카이게스텔</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th>
           <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="body-m10"></tbody></table>
   </div>
@@ -263,10 +254,10 @@
     <table class="montable"><thead>
       <tr class="grouprow"><th class="date"></th>
           <th colspan="4" class="grp-bk">부킹닷컴</th>
-          <th colspan="3" class="grp-ag">아고다</th>
+          <th colspan="2" class="grp-ag">아고다</th>
           <th colspan="2"></th><th></th></tr>
       <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th>
-          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th><th class="agcol">스카이게스텔</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th>
           <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="body-m11"></tbody></table>
   </div>
@@ -276,10 +267,10 @@
     <table class="montable"><thead>
       <tr class="grouprow"><th class="date"></th>
           <th colspan="4" class="grp-bk">부킹닷컴</th>
-          <th colspan="3" class="grp-ag">아고다</th>
+          <th colspan="2" class="grp-ag">아고다</th>
           <th colspan="2"></th><th></th></tr>
       <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th>
-          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th><th class="agcol">스카이게스텔</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th>
           <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
     </thead><tbody id="body-m12"></tbody></table>
   </div>
@@ -393,9 +384,9 @@
 const ASOF_PRICE = "2026-09-12";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
 const ASOF_STOCK = "2026-09-28";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-09-12";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
-const ASOF_AGODA = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 가격 스캔 마지막 갱신일
-const ASOF_AGODA_STOCK = "2026-09-13";   // 아고다 3곳(고고·인천공항게하·스카이) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
-const ASOF_OURS = "2026-09-13";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
+const ASOF_AGODA = "2026-09-13";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
+const ASOF_AGODA_STOCK = "2026-09-13";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
+const ASOF_OURS = "2026-09-29";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
 // International 15% + 조기/막판 5% 프로모션이 상시 중첩되어 실제 평균 할인은 20% 단일 — 3일전 단계 구분 없음.
 const DISCOUNT_NORMAL = 0.20;
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(×0.80)
@@ -421,11 +412,11 @@ const BK_YEAR = parseInt(ASOF_PRICE,10)||2026;
 // 우리 숙소(hotel_id 16359322, 슬러그 확인됨) — 우리 현재가 셀 링크용.
 const OUR_BK_URL = "https://www.booking.com/hotel/kr/paradise-walk-residence.ko.html";
 
-// 아고다 3곳 — 링크용(가격 셀 클릭 시 해당 날짜로 이동). 가격 데이터는 AGODA_COMP(스캔으로 채움), 잔여는 AGODA_AVAIL(사용자 자유입력).
+// 아고다 2곳 — 링크용(가격 셀 클릭 시 해당 날짜로 이동). 가격 데이터는 AGODA_COMP(스캔으로 채움), 잔여는 AGODA_AVAIL(사용자 자유입력).
+// 스카이게스텔(sky)은 상시만실로 경쟁 지표 무의미해 2026-09-29 제거됨.
 const AGODA_LINKS = {
   gogo:  "https://www.agoda.com/ko-kr/incheon-airport-gogo-house/hotel/incheon-kr.html",
-  icngh: "https://www.agoda.com/ko-kr/incheon-airport-incheon-geusthouse/hotel/incheon-kr.html",
-  sky:   "https://www.agoda.com/ko-kr/sky-guestel/hotel/incheon-kr.html"
+  icngh: "https://www.agoda.com/ko-kr/incheon-airport-incheon-geusthouse/hotel/incheon-kr.html"
 };
 
 /* ── 날짜 헬퍼(먼저 정의 — TODAY_KST 계산에 필요) ─────────── */
@@ -461,41 +452,41 @@ const TRACK = {
   "9/26": {dow:"토",t:"wknd",hl:"chuseok", comp:{gh:{p:129600,n:6},gd:{p:180000,n:6},hu:{p:250000,n:3},bw:{p:301070,r:"free"}}, our:{ourN:7,cur:350000}, flag:{lvl:"green",ic:"✅",txt:"[9/13 갱신] 기무라 당일 휴 35만까지 급등(평시 12만 대비 +190%) — 350,000, 잔7"}},
   "9/27": {dow:"일",t:"wknd", comp:{gh:{p:74520,n:2},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:10,cur:350000}, note:"연휴 마지막", flag:{lvl:"green",ic:"🟢",txt:"[9/13 갱신] 연휴 마지막 — 350,000, 잔10"}},
   "9/28": {dow:"월",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:140582,r:"free"}}, our:{ourN:11,cur:110000}, note:"연휴 후 복귀", flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
-  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:4},hu:{p:120000,n:10,approx:true},bw:{p:140582,r:"free"}}, our:{ourN:9,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔9, 110,000선"}},
-  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:82800,n:1},gd:{p:70000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:130541,r:"free"}}, our:{ourN:11,cur:110000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
+  "9/29": {dow:"화",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:4},hu:{p:120000,n:10,approx:true},bw:{p:140582,r:"free"}}, our:{ourN:5,cur:90000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔9, 110,000선"}},
+  "9/30": {dow:"수",t:"wkdy", comp:{gh:{p:82800,n:1},gd:{p:70000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:130541,r:"free"}}, our:{ourN:11,cur:80000}, flag:{lvl:"green",ic:"🟢",txt:"[E·9/13] 평일 방어가 유지 — 잔11, 110,000선"}},
 
   /* ── 10~12월: 2026-09-12 경쟁사 MCP 가격 스캔 반영(가격만, 잔여 미실측=r:"na"/"so"). 우리(our) 데이터 없음 → 화면엔 "-". ── */
-  "10/1": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:70000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:180749,r:"free"}}},
-  "10/2": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:3},hu:{p:200000,n:1},bw:{p:null,r:"so"}}},
-  "10/3": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, flag:{lvl:"red",ic:"🔴",txt:"[9/12 스캔] EDC+XMF+개천절+중국국경절 4중 겹침 — 경쟁사 4곳 전부 완전 만실"}},
-  "10/4": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:1},hu:{p:200000,n:1},bw:{p:291206,r:"free"}}, flag:{lvl:"red",ic:"🔴",txt:"[9/12 스캔] EDC+XMF 2일차 — 경쟁사 4곳 전부 완전 만실"}},
-  "10/5": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:18},gd:{p:80000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:180749,r:"free"}}},
-  "10/6": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:18},gd:{p:100000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:180749,r:"free"}}},
-  "10/7": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:18},gd:{p:80000,n:7},hu:{p:160000,n:10,approx:true},bw:{p:170707,r:"free"}}},
-  "10/8": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:140000,n:5},hu:{p:180000,n:10,approx:true},bw:{p:256057,r:"free"}}},
-  "10/9": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:291206,r:"free"}}},
-  "10/10": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:336389,r:"free"}}},
-  "10/11": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:10},gd:{p:null,r:"so"},hu:{p:250000,n:3},bw:{p:170707,r:"free"}}},
-  "10/12": {dow:"월",t:"wkdy", comp:{gh:{p:81000,n:18},gd:{p:100000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}},
-  "10/13": {dow:"화",t:"wkdy", comp:{gh:{p:81000,n:18},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}},
-  "10/14": {dow:"수",t:"wkdy", comp:{gh:{p:79380,n:20},gd:{p:100000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}},
-  "10/15": {dow:"목",t:"wkdy", comp:{gh:{p:81000,n:16},gd:{p:100000,n:6},hu:{p:140000,n:10,approx:true},bw:{p:295690,r:"free"}}},
-  "10/16": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:7},hu:{p:180000,n:7},bw:{p:null,r:"so"}}},
-  "10/17": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,n:1},hu:{p:null,r:"so"},bw:{p:316306,r:"free"}}},
-  "10/18": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:16},gd:{p:100000,n:5},hu:{p:160000,n:10,approx:true},bw:{p:180749,r:"free"}}},
-  "10/19": {dow:"월",t:"wkdy", comp:{gh:{p:79380,n:20},gd:{p:100000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}},
-  "10/20": {dow:"화",t:"wkdy", comp:{gh:{p:79380,n:20},gd:{p:100000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}},
-  "10/21": {dow:"수",t:"wkdy", comp:{gh:{p:81000,n:20},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}},
-  "10/22": {dow:"목",t:"wkdy", comp:{gh:{p:79380,n:18},gd:{p:100000,n:3},hu:{p:160000,n:10,approx:true},bw:{p:172040,r:"free"}}},
-  "10/23": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:6},gd:{p:180000,n:6},hu:{p:null,r:"so"},bw:{p:291206,r:"free"}}},
-  "10/24": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:2},hu:{p:250000,n:5},bw:{p:266098,r:"free"}}},
-  "10/25": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:6},gd:{p:100000,n:7},hu:{p:160000,n:10,approx:true},bw:{p:160665,r:"free"}}},
-  "10/26": {dow:"월",t:"wkdy", comp:{gh:{p:81000,n:18},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}},
-  "10/27": {dow:"화",t:"wkdy", comp:{gh:{p:81000,n:18},gd:{p:100000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}},
-  "10/28": {dow:"수",t:"wkdy", comp:{gh:{p:81000,n:16},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}},
-  "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:79380,n:18},gd:{p:100000,n:7},hu:{p:140000,n:10,approx:true},bw:{p:172040,r:"free"}}},
-  "10/30": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:4},hu:{p:350000,n:2},bw:{p:220915,r:"free"}}},
-  "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}},
+  "10/1": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:70000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:180749,r:"free"}}, our:{ourN:8,cur:80000}},
+  "10/2": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:3},hu:{p:200000,n:1},bw:{p:null,r:"so"}}, our:{ourN:1,cur:170000}},
+  "10/3": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매마감"}, flag:{lvl:"red",ic:"🔴",txt:"[9/12 스캔] EDC+XMF+개천절+중국국경절 4중 겹침 — 경쟁사 4곳 전부 완전 만실"}},
+  "10/4": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:1},hu:{p:200000,n:1},bw:{p:291206,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, flag:{lvl:"red",ic:"🔴",txt:"[9/12 스캔] EDC+XMF 2일차 — 경쟁사 4곳 전부 완전 만실"}},
+  "10/5": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:18},gd:{p:80000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:180749,r:"free"}}, our:{ourN:13,cur:100000}},
+  "10/6": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:18},gd:{p:100000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:180749,r:"free"}}, our:{ourN:11,cur:100000}},
+  "10/7": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:18},gd:{p:80000,n:7},hu:{p:160000,n:10,approx:true},bw:{p:170707,r:"free"}}, our:{ourN:9,cur:100000}},
+  "10/8": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:140000,n:5},hu:{p:180000,n:10,approx:true},bw:{p:256057,r:"free"}}, our:{ourN:7,cur:143000}},
+  "10/9": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:291206,r:"free"}}, our:{ourN:0,cur:null,curNote:"판매완료"}},
+  "10/10": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:336389,r:"free"}}, our:{ourN:2,cur:300000}},
+  "10/11": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:10},gd:{p:null,r:"so"},hu:{p:250000,n:3},bw:{p:170707,r:"free"}}, our:{ourN:6,cur:150000}},
+  "10/12": {dow:"월",t:"wkdy", comp:{gh:{p:81000,n:18},gd:{p:100000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:9,cur:100000}},
+  "10/13": {dow:"화",t:"wkdy", comp:{gh:{p:81000,n:18},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:11,cur:100000}},
+  "10/14": {dow:"수",t:"wkdy", comp:{gh:{p:79380,n:20},gd:{p:100000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:11,cur:100000}},
+  "10/15": {dow:"목",t:"wkdy", comp:{gh:{p:81000,n:16},gd:{p:100000,n:6},hu:{p:140000,n:10,approx:true},bw:{p:295690,r:"free"}}, our:{ourN:11,cur:100000}},
+  "10/16": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:140000,n:7},hu:{p:180000,n:7},bw:{p:null,r:"so"}}, our:{ourN:12,cur:200000}},
+  "10/17": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,n:1},hu:{p:null,r:"so"},bw:{p:316306,r:"free"}}, our:{ourN:10,cur:200000}},
+  "10/18": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:16},gd:{p:100000,n:5},hu:{p:160000,n:10,approx:true},bw:{p:180749,r:"free"}}, our:{ourN:11,cur:150000}},
+  "10/19": {dow:"월",t:"wkdy", comp:{gh:{p:79380,n:20},gd:{p:100000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:12,cur:100000}},
+  "10/20": {dow:"화",t:"wkdy", comp:{gh:{p:79380,n:20},gd:{p:100000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:13,cur:100000}},
+  "10/21": {dow:"수",t:"wkdy", comp:{gh:{p:81000,n:20},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:13,cur:100000}},
+  "10/22": {dow:"목",t:"wkdy", comp:{gh:{p:79380,n:18},gd:{p:100000,n:3},hu:{p:160000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:13,cur:100000}},
+  "10/23": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:6},gd:{p:180000,n:6},hu:{p:null,r:"so"},bw:{p:291206,r:"free"}}, our:{ourN:13,cur:200000}},
+  "10/24": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:2},hu:{p:250000,n:5},bw:{p:266098,r:"free"}}, our:{ourN:13,cur:250000}},
+  "10/25": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:6},gd:{p:100000,n:7},hu:{p:160000,n:10,approx:true},bw:{p:160665,r:"free"}}, our:{ourN:13,cur:150000}},
+  "10/26": {dow:"월",t:"wkdy", comp:{gh:{p:81000,n:18},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:13,cur:100000}},
+  "10/27": {dow:"화",t:"wkdy", comp:{gh:{p:81000,n:18},gd:{p:100000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:13,cur:100000}},
+  "10/28": {dow:"수",t:"wkdy", comp:{gh:{p:81000,n:16},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:13,cur:100000}},
+  "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:79380,n:18},gd:{p:100000,n:7},hu:{p:140000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:13,cur:100000}},
+  "10/30": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:4},hu:{p:350000,n:2},bw:{p:220915,r:"free"}}, our:{ourN:13,cur:250000}},
+  "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:13,cur:250000}},
   "11/1": {dow:"일",t:"wknd", comp:{gh:{p:89100,r:"na"},gd:{p:200000,r:"na"},hu:{p:140000,r:"na"},bw:{p:161288,r:"na"}}},
   "11/2": {dow:"월",t:"wkdy", comp:{gh:{p:79380,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}},
   "11/3": {dow:"화",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}},
@@ -542,60 +533,61 @@ const TRACK = {
   "12/31": {dow:"목",t:"wkdy", comp:{gh:{p:121500,r:"na"},gd:{p:180000,r:"na"},hu:{p:170000,r:"na"},bw:{p:225803,r:"na"}}}
 };
 
-/* AGODA_COMP: 아고다 3곳(고고하우스·인천공항게스트하우스·스카이게스텔) 가격 스캔 결과. 키는 TRACK과 동일 "M/D".
-   {gogo:{p}, icngh:{p}, sky:{p}} — 아직 스캔 안 한 날짜는 "-"로 표시(셀은 클릭 가능한 링크는 유지).
+/* AGODA_COMP: 아고다 2곳(고고하우스·인천공항게스트하우스) 가격 스캔 결과. 키는 TRACK과 동일 "M/D".
+   {gogo:{p}, icngh:{p}} — 아직 스캔 안 한 날짜는 "-"로 표시(셀은 클릭 가능한 링크는 유지).
+   스카이게스텔(sky)은 상시만실로 경쟁 지표 무의미해 2026-09-29 제거됨.
    잔여는 이 객체가 아니라 AGODA_AVAIL(브라우저 localStorage 자유입력)로 별도 관리 — 아래 참고. */
 const AGODA_COMP = {
   /* 9/13~10/13(전체 4주): 2026-09-13 브라우저 실측 — 가격+매진여부(so) 확인. */
-  "9/13": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}, sky:{p:null,r:"so"}},
-  "9/14": {gogo:{p:56045,n:1}, icngh:{p:null,r:"so"}, sky:{p:72064,n:1}},
-  "9/15": {gogo:{p:56045,n:1}, icngh:{p:54163,n:1}, sky:{p:66951,n:1}},
-  "9/16": {gogo:{p:55998,n:1}, icngh:{p:53627,n:1}, sky:{p:66897,n:1}},
-  "9/17": {gogo:{p:56066,n:1}, icngh:{p:53205,n:1}, sky:{p:null,r:"so"}},
-  "9/18": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "9/19": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "9/20": {gogo:{p:93803,n:1}, icngh:{p:74693,n:1}, sky:{p:null,r:"so"}},
-  "9/21": {gogo:{p:56066,n:1}, icngh:{p:57788,n:1}, sky:{p:null,r:"so"}},
-  "9/22": {gogo:{p:56019,n:1}, icngh:{p:57734,n:1}, sky:{p:null,r:"so"}},
-  "9/23": {gogo:{p:56093,n:1}, icngh:{p:74163,n:1}, sky:{p:null,r:"so"}},
-  "9/24": {gogo:{p:84368,n:1}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "9/25": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "9/26": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "9/27": {gogo:{p:56066,n:1}, icngh:{p:56992,n:1}, sky:{p:null,r:"so"}},
-  "9/28": {gogo:{p:56019,n:1}, icngh:{p:56945,n:1}, sky:{p:null,r:"so"}},
-  "9/29": {gogo:{p:56093,n:1}, icngh:{p:57739,n:1}, sky:{p:null,r:"so"}},
-  "9/30": {gogo:{p:56046,n:1}, icngh:{p:57691,n:1}, sky:{p:null,r:"so"}},
-  "10/1": {gogo:{p:56039,r:"free"}, icngh:{p:51976,n:1}, sky:{p:null,r:"so"}},
-  "10/2": {gogo:{p:null}, icngh:{p:92495,n:0}, sky:{p:null,r:"so"}},
-  "10/3": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "10/4": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "10/5": {gogo:{p:56093,r:"free"}, icngh:{p:75163,n:1}, sky:{p:null,r:"so"}},
-  "10/6": {gogo:{p:56046,n:4}, icngh:{p:56328,n:1}, sky:{p:null,r:"so"}},
-  "10/7": {gogo:{p:56039,r:"free"}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "10/8": {gogo:{p:56073,r:"free"}, icngh:{p:57719,n:1}, sky:{p:null,r:"so"}},
-  "10/9": {gogo:{p:81384,n:1}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "10/10": {gogo:{p:null}, icngh:{p:null}, sky:{p:null,r:"so"}},
-  "10/11": {gogo:{p:56093,n:5}, icngh:{p:66052,n:1}, sky:{p:null,r:"so"}},
-  "10/12": {gogo:{p:56046,r:"free"}, icngh:{p:51984,n:2}, sky:{p:73226,n:1}},
-  "10/13": {gogo:{p:56039,r:"free"}, icngh:{p:51976,n:3}, sky:{p:73789,n:1}},
-  "10/14": {gogo:{r:"free"}, icngh:{n:1}, sky:{n:1}},
-  "10/15": {gogo:{r:"free"}, icngh:{n:2}, sky:{n:1}},
-  "10/16": {gogo:{n:2}, icngh:{n:1}, sky:{p:null,r:"so"}},
-  "10/17": {gogo:{p:null}, icngh:{p:null}, sky:{r:"so"}},
-  "10/18": {gogo:{r:"free"}, icngh:{n:1}, sky:{p:null,r:"so"}},
-  "10/19": {gogo:{r:"free"}, icngh:{n:1}, sky:{n:1}},
-  "10/20": {gogo:{r:"free"}, icngh:{n:1}, sky:{r:"so"}},
-  "10/21": {gogo:{r:"free"}, icngh:{n:2}, sky:{n:1}},
-  "10/22": {gogo:{r:"free"}, icngh:{n:2}, sky:{n:1}},
-  "10/23": {gogo:{n:1}, icngh:{p:null}, sky:{r:"so"}},
-  "10/24": {gogo:{p:null}, icngh:{n:1}, sky:{r:"so"}},
-  "10/25": {gogo:{n:4}, icngh:{n:1}, sky:{p:null,r:"so"}},
-  "10/26": {gogo:{r:"free"}, icngh:{n:1}, sky:{r:"so"}},
-  "10/27": {gogo:{r:"free"}, icngh:{n:3}, sky:{n:1}},
-  "10/28": {gogo:{r:"free"}, icngh:{n:1}, sky:{r:"so"}},
-  "10/29": {gogo:{r:"free"}, icngh:{n:1}, sky:{r:"so"}},
-  "10/30": {gogo:{n:1}, icngh:{n:1}, sky:{r:"so"}},
-  "10/31": {gogo:{p:null}, icngh:{p:null}, sky:{r:"so"}}
+  "9/13": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}},
+  "9/14": {gogo:{p:56045,n:1}, icngh:{p:null,r:"so"}},
+  "9/15": {gogo:{p:56045,n:1}, icngh:{p:54163,n:1}},
+  "9/16": {gogo:{p:55998,n:1}, icngh:{p:53627,n:1}},
+  "9/17": {gogo:{p:56066,n:1}, icngh:{p:53205,n:1}},
+  "9/18": {gogo:{p:null}, icngh:{p:null}},
+  "9/19": {gogo:{p:null}, icngh:{p:null}},
+  "9/20": {gogo:{p:93803,n:1}, icngh:{p:74693,n:1}},
+  "9/21": {gogo:{p:56066,n:1}, icngh:{p:57788,n:1}},
+  "9/22": {gogo:{p:56019,n:1}, icngh:{p:57734,n:1}},
+  "9/23": {gogo:{p:56093,n:1}, icngh:{p:74163,n:1}},
+  "9/24": {gogo:{p:84368,n:1}, icngh:{p:null}},
+  "9/25": {gogo:{p:null}, icngh:{p:null}},
+  "9/26": {gogo:{p:null}, icngh:{p:null}},
+  "9/27": {gogo:{p:56066,n:1}, icngh:{p:56992,n:1}},
+  "9/28": {gogo:{p:56019,n:1}, icngh:{p:56945,n:1}},
+  "9/29": {gogo:{p:56093,n:1}, icngh:{p:57739,n:1}},
+  "9/30": {gogo:{p:56046,n:1}, icngh:{p:57691,n:1}},
+  "10/1": {gogo:{p:56039,r:"free"}, icngh:{p:51976,n:1}},
+  "10/2": {gogo:{p:null}, icngh:{p:92495,n:0}},
+  "10/3": {gogo:{p:null}, icngh:{p:null}},
+  "10/4": {gogo:{p:null}, icngh:{p:null}},
+  "10/5": {gogo:{p:56093,r:"free"}, icngh:{p:75163,n:1}},
+  "10/6": {gogo:{p:56046,n:4}, icngh:{p:56328,n:1}},
+  "10/7": {gogo:{p:56039,r:"free"}, icngh:{p:null}},
+  "10/8": {gogo:{p:56073,r:"free"}, icngh:{p:57719,n:1}},
+  "10/9": {gogo:{p:81384,n:1}, icngh:{p:null}},
+  "10/10": {gogo:{p:null}, icngh:{p:null}},
+  "10/11": {gogo:{p:56093,n:5}, icngh:{p:66052,n:1}},
+  "10/12": {gogo:{p:56046,r:"free"}, icngh:{p:51984,n:2}},
+  "10/13": {gogo:{p:56039,r:"free"}, icngh:{p:51976,n:3}},
+  "10/14": {gogo:{r:"free"}, icngh:{n:1}},
+  "10/15": {gogo:{r:"free"}, icngh:{n:2}},
+  "10/16": {gogo:{n:2}, icngh:{n:1}},
+  "10/17": {gogo:{p:null}, icngh:{p:null}},
+  "10/18": {gogo:{r:"free"}, icngh:{n:1}},
+  "10/19": {gogo:{r:"free"}, icngh:{n:1}},
+  "10/20": {gogo:{r:"free"}, icngh:{n:1}},
+  "10/21": {gogo:{r:"free"}, icngh:{n:2}},
+  "10/22": {gogo:{r:"free"}, icngh:{n:2}},
+  "10/23": {gogo:{n:1}, icngh:{p:null}},
+  "10/24": {gogo:{p:null}, icngh:{n:1}},
+  "10/25": {gogo:{n:4}, icngh:{n:1}},
+  "10/26": {gogo:{r:"free"}, icngh:{n:1}},
+  "10/27": {gogo:{r:"free"}, icngh:{n:3}},
+  "10/28": {gogo:{r:"free"}, icngh:{n:1}},
+  "10/29": {gogo:{r:"free"}, icngh:{n:1}},
+  "10/30": {gogo:{n:1}, icngh:{n:1}},
+  "10/31": {gogo:{p:null}, icngh:{p:null}}
 };
 
 /* AGODA_AVAIL: 아고다 3곳 잔여 자유입력값 저장소. 키="hotelKey_M/D"(예: "gogo_9/13") → 사용자가 입력한 임의 문자열.
@@ -833,7 +825,6 @@ function buildMonthRow(md, iso){
    +'<td class="bkc">'+compCellSimple(c.bw,'bw',md)+'</td>'
    +'<td class="agc">'+agodaPriceCell(ag.gogo,'gogo',md)+agodaAvailCell(ag.gogo,'gogo',md)+'</td>'
    +'<td class="agc">'+agodaPriceCell(ag.icngh,'icngh',md)+agodaAvailCell(ag.icngh,'icngh',md)+'</td>'
-   +'<td class="agc">'+agodaPriceCell(ag.sky,'sky',md)+agodaAvailCell(ag.sky,'sky',md)+'</td>'
    +'<td class="our2">'+ourCur+'</td>'
    +'<td class="our2">'+ourAvail+'</td>'
    +'<td class="evcell">'+eventCell(md)+'</td></tr>';
@@ -853,7 +844,7 @@ function renderMonthTab(monthNum, tbodyId){
     if(iso < TODAY_KST) continue;   // 오늘 이전 자동 숨김
     html += buildMonthRow(monthNum+'/'+day, iso);
   }
-  document.getElementById(tbodyId).innerHTML = html || '<tr><td colspan="11" class="gap-na" style="text-align:center;padding:20px;">이번 달 남은 날짜 없음</td></tr>';
+  document.getElementById(tbodyId).innerHTML = html || '<tr><td colspan="10" class="gap-na" style="text-align:center;padding:20px;">이번 달 남은 날짜 없음</td></tr>';
 }
 
 /* ── 변동로그(최근 3개만 자동 유지) ─────────────────────── */
@@ -917,59 +908,6 @@ function showTab(name){
   const mm = name.match(/^m(\d+)$/);
   if(mm) renderUpcoming(+mm[1]);   // 월 탭 전환 시 "다가오는 이벤트"도 그 달 기준으로 갱신
 }
-
-/* MEMO_LOG — 스캔할 때마다 발견한 특이 변동을 사람이 정리한 메모. 배열, 최신이 앞(unshift로 추가).
-   {date:"스캔일(M/D)", channel:"부킹"|"아고다"|"할인율"|..., baseDate:"직전 스캔일(M/D)"|"첫 조회"|"정정" 등, items:["..."]}
-   baseDate가 "M/D" 형식이면 헤더에 "(M/D 대비)"로, 아니면("첫 조회"/"정정" 등) 그대로 괄호 안에 표시.
-   COMP_LOG/OURS_LOG처럼 git 커밋으로 이력이 쌓이는 수동 큐레이션 로그 — 스캔할 때 이전 COMP_LOG 스냅샷과 비교해
-   매진전환/해제·가격 ±20% 급변·잔여 급변을 발견하면 새 블록으로 맨 앞에 추가할 것(가지치기 없음, 전체 보관). */
-const MEMO_LOG = [
-  {date:"9/28", channel:"부킹", baseDate:"9/12", items:[
-    "10월 금·토·일 전수(10/2~31) 소진도 순위: GOP(10/30·31, 4곳중2.5개꼴 만실)≈EDC+XMF(10/2~4)≈JX(10/9~11, 각 58%대) > ILLIT(10/16~18, 33%) > DAY6(10/23~25, 17%) — GOP·EDC·JX 주말은 인상 대상, DAY6 주말은 상대적으로 여유",
-    "휴 10/30(GOP 전날) 18만→35만 급등(+94.4%) — 이번 스캔에서 가장 큰 폭의 단일 변동",
-    "베웨 10/23(DAY6 전날) 19.4만→29.1만 급등(+50.5%)",
-    "10/17(ILLIT 전날) 휴 신규 매진, 10/16 베웨 신규 매진 — ILLIT 주말도 부분적으로 타이트해짐",
-    "10/31(GOP 당일) 부킹 4곳 전부 매진 확정(직전엔 굿데이만 16만 유효했음) — 이벤트 당일 완전 소진 패턴 재확인",
-    "아고다 스카이게스텔 이번 8일도 전부 만실 — 9/17 이후 3회 연속(총 30일) 전부 품절, 완전히 구조적",
-    "아고다 고고하우스·인천공항게하 10/16~31 전부 여유 — 부킹 쪽 주말 매진과 무관하게 채널 격차 지속"
-  ]},
-  {date:"9/28", channel:"부킹", baseDate:"9/17", items:[
-    "게하 9/28·29 신규 매진(직전 스캔 6.48만 유효) — 평일인데도 게하 재고가 급격히 타이트해짐",
-    "굿데이 9/28 10만→8만(-20%), 9/29 14만→8만(-42.9%) — 평일 방어가 큰 폭 인하",
-    "10/4(EDC+XMF 2일차) 굿데이·휴·베웨 3곳 재개방(직전 스캔은 4곳 전부 만실) — 게하만 매진 유지, 이벤트 첫날 10/3은 여전히 4곳 전부 만실",
-    "10/9·10(JX 이벤트) 게하·굿데이·휴 3곳 전부 매진, 베웨만 생존(29.1만·33.6만 고가) — 진성 강수요 확인",
-    "베웨 브라우저 최저가가 이번 스캔 14일 전부 MCP 가격보다 낮게 잡힘(휴가 특가 21% 할인, 최대 -13~21%p 차이) — 방어가 참고 시 MCP만 보지 말고 브라우저 최저가 기준으로 볼 것",
-    "아고다 고고하우스·인천공항게하 — 10/3~4(EDC/XMF)·10/9~11(JX) 이벤트일에도 전부 예약 가능. 부킹 4곳은 만실인 이벤트일에도 아고다 2곳은 여유, 채널 간 격차 뚜렷",
-    "아고다 스카이게스텔 9/28~10/11 전 기간 만실 유지 — 지난 스캔(9/17~30)에 이어 2회 연속 14일 전부 품절, 구조적 이슈로 판단"
-  ]},
-  {date:"9/17", channel:"부킹", baseDate:"9/15", items:[
-    "휴 9/18 14만→25만 재급등(+78.6%) — 9/13(25만)→9/15(14만)→9/17(25만) 롤러코스터, 방어가 산정 시 휴 참고 시 주의",
-    "휴 9/20 14만→21만 급등(+50%) — 원래 9/13 기준(18만)보다도 더 높아짐, Vaundy 이틀째 수요 재확인",
-    "휴 9/26(기무라 당일) 35만→25만 인하(-28.6%) — 이건 롤러코스터가 아니라 진짜 완화(9/13 대비)",
-    "굿데이 9/17 8만→10만(+25%)",
-    "게하·굿데이 9/17~30 잔여 정밀 재측정 완료 — 게하 9/22·23 잔14·16으로 여유, 9/18·19·25 매진 유지",
-    "아고다 스카이게스텔 9/17~30 전 기간 만실 확인(신규) — 이전 스캔엔 매일 가격이 잡혔는데 이번엔 14일 내내 품절",
-    "아고다 고고하우스·인천공항게하 — 기존에 매진(so)이던 9/18·19·24·25·26이 전부 예약 가능으로 재개, 단 가격은 미확인(가격·잔여 없음, '-' 표시)"
-  ]},
-  {date:"9/15", channel:"부킹", baseDate:"9/13", items:[
-    "휴 9/18 25만→14만 대폭 인하(-44%), 잔여도 4→7 증가 — Vaundy 전날(금) 수요가 예상보다 약해 방어가 무너짐",
-    "휴 9/20 18만→14만 인하(-22%), 잔여 5→6 — Vaundy 이틀째(일)도 휴는 저항 없이 인하",
-    "9/19(토, Vaundy 당일)은 게하·굿데이·휴 여전히 완전 만실, 베웨도 31.2만 그대로 — 피크 당일만 강수요 유지, 전후일은 약함",
-    "굿데이 9/15 12만→10만(-16.7%), 베웨 9/15 15.1만→17.2만(+14.3%) — 평일 소폭 등락, 특이사항 아님"
-  ]},
-  {date:"9/13", channel:"부킹", baseDate:"9/3", items:[
-    "굿데이 9/13 매진 전환 (9/3 14만→만실) — 수요 타이트",
-    "9/26 휴 12만→35만 급등 — 기무라 원정 수요",
-    "10/11부터 우리 객실 13실로 증가"
-  ]},
-  {date:"9/13", channel:"아고다", baseDate:"첫 조회", items:[
-    "아고다 3곳 평일 5.4~6.8만 = 우리 실수령의 절반. 같은 오피스텔급인데 우리가 2배 비쌈, 평일가 재검토 필요",
-    "이벤트일(9/19·9/26)엔 아고다도 만실/20만 = 우리 고가 유효"
-  ]},
-  {date:"9/13", channel:"할인율", baseDate:"정정", items:[
-    "프로모션 중첩(International 15%+조기/막판 5%)로 실제 평균 20% 할인. 실수령=표시가×0.80으로 정정(기존 0.85)"
-  ]}
-];
 
 /* COMP_LOG / OURS_LOG — 조회 시각 → 스냅샷. 최근 3개만 보관(pruneLog가 자동 강제). 더 오래된 이력은 git 커밋 참조. */
 const COMP_LOG = {
@@ -1122,26 +1060,6 @@ const OURS_LOG = {
     "2026-08-15": {avail:0, price:null},   "2026-08-16": {avail:0, price:null}
   }
 };
-
-/* ── 변동 메모 (스캔할 때마다 위에 쌓이는 큐레이션 메모, MEMO_LOG 기반) ────────────────────────── */
-function memoHeaderLabel(m){
-  const baseLabel = /^\d{1,2}\/\d{1,2}$/.test(m.baseDate) ? (m.baseDate+' 대비') : m.baseDate;
-  return m.date+' '+m.channel+' ('+baseLabel+')';
-}
-function renderMemoLog(){
-  const box = document.getElementById('memoLog');
-  if(!box) return;
-  if(!MEMO_LOG.length){ box.innerHTML=''; return; }
-  const OPEN_COUNT = 4;   // 최근 3~5블록 펼침 기준(중간값)
-  let html = '<h3>📝 변동 메모</h3>';
-  MEMO_LOG.forEach(function(m, i){
-    const openAttr = i < OPEN_COUNT ? ' open' : '';
-    html += '<details class="memoblock"'+openAttr+'><summary>'+esc(memoHeaderLabel(m))+'</summary><ul>'
-      + m.items.map(function(it){ return '<li>'+esc(it)+'</li>'; }).join('')
-      + '</ul></details>';
-  });
-  box.innerHTML = html;
-}
 
 /* ── 다가오는 이벤트 (현재 보는 월 탭 기준) ────────────────────────── */
 function renderUpcoming(monthNum){
@@ -1350,7 +1268,6 @@ function asofBadgeOrNA(d, warnAt, staleAt){ return d ? asofBadge(d, warnAt, stal
   document.getElementById('dbBadgeEvent').innerHTML = asofBadgeOrNA(ASOF_EVENT, 14, 30);
 })();
 
-renderMemoLog();
 renderUpcoming(9);   // 초기 활성 탭은 9월
 renderEventCalendar();
 [9,10,11,12].forEach(function(m){
