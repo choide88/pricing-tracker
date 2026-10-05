@@ -63,7 +63,7 @@
   .tabs{display:flex;gap:2px;border-bottom:2px solid var(--line);margin:16px 0 18px;}
   .tab{padding:8px 16px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;font-family:inherit;}
   .tab.active{color:#1f5fa8;border-bottom-color:#1f5fa8;}
-  .tab.tab-past{opacity:.4;}
+  .tab[hidden]{display:none;}
   .panel[hidden]{display:none;}
   .logsnap{margin:0 0 16px;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
   .logsnap h3{font-size:12.5px;margin:0;padding:8px 12px;background:#f3f4f6;color:#374151;font-family:monospace;font-weight:700;}
@@ -215,7 +215,7 @@
   <p class="cap">경쟁사 7곳 가격 표시(부킹 4곳+아고다 3곳) — <span class="so">만실</span>=완전매진, <span class="gap-na">-</span>=데이터 없음(스캔 안 함/미확정). 부킹·아고다 잔여칸(✏️)은 자유 입력 후 이 브라우저에 자동 저장됨(수정하면 ✓ 표시). 우리 현재가는 표시가 + 실수령(×0.80) 병기. 🟠🔴🟢🎯 배지는 hover(툴팁)로 상세 설명.</p>
 
   <div class="tabs">
-    <button id="tab-m9" class="tab active">① 9월</button>
+    <button id="tab-m9" class="tab">① 9월</button>
     <button id="tab-m10" class="tab">② 10월</button>
     <button id="tab-m11" class="tab">③ 11월</button>
     <button id="tab-m12" class="tab">④ 12월</button>
@@ -223,7 +223,7 @@
     <button id="tab-ops" class="tab">⑥ 운영기준</button>
   </div>
 
-  <div id="panel-m9" class="panel">
+  <div id="panel-m9" class="panel" hidden>
     <h2>9월 <span class="cap-inline">오늘 이후 날짜만 표시</span></h2>
     <table class="montable"><thead>
       <tr class="grouprow"><th class="date"></th>
@@ -900,7 +900,7 @@ function renderLog(){
   document.getElementById('logBody').innerHTML=html;
 }
 function showTab(name){
-  ['m9','m10','m11','m12','evt','ops'].forEach(function(n){
+  ALL_TABS.forEach(function(n){
     document.getElementById('panel-'+n).hidden = n!==name;
     document.getElementById('tab-'+n).classList.toggle('active', n===name);
   });
@@ -1267,17 +1267,35 @@ function asofBadgeOrNA(d, warnAt, staleAt){ return d ? asofBadge(d, warnAt, stal
   document.getElementById('dbBadgeEvent').innerHTML = asofBadgeOrNA(ASOF_EVENT, 14, 30);
 })();
 
-renderUpcoming(9);   // 초기 활성 탭은 9월
 renderEventCalendar();
-[9,10,11,12].forEach(function(m){
+/* 월 탭 가시성 — 말일이 오늘보다 이전인 달(monthIsPast)은 탭을 아예 숨긴다(데이터는 TRACK에 그대로 남겨
+   실적 비교에 쓴다). 날짜 규칙이라 11/1이 되면 10월 탭도 자동으로 사라진다. */
+const MONTH_TABS = [9,10,11,12];
+const ALL_TABS = ['m9','m10','m11','m12','evt','ops'];
+MONTH_TABS.forEach(function(m){
   renderMonthTab(m, 'body-m'+m);
-  if(monthIsPast(m)) document.getElementById('tab-m'+m).classList.add('tab-past');
+  document.getElementById('tab-m'+m).hidden = monthIsPast(m);
 });
+/* 탭 번호(①②③…)는 보이는 탭만 세어 다시 매긴다 — 지난 달 탭이 숨었을 때 번호가 비지 않도록. */
+(function(){
+  const CIRCLED = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨'];
+  let i = 0;
+  ALL_TABS.forEach(function(n){
+    const btn = document.getElementById('tab-'+n);
+    if(btn.hidden) return;
+    btn.textContent = CIRCLED[i++] + ' ' + btn.textContent.replace(/^[①-⑨]\s*/, '');
+  });
+})();
+// 첫 화면은 현재 달. 현재 달 탭이 이미 지났거나 목록에 없으면 남아있는 가장 이른 달, 그것도 없으면 이벤트 캘린더.
+const liveMonths = MONTH_TABS.filter(function(m){ return !monthIsPast(m); });
+const curMonth = +TODAY_KST.slice(5,7);
+const initMonth = liveMonths.indexOf(curMonth) >= 0 ? curMonth : liveMonths[0];
+showTab(initMonth ? 'm'+initMonth : 'evt');
 
 pruneLog(COMP_LOG, 3);
 pruneLog(OURS_LOG, 3);
 renderLog();
-['m9','m10','m11','m12','evt','ops'].forEach(function(n){
+ALL_TABS.forEach(function(n){
   document.getElementById('tab-'+n).addEventListener('click',function(){showTab(n);});
 });
 
