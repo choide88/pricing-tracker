@@ -381,12 +381,12 @@
 <script>
 /* ── 날짜 상수·환율 ─────────────────────────────────────── */
 // 데이터 기준일 6종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
-const ASOF_PRICE = "2026-10-05";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
+const ASOF_PRICE = "2026-10-08";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
 const ASOF_STOCK = "2026-10-05";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-10-01";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
-const ASOF_AGODA = "2026-09-28";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
-const ASOF_AGODA_STOCK = "2026-09-13";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
-const ASOF_OURS = "2026-10-06";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
+const ASOF_AGODA = "2026-10-08";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
+const ASOF_AGODA_STOCK = "2026-10-08";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
+const ASOF_OURS = "2026-10-08";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
 // International 15% + 조기/막판 5% 프로모션이 상시 중첩되어 실제 평균 할인은 20% 단일 — 3일전 단계 구분 없음.
 const DISCOUNT_NORMAL = 0.20;
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(×0.80)
@@ -463,30 +463,30 @@ const TRACK = {
   "10/5": {dow:"월",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:2},hu:{p:null,r:"so"},bw:{p:193545,n:9}}, our:{ourN:13,cur:100000}, note:"대체공휴일(개천절 10/3 토요일 대체) — 게하·휴 매진, 굿데이 잔2"},
   "10/6": {dow:"화",t:"wkdy", comp:{gh:{p:73800,n:9},gd:{p:80000,n:4},hu:{p:120000,n:7},bw:{p:258060,n:18}}, our:{ourN:8,cur:90000}},
   "10/7": {dow:"수",t:"wkdy", comp:{gh:{p:73800,n:7},gd:{p:100000,n:1},hu:{p:160000,n:8},bw:{p:193545,n:13}}, our:{ourN:7,cur:90000}},
-  "10/8": {dow:"목",t:"wkdy", comp:{gh:{p:73800,n:3},gd:{p:120000,n:2},hu:{p:180000,n:7},bw:{p:null,r:"so"}}, our:{ourN:2,cur:120000}},
-  "10/9": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:350000,n:2},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"한글날(금) — 4곳 중 3곳 완전매진, 휴만 35만에 잔2. 10/9~11 연휴 최강구간"},
-  "10/10": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,n:1},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:1,cur:300000}},
-  "10/11": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:10},gd:{p:null,r:"so"},hu:{p:250000,n:3},bw:{p:301070,n:24}}, our:{ourN:5,cur:150000}},
-  "10/12": {dow:"월",t:"wkdy", comp:{gh:{p:76500,n:16},gd:{p:80000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:172040,n:41}}, our:{ourN:7,cur:100000}},
-  "10/13": {dow:"화",t:"wkdy", comp:{gh:{p:76500,n:16},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:172040,n:25}}, our:{ourN:10,cur:90000}},
-  "10/14": {dow:"수",t:"wkdy", comp:{gh:{p:76500,n:14},gd:{p:100000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:null,r:"so"}}, our:{ourN:9,cur:100000}},
-  "10/15": {dow:"목",t:"wkdy", comp:{gh:{p:76500,n:6},gd:{p:100000,n:4},hu:{p:160000,n:7},bw:{p:null,r:"so"}}, our:{ourN:9,cur:100000}},
-  "10/16": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:1},hu:{p:200000,n:2},bw:{p:null,r:"so"}}, our:{ourN:11,cur:200000}},
-  "10/17": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:350000,n:2},bw:{p:null,r:"so"}}, our:{ourN:10,cur:250000}},
-  "10/18": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:14},gd:{p:100000,n:4},hu:{p:160000,n:9},bw:{p:null,r:"so"}}, our:{ourN:11,cur:150000}},
-  "10/19": {dow:"월",t:"wkdy", comp:{gh:{p:76500,n:18},gd:{p:100000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:193545,n:17}}, our:{ourN:11,cur:100000}},
-  "10/20": {dow:"화",t:"wkdy", comp:{gh:{p:76500,n:14},gd:{p:120000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:193545,n:23}}, our:{ourN:13,cur:100000}},
-  "10/21": {dow:"수",t:"wkdy", comp:{gh:{p:76500,n:16},gd:{p:100000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:225803,n:21}}, our:{ourN:13,cur:100000}},
-  "10/22": {dow:"목",t:"wkdy", comp:{gh:{p:76500,n:10},gd:{p:120000,n:1},hu:{p:180000,n:10,approx:true},bw:{p:172040,n:29}}, our:{ourN:12,cur:100000}},
+  "10/8": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:3},gd:{p:null,r:"so"},hu:{p:120000,n:7},bw:{p:null,r:"so"}}, our:{ourN:1,cur:150000}},
+  "10/9": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매완료"}, note:"한글날(금) — [10/8 MCP] 부킹 4곳 전부 예약불가. 10/9~11 연휴 최강구간"},
+  "10/10": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:250000,r:"na"},bw:{p:null,r:"so"}}, our:{ourN:1,cur:260000}},
+  "10/11": {dow:"일",t:"wknd", comp:{gh:{p:90000,n:10},gd:{p:null,r:"so"},hu:{p:140000,n:3},bw:{p:301070,r:"free"}}, our:{ourN:4,cur:120000}},
+  "10/12": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:16},gd:{p:80000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"}}, our:{ourN:7,cur:100000}},
+  "10/13": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:16},gd:{p:80000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:182793,r:"free"}}, our:{ourN:8,cur:100000}},
+  "10/14": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:14},gd:{p:100000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:null,r:"so"}}, our:{ourN:8,cur:100000}},
+  "10/15": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:100000,n:4},hu:{p:140000,n:7},bw:{p:null,r:"so"}}, our:{ourN:8,cur:100000}},
+  "10/16": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:200000,n:2},bw:{p:null,r:"so"}}, our:{ourN:11,cur:180000}},
+  "10/17": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,r:"na"},hu:{p:350000,n:2},bw:{p:null,r:"so"}}, our:{ourN:10,cur:250000}},
+  "10/18": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:14},gd:{p:100000,n:4},hu:{p:160000,n:9},bw:{p:null,r:"so"}}, our:{ourN:11,cur:150000}},
+  "10/19": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:18},gd:{p:100000,n:3},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"}}, our:{ourN:9,cur:100000}},
+  "10/20": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:14},gd:{p:100000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:247308,r:"free"}}, our:{ourN:12,cur:100000}},
+  "10/21": {dow:"수",t:"wkdy", comp:{gh:{p:103500,n:16},gd:{p:100000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:258060,r:"free"}}, our:{ourN:10,cur:100000}},
+  "10/22": {dow:"목",t:"wkdy", comp:{gh:{p:76500,n:10},gd:{p:120000,n:1},hu:{p:180000,n:10,approx:true},bw:{p:172040,n:29}}, our:{ourN:11,cur:100000}},
   "10/23": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:6},gd:{p:180000,n:6},hu:{p:350000,n:1},bw:{p:311823,n:12}}, our:{ourN:12,cur:200000}},
-  "10/24": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:250000,n:5},bw:{p:284937,n:33}}, our:{ourN:13,cur:250000}},
-  "10/25": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:8},gd:{p:100000,n:6},hu:{p:160000,n:10,approx:true},bw:{p:172040,n:37}}, our:{ourN:13,cur:150000}},
+  "10/24": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:250000,n:5},bw:{p:284937,n:33}}, our:{ourN:13,cur:200000}},
+  "10/25": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:8},gd:{p:100000,n:6},hu:{p:160000,n:10,approx:true},bw:{p:172040,n:37}}, our:{ourN:13,cur:120000}},
   "10/26": {dow:"월",t:"wkdy", comp:{gh:{p:76500,n:18},gd:{p:100000,n:4},hu:{p:120000,n:10,approx:true},bw:{p:172040,n:41}}, our:{ourN:13,cur:100000}},
   "10/27": {dow:"화",t:"wkdy", comp:{gh:{p:76500,n:16},gd:{p:100000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:172040,n:41}}, our:{ourN:11,cur:100000}},
   "10/28": {dow:"수",t:"wkdy", comp:{gh:{p:76500,n:16},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:172040,n:41}}, our:{ourN:13,cur:100000}},
-  "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:76500,n:16},gd:{p:120000,n:3},hu:{p:160000,n:10,approx:true},bw:{p:172040,n:41}}, our:{ourN:11,cur:200000}},
-  "10/30": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:350000,n:2},bw:{p:null,r:"so"}}, our:{ourN:11,cur:250000}, flag:{lvl:"red",ic:"🔴",txt:"[10/5 전수조사] 세븐틴(10/30~11/1)+GOP포커 — 경쟁 4곳 중 3곳 완전매진, 휴만 35만 잔2. 우리 25만은 저가, 상향 시급"}},
-  "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:13,cur:250000}, flag:{lvl:"red",ic:"🔴",txt:"[10/5 전수조사] 세븐틴+GOP+주말 4중겹침. 경쟁 4곳 전부 완전매진(10월 유일). 하반기 최강 — 최고가 세팅, 우리 25만은 크게 저가"}},
+  "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:76500,n:16},gd:{p:120000,n:3},hu:{p:160000,n:10,approx:true},bw:{p:172040,n:41}}, our:{ourN:10,cur:100000}},
+  "10/30": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:350000,n:2},bw:{p:null,r:"so"}}, our:{ourN:11,cur:350000}, flag:{lvl:"red",ic:"🔴",txt:"[10/5 전수조사] 세븐틴(10/30~11/1)+GOP포커 — 경쟁 4곳 중 3곳 완전매진, 휴만 35만 잔2"}},
+  "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"}}, our:{ourN:13,cur:350000}, flag:{lvl:"red",ic:"🔴",txt:"[10/5 전수조사] 세븐틴+GOP+주말 4중겹침. 경쟁 4곳 전부 완전매진(10월 유일). 하반기 최강 — 최고가 세팅"}},
   "11/1": {dow:"일",t:"wknd", comp:{gh:{p:89100,r:"na"},gd:{p:200000,r:"na"},hu:{p:140000,r:"na"},bw:{p:161288,r:"na"}}},
   "11/2": {dow:"월",t:"wkdy", comp:{gh:{p:79380,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}},
   "11/3": {dow:"화",t:"wkdy", comp:{gh:{p:81000,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}},
@@ -564,20 +564,21 @@ const AGODA_COMP = {
   "10/5": {gogo:{p:56093,r:"free"}, icngh:{p:75163,n:1}},
   "10/6": {gogo:{p:56046,n:4}, icngh:{p:56328,n:1}},
   "10/7": {gogo:{p:56039,r:"free"}, icngh:{p:null}},
-  "10/8": {gogo:{p:56073,r:"free"}, icngh:{p:57719,n:1}},
-  "10/9": {gogo:{p:81384,n:1}, icngh:{p:null}},
+  /* 10/8~21: 2026-10-08 아고다 객실 API 직접조회(비로그인·세전 표시가). 고고=날짜별 최저가+잔여배지, 객실 미노출일(10/8·9·10·17)과 인천공항게하 전체는 미확인({p:null}). */
+  "10/8": {gogo:{p:null}, icngh:{p:null}},
+  "10/9": {gogo:{p:null}, icngh:{p:null}},
   "10/10": {gogo:{p:null}, icngh:{p:null}},
-  "10/11": {gogo:{p:56093,n:5}, icngh:{p:66052,n:1}},
-  "10/12": {gogo:{p:56046,r:"free"}, icngh:{p:51984,n:2}},
-  "10/13": {gogo:{p:56039,r:"free"}, icngh:{p:51976,n:3}},
-  "10/14": {gogo:{r:"free"}, icngh:{n:1}},
-  "10/15": {gogo:{r:"free"}, icngh:{n:2}},
-  "10/16": {gogo:{n:2}, icngh:{n:1}},
+  "10/11": {gogo:{p:133818,n:2}, icngh:{p:null}},
+  "10/12": {gogo:{p:77782,n:5}, icngh:{p:null}},
+  "10/13": {gogo:{p:77782,n:2}, icngh:{p:null}},
+  "10/14": {gogo:{p:77782,n:3}, icngh:{p:null}},
+  "10/15": {gogo:{p:77782,r:"free"}, icngh:{p:null}},
+  "10/16": {gogo:{p:129636,n:2}, icngh:{p:null}},
   "10/17": {gogo:{p:null}, icngh:{p:null}},
-  "10/18": {gogo:{r:"free"}, icngh:{n:1}},
-  "10/19": {gogo:{r:"free"}, icngh:{n:1}},
-  "10/20": {gogo:{r:"free"}, icngh:{n:1}},
-  "10/21": {gogo:{r:"free"}, icngh:{n:2}},
+  "10/18": {gogo:{p:92000,n:5}, icngh:{p:null}},
+  "10/19": {gogo:{p:77782,r:"free"}, icngh:{p:null}},
+  "10/20": {gogo:{p:77782,n:4}, icngh:{p:null}},
+  "10/21": {gogo:{p:77782,r:"free"}, icngh:{p:null}},
   "10/22": {gogo:{r:"free"}, icngh:{n:2}},
   "10/23": {gogo:{n:1}, icngh:{p:null}},
   "10/24": {gogo:{p:null}, icngh:{n:1}},
@@ -910,6 +911,22 @@ function showTab(name){
 
 /* COMP_LOG / OURS_LOG — 조회 시각 → 스냅샷. 최근 3개만 보관(pruneLog가 자동 강제). 더 오래된 이력은 git 커밋 참조. */
 const COMP_LOG = {
+  "2026-10-08T10:32": {
+    "2026-10-08": {gh:88200, gd:"SO", hu:120000, bw:"SO"},
+    "2026-10-09": {gh:"SO", gd:"SO", hu:"SO", bw:"SO"},
+    "2026-10-10": {gh:"SO", gd:"SO", hu:250000, bw:"SO"},
+    "2026-10-11": {gh:90000, gd:"SO", hu:140000, bw:301070},
+    "2026-10-12": {gh:90000, gd:80000, hu:120000, bw:172040},
+    "2026-10-13": {gh:90000, gd:80000, hu:120000, bw:182793},
+    "2026-10-14": {gh:90000, gd:100000, hu:120000, bw:"SO"},
+    "2026-10-15": {gh:90000, gd:100000, hu:140000, bw:"SO"},
+    "2026-10-16": {gh:"SO", gd:"SO", hu:200000, bw:"SO"},
+    "2026-10-17": {gh:"SO", gd:220000, hu:350000, bw:"SO"},
+    "2026-10-18": {gh:88200, gd:100000, hu:160000, bw:"SO"},
+    "2026-10-19": {gh:88200, gd:100000, hu:120000, bw:193545},
+    "2026-10-20": {gh:88200, gd:100000, hu:120000, bw:247308},
+    "2026-10-21": {gh:103500, gd:100000, hu:120000, bw:258060}
+  },
   "2026-10-05T07:00": {
     "2026-10-05": {gh:"SO",   gd:80000,  hu:"SO",   bw:193545},
     "2026-10-06": {gh:73800,  gd:80000,  hu:120000, bw:258060},
@@ -1049,6 +1066,32 @@ const COMP_LOG = {
   }
 };
 const OURS_LOG = {
+  "2026-10-08T09:00": {
+    "2026-10-08": {avail:1, price:150000},
+    "2026-10-09": {avail:0, price:null},
+    "2026-10-10": {avail:1, price:260000},
+    "2026-10-11": {avail:4, price:120000},
+    "2026-10-12": {avail:7, price:100000},
+    "2026-10-13": {avail:8, price:100000},
+    "2026-10-14": {avail:8, price:100000},
+    "2026-10-15": {avail:8, price:100000},
+    "2026-10-16": {avail:11, price:180000},
+    "2026-10-17": {avail:10, price:250000},
+    "2026-10-18": {avail:11, price:150000},
+    "2026-10-19": {avail:9, price:100000},
+    "2026-10-20": {avail:12, price:100000},
+    "2026-10-21": {avail:10, price:100000},
+    "2026-10-22": {avail:11, price:100000},
+    "2026-10-23": {avail:12, price:200000},
+    "2026-10-24": {avail:13, price:200000},
+    "2026-10-25": {avail:13, price:120000},
+    "2026-10-26": {avail:13, price:100000},
+    "2026-10-27": {avail:11, price:100000},
+    "2026-10-28": {avail:13, price:100000},
+    "2026-10-29": {avail:10, price:100000},
+    "2026-10-30": {avail:11, price:350000},
+    "2026-10-31": {avail:13, price:350000}
+  },
   "2026-10-06T09:00": {
     "2026-10-06": {avail:8, price:90000},   "2026-10-07": {avail:7, price:90000},
     "2026-10-08": {avail:2, price:120000},  "2026-10-09": {avail:0, price:null},
