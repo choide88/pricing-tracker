@@ -356,7 +356,7 @@
 
     <details class="opsblock" open>
       <summary>💡 가격 규칙(PRICE_RULES) — 제안 모드</summary>
-      <p>시장 추세 탭의 제안가는 아래 규칙으로 계산한다. <b>표시만</b> 하고 실제 가격은 바꾸지 않는다(<code>AUTO_PRICE=false</code>). 구분: 평일=일~목 체크인 · 주말=금·토 체크인 · 이벤트일=공연 등록일(주말보다 우선). 신호는 위에서부터 먼저 해당되는 하나만 적용하고, 결과는 하한·상한으로 자른다. 현재가가 범위 밖이면 범위 안 가장 가까운 값을 제안. 오늘 체크인은 제안하지 않고, 직전 스냅샷이 없으면 판정 보류.</p>
+      <p>시장 추세 탭의 제안가는 아래 규칙으로 계산한다. <b>표시만</b> 하고 실제 가격은 바꾸지 않는다(<code>AUTO_PRICE=false</code>). 구분: 평일=일~목 체크인 · 주말=금·토 체크인 · 이벤트일=공연·팬미팅 등록일(주말보다 우선, 포커 단독일·미정 공연은 제외 — 평일/주말 규칙 적용). 신호는 위에서부터 먼저 해당되는 하나만 적용하고, 결과는 하한·상한으로 자른다. 현재가가 범위 밖이면 범위 안 가장 가까운 값을 제안. 오늘 체크인은 제안하지 않고, 직전 스냅샷이 없으면 판정 보류.</p>
       <p>시장 빠름 = 저가재고(게하+굿데이+에어포트+휴) 소진율 ≥15% 또는 아고다 신규 만실 · 시장 바닥 = 저가재고 ≤4 · 우리 빠름 = 직전 대비 2실 이상 판매.</p>
       <div id="priceRulesBox"></div>
     </details>
@@ -463,7 +463,7 @@ const ASOF_STOCK = "2026-10-16";   // 브라우저 잔여 실측(요청 시에�
 const ASOF_EVENT = "2026-10-01";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-10-16";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = "2026-10-16";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
-const ASOF_OURS = "2026-10-15";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
+const ASOF_OURS = "2026-10-16";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
 // International 15% + 조기/막판 5% 프로모션이 상시 중첩되어 실제 평균 할인은 20% 단일 — 3일전 단계 구분 없음.
 const DISCOUNT_NORMAL = 0.20;
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(×0.80)
@@ -556,38 +556,52 @@ const TRACK = {
   "10/13": {dow:"화",t:"wkdy", comp:{gh:{p:79200,n:3},gd:{p:80000,n:5},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"},as:{p:null,r:"so"}}, our:{ourN:6,cur:90000}},
   "10/14": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:3},gd:{p:120000,n:2},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:6,cur:90000}},
   "10/15": {dow:"목",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:210000,n:4},bw:{p:311823,r:"free"},as:{p:null,r:"so"}}, our:{ourN:0,cur:null,curNote:"판매마감"}},
-  "10/16": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:193545,r:"free"},as:{p:null,r:"so"}}, our:{ourN:8,cur:150000}},
-  "10/17": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,n:2},hu:{p:270000,n:1},bw:{p:311823,r:"free"},as:{p:null,r:"so"}}, our:{ourN:8,cur:200000}},
-  "10/18": {dow:"일",t:"wknd", comp:{gh:{p:79200,n:3},gd:{p:100000,n:3},hu:{p:140000,n:10,approx:true},bw:{p:193545,r:"free"},as:{p:null,r:"so"}}, our:{ourN:9,cur:110000}},
-  "10/19": {dow:"월",t:"wkdy", comp:{gh:{p:79200,n:9},gd:{p:120000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"},as:{p:null,r:"so"}}, our:{ourN:8,cur:110000}},
+  "10/16": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:193545,r:"free"},as:{p:null,r:"so"}}, our:{ourN:6,cur:120000}},
+  "10/17": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:220000,n:2},hu:{p:270000,n:1},bw:{p:311823,r:"free"},as:{p:null,r:"so"}}, our:{ourN:7,cur:180000}},
+  "10/18": {dow:"일",t:"wknd", comp:{gh:{p:79200,n:3},gd:{p:100000,n:3},hu:{p:140000,n:10,approx:true},bw:{p:193545,r:"free"},as:{p:null,r:"so"}}, our:{ourN:9,cur:100000}},
+  "10/19": {dow:"월",t:"wkdy", comp:{gh:{p:79200,n:9},gd:{p:120000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:193545,r:"free"},as:{p:null,r:"so"}}, our:{ourN:7,cur:110000}},
   "10/20": {dow:"화",t:"wkdy", comp:{gh:{p:79200,n:9},gd:{p:null,r:"so"},hu:{p:120000,n:10,approx:true},bw:{p:247308,r:"free"},as:{p:null,r:"so"}}, our:{ourN:11,cur:110000}},
   "10/21": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:7},gd:{p:120000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:258060,r:"free"},as:{p:null,r:"so"}}, our:{ourN:10,cur:110000}},
-  "10/22": {dow:"목",t:"wkdy", comp:{gh:{p:79200,n:5},gd:{p:120000,n:1},hu:{p:160000,n:10,approx:true},bw:{p:204298,r:"free"},as:{p:null,r:"so"}}, our:{ourN:11,cur:110000}},
+  "10/22": {dow:"목",t:"wkdy", comp:{gh:{p:79200,n:5},gd:{p:120000,n:1},hu:{p:160000,n:10,approx:true},bw:{p:204298,r:"free"},as:{p:null,r:"so"}}, our:{ourN:10,cur:110000}},
   "10/23": {dow:"금",t:"wknd", comp:{gh:{p:117000,n:4},gd:{p:180000,n:5},hu:{p:350000,n:1},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:11,cur:150000}},
   "10/24": {dow:"토",t:"wknd", comp:{gh:{p:144000,n:1},gd:{p:180000,n:2},hu:{p:200000,n:6},bw:{p:284937,r:"free"},as:{p:null,r:"so"}}, our:{ourN:11,cur:180000}},
-  "10/25": {dow:"일",t:"wknd", comp:{gh:{p:70560,n:5},gd:{p:100000,n:5},hu:{p:180000,n:10,approx:true},bw:{p:172040,r:"free"},as:{p:null,r:"so"}}, our:{ourN:12,cur:110000}},
+  "10/25": {dow:"일",t:"wknd", comp:{gh:{p:70560,n:5},gd:{p:100000,n:5},hu:{p:180000,n:10,approx:true},bw:{p:172040,r:"free"},as:{p:null,r:"so"}}, our:{ourN:11,cur:110000}},
   "10/26": {dow:"월",t:"wkdy", comp:{gh:{p:79200,n:8},gd:{p:80000,n:2},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"},as:{p:null,r:"so"}}, our:{ourN:12,cur:110000}},
   "10/27": {dow:"화",t:"wkdy", comp:{gh:{p:79200,n:6},gd:{p:100000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"},as:{p:null,r:"so"}}, our:{ourN:11,cur:130000}},
   "10/28": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:7},gd:{p:100000,n:7},hu:{p:120000,n:10,approx:true},bw:{p:172040,r:"free"},as:{p:null,r:"so"}}, our:{ourN:13,cur:110000}},
   "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:79200,n:7},gd:{p:100000,n:4},hu:{p:160000,n:10,approx:true},bw:{p:193545,r:"free"},as:{p:null,r:"so"}}, our:{ourN:10,cur:130000}},
   "10/30": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:3},hu:{p:200000,n:2},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:11,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/16 전수조사] 세븐틴(10/30~11/1)+GOP포커 — 게하·베웨·에어포트스테이 만실, 굿데이 20만 잔3·휴 20만 잔2. 아고다 고고 만실(인천공항게하는 아고다 판매중지)"}},
   "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:260000,n:1},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:13,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/16 전수조사] 세븐틴+GOP+주말 4중겹침. 게하·휴·베웨·에어포트스테이 만실, 굿데이 26만 잔1만 남음. 아고다 고고 만실(인천공항게하는 아고다 판매중지). 하반기 최강 — 최고가 세팅"}},
-  "11/1": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:8},hu:{p:200000,n:3},bw:{p:322575,r:"free"},as:{p:null,r:"so"}}},
-  "11/2": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:3},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"},as:{p:null,r:"so"}}},
-  "11/3": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"},as:{p:null,r:"so"}}},
-  "11/4": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:7},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"},as:{p:null,r:"so"}}},
-  "11/5": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:1},gd:{p:120000,n:8},hu:{p:200000,n:9},bw:{p:311823,r:"free"},as:{p:null,r:"so"}}},
-  "11/6": {dow:"금",t:"wknd", comp:{gh:{p:162000,n:2},gd:{p:140000,n:2},hu:{p:350000,n:2},bw:{p:null,r:"so"},as:{p:null,r:"so"}}},
-  "11/7": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, flag:{lvl:"red",ic:"🔴",txt:"[10/16 전수조사] GOP포커 9일차+MCR 콘서트 겹침 — 부킹 5곳(게하·굿데이·휴·베웨·에어포트스테이) 전부 만실, 아고다 고고도 만실. 포커 단독일 약함·콘서트 겹침일만 강함 원칙과 일치"}},
-  "11/8": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:8},gd:{p:100000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"},as:{p:null,r:"so"}}},
-  "11/13": {dow:"금",t:"wknd", comp:{gh:{p:113400,r:"na"},gd:{p:140000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}},
-  "11/14": {dow:"토",t:"wknd", comp:{gh:{p:121500,r:"na"},gd:{p:180000,r:"na"},hu:{p:160000,r:"na"},bw:{p:193545,r:"na"}}},
-  "11/20": {dow:"금",t:"wknd", comp:{gh:{p:113400,r:"na"},gd:{p:140000,r:"na"},hu:{p:160000,r:"na"},bw:{p:193545,r:"na"}}},
-  "11/21": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,r:"na"},hu:{p:180000,r:"na"},bw:{p:290318,r:"na"}}},
-  "11/27": {dow:"금",t:"wknd", comp:{gh:{p:113400,r:"na"},gd:{p:140000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}},
-  "11/28": {dow:"토",t:"wknd", comp:{gh:{p:121500,r:"na"},gd:{p:180000,r:"na"},hu:{p:140000,r:"na"},bw:{p:290318,r:"na"}}},
-  "11/29": {dow:"일",t:"wknd", comp:{gh:{p:79380,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"}}},
-  "11/30": {dow:"월",t:"wkdy", comp:{gh:{p:79380,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}},
+  "11/1": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:8},hu:{p:200000,n:3},bw:{p:322575,r:"free"},as:{p:null,r:"so"}}, our:{ourN:13,cur:150000}},
+  "11/2": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:3},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"},as:{p:null,r:"so"}}, our:{ourN:13,cur:150000}},
+  "11/3": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"},as:{p:null,r:"so"}}, our:{ourN:13,cur:150000}},
+  "11/4": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:7},gd:{p:100000,n:8},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"},as:{p:null,r:"so"}}, our:{ourN:13,cur:150000}},
+  "11/5": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:1},gd:{p:120000,n:8},hu:{p:200000,n:9},bw:{p:311823,r:"free"},as:{p:null,r:"so"}}, our:{ourN:13,cur:150000}},
+  "11/6": {dow:"금",t:"wknd", comp:{gh:{p:162000,n:2},gd:{p:140000,n:2},hu:{p:350000,n:2},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:12,cur:300000}},
+  "11/7": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:11,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/16 전수조사] GOP포커 9일차+MCR 콘서트 겹침 — 부킹 5곳(게하·굿데이·휴·베웨·에어포트스테이) 전부 만실, 아고다 고고도 만실. 포커 단독일 약함·콘서트 겹침일만 강함 원칙과 일치"}},
+  "11/8": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:8},gd:{p:100000,n:6},hu:{p:120000,n:10,approx:true},bw:{p:161288,r:"free"},as:{p:null,r:"so"}}, our:{ourN:13,cur:150000}},
+  "11/9": {dow:"월",t:"wkdy", comp:{}, our:{ourN:13,cur:143000}},
+  "11/10": {dow:"화",t:"wkdy", comp:{}, our:{ourN:12,cur:143000}},
+  "11/11": {dow:"수",t:"wkdy", comp:{}, our:{ourN:13,cur:143000}},
+  "11/12": {dow:"목",t:"wkdy", comp:{}, our:{ourN:12,cur:143000}},
+  "11/13": {dow:"금",t:"wknd", comp:{gh:{p:113400,r:"na"},gd:{p:140000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}, our:{ourN:13,cur:193000}},
+  "11/14": {dow:"토",t:"wknd", comp:{gh:{p:121500,r:"na"},gd:{p:180000,r:"na"},hu:{p:160000,r:"na"},bw:{p:193545,r:"na"}}, our:{ourN:13,cur:193000}},
+  "11/15": {dow:"일",t:"wknd", comp:{}, our:{ourN:13,cur:193000}},
+  "11/16": {dow:"월",t:"wkdy", comp:{}, our:{ourN:12,cur:143000}},
+  "11/17": {dow:"화",t:"wkdy", comp:{}, our:{ourN:11,cur:143000}},
+  "11/18": {dow:"수",t:"wkdy", comp:{}, our:{ourN:13,cur:143000}},
+  "11/19": {dow:"목",t:"wkdy", comp:{}, our:{ourN:13,cur:143000}},
+  "11/20": {dow:"금",t:"wknd", comp:{gh:{p:113400,r:"na"},gd:{p:140000,r:"na"},hu:{p:160000,r:"na"},bw:{p:193545,r:"na"}}, our:{ourN:13,cur:193000}},
+  "11/21": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,r:"na"},hu:{p:180000,r:"na"},bw:{p:290318,r:"na"}}, our:{ourN:10,cur:250000}},
+  "11/22": {dow:"일",t:"wknd", comp:{}, our:{ourN:13,cur:193000}},
+  "11/23": {dow:"월",t:"wkdy", comp:{}, our:{ourN:13,cur:143000}},
+  "11/24": {dow:"화",t:"wkdy", comp:{}, our:{ourN:13,cur:143000}},
+  "11/25": {dow:"수",t:"wkdy", comp:{}, our:{ourN:13,cur:143000}},
+  "11/26": {dow:"목",t:"wkdy", comp:{}, our:{ourN:12,cur:143000}},
+  "11/27": {dow:"금",t:"wknd", comp:{gh:{p:113400,r:"na"},gd:{p:140000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}, our:{ourN:13,cur:250000}},
+  "11/28": {dow:"토",t:"wknd", comp:{gh:{p:121500,r:"na"},gd:{p:180000,r:"na"},hu:{p:140000,r:"na"},bw:{p:290318,r:"na"}}, our:{ourN:13,cur:250000}},
+  "11/29": {dow:"일",t:"wknd", comp:{gh:{p:79380,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"}}, our:{ourN:13,cur:193000}},
+  "11/30": {dow:"월",t:"wkdy", comp:{gh:{p:79380,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"}}, our:{ourN:13,cur:143000}},
   "12/4": {dow:"금",t:"wknd", comp:{gh:{p:129600,r:"na"},gd:{p:180000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}},
   "12/5": {dow:"토",t:"wknd", comp:{gh:{p:129600,r:"na"},gd:{p:180000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}},
   "12/6": {dow:"일",t:"wknd", comp:{gh:{p:89100,r:"na"},gd:{p:100000,r:"na"},hu:{p:120000,r:"na"},bw:{p:150535,r:"na"}}},
@@ -1832,6 +1846,18 @@ const OUR_SNAPS = {
     "10/21":{n:10,cur:110000}, "10/22":{n:11,cur:110000}, "10/23":{n:11,cur:150000}, "10/24":{n:11,cur:180000}, "10/25":{n:12,cur:110000},
     "10/26":{n:12,cur:110000}, "10/27":{n:11,cur:130000}, "10/28":{n:13,cur:110000}, "10/29":{n:10,cur:130000}, "10/30":{n:11,cur:300000},
     "10/31":{n:13,cur:300000}
+  },
+  "2026-10-16": {   // Sirvoy 10/16 캡처 · 46일(10/16~11/30)
+    "10/16":{n:6,cur:120000}, "10/17":{n:7,cur:180000}, "10/18":{n:9,cur:100000}, "10/19":{n:7,cur:110000}, "10/20":{n:11,cur:110000},
+    "10/21":{n:10,cur:110000}, "10/22":{n:10,cur:110000}, "10/23":{n:11,cur:150000}, "10/24":{n:11,cur:180000}, "10/25":{n:11,cur:110000},
+    "10/26":{n:12,cur:110000}, "10/27":{n:11,cur:130000}, "10/28":{n:13,cur:110000}, "10/29":{n:10,cur:130000}, "10/30":{n:11,cur:300000},
+    "10/31":{n:13,cur:300000}, "11/1":{n:13,cur:150000}, "11/2":{n:13,cur:150000}, "11/3":{n:13,cur:150000}, "11/4":{n:13,cur:150000},
+    "11/5":{n:13,cur:150000}, "11/6":{n:12,cur:300000}, "11/7":{n:11,cur:300000}, "11/8":{n:13,cur:150000}, "11/9":{n:13,cur:143000},
+    "11/10":{n:12,cur:143000}, "11/11":{n:13,cur:143000}, "11/12":{n:12,cur:143000}, "11/13":{n:13,cur:193000}, "11/14":{n:13,cur:193000},
+    "11/15":{n:13,cur:193000}, "11/16":{n:12,cur:143000}, "11/17":{n:11,cur:143000}, "11/18":{n:13,cur:143000}, "11/19":{n:13,cur:143000},
+    "11/20":{n:13,cur:193000}, "11/21":{n:10,cur:250000}, "11/22":{n:13,cur:193000}, "11/23":{n:13,cur:143000}, "11/24":{n:13,cur:143000},
+    "11/25":{n:13,cur:143000}, "11/26":{n:12,cur:143000}, "11/27":{n:13,cur:250000}, "11/28":{n:13,cur:250000}, "11/29":{n:13,cur:193000},
+    "11/30":{n:13,cur:143000}
   }
 };
 const MKT_BASELINE = {
