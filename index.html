@@ -157,6 +157,7 @@
   .sbadge{display:inline-block;font-size:9px;font-weight:800;border-radius:5px;padding:1px 5px;margin-top:2px;white-space:nowrap;color:#fff;}
   .sb-event{background:#6d28d9;} .sb-red{background:#c0392b;} .sb-orange{background:#c2780c;}
   .sb-green{background:#0a8754;} .sb-blue{background:#1f6fb2;} .sb-normal{background:#9ca3af;color:#fff;}
+  .pm-ic{display:inline-block;font-size:10px;margin-left:4px;cursor:help;}
   .warn-flag{display:inline-block;font-size:11px;margin-left:5px;cursor:help;}
   .note-ic{cursor:help;margin-left:4px;font-size:10px;}
   .sep-strong td{background:#e7edff!important;} .sep-strong td.date{color:#4338ca;}
@@ -262,6 +263,7 @@
       <span class="db-sep">·</span>
       <span class="db-item"><span class="db-ico">🏨</span><span class="db-label">아고다 재고</span><span class="db-val" id="dbAsofAgodaStock">—</span><span id="dbBadgeAgodaStock"></span></span>
     </div>
+    <div class="db-row" id="dbPmRow" hidden><span class="db-item"><span class="db-ico">🌙</span><span class="db-label">저녁 스캔</span><span class="db-val" id="dbPm">—</span><span class="db-badge db-fresh" id="dbPmNote">월별 표·시장 추세에 반영</span></span></div>
     <div class="db-row"><span class="db-item"><span class="db-ico">🎤</span><span class="db-label">이벤트</span><span class="db-val" id="dbAsofEvent">—</span><span id="dbBadgeEvent"></span></span></div>
   </div>
 
@@ -929,13 +931,45 @@ function eventCell(d){
   }
   return out;
 }
+/* 저녁 스냅샷 화면 반영 — 아침 스캔(MKT_SNAPS/OUR_SNAPS 최신 키)보다 새 저녁 스냅샷이 있으면 월별 표에 저녁 값을 보여준다.
+   TRACK·AGODA_COMP 데이터는 바꾸지 않고 렌더할 때만 덮어쓴다(다음 날 아침 스캔이 들어오면 자동으로 아침 값으로 돌아감). */
+function latestKey(obj){ const k=Object.keys(obj).filter(function(x){return x<=TODAY_KST;}).sort(); return k[k.length-1]||null; }
+function pmKeyFor(pmObj, amObj){ const p=latestKey(pmObj), a=latestKey(amObj); return (p && (!a || p>=a)) ? p : null; }
+function pmComp(e,k){   // 저녁 스냅샷 한 칸 → TRACK comp 형식
+  if(!e) return null;
+  if(k==='bw') return e.p==null ? {p:null,r:"so"} : {p:e.p,r:"na"};
+  if(e.n===0 && e.p==null) return {p:null,r:"so"};
+  if(k==='hu') return e.p==null ? null : {p:e.p,r:"na"};
+  return e.p==null ? null : (e.n!=null ? {p:e.p,n:e.n} : {p:e.p,r:"na"});
+}
+function pmAgoda(e){ if(!e) return null; return e.so ? {p:null,r:"so"} : (e.p!=null ? {p:e.p} : null); }
+function pmView(md){   // {comp, ag, our, key, changes[]} 또는 null
+  const mk=pmKeyFor(MKT_SNAPS_PM, MKT_SNAPS), ok=pmKeyFor(OUR_SNAPS_PM, OUR_SNAPS);
+  const me=mk && MKT_SNAPS_PM[mk][md], oe=ok && OUR_SNAPS_PM[ok][md];
+  if(!me && !oe) return null;
+  const row=TRACK[md]||{}, c0=row.comp||{}, a0=AGODA_COMP[md]||{}, o0=row.our||{};
+  const v={key:mk||ok, comp:Object.assign({},c0), ag:Object.assign({},a0), our:Object.assign({},o0), changes:[]};
+  const txt=function(c){ if(!c) return '-'; if(c.r==="so") return '만실'; return (c.p!=null?fmt(c.p):'-')+(c.n!=null?' 잔'+c.n:''); };
+  const NM={gh:'게하',gd:'굿데이',hu:'호텔휴',bw:'베웨',as:'에어포트스테이',gogo:'고고',icngh:'인천공항게하'};
+  if(me){
+    ['gh','gd','hu','bw','as'].forEach(function(k){ const n=pmComp(me[k],k); if(!n) return; if(txt(c0[k])!==txt(n)) v.changes.push(NM[k]+' '+txt(c0[k])+'→'+txt(n)); v.comp[k]=n; });
+    ['gogo','icngh'].forEach(function(k){ const n=pmAgoda(me[k]); if(!n) return; if(txt(a0[k])!==txt(n)) v.changes.push(NM[k]+' '+txt(a0[k])+'→'+txt(n)); v.ag[k]=n; });
+  }
+  if(oe){
+    if(oe.n!=null && oe.n!==o0.ourN){ v.changes.push('우리 잔여 '+(o0.ourN==null?'-':o0.ourN)+'→'+oe.n); v.our.ourN=oe.n; }
+    if(oe.cur!=null && oe.cur!==o0.cur){ v.changes.push('우리 가격 '+(o0.cur==null?'-':fmt(o0.cur))+'→'+fmt(oe.cur)); v.our.cur=oe.cur; }
+  }
+  return v;
+}
 /* 월별 가격표 행 — 날짜|게하|굿데이|호텔휴|베웨|에어포트스테이|고고|인천공항게하|우리현재가|우리잔여|이벤트. TRACK에 데이터 없는 날도 "-"로 한 줄씩 렌더. */
 function buildMonthRow(md, iso){
-  const row = TRACK[md];
+  const pv = pmView(md);   // 저녁 스냅샷이 아침보다 새로우면 저녁 값으로 표시(데이터는 그대로)
+  const row = pv ? Object.assign({}, TRACK[md]||{}, {comp:pv.comp, our:pv.our}) : TRACK[md];
   const dow = dowKST(iso);
   const wknd = (dow==='토'||dow==='일');
   const c = row ? (row.comp||{}) : {};
-  const ag = AGODA_COMP[md] || {};
+  const ag = pv ? pv.ag : (AGODA_COMP[md] || {});
+  const pmHtml = pv ? '<span class="pm-ic" title="'+esc(mdShort(pv.key)+' 저녁 스캔 값으로 표시 — '+(pv.changes.length ? '아침 대비: '+pv.changes.join(', ') : '아침과 같음'))+'">🌙</span>' : '';
   const hlCls = row&&row.hl==='strong' ? ' sep-strong' : row&&row.hl==='chuseok' ? ' sep-chuseok' : '';
   const hlTag = row&&row.hl==='strong' ? ' <span class="ev-tag sep-tag-strong">강세</span>' : row&&row.hl==='chuseok' ? ' <span class="ev-tag sep-tag-chuseok">추석</span>' : '';
   const flagHtml = row&&row.flag ? '<span class="warn-flag wf-'+row.flag.lvl+'" title="'+esc(row.flag.txt)+'">'+(row.flag.ic||'🔵')+'</span>' : '';
@@ -956,7 +990,7 @@ function buildMonthRow(md, iso){
   else ourAvail = '<span class="gap-na">-</span>';
 
   return '<tr class="'+(wknd?'wknd':'wkdy')+hlCls+(pokerOf(md)?' has-poker':'')+'">'
-   +'<td class="date">'+md+' ('+dow+')'+hlTag+stHtml+flagHtml+noteHtml+'</td>'
+   +'<td class="date">'+md+' ('+dow+')'+hlTag+stHtml+pmHtml+flagHtml+noteHtml+'</td>'
    +'<td class="bkc">'+compCellSimple(c.gh,'gh',md)+bookAvailCell(c.gh,'gh',md)+'</td>'
    +'<td class="bkc">'+compCellSimple(c.gd,'gd',md)+bookAvailCell(c.gd,'gd',md)+'</td>'
    +'<td class="bkc">'+compCellSimple(c.hu,'hu',md)+bookAvailCell(c.hu,'hu',md)+'</td>'
@@ -2799,6 +2833,7 @@ pruneLog(COMP_LOG, 3);
 pruneLog(OURS_LOG, 3);
 renderLog();
 renderDecision();
+(function(){ const k=pmKeyFor(MKT_SNAPS_PM, MKT_SNAPS)||pmKeyFor(OUR_SNAPS_PM, OUR_SNAPS); if(k){ document.getElementById('dbPm').textContent=asofValText(k); document.getElementById('dbPmRow').hidden=false; } })();   // 날짜바 🌙 — 아침보다 새 저녁 스냅샷이 있을 때만
 document.getElementById('trAll').addEventListener('click',function(){ DEC_SIGONLY=false; renderDecTable(); });
 document.getElementById('trSig').addEventListener('click',function(){ DEC_SIGONLY=true; renderDecTable(); });
 document.getElementById('trBody').addEventListener('click',function(e){   // 행 클릭 → 이력 펼침/접기
