@@ -198,8 +198,15 @@
     #panel-trend h2,#panel-trend .cap,#panel-trend .cap-inline{color:var(--tr-ink);}
   }
   .tr-h3{font-size:14px;font-weight:700;margin:18px 0 8px;color:var(--tr-ink);}
-  .tr-head{background:var(--tr-soft);border:1px solid var(--tr-line);border-radius:10px;padding:8px 12px;margin:0 0 6px;}
+  .tr-head{margin:0 0 6px;}
   .tr-line{font-size:12.5px;line-height:1.7;}
+  .sm-wrap{display:grid;grid-template-columns:minmax(260px,1fr) minmax(0,2fr);gap:10px;}
+  @media (max-width:860px){ .sm-wrap{grid-template-columns:1fr;} }
+  .sm-card{border:1px solid var(--tr-line);border-radius:10px;padding:9px 12px;background:var(--tr-bg);min-width:0;}
+  .sm-h{font-weight:700;font-size:13.5px;margin:0 0 6px;} .sm-h .dc-na{font-size:11px;font-weight:400;margin-left:4px;}
+  table.sm-t{border-collapse:collapse;width:100%;font-size:12px;} .sm-t th,.sm-t td{padding:4px 6px;border-bottom:1px solid var(--tr-line);text-align:left;vertical-align:top;color:var(--tr-ink);background:transparent;}
+  .sm-t tbody th{font-weight:600;color:var(--tr-muted);white-space:nowrap;} .sm-grid thead th{font-size:11px;color:var(--tr-muted);font-weight:600;white-space:nowrap;background:var(--tr-soft);}
+  .sm-scroll{overflow-x:auto;} .sm-grid{min-width:560px;} .sm-foot{font-size:11.5px;margin-top:6px;color:var(--tr-ink);}
   .tr-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:10px;}
   .tr-card{border:1px solid var(--tr-line);border-left:4px solid var(--tr-muted);border-radius:10px;padding:9px 12px;background:var(--tr-bg);min-width:0;}
   .tr-card .tc-h{font-weight:700;font-size:13px;margin:0 0 4px;} .tc-n{font-size:11px;color:var(--tr-muted);font-weight:600;}
@@ -333,16 +340,14 @@
   </div>
 
   <div id="panel-trend" class="panel" hidden>
-    <h2>시장 추세 <span class="cap-inline">오늘 할 일 · 날짜별 결정표 · 경쟁사 판매(아침/저녁) — 가격 자동 제안 없음, 결정은 사람이</span></h2>
+    <h2>시장 추세 <span class="cap-inline">우리·경쟁사 판매 요약 · 날짜별 결정표(아침/저녁) — 가격 자동 제안 없음, 결정은 사람이</span></h2>
     <div id="trHead" class="tr-head"></div>
-    <h3 class="tr-h3">① 오늘 할 일</h3>
-    <div id="trTodo" class="tr-cards"></div>
-    <h3 class="tr-h3">② 날짜별 결정표 <span class="cap-inline">오늘~D+14 + 그 이후 콘서트일 · 행을 누르면 이력</span></h3>
+    <h3 class="tr-h3">① 날짜별 결정표 <span class="cap-inline">오늘~D+14 + 그 이후 콘서트일 · 행을 누르면 이력</span></h3>
     <div class="tr-toolbar">보기 <button id="trAll" class="tr-btn" type="button">전체</button><button id="trSig" class="tr-btn" type="button">신호 있는 날만</button></div>
     <div class="tr-scroll"><table class="trtable"><thead><tr>
       <th>숙박일</th><th>우리 잔여</th><th>우리 3일 판매</th><th>D-</th><th>예상 남는 방</th><th>경쟁사 어제 판매</th><th>오늘 낮 판매<br><span class="dc-na">아침→저녁</span></th><th>시장</th><th>신호</th>
     </tr></thead><tbody id="trBody"></tbody></table></div>
-    <h3 class="tr-h3">③ 기준값·미확인</h3>
+    <h3 class="tr-h3">② 기준값·미확인</h3>
     <div id="trFoot" class="tr-foot"></div>
   </div>
 
@@ -2549,15 +2554,15 @@ function dayMove(md){
   if(oa && op && oa.n!=null && op.n!=null) r.our=oa.n-op.n;
   return r;
 }
-// (d) 시장 = 이 숙박일이 들어있는 가장 최근 아침 스냅샷. 저가 잔여 = 게하+굿데이+에어포트(정확값만)
-function mktNow(md){
-  let k=null;
-  for(let i=AM_MKT.length-1;i>=0;i--){ if(MKT_SNAPS[AM_MKT[i]][md]){ k=AM_MKT[i]; break; } }
-  if(!k) return null;
-  const s=MKT_SNAPS[k][md]; let sum=0; const miss=[];
+// (d) 시장 = 오늘 저녁 스냅샷(있으면) 또는 이 숙박일이 들어있는 가장 최근 아침 스냅샷. 저가 잔여 = 게하+굿데이+에어포트(정확값만)
+function mktNow(md){   // 오늘 저녁 스냅샷에 있으면 저녁 값 우선(pm:true)
+  let k=null, s=null, pm=false;
+  if(PM_MKT && PM_MKT[md]){ k=TODAY_KST; s=PM_MKT[md]; pm=true; }
+  else { for(let i=AM_MKT.length-1;i>=0;i--){ if(MKT_SNAPS[AM_MKT[i]][md]){ k=AM_MKT[i]; break; } } if(!k) return null; s=MKT_SNAPS[k][md]; }
+  let sum=0; const miss=[];
   DEC_KEYS.forEach(function(kk){ const n=exactN(s,kk); if(n==null) miss.push(kk); else sum+=n; });
   const agSO=[['gogo','고고'],['icngh','인천공항게하']].filter(function(a){return s[a[0]] && s[a[0]].so===true;}).map(function(a){return a[1];});
-  return {k:k, stale:k!==MKT_CUR, s:s, low:miss.length===DEC_KEYS.length?null:sum, partial:miss.length>0 && miss.length<DEC_KEYS.length, miss:miss, agSO:agSO};
+  return {k:k, pm:pm, stale:!pm && k!==MKT_CUR, s:s, low:miss.length===DEC_KEYS.length?null:sum, partial:miss.length>0 && miss.length<DEC_KEYS.length, miss:miss, agSO:agSO};
 }
 // (e) 막판 판매량 LATE = 체크인이 지난 날의 D-3 아침 잔여(없으면 D-4·D-2) − 체크인 당일 잔여(저녁 스냅샷 우선)
 const LATE = (function(){
@@ -2603,10 +2608,11 @@ function priceyCheck(cur,o3,m){
 function decideDay(iso){
   const md=mdShort(iso), D=dayDiff(TODAY_KST,iso), cat=dayCat(iso), ev=isEventDay(iso);
   const tr=(TRACK[md]||{}).our||null, os=OUR_CUR && OUR_SNAPS[OUR_CUR][md];
-  const rem = os && os.n!=null ? os.n : (tr && tr.ourN!=null ? tr.ourN : null);
-  const cur = tr && tr.cur!=null ? tr.cur : null;   // 우리 현재가 = TRACK 저장값(스냅샷에 가격이 없으면 null 그대로 → "가격 미확인")
+  const po = PM_OUR && PM_OUR[md];   // 오늘 저녁 우리 스냅샷이 있으면 잔여·가격은 저녁 값 우선
+  const rem = po && po.n!=null ? po.n : (os && os.n!=null ? os.n : (tr && tr.ourN!=null ? tr.ourN : null));
+  const cur = po && po.cur!=null ? po.cur : (tr && tr.cur!=null ? tr.cur : null);   // 우리 현재가 = TRACK 저장값(스냅샷에 가격이 없으면 null 그대로 → "가격 미확인")
   const o3=our3(md), cy=compYest(md), m=mktNow(md), late=LATE[cat].val, cap=capOf(iso);
-  const j={iso:iso, md:md, D:D, cat:cat, ev:ev, dow:dowKST(iso), rem:rem, cur:cur, o3:o3, cy:cy, m:m, late:late, cap:cap};
+  const j={iso:iso, md:md, D:D, cat:cat, ev:ev, dow:dowKST(iso), rem:rem, cur:cur, remPm:!!(po && po.n!=null), o3:o3, cy:cy, m:m, late:late, cap:cap};
   j.pred=predLeft(rem,o3,D,late);
   j.dm = (D<=1 || (PM_MKT && PM_MKT[md]) || (PM_OUR && PM_OUR[md])) ? dayMove(md) : null;   // 오늘·내일은 항상(저녁 전이면 "저녁 스캔 전"), 그 밖은 저녁 스냅샷에 있을 때만
   j.pc=priceyCheck(cur,o3,m);
@@ -2674,7 +2680,7 @@ function mktCell(m){
   const ag=m.agSO.map(function(n){ return '<span class="dc-ag" title="아고다 '+n+' 만실">●</span>'; }).join('');
   return '<span class="dc-mp">게하 '+pp(m.s.gh)+' · 굿데이 '+pp(m.s.gd)+'</span><br>'
     +'<span title="게하+굿데이+에어포트 정확값 합'+(m.partial?' — 미확인: '+m.miss.map(function(k){return DEC_NAMES[k];}).join('·'):'')+'">저가 잔여 <b>'+(m.low==null?'미확인':m.low)+'</b>'+(m.partial?' <span class="dc-na">일부</span>':'')+'</span>'
-    +(ag?' '+ag:'')+(m.stale?' <span class="dc-na" title="이 숙박일이 들어있는 가장 최근 스캔">('+mdShort(m.k)+' 기준)</span>':'');
+    +(ag?' '+ag:'')+(m.pm?' <span class="pm-ic" title="오늘 저녁 스캔 기준">🌙</span>':'')+(m.stale?' <span class="dc-na" title="이 숙박일이 들어있는 가장 최근 스캔">('+mdShort(m.k)+' 기준)</span>':'');
 }
 function predCell(j){
   if(j.pred==null) return '<span class="dc-na">·</span>';
@@ -2695,7 +2701,7 @@ function decRow(j){
   const dl = j.D===0 ? '오늘' : j.D===1 ? '내일' : 'D-'+j.D;
   return '<tr class="dec-row '+(j.cat==='wknd'?'dr-wknd':'')+'" data-md="'+j.md+'">'
     +'<td class="tr-date">'+j.md+' ('+j.dow+')'+evTag(j.iso)+'</td>'
-    +'<td>'+(j.rem==null?'<span class="dc-na">·</span>':j.rem+'/'+j.cap)+'</td>'
+    +'<td>'+(j.rem==null?'<span class="dc-na">·</span>':j.rem+'/'+j.cap+(j.remPm?' <span class="pm-ic" title="오늘 저녁 Sirvoy 기준">🌙</span>':''))+'</td>'
     +'<td>'+(j.o3?'<span title="'+mdShort(j.o3.from)+' '+j.o3.prevN+' → '+mdShort(OUR_CUR)+' '+j.o3.curN+'">'+our3Txt(j.o3)+'</span>':'<span class="dc-na">·</span>')+'</td>'
     +'<td>'+dl+'</td>'
     +'<td class="dc-pred">'+predCell(j)+'</td>'
@@ -2745,42 +2751,75 @@ function decDetail(md){
 function renderDecHead(){
   const el=document.getElementById('trHead');
   if(!MKT_CUR){ el.innerHTML='<p class="cap">시장 스냅샷이 없습니다.</p>'; return; }
-  const tot={gh:0,gd:0,as:0}, fr={gh:0,gd:0,as:0}, days=[];
-  Object.keys(MKT_SNAPS[MKT_CUR]).forEach(function(md){
-    if(dISO(md)<TODAY_KST) return;
-    const cy=compYest(md); if(!cy) return;
-    DEC_KEYS.forEach(function(k){ const d=cy.per[k]; if(d!=null){ if(d<0) tot[k]+=-d; else fr[k]+=d; } });
-    if(cy.sold>0) days.push({md:md, n:cy.sold});
-  });
-  days.sort(function(a,b){ return b.n-a.n || (dISO(a.md)<dISO(b.md)?-1:1); });
-  const nm=function(k){ return DEC_NAMES[k]+' <b>'+tot[k]+'</b>'+(fr[k]?' <span class="dc-free">(풀림 +'+fr[k]+')</span>':''); };
-  let h='<div class="tr-line"><b>어제 경쟁사 판매</b> '+DEC_KEYS.map(nm).join(' · ')
-    +' · 많이 팔린 날 '+(days.length ? days.slice(0,3).map(function(d){ return d.md+'('+d.n+')'; }).join(' ') : '없음')
-    +' · <span class="dc-na">비교 '+(MKT_PREV ? mdShort(MKT_PREV)+'→'+mdShort(MKT_CUR)+gapTag(MKT_GAP,1) : '직전 스냅샷 없음')+(GH_SKIP?' · 게하 측정방식 달라 제외':'')+'</span></div>';
-  if(PM_MKT){   // 오늘 낮(아침→저녁) — 저녁 스냅샷에 있는 모든 숙박일 합계
-    const t={gh:0,gd:0,as:0}, f={gh:0,gd:0,as:0}, pd=[], ups=[];
-    Object.keys(PM_MKT).forEach(function(md){
-      if(dISO(md)<TODAY_KST) return;
-      const dm=dayMove(md); if(!dm.mkt) return;
-      DEC_KEYS.forEach(function(k){ const d=dm.per[k]; if(d!=null){ if(d<0) t[k]+=-d; else f[k]+=d; } if(dm.price[k]) ups.push(DEC_NAMES[k]+(dm.price[k]>0?'▲':'▼')+md); });
-      if(dm.sold>0) pd.push({md:md, n:dm.sold});
+  const fut=function(md){ return dISO(md)>=TODAY_KST; };
+  const top3=function(a){ a.sort(function(x,y){ return y.n-x.n || (dISO(x.md)<dISO(y.md)?-1:1); }); return a.length ? a.slice(0,3).map(function(d){ return d.md+'('+d.n+')'; }).join(' ') : '없음'; };
+  const prevOur = AM_OUR[AM_OUR.length-2]||null;
+  // ── 우리 숙소 ──
+  function ourMove(a,b){   // 두 스냅샷 객체 사이 우리 판매 {sold, cancel, days[]}
+    const r={sold:0, cancel:0, days:[]};
+    if(!a || !b) return null;
+    Object.keys(b).forEach(function(md){
+      if(!fut(md) || !a[md] || a[md].n==null || b[md].n==null) return;
+      const d=a[md].n-b[md].n;
+      if(d>0){ r.sold+=d; r.days.push({md:md, n:d}); } else if(d<0) r.cancel+=-d;
     });
-    pd.sort(function(a,b){ return b.n-a.n || (dISO(a.md)<dISO(b.md)?-1:1); });
-    h+='<div class="tr-line"><b>오늘 낮 경쟁사 판매</b> '+DEC_KEYS.map(function(k){ return DEC_NAMES[k]+' <b>'+t[k]+'</b>'+(f[k]?' <span class="dc-free">(풀림 +'+f[k]+')</span>':''); }).join(' · ')
-      +' · 많이 팔린 날 '+(pd.length ? pd.slice(0,3).map(function(d){ return d.md+'('+d.n+')'; }).join(' ') : '없음')
-      +(ups.length?' · 가격 '+ups.join(' '):'')+' <span class="dc-na">(아침→저녁 '+mdShort(TODAY_KST)+', '+Object.keys(PM_MKT).length+'일)</span></div>';
+    return r;
   }
-  el.innerHTML=h;
-}
-function renderDecTodo(){
-  let h='';
-  SIG_ORDER.forEach(function(s){
-    const a=DEC_DAYS.map(function(iso){ return DECIDE[mdShort(iso)]; }).filter(function(j){ return j.s===s; });
-    if(!a.length) return;
-    h+='<div class="tr-card '+SIG[s].cls+'"><div class="tc-h">'+SIG[s].label+' <span class="tc-n">'+a.length+'</span></div><ul>'
-      +a.map(function(j){ return '<li><b>'+j.md+' ('+j.dow+')</b> '+j.why+'</li>'; }).join('')+'</ul></div>';
-  });
-  document.getElementById('trTodo').innerHTML = h || '<p class="cap">오늘 할 일 없음 — 모든 날짜 유지/관망.</p>';
+  const oDay = (PM_OUR && OUR_SNAPS[TODAY_KST]) ? ourMove(OUR_SNAPS[TODAY_KST], PM_OUR) : null;
+  const oPrev = prevOur ? ourMove(OUR_SNAPS[prevOur], OUR_SNAPS[OUR_CUR]) : null;
+  let o3sold=0, o3n=0;
+  Object.keys(OUR_SNAPS[OUR_CUR]||{}).forEach(function(md){ if(!fut(md)) return; const o=our3(md); if(o){ o3n++; if(o.sold>0) o3sold+=o.sold; } });
+  const near=DEC_DAYS.filter(function(iso){ return dayDiff(TODAY_KST,iso)<=DEC_CFG.horizon; }).map(function(iso){ return DECIDE[mdShort(iso)]; });
+  const remSum=near.reduce(function(s,j){ return s+(j.rem||0); },0), capSum=near.reduce(function(s,j){ return s+(j.rem!=null?j.cap:0); },0);
+  const soldOut=near.filter(function(j){ return j.rem===0; }).map(function(j){ return j.md; });
+  const most=near.filter(function(j){ return j.rem!=null && j.rem>0; }).map(function(j){ return {md:j.md, n:j.rem}; });
+  const mv=function(r){ return r ? '<b>'+r.sold+'실</b>'+(r.cancel?' <span class="dc-free">(취소 +'+r.cancel+')</span>':'')+(r.days.length?' <span class="dc-na">— '+top3(r.days.slice())+'</span>':'') : '<span class="dc-na">·</span>'; };
+  let ou='<div class="sm-card"><div class="sm-h">우리 숙소</div><table class="sm-t"><tbody>'
+    +'<tr><th>오늘 낮 (아침→저녁)</th><td>'+(oDay ? mv(oDay) : '<span class="dc-na">저녁 스캔 전</span>')+'</td></tr>'
+    +'<tr><th>직전 아침 대비'+(prevOur?' <span class="dc-na">('+mdShort(prevOur)+'→'+mdShort(OUR_CUR)+')</span>':'')+'</th><td>'+mv(oPrev)+'</td></tr>'
+    +'<tr><th>최근 3일 판매</th><td><b>'+o3sold+'실</b> <span class="dc-na">('+o3n+'일 합)</span></td></tr>'
+    +'<tr><th>남은 방 (오늘~D+'+DEC_CFG.horizon+')</th><td><b>'+remSum+'</b> / '+capSum+'실'+(PM_OUR?' <span class="dc-na">(저녁 기준)</span>':'')+'</td></tr>'
+    +'<tr><th>완판 날짜</th><td>'+(soldOut.length?soldOut.join(' · '):'없음')+'</td></tr>'
+    +'<tr><th>많이 남은 날</th><td>'+top3(most)+'</td></tr>'
+    +'</tbody></table></div>';
+  // ── 경쟁사 ──
+  const scanDays=Object.keys(PM_MKT||MKT_SNAPS[MKT_CUR]).filter(fut);
+  const curRow=function(md){ return (PM_MKT && PM_MKT[md]) || MKT_SNAPS[MKT_CUR][md] || null; };
+  const amT=MKT_SNAPS[TODAY_KST]||null;
+  function rowFor(k){
+    let ys=0, yf=0, yk=0, ds=0, df=0, dk=0, so=0, rem=0, remK=0; const up=[], dn=[];
+    Object.keys(MKT_SNAPS[MKT_CUR]).forEach(function(md){ if(!fut(md)) return; const cy=compYest(md); if(cy && cy.per[k]!=null){ yk++; const d=cy.per[k]; if(d<0) ys+=-d; else yf+=d; } });
+    if(PM_MKT && amT) Object.keys(PM_MKT).forEach(function(md){
+      if(!fut(md) || !amT[md]) return;
+      const d=moveN(amT[md],PM_MKT[md],k); if(d!=null){ dk++; if(d<0) ds+=-d; else df+=d; }
+      const p0=amT[md][k]&&amT[md][k].p, p1=PM_MKT[md][k]&&PM_MKT[md][k].p;
+      if(p0!=null && p1!=null && p0!==p1) (p1>p0?up:dn).push(md);
+    });
+    scanDays.forEach(function(md){ const c=curRow(md); const n=exactN(c,k); if(n===0) so++; else if(n!=null){ rem+=n; remK++; } });
+    return '<tr><th>'+DEC_NAMES[k]+'</th><td>'+(yk?'<b>'+ys+'</b>'+(yf?' <span class="dc-free">풀림 +'+yf+'</span>':''):'·')+'</td><td>'+(PM_MKT?(dk?'<b>'+ds+'</b>'+(df?' <span class="dc-free">풀림 +'+df+'</span>':''):'·'):'<span class="dc-na">전</span>')+'</td><td>'+so+'일</td><td>'+rem+'실</td><td>'+pxTxt(up,dn)+'</td></tr>';
+  }
+  function pxTxt(up,dn){ return (up.length?'<span class="dc-pup">▲</span>'+up.join(' '):'')+(up.length&&dn.length?' · ':'')+(dn.length?'<span class="dc-pdn">▼</span>'+dn.join(' '):'')||'<span class="dc-na">-</span>'; }
+  function priceOnly(k,label){
+    let so=0; const up=[], dn=[];
+    scanDays.forEach(function(md){ const c=curRow(md); if(c && c[k] && c[k].p==null && (k==='bw' || c[k].n===0)) so++; });
+    if(PM_MKT && amT) Object.keys(PM_MKT).forEach(function(md){ if(!fut(md)||!amT[md]) return; const p0=amT[md][k]&&amT[md][k].p, p1=PM_MKT[md][k]&&PM_MKT[md][k].p; if(p0!=null&&p1!=null&&p0!==p1) (p1>p0?up:dn).push(md); });
+    return '<tr><th>'+label+'</th><td colspan="2" class="dc-na">잔여 미기록(가격만)</td><td>'+so+'일</td><td class="dc-na">-</td><td>'+pxTxt(up,dn)+'</td></tr>';
+  }
+  function agRow(k,label){
+    const tr=function(a,b){ const nw=[], ro=[]; if(!a||!b) return null; Object.keys(b).forEach(function(md){ if(!fut(md)||!a[md]||!a[md][k]||!b[md][k]) return; if(a[md][k].so===false&&b[md][k].so===true) nw.push(md); if(a[md][k].so===true&&b[md][k].so===false) ro.push(md); }); return {nw:nw, ro:ro}; };
+    const f=function(t){ if(!t) return '·'; return (t.nw.length?'만실 '+t.nw.join(' '):'')+(t.nw.length&&t.ro.length?' · ':'')+(t.ro.length?'<span class="dc-free">해제 '+t.ro.join(' ')+'</span>':'')||'변화 없음'; };
+    let so=0; scanDays.forEach(function(md){ const c=curRow(md); if(c&&c[k]&&c[k].so===true) so++; });
+    return '<tr><th>'+label+' <span class="dc-na">아고다</span></th><td>'+f(MKT_PREV?tr(MKT_SNAPS[MKT_PREV],MKT_SNAPS[MKT_CUR]):null)+'</td><td>'+(PM_MKT?f(amT?tr(amT,PM_MKT):null):'<span class="dc-na">전</span>')+'</td><td>'+so+'일</td><td class="dc-na">-</td><td class="dc-na">-</td></tr>';
+  }
+  const ydays=[], pdays=[];
+  Object.keys(MKT_SNAPS[MKT_CUR]).forEach(function(md){ if(!fut(md)) return; const cy=compYest(md); if(cy && cy.sold>0) ydays.push({md:md, n:cy.sold}); });
+  if(PM_MKT) Object.keys(PM_MKT).forEach(function(md){ if(!fut(md)) return; const dm=dayMove(md); if(dm.mkt && dm.sold>0) pdays.push({md:md, n:dm.sold}); });
+  let cp='<div class="sm-card sm-wide"><div class="sm-h">경쟁사 <span class="dc-na">지금 = '+(PM_MKT?mdShort(TODAY_KST)+' 저녁':mdShort(MKT_CUR)+' 아침')+' 스캔 '+scanDays.length+'일 기준</span></div>'
+    +'<div class="sm-scroll"><table class="sm-t sm-grid"><thead><tr><th></th><th>어제 판매<br><span class="dc-na">'+(MKT_PREV?mdShort(MKT_PREV)+'→'+mdShort(MKT_CUR)+' 아침'+gapTag(MKT_GAP,1):'직전 없음')+'</span></th><th>오늘 낮 판매<br><span class="dc-na">아침→저녁</span></th><th>지금 만실</th><th>지금 잔여 합</th><th>낮 가격 변화</th></tr></thead><tbody>'
+    +DEC_KEYS.map(rowFor).join('')+priceOnly('hu','호텔휴')+priceOnly('bw','베웨')+agRow('gogo','고고')+agRow('icngh','인천공항게하')
+    +'</tbody></table></div>'
+    +'<div class="sm-foot">많이 팔린 날 — 어제 '+top3(ydays)+(PM_MKT?' · 오늘 낮 '+top3(pdays):'')+(GH_SKIP?' · <span class="dc-na">게하 측정방식 달라 어제 비교 제외</span>':'')+'</div></div>';
+  el.innerHTML='<div class="sm-wrap">'+ou+cp+'</div>';
 }
 function renderDecTable(){
   const rows=DEC_DAYS.map(function(iso){ return DECIDE[mdShort(iso)]; }).filter(function(j){ return !DEC_SIGONLY || SIG[j.s].card; });
@@ -2802,7 +2841,7 @@ function renderDecFoot(){
    +'<div class="tf-box"><div class="tf-h">우리 가격 미확인</div><b>'+priceUnk+'</b>일 <span class="dc-na">(결정표 범위, 완판 제외 · TRACK 현재가 없음)</span></div>'
    +'<div class="tf-box"><div class="tf-h">경쟁사 미확인 칸</div>아침 <b>'+amMiss+'</b>칸'+(amOut?' <span class="dc-na">+ 최신 스캔 범위 밖 '+amOut+'일</span>':'')+' · 저녁 <b>'+pmTxt+'</b> <span class="dc-na">(게하·굿데이·에어포트)</span></div>';
 }
-function renderDecision(){ renderDecHead(); renderDecTodo(); renderDecTable(); renderDecFoot(); }
+function renderDecision(){ renderDecHead(); renderDecTable(); renderDecFoot(); }
 
 renderEventCalendar();
 /* 월 탭 가시성 — 말일이 오늘보다 이전인 달(monthIsPast)은 탭을 아예 숨긴다(데이터는 TRACK에 그대로 남겨
