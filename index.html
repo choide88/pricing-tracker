@@ -960,7 +960,9 @@ function pmView(md){   // {comp, ag, our, key, changes[]} 또는 null
     ['gh','gd','hu','bw','as'].forEach(function(k){ const n=pmComp(me[k],k); if(!n) return; if(txt(c0[k])!==txt(n)) v.changes.push(NM[k]+' '+txt(c0[k])+'→'+txt(n)); v.comp[k]=n; });
     ['gogo','icngh'].forEach(function(k){ const n=pmAgoda(me[k]); if(!n) return; if(txt(a0[k])!==txt(n)) v.changes.push(NM[k]+' '+txt(a0[k])+'→'+txt(n)); v.ag[k]=n; });
   }
-  if(oe){
+  if(oe && oe.curNote){   // 판매마감 등 — 잔여·가격 대신 메모만 표시
+    v.changes.push('우리 '+oe.curNote); v.our.curNote=oe.curNote; v.our.cur=null; v.our.ourN=null;
+  } else if(oe){
     if(oe.n!=null && oe.n!==o0.ourN){ v.changes.push('우리 잔여 '+(o0.ourN==null?'-':o0.ourN)+'→'+oe.n); v.our.ourN=oe.n; }
     if(oe.cur!=null && oe.cur!==o0.cur){ v.changes.push('우리 가격 '+(o0.cur==null?'-':fmt(o0.cur))+'→'+fmt(oe.cur)); v.our.cur=oe.cur; }
   }
@@ -2303,6 +2305,42 @@ const MKT_SNAPS = {
     "11/27": {gh:{p:126000,n:9}, gd:{p:140000,n:8}, as:{p:120000,n:2}, hu:{p:180000,n:null}, bw:{p:268813}, gogo:{p:98351,so:false}, icngh:{p:99645,so:false}},
     "11/28": {gh:{p:162000,n:5}, gd:{p:180000,n:8}, as:{p:null,n:0}, hu:{p:180000,n:null}, bw:{p:290318}, gogo:{p:102661,so:false}, icngh:{p:null,so:true}},
     "11/29": {gh:{p:88200,n:10}, gd:{p:100000,n:8}, as:{p:null,n:0}, hu:{p:120000,n:null}, bw:{p:172040}, gogo:{p:77724,so:false}, icngh:{p:null,so:true}}
+  },
+  "2026-10-26": {   // 10/26 아침 MCP 가격만(브라우저 확장 끊김 — 게하·굿데이 정밀 잔여, 에어포트 만실 판정, 베웨, 아고다 2곳 미측정=null — bw/gogo/icngh 칸 자체를 null). MCP에 없는 게하·굿데이·휴는 만실 n:0, 에어포트는 미확인. 10/26~11/25 + 콘서트일 11/27·28·29
+    "10/26": {gh:{p:79200,n:null}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/27": {gh:{p:null,n:0}, gd:{p:100000,n:null}, as:{p:75000,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/28": {gh:{p:79200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/29": {gh:{p:79200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:160000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/30": {gh:{p:144000,n:null}, gd:{p:160000,n:null}, as:{p:120000,n:null}, hu:{p:200000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/31": {gh:{p:null,n:0}, gd:{p:240000,n:null}, as:{p:null,n:null}, hu:{p:350000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/1": {gh:{p:null,n:0}, gd:{p:140000,n:null}, as:{p:null,n:null}, hu:{p:350000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/2": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/3": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:75000,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/4": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/5": {gh:{p:88200,n:null}, gd:{p:120000,n:null}, as:{p:null,n:null}, hu:{p:200000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/6": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:350000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/7": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:null,n:0}, bw:null, gogo:null, icngh:null},
+    "11/8": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:140000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/9": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/10": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/11": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:67500,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/12": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/13": {gh:{p:126000,n:null}, gd:{p:140000,n:null}, as:{p:null,n:null}, hu:{p:200000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/14": {gh:{p:162000,n:null}, gd:{p:180000,n:null}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/15": {gh:{p:88200,n:null}, gd:{p:160000,n:null}, as:{p:null,n:null}, hu:{p:160000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/16": {gh:{p:88200,n:null}, gd:{p:120000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/17": {gh:{p:88200,n:null}, gd:{p:120000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/18": {gh:{p:88200,n:null}, gd:{p:120000,n:null}, as:{p:67500,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/19": {gh:{p:88200,n:null}, gd:{p:120000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/20": {gh:{p:126000,n:null}, gd:{p:160000,n:null}, as:{p:null,n:null}, hu:{p:200000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/21": {gh:{p:null,n:0}, gd:{p:200000,n:null}, as:{p:null,n:null}, hu:{p:350000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/22": {gh:{p:93600,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:140000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/23": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/24": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:67500,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/25": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:67500,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/27": {gh:{p:126000,n:null}, gd:{p:140000,n:null}, as:{p:120000,n:null}, hu:{p:180000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/28": {gh:{p:162000,n:null}, gd:{p:180000,n:null}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/29": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null}
   }
 };
 const OUR_SNAPS = {
@@ -2463,6 +2501,42 @@ const MKT_SNAPS_PM = {
     "11/27": {gh:{p:126000,n:9}, gd:{p:140000,n:8}, as:{p:120000,n:2}, hu:{p:180000,n:null}, bw:{p:268813}, gogo:{p:98351,so:false}, icngh:{p:96750,so:false}},
     "11/28": {gh:{p:162000,n:5}, gd:{p:180000,n:8}, as:{p:null,n:0}, hu:{p:180000,n:null}, bw:{p:290318}, gogo:{p:102661,so:false}, icngh:{p:null,so:true}},
     "11/29": {gh:{p:88200,n:10}, gd:{p:100000,n:7}, as:{p:null,n:0}, hu:{p:120000,n:null}, bw:{p:172040}, gogo:{p:59397,so:false}, icngh:{p:null,so:true}}
+  },
+  "2026-10-26": {   // 10/26 저녁 MCP 가격만(23시 이후, 브라우저 확장 끊김 — 정밀 잔여·에어포트 만실 판정·베웨·아고다 미측정=null). 10/26은 당일 23시 이후라 4곳 모두 예약불가 → 판매 마감 시각 영향일 수 있어 전부 미확인. 11/7은 4곳 예약불가(아침과 동일) → 게하·굿데이·휴 만실
+    "10/26": {gh:{p:null,n:null}, gd:{p:null,n:null}, as:{p:null,n:null}, hu:{p:null,n:null}, bw:null, gogo:null, icngh:null},
+    "10/27": {gh:{p:null,n:0}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/28": {gh:{p:79200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/29": {gh:{p:79200,n:null}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:140000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/30": {gh:{p:144000,n:null}, gd:{p:120000,n:null}, as:{p:null,n:null}, hu:{p:300000,n:null}, bw:null, gogo:null, icngh:null},
+    "10/31": {gh:{p:null,n:0}, gd:{p:160000,n:null}, as:{p:null,n:null}, hu:{p:300000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/1": {gh:{p:null,n:0}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:350000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/2": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/3": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:140000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/4": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:140000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/5": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:200000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/6": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:350000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/7": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:null,n:0}, bw:null, gogo:null, icngh:null},
+    "11/8": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:140000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/9": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/10": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/11": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/12": {gh:{p:88200,n:null}, gd:{p:120000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/13": {gh:{p:126000,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:200000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/14": {gh:{p:null,n:0}, gd:{p:180000,n:null}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/15": {gh:{p:88200,n:null}, gd:{p:180000,n:null}, as:{p:null,n:null}, hu:{p:160000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/16": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/17": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/18": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/19": {gh:{p:88200,n:null}, gd:{p:100000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/20": {gh:{p:126000,n:null}, gd:{p:160000,n:null}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/21": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/22": {gh:{p:93600,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:140000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/23": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/24": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/25": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/27": {gh:{p:126000,n:null}, gd:{p:140000,n:null}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/28": {gh:{p:162000,n:null}, gd:{p:160000,n:null}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:null, gogo:null, icngh:null},
+    "11/29": {gh:{p:88200,n:null}, gd:{p:80000,n:null}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:null, gogo:null, icngh:null}
   }
 };
 const OUR_SNAPS_PM = {
@@ -2475,6 +2549,16 @@ const OUR_SNAPS_PM = {
     "11/19":{n:12,cur:null}, "11/20":{n:13,cur:null}, "11/21":{n:10,cur:null}, "11/22":{n:13,cur:null}, "11/23":{n:13,cur:null},
     "11/24":{n:13,cur:null}, "11/25":{n:13,cur:null}, "11/26":{n:11,cur:null}, "11/27":{n:13,cur:null}, "11/28":{n:13,cur:null},
     "11/29":{n:12,cur:null}, "11/30":{n:13,cur:null}
+  },
+  "2026-10-26": {   // Sirvoy 10/26 23:27 캡처 · 36일(10/26~11/30). 10/26은 판매마감(Sirvoy에서 닫음 — 판매로 세지 않음), 가격은 10/27만 표시, 나머지 cur:null. 11/7 아침 3→저녁 4(취소 +1)
+    "10/26":{n:null,cur:null,curNote:"판매마감"}, "10/27":{n:8,cur:94500}, "10/28":{n:8,cur:null}, "10/29":{n:6,cur:null}, "10/30":{n:7,cur:null},
+    "10/31":{n:9,cur:null}, "11/1":{n:9,cur:null}, "11/2":{n:11,cur:null}, "11/3":{n:11,cur:null}, "11/4":{n:9,cur:null},
+    "11/5":{n:9,cur:null}, "11/6":{n:6,cur:null}, "11/7":{n:4,cur:null}, "11/8":{n:11,cur:null}, "11/9":{n:12,cur:null},
+    "11/10":{n:9,cur:null}, "11/11":{n:12,cur:null}, "11/12":{n:12,cur:null}, "11/13":{n:10,cur:null}, "11/14":{n:11,cur:null},
+    "11/15":{n:13,cur:null}, "11/16":{n:11,cur:null}, "11/17":{n:9,cur:null}, "11/18":{n:13,cur:null}, "11/19":{n:12,cur:null},
+    "11/20":{n:13,cur:null}, "11/21":{n:10,cur:null}, "11/22":{n:13,cur:null}, "11/23":{n:13,cur:null}, "11/24":{n:13,cur:null},
+    "11/25":{n:13,cur:null}, "11/26":{n:11,cur:null}, "11/27":{n:13,cur:null}, "11/28":{n:12,cur:null}, "11/29":{n:10,cur:null},
+    "11/30":{n:13,cur:null}
   }
 };
 /* 스냅샷별 측정방식 메모. ghMethod:"sum" = 게하 잔여를 요금제(환불불가/일반) 행마다 더한 옛 방식(같은 객실이 두 번 세어짐),
@@ -2498,7 +2582,8 @@ const SIG = {
   event:  {label:'이벤트 경고',    cls:'sg-event',  card:true},
   keep:   {label:'유지',           cls:'sg-keep'},
   watch:  {label:'관망',           cls:'sg-watch'},
-  done:   {label:'완판',           cls:'sg-done'}
+  done:   {label:'완판',           cls:'sg-done'},
+  closed: {label:'판매마감',       cls:'sg-done'}   // Sirvoy에서 판매를 닫은 날(curNote) — 신호·예상 남는 방 계산 제외
 };
 const SIG_ORDER = ['up','hot','fire','d3','pricey','event'];
 
@@ -2619,11 +2704,12 @@ function decideDay(iso){
   const md=mdShort(iso), D=dayDiff(TODAY_KST,iso), cat=dayCat(iso), ev=isEventDay(iso);
   const tr=(TRACK[md]||{}).our||null, os=OUR_CUR && OUR_SNAPS[OUR_CUR][md];
   const po = PM_OUR && PM_OUR[md];   // 오늘 저녁 우리 스냅샷이 있으면 잔여·가격은 저녁 값 우선
-  const rem = po && po.n!=null ? po.n : (os && os.n!=null ? os.n : (tr && tr.ourN!=null ? tr.ourN : null));
+  const closed = !!(po && po.curNote);   // 판매마감(Sirvoy에서 닫음): 잔여를 아침 값으로 되돌리지 않고, 판매로도 세지 않는다
+  const rem = closed ? null : po && po.n!=null ? po.n : (os && os.n!=null ? os.n : (tr && tr.ourN!=null ? tr.ourN : null));
   const cur = po && po.cur!=null ? po.cur : (tr && tr.cur!=null ? tr.cur : null);   // 우리 현재가 = TRACK 저장값(스냅샷에 가격이 없으면 null 그대로 → "가격 미확인")
   const o3=our3(md), cy=compYest(md), m=mktNow(md), late=LATE[cat].val, cap=capOf(iso);
-  const j={iso:iso, md:md, D:D, cat:cat, ev:ev, dow:dowKST(iso), rem:rem, cur:cur, remPm:!!(po && po.n!=null), o3:o3, cy:cy, m:m, late:late, cap:cap};
-  j.pred=predLeft(rem,o3,D,late);
+  const j={iso:iso, md:md, D:D, cat:cat, ev:ev, dow:dowKST(iso), rem:rem, cur:cur, remPm:!!(po && po.n!=null), o3:o3, cy:cy, m:m, late:late, cap:cap, closed:closed, note:closed?po.curNote:null};
+  j.pred=closed ? null : predLeft(rem,o3,D,late);
   j.dm = (D<=1 || (PM_MKT && PM_MKT[md]) || (PM_OUR && PM_OUR[md])) ? dayMove(md) : null;   // 오늘·내일은 항상(저녁 전이면 "저녁 스캔 전"), 그 밖은 저녁 스냅샷에 있을 때만
   j.pc=priceyCheck(cur,o3,m);
   j.booked = rem!=null ? cap-rem : null;
@@ -2634,7 +2720,8 @@ function decideDay(iso){
   const lateTxt = 'LATE '+r1(late)+(LATE[cat].dflt?'(기본값)':'');
   const mTag = m && m.stale ? ' ('+mdShort(m.k)+' 스캔 기준)' : '';   // 최신 스캔 범위 밖이면 시장 근거의 스캔일을 밝힌다
   let s, why;
-  if(rem===0){ s='done'; why='우리 완판'; }
+  if(closed){ s='closed'; why='우리 '+po.curNote+' (Sirvoy 저녁) — 신호·예상 남는 방 계산 제외'; }
+  else if(rem===0){ s='done'; why='우리 완판'; }
   else if(j.pred!=null && ((j.pred===0 && (lowOk||agOk||mSold>=DEC_CFG.mktHot)) || (mSold>=DEC_CFG.mktHot && j.pred<=2))){
     s='up';
     why='예상 남는 방 '+j.pred+' · '+[lowOk?'시장 저가 잔여 '+m.low:'', agOk?'아고다 '+m.agSO.join('·')+' 만실':'', mSold>=DEC_CFG.mktHot?'시장 팔림 '+mSold+gapTag(MKT_GAP,1):''].filter(Boolean).join(' · ')+mTag;
@@ -2681,7 +2768,8 @@ function dayMoveCell(j){
   if(!dm) return '';
   if(dm.pending) return '<span class="dc-na">저녁 스캔 전</span>';
   let h = dm.mkt ? DEC_KEYS.map(function(k){ return moveHtml(dm.per[k], DEC_NAMES[k])+(dm.price[k]?'<span class="'+(dm.price[k]>0?'dc-pup':'dc-pdn')+'">'+(dm.price[k]>0?'▲':'▼')+'</span>':''); }).join(' ') : '<span class="dc-na">경쟁사 아침/저녁 중 없음</span>';
-  if(dm.our!=null) h+=' · <b>우리 '+(dm.our<0?'취소 +'+(-dm.our):dm.our+'실')+'</b>';
+  if(j.closed) h+=' · <span class="dc-na">우리 '+j.note+'</span>';
+  else if(dm.our!=null) h+=' · <b>우리 '+(dm.our<0?'취소 +'+(-dm.our):dm.our+'실')+'</b>';
   return h;
 }
 function pp(c){ if(!c) return '<span class="dc-na">·</span>'; if(c.n===0 && c.p==null) return '<span class="dc-so">만실</span>'; return c.p!=null ? fmt(c.p) : '<span class="dc-na">·</span>'; }
@@ -2711,7 +2799,7 @@ function decRow(j){
   const dl = j.D===0 ? '오늘' : j.D===1 ? '내일' : 'D-'+j.D;
   return '<tr class="dec-row '+(j.cat==='wknd'?'dr-wknd':'')+'" data-md="'+j.md+'">'
     +'<td class="tr-date">'+j.md+' ('+j.dow+')'+evTag(j.iso)+'</td>'
-    +'<td>'+(j.rem==null?'<span class="dc-na">·</span>':j.rem+'/'+j.cap+(j.remPm?' <span class="pm-ic" title="오늘 저녁 Sirvoy 기준">🌙</span>':''))+'</td>'
+    +'<td>'+(j.closed?'<span class="dc-na" title="오늘 저녁 Sirvoy">'+j.note+' 🌙</span>':j.rem==null?'<span class="dc-na">·</span>':j.rem+'/'+j.cap+(j.remPm?' <span class="pm-ic" title="오늘 저녁 Sirvoy 기준">🌙</span>':''))+'</td>'
     +'<td>'+(j.o3?'<span title="'+mdShort(j.o3.from)+' '+j.o3.prevN+' → '+mdShort(OUR_CUR)+' '+j.o3.curN+'">'+our3Txt(j.o3)+'</span>':'<span class="dc-na">·</span>')+'</td>'
     +'<td>'+dl+'</td>'
     +'<td class="dc-pred">'+predCell(j)+'</td>'
@@ -2841,7 +2929,7 @@ function renderDecFoot(){
   const L=LATE;
   const lt=function(c,name){ const x=L[c]; return name+' <b>'+r1(x.val)+'</b> <span class="dc-na">(표본 '+x.n+(x.dflt?', 5개 미만이라 기본값'+(x.avg!=null?' · 실측 평균 '+r1(x.avg):''):'')+')</span>'; };
   const rows=DEC_DAYS.map(function(iso){ return DECIDE[mdShort(iso)]; });
-  const priceUnk=rows.filter(function(j){ return j.rem!==0 && j.cur==null; }).length;
+  const priceUnk=rows.filter(function(j){ return j.rem!==0 && !j.closed && j.cur==null; }).length;
   let amMiss=0, amOut=0;
   rows.forEach(function(j){ const s=MKT_CUR && MKT_SNAPS[MKT_CUR][j.md]; if(!s){ amOut++; return; } DEC_KEYS.forEach(function(k){ if(exactN(s,k)==null) amMiss++; }); });
   let pmTxt='저녁 스캔 없음';
