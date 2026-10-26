@@ -467,7 +467,7 @@ const ASOF_STOCK = "2026-10-25";   // 브라우저 잔여 실측(요청 시에�
 const ASOF_EVENT = "2026-10-17";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-10-25";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = "2026-10-25";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
-const ASOF_OURS = "2026-10-25";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
+const ASOF_OURS = "2026-10-26";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
 // International 15% + 조기/막판 5% 프로모션이 상시 중첩되어 실제 평균 할인은 20% 단일 — 3일전 단계 구분 없음.
 const DISCOUNT_NORMAL = 0.20;
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(×0.80)
@@ -570,12 +570,12 @@ const TRACK = {
   "10/23": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:311823,r:"na"},as:{p:null,r:"so"}}, our:{ourN:1,cur:150000}},
   "10/24": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:1},hu:{p:null,r:"so"},bw:{p:193545,r:"na"},as:{p:null,r:"so"}}, our:{ourN:6,cur:180000}},
   "10/25": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:1},hu:{p:120000,r:"na"},bw:{p:220422,r:"na"},as:{p:null,r:"so"}}, our:{ourN:4,cur:110000}},
-  "10/26": {dow:"월",t:"wkdy", comp:{gh:{p:70560,n:8},gd:{p:null,r:"so"},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:10,cur:93500}},
-  "10/27": {dow:"화",t:"wkdy", comp:{gh:{p:70560,n:2},gd:{p:100000,n:1},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:75000,n:1}}, our:{ourN:10,cur:99000}},
-  "10/28": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:5},gd:{p:80000,n:6},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:12,cur:99000}},
-  "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:70560,n:5},gd:{p:100000,n:1},hu:{p:160000,r:"na"},bw:{p:204298,r:"na"},as:{p:65000,n:1}}, our:{ourN:10,cur:130000}},
-  "10/30": {dow:"금",t:"wknd", comp:{gh:{p:128160,n:1,src:"browser"},gd:{p:200000,n:6},hu:{p:200000,r:"na"},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:10,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] 세븐틴(10/30~11/1)+GOP포커 — 에어포트스테이·베웨 만실, 게하 12.8만 잔1·굿데이 20만 잔6·휴 20만. 아고다 고고 9.9만·인천공항게하 10.1만"}},
-  "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:240000,n:3},hu:{p:250000,r:"na"},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:11,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] 세븐틴+GOP+주말 4중겹침. 게하·베웨·에어포트스테이 만실, 굿데이 24만 잔3·휴 25만. 아고다 고고 10.1만·인천공항게하 12.6만. 하반기 최강 — 최고가 세팅"}},
+  "10/26": {dow:"월",t:"wkdy", comp:{gh:{p:70560,n:8},gd:{p:null,r:"so"},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:6,cur:84000}},
+  "10/27": {dow:"화",t:"wkdy", comp:{gh:{p:70560,n:2},gd:{p:100000,n:1},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:75000,n:1}}, our:{ourN:9,cur:94500}},
+  "10/28": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:5},gd:{p:80000,n:6},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:11,cur:94500}},
+  "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:70560,n:5},gd:{p:100000,n:1},hu:{p:160000,r:"na"},bw:{p:204298,r:"na"},as:{p:65000,n:1}}, our:{ourN:7,cur:130000}},
+  "10/30": {dow:"금",t:"wknd", comp:{gh:{p:128160,n:1,src:"browser"},gd:{p:200000,n:6},hu:{p:200000,r:"na"},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:9,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] 세븐틴(10/30~11/1)+GOP포커 — 에어포트스테이·베웨 만실, 게하 12.8만 잔1·굿데이 20만 잔6·휴 20만. 아고다 고고 9.9만·인천공항게하 10.1만"}},
+  "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:240000,n:3},hu:{p:250000,r:"na"},bw:{p:null,r:"so"},as:{p:null,r:"so"}}, our:{ourN:9,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] 세븐틴+GOP+주말 4중겹침. 게하·베웨·에어포트스테이 만실, 굿데이 24만 잔3·휴 25만. 아고다 고고 10.1만·인천공항게하 12.6만. 하반기 최강 — 최고가 세팅"}},
   "11/1": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:7},hu:{p:200000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:9,cur:150000}},
   "11/2": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:6},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:12,cur:150000}},
   "11/3": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:7},gd:{p:100000,n:8},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:75000,n:1}}, our:{ourN:11,cur:150000}},
@@ -2424,6 +2424,16 @@ const OUR_SNAPS = {
     "11/19":{n:12,cur:null}, "11/20":{n:13,cur:null}, "11/21":{n:10,cur:null}, "11/22":{n:13,cur:null}, "11/23":{n:13,cur:null},
     "11/24":{n:13,cur:null}, "11/25":{n:13,cur:null}, "11/26":{n:11,cur:null}, "11/27":{n:13,cur:null}, "11/28":{n:13,cur:null},
     "11/29":{n:12,cur:null}, "11/30":{n:13,cur:null}
+  },
+  "2026-10-26": {   // Sirvoy 10/26 아침 캡처 · 36일(10/26~11/30). 가격은 10/26~10/28만 표시, 나머지 cur:null
+    "10/26":{n:6,cur:84000}, "10/27":{n:9,cur:94500}, "10/28":{n:11,cur:94500}, "10/29":{n:7,cur:null}, "10/30":{n:9,cur:null},
+    "10/31":{n:9,cur:null}, "11/1":{n:9,cur:null}, "11/2":{n:12,cur:null}, "11/3":{n:11,cur:null}, "11/4":{n:11,cur:null},
+    "11/5":{n:11,cur:null}, "11/6":{n:8,cur:null}, "11/7":{n:3,cur:null}, "11/8":{n:11,cur:null}, "11/9":{n:12,cur:null},
+    "11/10":{n:11,cur:null}, "11/11":{n:12,cur:null}, "11/12":{n:12,cur:null}, "11/13":{n:12,cur:null}, "11/14":{n:12,cur:null},
+    "11/15":{n:13,cur:null}, "11/16":{n:11,cur:null}, "11/17":{n:9,cur:null}, "11/18":{n:13,cur:null}, "11/19":{n:12,cur:null},
+    "11/20":{n:13,cur:null}, "11/21":{n:10,cur:null}, "11/22":{n:13,cur:null}, "11/23":{n:13,cur:null}, "11/24":{n:13,cur:null},
+    "11/25":{n:13,cur:null}, "11/26":{n:11,cur:null}, "11/27":{n:13,cur:null}, "11/28":{n:13,cur:null}, "11/29":{n:12,cur:null},
+    "11/30":{n:13,cur:null}
   }
 };
 /* 저녁 스냅샷(신규) — 형식은 MKT_SNAPS/OUR_SNAPS와 같고, 키 "YYYY-MM-DD"(저녁 스캔일) 안에 그날 저녁 스캔한 숙박일을 담는다(2026-10-25부터 아침과 같은 전 범위).
