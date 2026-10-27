@@ -2711,15 +2711,24 @@ function dayTotal(md){
   const r={per:{}, price:{}, sold:0, freed:0, known:0, up:false, our:null, mkt:false, from:null, to:null, ofrom:null, oto:null, gap:null};
   const a=snapAt(MKT_SNAPS, MKT_SNAPS_PM, md, true), b=snapAt(MKT_SNAPS, MKT_SNAPS_PM, md, false);
   if(a && b){
-    r.mkt=true; r.from=a; r.to=b; r.gap=dayDiff(a.k, TODAY_KST);
-    const skip=(a.pm?'room':ghMethod(a.k))!==(b.pm?'room':ghMethod(b.k));   // 게하 측정방식이 다르면 게하 비교 제외
+    r.mkt=true; r.from=a; r.to=b; r.gap=dayDiff(a.k, TODAY_KST); r.base={}; r.partial=[];
+    // 숙소별 기준: 어제 마지막 스냅샷 → (그 값이 미확인이면) 같은 날 아침 → (그래도 없고 지금이 오늘 저녁이면) 오늘 아침.
+    // 예: 어제 스캔이 MCP 가격만이라 잔여가 없으면 오늘 아침 실측부터 센다(그만큼 "일부"로 표시).
+    const cands=[a];
+    if(a.pm && MKT_SNAPS[a.k] && MKT_SNAPS[a.k][md]) cands.push({k:a.k, pm:false, s:MKT_SNAPS[a.k][md]});
+    if(b.pm && MKT_SNAPS[TODAY_KST] && MKT_SNAPS[TODAY_KST][md]) cands.push({k:TODAY_KST, pm:false, s:MKT_SNAPS[TODAY_KST][md]});
+    r.cands=cands;
+    const meth=function(x){ return x.pm?'room':ghMethod(x.k); };
     DEC_KEYS.forEach(function(k){
-      const d=(k==='gh' && skip) ? null : moveN(a.s,b.s,k); r.per[k]=d;
+      let d=null;
+      for(let i=0;i<cands.length;i++){ const c=cands[i]; if(k==='gh' && meth(c)!==meth(b)) continue; if(exactN(c.s,k)==null) continue; d=moveN(c.s,b.s,k); if(d!=null){ r.base[k]=c; if(c.k===TODAY_KST) r.partial.push(k); } break; }
+      r.per[k]=d;
       if(d!=null){ r.known++; if(d<0) r.sold+=-d; else r.freed+=d; }
     });
     ['gh','gd','as','hu','bw'].forEach(function(k){
-      const p0=a.s[k]&&a.s[k].p, p1=b.s[k]&&b.s[k].p;
-      if(p0!=null && p1!=null && p0!==p1){ r.price[k]=p1>p0?1:-1; if(p1>p0 && DEC_KEYS.indexOf(k)>=0) r.up=true; }
+      const p1=b.s[k]&&b.s[k].p; if(p1==null) return;
+      let p0=null; for(let i=0;i<cands.length;i++){ const c=cands[i]; if(c.s[k] && c.s[k].p!=null){ p0=c.s[k].p; break; } }
+      if(p0!=null && p0!==p1){ r.price[k]=p1>p0?1:-1; if(p1>p0 && DEC_KEYS.indexOf(k)>=0) r.up=true; }
     });
   }
   const oa=snapAt(OUR_SNAPS, OUR_SNAPS_PM, md, true), ob=snapAt(OUR_SNAPS, OUR_SNAPS_PM, md, false);
@@ -2839,7 +2848,7 @@ function dayTotalCell(j){
   if(t.mkt){
     h='<span class="'+(t.sold>=DEC_CFG.mktHot?'dc-hot':'')+'" title="'+snapTag(t.from)+' → '+snapTag(t.to)+' · 숙박일 잔여 감소(박 기준)">'
       +DEC_KEYS.map(function(k){ return moveHtml(t.per[k], DEC_NAMES[k])+(t.price[k]?'<span class="'+(t.price[k]>0?'dc-pup':'dc-pdn')+'">'+(t.price[k]>0?'▲':'▼')+'</span>':''); }).join(' ')
-      +(t.known?' <span class="dc-sum">합 '+t.sold+'</span>':'')+gapTag(t.gap,1)+'</span>';
+      +(t.known?' <span class="dc-sum">합 '+t.sold+'</span>':'')+gapTag(t.gap,1)+(t.partial.length?' <span class="dc-na" title="'+t.partial.map(function(k){return DEC_NAMES[k];}).join('·')+'는 어제 잔여 미확인 → 오늘 아침부터">*</span>':'')+'</span>';
   } else h='<span class="dc-na">비교할 스캔 없음</span>';
   if(j.closed) h+=' · <span class="dc-na">우리 '+j.note+'</span>';
   else if(t.our!=null) h+=' · <b title="'+snapTag(t.ofrom)+' '+t.ofrom.s.n+' → '+snapTag(t.oto)+' '+t.oto.s.n+'">우리 '+(t.our<0?'취소 +'+(-t.our):t.our+'실')+'</b>';
@@ -2953,9 +2962,9 @@ function renderDecHead(){
   function pxTxt(up,dn){ return (up.length?'<span class="dc-pup">▲</span>'+up.join(' '):'')+(up.length&&dn.length?' · ':'')+(dn.length?'<span class="dc-pdn">▼</span>'+dn.join(' '):'')||'<span class="dc-na">-</span>'; }
   function pxOf(k){ const up=[], dn=[]; scanDays.forEach(function(md){ const v=DT[md].price[k]; if(v>0) up.push(md); else if(v<0) dn.push(md); }); return pxTxt(up,dn); }
   function rowFor(k){
-    let ds=0, df=0, dk=0, so=0, rem=0;
-    scanDays.forEach(function(md){ const d=DT[md].per[k]; if(d!=null){ dk++; if(d<0) ds+=-d; else df+=d; } const n=exactN(curRow(md),k); if(n===0) so++; else if(n!=null) rem+=n; });
-    return '<tr><th>'+DEC_NAMES[k]+'</th><td>'+(dk?'<b>'+ds+'</b>'+(df?' <span class="dc-free">풀림 +'+df+'</span>':''):'·')+'</td><td>'+so+'일</td><td>'+rem+'실</td><td>'+pxOf(k)+'</td></tr>';
+    let ds=0, df=0, dk=0, so=0, rem=0, pa=0;
+    scanDays.forEach(function(md){ const t=DT[md], d=t.per[k]; if(d!=null){ dk++; if(t.partial.indexOf(k)>=0) pa++; if(d<0) ds+=-d; else df+=d; } const n=exactN(curRow(md),k); if(n===0) so++; else if(n!=null) rem+=n; });
+    return '<tr><th>'+DEC_NAMES[k]+'</th><td>'+(dk?'<b>'+ds+'</b>'+(df?' <span class="dc-free">풀림 +'+df+'</span>':'')+' <span class="dc-na">('+dk+'/'+scanDays.length+'일 비교'+(pa?', '+pa+'일은 오늘 아침부터':'')+')</span>':'<span class="dc-na">· 비교 불가(잔여 미확인)</span>')+'</td><td>'+so+'일</td><td>'+rem+'실</td><td>'+pxOf(k)+'</td></tr>';
   }
   function priceOnly(k,label){
     let so=0; scanDays.forEach(function(md){ const c=curRow(md); if(c && c[k] && c[k].p==null && (k==='bw' || c[k].n===0)) so++; });
@@ -2963,7 +2972,7 @@ function renderDecHead(){
   }
   function agRow(k,label){
     const nw=[], ro=[]; let so=0;
-    scanDays.forEach(function(md){ const t=DT[md], c=curRow(md); if(c&&c[k]&&c[k].so===true) so++; if(!t.mkt) return; const a=t.from.s[k], b=t.to.s[k]; if(!a||!b) return; if(a.so===false&&b.so===true) nw.push(md); if(a.so===true&&b.so===false) ro.push(md); });
+    scanDays.forEach(function(md){ const t=DT[md], c=curRow(md); if(c&&c[k]&&c[k].so===true) so++; if(!t.mkt) return; let a=null; for(let i=0;i<t.cands.length;i++){ if(t.cands[i].s[k]){ a=t.cands[i].s[k]; break; } } const b=t.to.s[k]; if(!a||!b) return; if(a.so===false&&b.so===true) nw.push(md); if(a.so===true&&b.so===false) ro.push(md); });
     const f=(nw.length?'만실 '+nw.join(' '):'')+(nw.length&&ro.length?' · ':'')+(ro.length?'<span class="dc-free">해제 '+ro.join(' ')+'</span>':'')||'변화 없음';
     return '<tr><th>'+label+' <span class="dc-na">아고다</span></th><td>'+f+'</td><td>'+so+'일</td><td class="dc-na">-</td><td class="dc-na">-</td></tr>';
   }
