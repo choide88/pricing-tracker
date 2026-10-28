@@ -203,6 +203,7 @@
   .sm-wrap{display:grid;grid-template-columns:minmax(260px,1fr) minmax(0,2fr);gap:10px;}
   @media (max-width:860px){ .sm-wrap{grid-template-columns:1fr;} }
   .sm-card{border:1px solid var(--tr-line);border-radius:10px;padding:9px 12px;background:var(--tr-bg);min-width:0;}
+  .dc-hu{font-size:10.5px;color:var(--tr-muted);}
   .sm-h{font-weight:700;font-size:13.5px;margin:0 0 6px;} .sm-h .dc-na{font-size:11px;font-weight:400;margin-left:4px;}
   table.sm-t{border-collapse:collapse;width:100%;font-size:12px;} .sm-t th,.sm-t td{padding:4px 6px;border-bottom:1px solid var(--tr-line);text-align:left;vertical-align:top;color:var(--tr-ink);background:transparent;}
   .sm-t tbody th{font-weight:600;color:var(--tr-muted);white-space:nowrap;} .sm-grid thead th{font-size:11px;color:var(--tr-muted);font-weight:600;white-space:nowrap;background:var(--tr-soft);}
@@ -462,12 +463,12 @@
 <script>
 /* ── 날짜 상수·환율 ─────────────────────────────────────── */
 // 데이터 기준일 6종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
-const ASOF_PRICE = "2026-10-27";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
-const ASOF_STOCK = "2026-10-27";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
+const ASOF_PRICE = "2026-10-28";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
+const ASOF_STOCK = "2026-10-28";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-10-17";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
-const ASOF_AGODA = "2026-10-27";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
-const ASOF_AGODA_STOCK = "2026-10-27";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
-const ASOF_OURS = "2026-10-27";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
+const ASOF_AGODA = "2026-10-28";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
+const ASOF_AGODA_STOCK = "2026-10-28";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
+const ASOF_OURS = "2026-10-28";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
 // International 15% + 조기/막판 5% 프로모션이 상시 중첩되어 실제 평균 할인은 20% 단일 — 3일전 단계 구분 없음.
 const DISCOUNT_NORMAL = 0.20;
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(×0.80)
@@ -571,40 +572,39 @@ const TRACK = {
   "10/24": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:1},hu:{p:null,r:"so"},bw:{p:193545,r:"na"},as:{p:null,r:"so"}}, our:{ourN:6,cur:180000}},
   "10/25": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:1},hu:{p:120000,r:"na"},bw:{p:220422,r:"na"},as:{p:null,r:"so"}}, our:{ourN:4,cur:110000}},
   "10/26": {dow:"월",t:"wkdy", comp:{gh:{p:70560,n:8},gd:{p:null,r:"so"},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:6,cur:84000}},
-  "10/27": {dow:"화",t:"wkdy", comp:{gh:{p:null,r:"so"},gd:{p:100000,n:1},hu:{p:120000,r:"na"},bw:{p:139686,r:"na"},as:{p:null,r:"na"}}, our:{ourN:7,cur:94500}},
-  "10/28": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:4},gd:{p:80000,n:7},hu:{p:120000,r:"na"},bw:{p:152084,r:"na"},as:{p:null,r:"na"}}, our:{ourN:8,cur:94500}},
-  "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:79200,n:4},gd:{p:null,r:"so"},hu:{p:140000,r:"na"},bw:{p:187703,r:"na"},as:{p:null,r:"na"}}, our:{ourN:6,cur:130000}},
-  "10/30": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:1},gd:{p:120000,n:6},hu:{p:300000,r:"na"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:7,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] 세븐틴(10/30~11/1)+GOP포커 — 에어포트스테이·베웨 만실, 게하 12.8만 잔1·굿데이 20만 잔6·휴 20만. 아고다 고고 9.9만·인천공항게하 10.1만"}},
-  "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:160000,n:2},hu:{p:300000,r:"na"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:9,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] 세븐틴+GOP+주말 4중겹침. 게하·베웨·에어포트스테이 만실, 굿데이 24만 잔3·휴 25만. 아고다 고고 10.1만·인천공항게하 12.6만. 하반기 최강 — 최고가 세팅"}},
-  "11/1": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:7},hu:{p:350000,r:"na"},bw:{p:193545,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:150000}},
-  "11/2": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:6},gd:{p:80000,n:8},hu:{p:120000,r:"na"},bw:{p:158342,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:150000}},
-  "11/3": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:7},gd:{p:80000,n:8},hu:{p:140000,r:"na"},bw:{p:156808,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:150000}},
-  "11/4": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:8},gd:{p:80000,n:8},hu:{p:140000,r:"na"},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:150000}},
-  "11/5": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:3},gd:{p:80000,n:8},hu:{p:200000,r:"na"},bw:{p:285895,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:150000}},
-  "11/6": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:350000,r:"na"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:6,cur:300000}},
-  "11/7": {dow:"토",t:"wknd", comp:{gh:{p:162000,n:1},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:4,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] GOP포커 9일차+MCR+SKY FESTIVAL 겹침 — 부킹 5곳(게하·굿데이·휴·베웨·에어포트스테이) 전부 만실, 아고다 고고·인천공항게하도 만실. 포커 단독일 약함·콘서트 겹침일만 강함 원칙과 일치"}},
-  "11/8": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:9},gd:{p:100000,n:4},hu:{p:140000,r:"na"},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:150000}},
-  "11/9": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:7},gd:{p:80000,n:8},hu:{p:120000,r:"na"},bw:{p:135703,r:"na"},as:{p:null,r:"na"}}, our:{ourN:12,cur:143000}},
-  "11/10": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,r:"na"},bw:{p:138548,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:143000}},
-  "11/11": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:9},gd:{p:100000,n:8},hu:{p:120000,r:"na"},bw:{p:150535,r:"na"},as:{p:67500,n:1}}, our:{ourN:12,cur:143000}},
+  "10/28": {dow:"수",t:"wkdy", comp:{gh:{p:79200,n:4},gd:{p:80000,n:6},hu:{p:120000,n:18},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:4,cur:94500}},
+  "10/29": {dow:"목",t:"wkdy", comp:{gh:{p:79200,n:3},gd:{p:null,r:"so"},hu:{p:140000,n:8},bw:{p:204298,r:"na"},as:{p:null,r:"na"}}, our:{ourN:5,cur:130000}},
+  "10/30": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:1},gd:{p:120000,n:4},hu:{p:300000,n:3},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:7,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] 세븐틴(10/30~11/1)+GOP포커 — 에어포트스테이·베웨 만실, 게하 12.8만 잔1·굿데이 20만 잔6·휴 20만. 아고다 고고 9.9만·인천공항게하 10.1만"}},
+  "10/31": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:2},hu:{p:300000,n:1},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:8,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] 세븐틴+GOP+주말 4중겹침. 게하·베웨·에어포트스테이 만실, 굿데이 24만 잔3·휴 25만. 아고다 고고 10.1만·인천공항게하 12.6만. 하반기 최강 — 최고가 세팅"}},
+  "11/1": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:5},hu:{p:300000,n:1},bw:{p:193545,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:150000}},
+  "11/2": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:6},gd:{p:80000,n:7},hu:{p:120000,n:17},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:150000}},
+  "11/3": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:7},gd:{p:80000,n:7},hu:{p:140000,n:10,approx:true},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:150000}},
+  "11/4": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:8},gd:{p:80000,n:7},hu:{p:140000,n:14},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:150000}},
+  "11/5": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:3},gd:{p:80000,n:6},hu:{p:160000,n:7},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:8,cur:150000}},
+  "11/6": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:350000,n:1},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:8,cur:300000}},
+  "11/7": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:2},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:3,cur:300000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] GOP포커 9일차+MCR+SKY FESTIVAL 겹침 — 부킹 5곳(게하·굿데이·휴·베웨·에어포트스테이) 전부 만실, 아고다 고고·인천공항게하도 만실. 포커 단독일 약함·콘서트 겹침일만 강함 원칙과 일치"}},
+  "11/8": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:9},gd:{p:100000,n:4},hu:{p:140000,n:17},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:10,cur:150000}},
+  "11/9": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:7},gd:{p:80000,n:7},hu:{p:120000,n:16,approx:true},bw:{p:150535,r:"na"},as:{p:null,r:"na"}}, our:{ourN:12,cur:143000}},
+  "11/10": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:21,approx:true},bw:{p:150535,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:143000}},
+  "11/11": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:22,approx:true},bw:{p:150535,r:"na"},as:{p:null,r:"na"}}, our:{ourN:12,cur:143000}},
   "11/12": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:9},gd:{p:100000,n:4},hu:{p:120000,r:"na"},bw:{p:161288,r:"na"},as:{p:67500,n:2}}, our:{ourN:12,cur:143000}},
-  "11/13": {dow:"금",t:"wknd", comp:{gh:{p:126000,n:7},gd:{p:100000,n:8},hu:{p:200000,r:"na"},bw:{p:212222,r:"na"},as:{p:null,r:"na"}}, our:{ourN:10,cur:193000}},
-  "11/14": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:4},hu:{p:180000,r:"na"},bw:{p:226512,r:"na"},as:{p:null,r:"na"}}, our:{ourN:10,cur:193000}},
-  "11/15": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:5},gd:{p:180000,n:2},hu:{p:160000,r:"na"},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:193000}},
+  "11/13": {dow:"금",t:"wknd", comp:{gh:{p:126000,n:7},gd:{p:100000,n:8},hu:{p:200000,n:11},bw:{p:236555,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:193000}},
+  "11/14": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:4},hu:{p:200000,n:3},bw:{p:247308,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:193000}},
+  "11/15": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:5},gd:{p:180000,n:2},hu:{p:160000,n:18},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:193000}},
   "11/16": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:9},gd:{p:100000,n:8},hu:{p:120000,r:"na"},bw:{p:150535,r:"na"},as:{p:null,r:"so"}}, our:{ourN:11,cur:143000}},
   "11/17": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:150535,r:"na"},as:{p:null,r:"so"}}, our:{ourN:9,cur:143000}},
   "11/18": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:100000,n:5},hu:{p:120000,r:"na"},bw:{p:150535,r:"na"},as:{p:null,r:"so"}}, our:{ourN:13,cur:143000}},
   "11/19": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:7},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:67500,n:1}}, our:{ourN:12,cur:143000}},
   "11/20": {dow:"금",t:"wknd", comp:{gh:{p:162000,n:8},gd:{p:160000,n:2},hu:{p:180000,r:"na"},bw:{p:311823,r:"na"},as:{p:120000,n:1}}, our:{ourN:13,cur:193000}},
-  "11/21": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:180000,r:"na"},bw:{p:349452,r:"na"},as:{p:null,r:"na"}}, our:{ourN:10,cur:250000}},
-  "11/22": {dow:"일",t:"wknd", comp:{gh:{p:93600,n:8},gd:{p:80000,n:7},hu:{p:140000,r:"na"},bw:{p:149014,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:193000}},
+  "11/21": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:180000,n:7},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:10,cur:250000}},
+  "11/22": {dow:"일",t:"wknd", comp:{gh:{p:117000,n:8},gd:{p:80000,n:7},hu:{p:140000,n:19,approx:true},bw:{p:150535,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:193000}},
   "11/23": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:7},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"},as:{p:81000,n:1}}, our:{ourN:13,cur:143000}},
   "11/24": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"},as:{p:67500,n:1}}, our:{ourN:13,cur:143000}},
   "11/25": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"},as:{p:null,r:"so"}}, our:{ourN:13,cur:143000}},
-  "11/26": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:1},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:11,cur:143000}},
-  "11/27": {dow:"금",t:"wknd", comp:{gh:{p:126000,n:9},gd:{p:140000,n:6},hu:{p:180000,r:"na"},bw:{p:216138,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:250000}},
-  "11/28": {dow:"토",t:"wknd", comp:{gh:{p:162000,n:5},gd:{p:160000,n:8},hu:{p:180000,r:"na"},bw:{p:272888,r:"na"},as:{p:null,r:"na"}}, our:{ourN:12,cur:250000}},
-  "11/29": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,r:"na"},bw:{p:166731,r:"na"},as:{p:null,r:"na"}}, our:{ourN:10,cur:193000}},
+  "11/26": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:1},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:10,cur:143000}},
+  "11/27": {dow:"금",t:"wknd", comp:{gh:{p:126000,n:8},gd:{p:140000,n:6},hu:{p:180000,n:17,approx:true},bw:{p:268813,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:250000}},
+  "11/28": {dow:"토",t:"wknd", comp:{gh:{p:162000,n:5},gd:{p:160000,n:7},hu:{p:180000,n:13},bw:{p:290318,r:"na"},as:{p:null,r:"na"}}, our:{ourN:12,cur:250000}},
+  "11/29": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:23,approx:true},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:193000}},
   "11/30": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:8},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"},as:{p:67500,n:1}}, our:{ourN:13,cur:143000}},
   "12/4": {dow:"금",t:"wknd", comp:{gh:{p:129600,r:"na"},gd:{p:180000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}},
   "12/5": {dow:"토",t:"wknd", comp:{gh:{p:129600,r:"na"},gd:{p:180000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}},
@@ -692,39 +692,39 @@ const AGODA_COMP = {
   "10/25": {gogo:{p:79157}, icngh:{p:null,r:"so"}},
   "10/26": {gogo:{p:59367}, icngh:{p:50841}},
   "10/27": {gogo:{p:73184}, icngh:{p:62467}},
-  "10/28": {gogo:{p:58458}, icngh:{p:50570}},
-  "10/29": {gogo:{p:60530}, icngh:{p:null,r:"so"}},
-  "10/30": {gogo:{p:98631}, icngh:{p:null,r:"so"}},
-  "10/31": {gogo:{p:105253}, icngh:{p:null,r:"so"}},
-  "11/1": {gogo:{p:70938}, icngh:{p:null,r:"so"}},
-  "11/2": {gogo:{p:70823}, icngh:{p:85075}},
-  "11/3": {gogo:{p:58892}, icngh:{p:null,r:"so"}},
-  "11/4": {gogo:{p:60530}, icngh:{p:null,r:"so"}},
-  "11/5": {gogo:{p:96148}, icngh:{p:null,r:"so"}},
-  "11/6": {gogo:{p:99039}, icngh:{p:null,r:"so"}},
+  "10/28": {gogo:{p:57493}, icngh:{p:58369}},
+  "10/29": {gogo:{p:73825}, icngh:{p:null,r:"so"}},
+  "10/30": {gogo:{p:97272}, icngh:{p:null,r:"so"}},
+  "10/31": {gogo:{p:104964}, icngh:{p:null,r:"so"}},
+  "11/1": {gogo:{p:69462}, icngh:{p:null,r:"so"}},
+  "11/2": {gogo:{p:70631}, icngh:{p:null,r:"so"}},
+  "11/3": {gogo:{p:58077}, icngh:{p:null,r:"so"}},
+  "11/4": {gogo:{p:60429}, icngh:{p:null,r:"so"}},
+  "11/5": {gogo:{p:94834}, icngh:{p:82365}},
+  "11/6": {gogo:{p:98871}, icngh:{p:null,r:"so"}},
   "11/7": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}},
-  "11/8": {gogo:{p:75974}, icngh:{p:null,r:"so"}},
-  "11/9": {gogo:{p:58892}, icngh:{p:53618}},
-  "11/10": {gogo:{p:60530}, icngh:{p:null,r:"so"}},
-  "11/11": {gogo:{p:59851}, icngh:{p:55351}},
+  "11/8": {gogo:{p:75767}, icngh:{p:null,r:"so"}},
+  "11/9": {gogo:{p:58077}, icngh:{p:69106}},
+  "11/10": {gogo:{p:60429}, icngh:{p:85351}},
+  "11/11": {gogo:{p:58630}, icngh:{p:69786}},
   "11/12": {gogo:{p:62269}, icngh:{p:57859}},
-  "11/13": {gogo:{p:113552}, icngh:{p:null,r:"so"}},
+  "11/13": {gogo:{p:111535}, icngh:{p:127076}},
   "11/14": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}},
-  "11/15": {gogo:{p:85454}, icngh:{p:null,r:"so"}},
+  "11/15": {gogo:{p:84271}, icngh:{p:51425}},
   "11/16": {gogo:{p:63376}, icngh:{p:null,r:"so"}},
   "11/17": {gogo:{p:59851}, icngh:{p:null,r:"so"}},
   "11/18": {gogo:{p:62269}, icngh:{p:null,r:"so"}},
   "11/19": {gogo:{p:60341}, icngh:{p:55859}},
   "11/20": {gogo:{p:104662}, icngh:{p:103834}},
-  "11/21": {gogo:{p:98431}, icngh:{p:null,r:"so"}},
-  "11/22": {gogo:{p:91120}, icngh:{p:null,r:"so"}},
+  "11/21": {gogo:{p:97074}, icngh:{p:null,r:"so"}},
+  "11/22": {gogo:{p:90969}, icngh:{p:null,r:"so"}},
   "11/23": {gogo:{p:59788}, icngh:{p:68610}},
   "11/24": {gogo:{p:62244}, icngh:{p:57832}},
   "11/25": {gogo:{p:60341}, icngh:{p:null,r:"so"}},
   "11/26": {gogo:{p:62797}, icngh:{p:null,r:"so"}},
-  "11/27": {gogo:{p:98431}, icngh:{p:null,r:"so"}},
-  "11/28": {gogo:{p:100883}, icngh:{p:null,r:"so"}},
-  "11/29": {gogo:{p:59445}, icngh:{p:null,r:"so"}},
+  "11/27": {gogo:{p:97074}, icngh:{p:116368}},
+  "11/28": {gogo:{p:100715}, icngh:{p:null,r:"so"}},
+  "11/29": {gogo:{p:58630}, icngh:{p:null,r:"so"}},
   "11/30": {gogo:{p:62244}, icngh:{p:57832}}
 };
 
@@ -2366,6 +2366,31 @@ const MKT_SNAPS = {
     "11/27": {gh:{p:126000,n:9}, gd:{p:140000,n:6}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:{p:216138}, gogo:{p:98431,so:false}, icngh:{p:null,so:true}},
     "11/28": {gh:{p:162000,n:5}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:null}, bw:{p:272888}, gogo:{p:100883,so:false}, icngh:{p:null,so:true}},
     "11/29": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:null}, bw:{p:166731}, gogo:{p:59445,so:false}, icngh:{p:null,so:true}}
+  },
+  "2026-10-28": {   // 10/28 아침 스캔 · 10/28~11/11 + 콘서트일 11/13·14·15·21·22·27·28·29. 게하·굿데이·휴 잔여 정밀(객실유형별 1회, 휴는 오늘부터 — 드롭다운 상한 10에 걸린 객실유형 있으면 approx), 가격은 공개가(Genius 표시가÷0.9 = MCP와 일치), 베웨 가격만, 아고다 둘 다 실측. 에어포트스테이는 부킹 "현재 저희 사이트에서 예약하실 수 없습니다" 페이지 → 전부 미확인
+    "10/28": {gh:{p:79200,n:4}, gd:{p:80000,n:6}, as:{p:null,n:null}, hu:{p:120000,n:18}, bw:{p:172040}, gogo:{p:57493,so:false}, icngh:{p:58369,so:false}},
+    "10/29": {gh:{p:79200,n:3}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:140000,n:8}, bw:{p:204298}, gogo:{p:73825,so:false}, icngh:{p:null,so:true}},
+    "10/30": {gh:{p:144000,n:1}, gd:{p:120000,n:4}, as:{p:null,n:null}, hu:{p:300000,n:3}, bw:{p:null}, gogo:{p:97272,so:false}, icngh:{p:null,so:true}},
+    "10/31": {gh:{p:null,n:0}, gd:{p:180000,n:2}, as:{p:null,n:null}, hu:{p:300000,n:1}, bw:{p:null}, gogo:{p:104964,so:false}, icngh:{p:null,so:true}},
+    "11/1": {gh:{p:null,n:0}, gd:{p:80000,n:5}, as:{p:null,n:null}, hu:{p:300000,n:1}, bw:{p:193545}, gogo:{p:69462,so:false}, icngh:{p:null,so:true}},
+    "11/2": {gh:{p:88200,n:6}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:120000,n:17}, bw:{p:172040}, gogo:{p:70631,so:false}, icngh:{p:null,so:true}},
+    "11/3": {gh:{p:88200,n:7}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:140000,n:10,approx:true}, bw:{p:172040}, gogo:{p:58077,so:false}, icngh:{p:null,so:true}},
+    "11/4": {gh:{p:88200,n:8}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:140000,n:14}, bw:{p:161288}, gogo:{p:60429,so:false}, icngh:{p:null,so:true}},
+    "11/5": {gh:{p:88200,n:3}, gd:{p:80000,n:6}, as:{p:null,n:null}, hu:{p:160000,n:7}, bw:{p:null}, gogo:{p:94834,so:false}, icngh:{p:82365,so:false}},
+    "11/6": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:350000,n:1}, bw:{p:null}, gogo:{p:98871,so:false}, icngh:{p:null,so:true}},
+    "11/7": {gh:{p:null,n:0}, gd:{p:200000,n:2}, as:{p:null,n:null}, hu:{p:null,n:0}, bw:{p:null}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "11/8": {gh:{p:88200,n:9}, gd:{p:100000,n:4}, as:{p:null,n:null}, hu:{p:140000,n:17}, bw:{p:172040}, gogo:{p:75767,so:false}, icngh:{p:null,so:true}},
+    "11/9": {gh:{p:88200,n:7}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:120000,n:16,approx:true}, bw:{p:150535}, gogo:{p:58077,so:false}, icngh:{p:69106,so:false}},
+    "11/10": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:21,approx:true}, bw:{p:150535}, gogo:{p:60429,so:false}, icngh:{p:85351,so:false}},
+    "11/11": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:22,approx:true}, bw:{p:150535}, gogo:{p:58630,so:false}, icngh:{p:69786,so:false}},
+    "11/13": {gh:{p:126000,n:7}, gd:{p:100000,n:8}, as:{p:null,n:null}, hu:{p:200000,n:11}, bw:{p:236555}, gogo:{p:111535,so:false}, icngh:{p:127076,so:false}},
+    "11/14": {gh:{p:null,n:0}, gd:{p:180000,n:4}, as:{p:null,n:null}, hu:{p:200000,n:3}, bw:{p:247308}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "11/15": {gh:{p:88200,n:5}, gd:{p:180000,n:2}, as:{p:null,n:null}, hu:{p:160000,n:18}, bw:{p:161288}, gogo:{p:84271,so:false}, icngh:{p:51425,so:false}},
+    "11/21": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:180000,n:7}, bw:{p:null}, gogo:{p:97074,so:false}, icngh:{p:null,so:true}},
+    "11/22": {gh:{p:117000,n:8}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:140000,n:19,approx:true}, bw:{p:150535}, gogo:{p:90969,so:false}, icngh:{p:null,so:true}},
+    "11/27": {gh:{p:126000,n:8}, gd:{p:140000,n:6}, as:{p:null,n:null}, hu:{p:180000,n:17,approx:true}, bw:{p:268813}, gogo:{p:97074,so:false}, icngh:{p:116368,so:false}},
+    "11/28": {gh:{p:162000,n:5}, gd:{p:160000,n:7}, as:{p:null,n:null}, hu:{p:180000,n:13}, bw:{p:290318}, gogo:{p:100715,so:false}, icngh:{p:null,so:true}},
+    "11/29": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:172040}, gogo:{p:58630,so:false}, icngh:{p:null,so:true}}
   }
 };
 const OUR_SNAPS = {
@@ -2506,6 +2531,15 @@ const OUR_SNAPS = {
     "11/16":{n:11,cur:null}, "11/17":{n:9,cur:null}, "11/18":{n:13,cur:null}, "11/19":{n:12,cur:null}, "11/20":{n:13,cur:null},
     "11/21":{n:10,cur:null}, "11/22":{n:13,cur:null}, "11/23":{n:13,cur:null}, "11/24":{n:13,cur:null}, "11/25":{n:13,cur:null},
     "11/26":{n:11,cur:null}, "11/27":{n:13,cur:null}, "11/28":{n:12,cur:null}, "11/29":{n:10,cur:null}, "11/30":{n:13,cur:null}
+  },
+  "2026-10-28": {   // Sirvoy 10/28 아침 캡처 · 34일(10/28~11/30). 가격 미표시 → cur 전부 null. 11/7 어젯밤 2 → 오늘 아침 3(취소 +1)
+    "10/28":{n:4,cur:null}, "10/29":{n:5,cur:null}, "10/30":{n:7,cur:null}, "10/31":{n:8,cur:null}, "11/1":{n:9,cur:null},
+    "11/2":{n:11,cur:null}, "11/3":{n:11,cur:null}, "11/4":{n:9,cur:null}, "11/5":{n:8,cur:null}, "11/6":{n:8,cur:null},
+    "11/7":{n:3,cur:null}, "11/8":{n:10,cur:null}, "11/9":{n:12,cur:null}, "11/10":{n:9,cur:null}, "11/11":{n:12,cur:null},
+    "11/12":{n:12,cur:null}, "11/13":{n:9,cur:null}, "11/14":{n:9,cur:null}, "11/15":{n:13,cur:null}, "11/16":{n:11,cur:null},
+    "11/17":{n:9,cur:null}, "11/18":{n:13,cur:null}, "11/19":{n:12,cur:null}, "11/20":{n:13,cur:null}, "11/21":{n:10,cur:null},
+    "11/22":{n:13,cur:null}, "11/23":{n:13,cur:null}, "11/24":{n:13,cur:null}, "11/25":{n:13,cur:null}, "11/26":{n:10,cur:null},
+    "11/27":{n:13,cur:null}, "11/28":{n:12,cur:null}, "11/29":{n:11,cur:null}, "11/30":{n:13,cur:null}
   }
 };
 /* 저녁 스냅샷(신규) — 형식은 MKT_SNAPS/OUR_SNAPS와 같고, 키 "YYYY-MM-DD"(저녁 스캔일) 안에 그날 저녁 스캔한 숙박일을 담는다(2026-10-25부터 아침과 같은 전 범위).
@@ -2637,7 +2671,9 @@ const MKT_SNAP_META = { "2026-09-13": {ghMethod:"sum"}, "2026-10-05": {ghMethod:
    가격 자동 제안(PRICE_RULES·제안가·범위 밖·차트 3개)은 폐지. 이 블록은 "무엇을 볼지"만 정리하고 가격은 사람이 정한다.
    아침 스냅샷 = MKT_SNAPS / OUR_SNAPS, 저녁 스냅샷 = MKT_SNAPS_PM / OUR_SNAPS_PM(아침과 같은 전 범위).
    계산 정의는 CLAUDE.md "시장 추세 · 결정표" 절과 1:1로 맞춘다. */
-const DEC_KEYS = ['gh','gd','as'];   // 경쟁사 판매·시장 저가 잔여 = 게하·굿데이·에어포트(정확값만: n 또는 만실 n:0)
+const DEC_KEYS = ['gh','gd','as'];   // 시장 저가 잔여·신호의 "시장 팔림 합" = 게하·굿데이·에어포트(정확값만: n 또는 만실 n:0)
+const SALE_KEYS = ['gh','gd','as','hu'];   // 경쟁사 "오늘 판매" 표시 = 게하·굿데이·에어포트·휴(휴는 가격대가 달라 저가 잔여·신호 합에는 넣지 않음)
+const HU_EXACT_FROM = "2026-10-28";   // 휴 정밀 잔여(객실유형별 합) 시작 스캔일 — 그 전 스냅샷의 휴 값(가격만·만실 n:0)은 비교에 쓰지 않는다
 const DEC_NAMES = {gh:'게하', gd:'굿데이', as:'에어포트', hu:'휴', bw:'베웨'};
 const LATE_DEFAULT = {wkdy:3, wknd:5}, LATE_MIN_N = 5;   // 막판 판매량 표본이 5개 미만이면 기본값
 const DEC_CFG = {horizon:14, mktHot:3, lowStock:2, priceGap:0.20, d3Margin:2, redLeft:6};
@@ -2664,6 +2700,8 @@ function isWkndStay(iso){ const d=dowKST(iso); return d==='금'||d==='토'; }
 function dayCat(iso){ return (isWkndStay(iso)||isEventDay(iso)) ? 'wknd' : 'wkdy'; }
 function ghMethod(d){ return (MKT_SNAP_META[d]||{}).ghMethod||'room'; }
 function exactN(s,k){ const c=s&&s[k]; return c && c.n!=null ? c.n : null; }
+// 스캔일(day)까지 고려한 정확값 — 휴는 HU_EXACT_FROM 이전 스냅샷이면 미확인 취급
+function exactAt(s,k,day){ return (k==='hu' && day<HU_EXACT_FROM) ? null : exactN(s,k); }
 function amKeys(obj){ return Object.keys(obj).filter(function(k){return k<=TODAY_KST;}).sort(); }
 const AM_MKT = amKeys(MKT_SNAPS), AM_OUR = amKeys(OUR_SNAPS);
 const MKT_CUR = AM_MKT[AM_MKT.length-1]||null, MKT_PREV = AM_MKT[AM_MKT.length-2]||null;
@@ -2690,13 +2728,15 @@ function our3Txt(o){ if(!o) return '·'; return (o.sold<0 ? '취소 +'+(-o.sold)
 // 두 스냅샷 행 사이 증감(정확값끼리만). 음수=팔림, 양수=풀림, null=미확인
 function moveN(a,b,k){ const x=exactN(a,k), y=exactN(b,k); return (x==null||y==null) ? null : y-x; }
 // 스냅샷 고르기 — before=false: 오늘 최신(저녁 있으면 저녁, 없으면 아침) / before=true: 오늘 이전의 가장 최근(같은 날은 저녁 우선)
-function snapAt(am, pm, md, before){
+//     day를 주면 그 날 기준(예: 어제 판매 = 그저께 마지막 → 어제 마지막)
+function snapAt(am, pm, md, before, day){
+  day = day || TODAY_KST;
   if(!before){
-    if(pm[TODAY_KST] && pm[TODAY_KST][md]) return {k:TODAY_KST, pm:true, s:pm[TODAY_KST][md]};
-    if(am[TODAY_KST] && am[TODAY_KST][md]) return {k:TODAY_KST, pm:false, s:am[TODAY_KST][md]};
+    if(pm[day] && pm[day][md]) return {k:day, pm:true, s:pm[day][md]};
+    if(am[day] && am[day][md]) return {k:day, pm:false, s:am[day][md]};
     return null;
   }
-  const ks={}; Object.keys(am).concat(Object.keys(pm)).forEach(function(k){ if(k<TODAY_KST) ks[k]=1; });
+  const ks={}; Object.keys(am).concat(Object.keys(pm)).forEach(function(k){ if(k<day) ks[k]=1; });
   const keys=Object.keys(ks).sort().reverse();
   for(let i=0;i<keys.length;i++){ const k=keys[i];
     if(pm[k] && pm[k][md]) return {k:k, pm:true, s:pm[k][md]};
@@ -2706,9 +2746,15 @@ function snapAt(am, pm, md, before){
 }
 function snapTag(x){ return x ? mdShort(x.k)+(x.pm?' 저녁':' 아침') : '-'; }
 // (b) 오늘 판매 = 어제 마지막 스냅샷(저녁 있으면 저녁) → 지금(오늘 저녁 있으면 저녁, 없으면 오늘 아침). 아침/저녁으로 나누지 않는다.
-//     잔여 감소 합(숙박일별)이라 여러 박 예약은 박마다 센다. 경쟁사는 게하·굿데이·에어포트 정확값끼리만, 가격 ▲▼는 휴·베웨 포함.
+//     잔여 감소 합(숙박일별)이라 여러 박 예약은 박마다 센다. 경쟁사는 게하·굿데이·에어포트·휴 정확값끼리만(휴는 HU_EXACT_FROM 이후 스냅샷끼리),
+//     sold=4곳 합, soldLow=게하·굿데이·에어포트 합(신호의 시장 팔림 합). 가격 ▲▼는 베웨 포함.
+// 우리 잔여 변화 — day 이전 마지막 Sirvoy 캡처 → day의 마지막 캡처(판매마감 등 n:null이면 null)
+function ourMove(md, day){
+  const a=snapAt(OUR_SNAPS, OUR_SNAPS_PM, md, true, day), b=snapAt(OUR_SNAPS, OUR_SNAPS_PM, md, false, day);
+  return (a && b) ? {from:a, to:b, d:(a.s.n!=null && b.s.n!=null) ? a.s.n-b.s.n : null} : null;
+}
 function dayTotal(md){
-  const r={per:{}, price:{}, sold:0, freed:0, known:0, up:false, our:null, mkt:false, from:null, to:null, ofrom:null, oto:null, gap:null};
+  const r={per:{}, price:{}, sold:0, soldLow:0, freed:0, known:0, up:false, our:null, mkt:false, from:null, to:null, ofrom:null, oto:null, gap:null};
   const a=snapAt(MKT_SNAPS, MKT_SNAPS_PM, md, true), b=snapAt(MKT_SNAPS, MKT_SNAPS_PM, md, false);
   if(a && b){
     r.mkt=true; r.from=a; r.to=b; r.gap=dayDiff(a.k, TODAY_KST); r.base={}; r.partial=[];
@@ -2719,11 +2765,11 @@ function dayTotal(md){
     if(b.pm && MKT_SNAPS[TODAY_KST] && MKT_SNAPS[TODAY_KST][md]) cands.push({k:TODAY_KST, pm:false, s:MKT_SNAPS[TODAY_KST][md]});
     r.cands=cands;
     const meth=function(x){ return x.pm?'room':ghMethod(x.k); };
-    DEC_KEYS.forEach(function(k){
-      let d=null;
-      for(let i=0;i<cands.length;i++){ const c=cands[i]; if(k==='gh' && meth(c)!==meth(b)) continue; if(exactN(c.s,k)==null) continue; d=moveN(c.s,b.s,k); if(d!=null){ r.base[k]=c; if(c.k===TODAY_KST) r.partial.push(k); } break; }
+    SALE_KEYS.forEach(function(k){
+      let d=null; const y=exactAt(b.s,k,b.k);
+      for(let i=0;i<cands.length && y!=null;i++){ const c=cands[i]; if(k==='gh' && meth(c)!==meth(b)) continue; const x=exactAt(c.s,k,c.k); if(x==null) continue; d=y-x; r.base[k]=c; if(c.k===TODAY_KST) r.partial.push(k); break; }
       r.per[k]=d;
-      if(d!=null){ r.known++; if(d<0) r.sold+=-d; else r.freed+=d; }
+      if(d!=null){ r.known++; if(d<0){ r.sold+=-d; if(DEC_KEYS.indexOf(k)>=0) r.soldLow+=-d; } else r.freed+=d; }
     });
     ['gh','gd','as','hu','bw'].forEach(function(k){
       const p1=b.s[k]&&b.s[k].p; if(p1==null) return;
@@ -2731,8 +2777,8 @@ function dayTotal(md){
       if(p0!=null && p0!==p1){ r.price[k]=p1>p0?1:-1; if(p1>p0 && DEC_KEYS.indexOf(k)>=0) r.up=true; }
     });
   }
-  const oa=snapAt(OUR_SNAPS, OUR_SNAPS_PM, md, true), ob=snapAt(OUR_SNAPS, OUR_SNAPS_PM, md, false);
-  if(oa && ob){ r.ofrom=oa; r.oto=ob; if(oa.s.n!=null && ob.s.n!=null) r.our=oa.s.n-ob.s.n; }
+  const om=ourMove(md);
+  if(om){ r.ofrom=om.from; r.oto=om.to; r.our=om.d; }
   return r;
 }
 // (d) 시장 = 오늘 저녁 스냅샷(있으면) 또는 이 숙박일이 들어있는 가장 최근 아침 스냅샷. 저가 잔여 = 게하+굿데이+에어포트(정확값만)
@@ -2798,7 +2844,7 @@ function decideDay(iso){
   j.pred=closed ? null : predLeft(rem,o3,D,late);
   j.pc=priceyCheck(cur,o3,m);
   j.booked = rem!=null ? cap-rem : null;
-  const mSold = dt.mkt ? dt.sold : 0;   // 시장 팔림 합 = 오늘 판매(게하·굿데이·에어포트)
+  const mSold = dt.mkt ? dt.soldLow : 0;   // 시장 팔림 합 = 오늘 판매(게하·굿데이·에어포트 — 휴 제외)
   const gTag = dt.mkt ? gapTag(dt.gap,1) : '';
   const lowOk = !!(m && m.low!=null && !m.partial && m.low<=DEC_CFG.lowStock);
   const agOk = !!(m && m.agSO.length);
@@ -2814,7 +2860,7 @@ function decideDay(iso){
   }
   else if(mSold>=DEC_CFG.mktHot){ s='hot'; why='오늘 시장 팔림 '+mSold+gTag+' · 예상 남는 방 '+(j.pred==null?'미확인':j.pred)+' — 할인 말고 유지'; }
   else if(D<=1 && cat==='wkdy' && j.pred!=null && j.pred>0 && roomLeft){
-    if(dt.mkt && (dt.sold>=2 || dt.up)){ s='keep'; why='오늘 경쟁사 '+(dt.sold>=2?dt.sold+'실 팔림':'')+(dt.sold>=2&&dt.up?' · ':'')+(dt.up?'가격 인상':'')+' — 떨이 보류, 유지'; }
+    if(dt.mkt && (dt.soldLow>=2 || dt.up)){ s='keep'; why='오늘 경쟁사 '+(dt.soldLow>=2?dt.soldLow+'실 팔림':'')+(dt.soldLow>=2&&dt.up?' · ':'')+(dt.up?'가격 인상':'')+' — 떨이 보류, 유지'; }
     else { s='fire'; why='평일 '+(D===0?'오늘':'내일')+' 체크인 · 예상 남는 방 '+j.pred+' · 게하/굿데이 방 남음'+mTag+(PM_MKT?'':' (저녁 스캔 전)'); }
   }
   else if(D<=3 && j.pred!=null && j.pred>=late+DEC_CFG.d3Margin){ s='d3'; why='예상 남는 방 '+j.pred+' ≥ '+lateTxt+' + '+DEC_CFG.d3Margin; }
@@ -2846,21 +2892,23 @@ function moveHtml(d, name){
 function dayTotalCell(j){
   const t=j.dt; let h;
   if(t.mkt){
-    h='<span class="'+(t.sold>=DEC_CFG.mktHot?'dc-hot':'')+'" title="'+snapTag(t.from)+' → '+snapTag(t.to)+' · 숙박일 잔여 감소(박 기준)">'
-      +DEC_KEYS.map(function(k){ return moveHtml(t.per[k], DEC_NAMES[k])+(t.price[k]?'<span class="'+(t.price[k]>0?'dc-pup':'dc-pdn')+'">'+(t.price[k]>0?'▲':'▼')+'</span>':''); }).join(' ')
-      +(t.known?' <span class="dc-sum">합 '+t.sold+'</span>':'')+gapTag(t.gap,1)+(t.partial.length?' <span class="dc-na" title="'+t.partial.map(function(k){return DEC_NAMES[k];}).join('·')+'는 어제 잔여 미확인 → 오늘 아침부터">*</span>':'')+'</span>';
+    h='<span class="'+(t.soldLow>=DEC_CFG.mktHot?'dc-hot':'')+'" title="'+snapTag(t.from)+' → '+snapTag(t.to)+' · 숙박일 잔여 감소(박 기준) · 합=4곳, 신호용 시장 팔림(휴 제외) '+t.soldLow+'">'
+      +SALE_KEYS.map(function(k){ return moveHtml(t.per[k], DEC_NAMES[k])+(t.price[k]?'<span class="'+(t.price[k]>0?'dc-pup':'dc-pdn')+'">'+(t.price[k]>0?'▲':'▼')+'</span>':''); }).join(' ')
+      +(t.known?' <span class="dc-sum">합 '+t.sold+'</span>':'')+gapTag(t.gap,1)+(t.partial.length?' <span class="dc-na" title="'+t.partial.map(function(k){return DEC_NAMES[k];}).join('·')+'는 어제 잔여 미확인(휴는 정밀 잔여 시작 전) → 오늘 아침부터">*</span>':'')+'</span>';
   } else h='<span class="dc-na">비교할 스캔 없음</span>';
   if(j.closed) h+=' · <span class="dc-na">우리 '+j.note+'</span>';
   else if(t.our!=null) h+=' · <b title="'+snapTag(t.ofrom)+' '+t.ofrom.s.n+' → '+snapTag(t.oto)+' '+t.oto.s.n+'">우리 '+(t.our<0?'취소 +'+(-t.our):t.our+'실')+'</b>';
   return h;
 }
 function pp(c){ if(!c) return '<span class="dc-na">·</span>'; if(c.n===0 && c.p==null) return '<span class="dc-so">만실</span>'; return c.p!=null ? fmt(c.p) : '<span class="dc-na">·</span>'; }
+function huTxt(m){ const c=m.s.hu; if(!c) return '<span class="dc-na">·</span>'; const n=exactAt(m.s,'hu',m.k); if(n===0) return '만실'; return (c.p!=null?fmt(c.p):'·')+(n!=null?' · 잔 '+n+(c.approx?'+':''):''); }
 function mktCell(m){
   if(!m) return '<span class="dc-na">스캔 없음</span>';
   const ag=m.agSO.map(function(n){ return '<span class="dc-ag" title="아고다 '+n+' 만실">●</span>'; }).join('');
   return '<span class="dc-mp">게하 '+pp(m.s.gh)+' · 굿데이 '+pp(m.s.gd)+'</span><br>'
     +'<span title="게하+굿데이+에어포트 정확값 합'+(m.partial?' — 미확인: '+m.miss.map(function(k){return DEC_NAMES[k];}).join('·'):'')+'">저가 잔여 <b>'+(m.low==null?'미확인':m.low)+'</b>'+(m.partial?' <span class="dc-na">일부</span>':'')+'</span>'
-    +(ag?' '+ag:'')+(m.pm?' <span class="pm-ic" title="오늘 저녁 스캔 기준">🌙</span>':'')+(m.stale?' <span class="dc-na" title="이 숙박일이 들어있는 가장 최근 스캔">('+mdShort(m.k)+' 기준)</span>':'');
+    +(ag?' '+ag:'')+'<br><span class="dc-hu" title="호텔휴 — 가격대가 달라 저가 잔여에는 넣지 않음">휴 '+huTxt(m)+'</span>'
+    +(m.pm?' <span class="pm-ic" title="오늘 저녁 스캔 기준">🌙</span>':'')+(m.stale?' <span class="dc-na" title="이 숙박일이 들어있는 가장 최근 스캔">('+mdShort(m.k)+' 기준)</span>':'');
 }
 function predCell(j){
   if(j.pred==null) return '<span class="dc-na">·</span>';
@@ -2923,7 +2971,7 @@ function decDetail(md){
   for(let i=hk.length-1;i>=1;i--){
     const a=MKT_SNAPS[hk[i-1]][md], b=MKT_SNAPS[hk[i]][md], skip=ghMethod(hk[i-1])!==ghMethod(hk[i]);
     const g=dayDiff(hk[i-1],hk[i]);
-    hist+='<li><b>'+mdShort(hk[i-1])+'→'+mdShort(hk[i])+'</b>'+gapTag(g,1)+' '+DEC_KEYS.map(function(k){ return moveHtml((k==='gh'&&skip)?null:moveN(a,b,k), DEC_NAMES[k]); }).join(' ')+'</li>';
+    hist+='<li><b>'+mdShort(hk[i-1])+'→'+mdShort(hk[i])+'</b>'+gapTag(g,1)+' '+SALE_KEYS.map(function(k){ const x=exactAt(a,k,hk[i-1]), y=exactAt(b,k,hk[i]); return moveHtml((k==='gh'&&skip)||x==null||y==null?null:y-x, DEC_NAMES[k]); }).join(' ')+'</li>';
   }
   return '<div class="dc-detail">'+svg+'<div class="dc-hist"><b>경쟁사 팔림·풀림 이력</b><ul>'+(hist||'<li class="dc-na">비교할 스캔 없음</li>')+'</ul></div></div>';
 }
@@ -2932,14 +2980,22 @@ function renderDecHead(){
   if(!MKT_CUR){ el.innerHTML='<p class="cap">시장 스냅샷이 없습니다.</p>'; return; }
   const fut=function(md){ return dISO(md)>=TODAY_KST; };
   const top3=function(a){ a.sort(function(x,y){ return y.n-x.n || (dISO(x.md)<dISO(y.md)?-1:1); }); return a.length ? a.slice(0,3).map(function(d){ return d.md+'('+d.n+')'; }).join(' ') : '없음'; };
-  // ── 우리 숙소 ── 오늘 판매 = 어제 마지막 Sirvoy 캡처 → 지금(오늘 저녁 있으면 저녁)
-  const ourNow = (OUR_SNAPS_PM[TODAY_KST]) || OUR_SNAPS[TODAY_KST] || {};
-  const oT={sold:0, cancel:0, days:[], from:null, to:null};
-  Object.keys(ourNow).forEach(function(md){
-    if(!fut(md)) return; const t=dayTotal(md); if(t.our==null) return;
-    if(!oT.from || t.ofrom.k<oT.from.k) oT.from=t.ofrom; oT.to=t.oto;
-    if(t.our>0){ oT.sold+=t.our; oT.days.push({md:md, n:t.our}); } else if(t.our<0) oT.cancel+=-t.our;
-  });
+  // ── 우리 숙소 ── 오늘 판매 = 어제 마지막 Sirvoy 캡처 → 지금(오늘 저녁 있으면 저녁) / 어제 판매 = 그저께 마지막 → 어제 마지막
+  function ourSum(day){
+    const now=(OUR_SNAPS_PM[day]) || OUR_SNAPS[day] || {};
+    const o={sold:0, cancel:0, days:[], cdays:[], from:null, to:null};
+    Object.keys(now).forEach(function(md){
+      if(dISO(md)<day) return; const t=ourMove(md, day); if(!t || t.d==null) return;
+      if(!o.from || t.from.k<o.from.k) o.from=t.from; o.to=t.to;
+      if(t.d>0){ o.sold+=t.d; o.days.push({md:md, n:t.d}); } else if(t.d<0){ o.cancel+=-t.d; o.cdays.push(md); }
+    });
+    return o;
+  }
+  const oT=ourSum(TODAY_KST), oY=ourSum(isoShift(TODAY_KST,-1));
+  const ourLine=function(label,o){
+    return '<tr><th>'+label+(o.from?' <span class="dc-na">('+snapTag(o.from)+' → '+snapTag(o.to)+')</span>':'')+'</th><td>'
+      +(o.from ? '<b title="숙박일별 잔여 감소 합 — 여러 박 예약은 박마다 셈">'+o.sold+'실·박</b>'+(o.cancel?' <span class="dc-free" title="'+o.cdays.join(' ')+'">(취소 +'+o.cancel+')</span>':'')+(o.days.length?' <span class="dc-na">— '+top3(o.days.slice())+'</span>':'') : '<span class="dc-na">비교할 캡처 없음</span>')+'</td></tr>';
+  };
   let o3sold=0, o3n=0;
   Object.keys(OUR_SNAPS[OUR_CUR]||{}).forEach(function(md){ if(!fut(md)) return; const o=our3(md); if(o){ o3n++; if(o.sold>0) o3sold+=o.sold; } });
   const near=DEC_DAYS.filter(function(iso){ return dayDiff(TODAY_KST,iso)<=DEC_CFG.horizon; }).map(function(iso){ return DECIDE[mdShort(iso)]; });
@@ -2947,8 +3003,7 @@ function renderDecHead(){
   const soldOut=near.filter(function(j){ return j.rem===0; }).map(function(j){ return j.md; });
   const most=near.filter(function(j){ return j.rem!=null && j.rem>0; }).map(function(j){ return {md:j.md, n:j.rem}; });
   let ou='<div class="sm-card"><div class="sm-h">우리 숙소</div><table class="sm-t"><tbody>'
-    +'<tr><th>오늘 판매'+(oT.from?' <span class="dc-na">('+snapTag(oT.from)+' → '+snapTag(oT.to)+')</span>':'')+'</th><td>'
-      +(oT.from ? '<b title="숙박일별 잔여 감소 합 — 여러 박 예약은 박마다 셈">'+oT.sold+'실·박</b>'+(oT.cancel?' <span class="dc-free">(취소 +'+oT.cancel+')</span>':'')+(oT.days.length?' <span class="dc-na">— '+top3(oT.days.slice())+'</span>':'') : '<span class="dc-na">비교할 캡처 없음</span>')+'</td></tr>'
+    +ourLine('오늘 판매',oT)+ourLine('어제 판매',oY)
     +'<tr><th>최근 3일 판매</th><td><b>'+o3sold+'실·박</b> <span class="dc-na">('+o3n+'일 합)</span></td></tr>'
     +'<tr><th>남은 방 (오늘~D+'+DEC_CFG.horizon+')</th><td><b>'+remSum+'</b> / '+capSum+'실'+(PM_OUR?' <span class="dc-na">(저녁 기준)</span>':'')+'</td></tr>'
     +'<tr><th>완판 날짜</th><td>'+(soldOut.length?soldOut.join(' · '):'없음')+'</td></tr>'
@@ -2961,10 +3016,11 @@ function renderDecHead(){
   let from=null; scanDays.forEach(function(md){ const t=DT[md]; if(t.mkt && (!from || t.from.k<from.k || (t.from.k===from.k && !t.from.pm && from.pm))) from=t.from; });
   function pxTxt(up,dn){ return (up.length?'<span class="dc-pup">▲</span>'+up.join(' '):'')+(up.length&&dn.length?' · ':'')+(dn.length?'<span class="dc-pdn">▼</span>'+dn.join(' '):'')||'<span class="dc-na">-</span>'; }
   function pxOf(k){ const up=[], dn=[]; scanDays.forEach(function(md){ const v=DT[md].price[k]; if(v>0) up.push(md); else if(v<0) dn.push(md); }); return pxTxt(up,dn); }
+  const curKey = PM_MKT ? TODAY_KST : MKT_CUR;
   function rowFor(k){
     let ds=0, df=0, dk=0, so=0, rem=0, pa=0;
-    scanDays.forEach(function(md){ const t=DT[md], d=t.per[k]; if(d!=null){ dk++; if(t.partial.indexOf(k)>=0) pa++; if(d<0) ds+=-d; else df+=d; } const n=exactN(curRow(md),k); if(n===0) so++; else if(n!=null) rem+=n; });
-    return '<tr><th>'+DEC_NAMES[k]+'</th><td>'+(dk?'<b>'+ds+'</b>'+(df?' <span class="dc-free">풀림 +'+df+'</span>':'')+' <span class="dc-na">('+dk+'/'+scanDays.length+'일 비교'+(pa?', '+pa+'일은 오늘 아침부터':'')+')</span>':'<span class="dc-na">· 비교 불가(잔여 미확인)</span>')+'</td><td>'+so+'일</td><td>'+rem+'실</td><td>'+pxOf(k)+'</td></tr>';
+    scanDays.forEach(function(md){ const t=DT[md], d=t.per[k]; if(d!=null){ dk++; if(t.partial.indexOf(k)>=0) pa++; if(d<0) ds+=-d; else df+=d; } const n=exactAt(curRow(md),k,curKey); if(n===0) so++; else if(n!=null) rem+=n; });
+    return '<tr><th>'+DEC_NAMES[k]+(k==='hu'?' <span class="dc-na" title="가격대가 달라 시장 저가 잔여·신호 합에는 넣지 않음">별도</span>':'')+'</th><td>'+(dk?'<b>'+ds+'</b>'+(df?' <span class="dc-free">풀림 +'+df+'</span>':'')+' <span class="dc-na">('+dk+'/'+scanDays.length+'일 비교'+(pa?', '+pa+'일은 오늘 아침부터':'')+')</span>':'<span class="dc-na">· 비교 불가('+(k==='hu' && (!from || from.k<HU_EXACT_FROM) && !pa ?'정밀 잔여 2회째부터':'잔여 미확인')+')</span>')+'</td><td>'+so+'일</td><td>'+rem+'실</td><td>'+pxOf(k)+'</td></tr>';
   }
   function priceOnly(k,label){
     let so=0; scanDays.forEach(function(md){ const c=curRow(md); if(c && c[k] && c[k].p==null && (k==='bw' || c[k].n===0)) so++; });
@@ -2979,7 +3035,7 @@ function renderDecHead(){
   const tdays=[]; scanDays.forEach(function(md){ const t=DT[md]; if(t.mkt && t.sold>0) tdays.push({md:md, n:t.sold}); });
   let cp='<div class="sm-card sm-wide"><div class="sm-h">경쟁사 <span class="dc-na">지금 = '+(PM_MKT?mdShort(TODAY_KST)+' 저녁':mdShort(MKT_CUR)+' 아침')+' 스캔 '+scanDays.length+'일 기준</span></div>'
     +'<div class="sm-scroll"><table class="sm-t sm-grid"><thead><tr><th></th><th>오늘 판매<br><span class="dc-na">'+(from?snapTag(from)+' → 지금':'비교할 스캔 없음')+'</span></th><th>지금 만실</th><th>지금 잔여 합</th><th>오늘 가격 변화</th></tr></thead><tbody>'
-    +DEC_KEYS.map(rowFor).join('')+priceOnly('hu','호텔휴')+priceOnly('bw','베웨')+agRow('gogo','고고')+agRow('icngh','인천공항게하')
+    +SALE_KEYS.map(rowFor).join('')+priceOnly('bw','베웨')+agRow('gogo','고고')+agRow('icngh','인천공항게하')
     +'</tbody></table></div>'
     +'<div class="sm-foot">오늘 많이 팔린 날 — '+top3(tdays)+'</div></div>';
   el.innerHTML='<div class="sm-wrap">'+ou+cp+'</div>';
@@ -2996,13 +3052,13 @@ function renderDecFoot(){
   const rows=DEC_DAYS.map(function(iso){ return DECIDE[mdShort(iso)]; });
   const priceUnk=rows.filter(function(j){ return j.rem!==0 && !j.closed && j.cur==null; }).length;
   let amMiss=0, amOut=0;
-  rows.forEach(function(j){ const s=MKT_CUR && MKT_SNAPS[MKT_CUR][j.md]; if(!s){ amOut++; return; } DEC_KEYS.forEach(function(k){ if(exactN(s,k)==null) amMiss++; }); });
+  rows.forEach(function(j){ const s=MKT_CUR && MKT_SNAPS[MKT_CUR][j.md]; if(!s){ amOut++; return; } SALE_KEYS.forEach(function(k){ if(exactAt(s,k,MKT_CUR)==null && !(k==='hu' && MKT_CUR<HU_EXACT_FROM)) amMiss++; }); });
   let pmTxt='저녁 스캔 없음';
-  if(PM_MKT){ let pmMiss=0; Object.keys(PM_MKT).forEach(function(md){ const s=PM_MKT[md]; DEC_KEYS.forEach(function(k){ if(exactN(s,k)==null) pmMiss++; }); }); pmTxt=pmMiss+'칸 <span class="dc-na">('+Object.keys(PM_MKT).length+'일)</span>'; }
+  if(PM_MKT){ let pmMiss=0; Object.keys(PM_MKT).forEach(function(md){ const s=PM_MKT[md]; SALE_KEYS.forEach(function(k){ if(exactAt(s,k,TODAY_KST)==null) pmMiss++; }); }); pmTxt=pmMiss+'칸 <span class="dc-na">('+Object.keys(PM_MKT).length+'일)</span>'; }
   document.getElementById('trFoot').innerHTML=
     '<div class="tf-box"><div class="tf-h">막판 판매량 LATE</div>'+lt('wkdy','평일')+'<br>'+lt('wknd','주말·이벤트')+'</div>'
    +'<div class="tf-box"><div class="tf-h">우리 가격 미확인</div><b>'+priceUnk+'</b>일 <span class="dc-na">(결정표 범위, 완판 제외 · TRACK 현재가 없음)</span></div>'
-   +'<div class="tf-box"><div class="tf-h">경쟁사 미확인 칸</div>아침 <b>'+amMiss+'</b>칸'+(amOut?' <span class="dc-na">+ 최신 스캔 범위 밖 '+amOut+'일</span>':'')+' · 저녁 <b>'+pmTxt+'</b> <span class="dc-na">(게하·굿데이·에어포트)</span></div>';
+   +'<div class="tf-box"><div class="tf-h">경쟁사 미확인 칸</div>아침 <b>'+amMiss+'</b>칸'+(amOut?' <span class="dc-na">+ 최신 스캔 범위 밖 '+amOut+'일</span>':'')+' · 저녁 <b>'+pmTxt+'</b> <span class="dc-na">(게하·굿데이·에어포트·휴)</span></div>';
 }
 function renderDecision(){ renderDecHead(); renderDecTable(); renderDecFoot(); }
 
