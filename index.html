@@ -283,6 +283,7 @@
     <button id="tab-m10" class="tab">② 10월</button>
     <button id="tab-m11" class="tab">③ 11월</button>
     <button id="tab-m12" class="tab">④ 12월</button>
+    <button id="tab-m1" class="tab">1월(2027)</button>
     <button id="tab-trend" class="tab">⑤ 시장 추세</button>
     <button id="tab-evt" class="tab">⑥ 이벤트 캘린더</button>
     <button id="tab-ops" class="tab">⑦ 운영기준</button>
@@ -340,10 +341,23 @@
     </thead><tbody id="body-m12"></tbody></table>
   </div>
 
+  <div id="panel-m1" class="panel" hidden>
+    <h2>1월(2027) <span class="cap-inline">오늘 이후 날짜만 표시</span></h2>
+    <table class="montable"><thead>
+      <tr class="grouprow"><th class="date"></th>
+          <th colspan="5" class="grp-bk">부킹닷컴</th>
+          <th colspan="2" class="grp-ag">아고다</th>
+          <th colspan="2"></th><th></th></tr>
+      <tr><th class="date">날짜</th><th class="bkcol">게하</th><th class="bkcol">굿데이</th><th class="bkcol">호텔휴</th><th class="bkcol">베웨</th><th class="bkcol">에어포트스테이</th>
+          <th class="agcol">고고하우스</th><th class="agcol">인천공항게하</th>
+          <th class="our2">우리 현재가</th><th class="our2">우리 잔여</th><th class="evcell">이벤트</th></tr>
+    </thead><tbody id="body-m1"></tbody></table>
+  </div>
+
   <div id="panel-trend" class="panel" hidden>
     <h2>시장 추세 <span class="cap-inline">우리·경쟁사 판매 요약 · 날짜별 결정표(아침/저녁) — 가격 자동 제안 없음, 결정은 사람이</span></h2>
     <div id="trHead" class="tr-head"></div>
-    <h3 class="tr-h3">① 날짜별 결정표 <span class="cap-inline">오늘~D+14 + 그 이후 콘서트일 · 행을 누르면 이력</span></h3>
+    <h3 class="tr-h3">① 날짜별 결정표 <span class="cap-inline">오늘~D+14 + 그 이후 콘서트일(11/30까지) · 행을 누르면 이력</span></h3>
     <div class="tr-toolbar">보기 <button id="trAll" class="tr-btn" type="button">전체</button><button id="trSig" class="tr-btn" type="button">신호 있는 날만</button></div>
     <div class="tr-scroll"><table class="trtable"><thead><tr>
       <th>숙박일</th><th>우리 잔여</th><th>우리 3일 판매</th><th>D-</th><th>예상 남는 방</th><th>오늘 판매<br><span class="dc-na">어제 마지막 스캔 → 지금</span></th><th>시장</th><th>신호</th>
@@ -465,7 +479,7 @@
 // 데이터 기준일 6종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
 const ASOF_PRICE = "2026-10-28";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
 const ASOF_STOCK = "2026-10-28";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
-const ASOF_EVENT = "2026-10-17";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
+const ASOF_EVENT = "2026-10-28";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-10-28";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = "2026-10-28";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
 const ASOF_OURS = "2026-10-28";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
@@ -473,10 +487,10 @@ const ASOF_OURS = "2026-10-28";    // 우리 숙소(TRACK[*].our) 잔여·현재
 const DISCOUNT_NORMAL = 0.20;
 const netRate = p => p==null?null:Math.round(p*(1-DISCOUNT_NORMAL));      // 표시가 → 실수령(×0.80)
 const listOf = p => p==null?null:Math.round(p/(1-DISCOUNT_NORMAL));       // 실수령 → 표시가 환산(÷0.80)
-// 총 객실수(잔여 비율 판정 분모) — 날짜 구간별. ~2026-09-30=11실, 2026-10-01~(10월 전체)=13실(증실). 지난 날짜는 화면에 안 뜨므로 별도 구간 불필요.
+// 총 객실수(잔여 비율 판정 분모) — 날짜 구간별. ~2026-09-30=11실, 2026-10-01~2027-01-31=13실(증실). 지난 날짜는 화면에 안 뜨므로 별도 구간 불필요.
 const CAPACITY_RULES = [
   {from:"2026-01-01", to:"2026-09-30", n:11},
-  {from:"2026-10-01", to:"2026-12-31", n:13}
+  {from:"2026-10-01", to:"2027-01-31", n:13}
 ];
 function capOf(dateStr){
   for(const r of CAPACITY_RULES){ if(dateStr>=r.from && dateStr<=r.to) return r.n; }
@@ -494,7 +508,6 @@ const BK_LINKS = {
 // · as 17024816(에어포트스테이, 부킹 표기명 "Incheon Airport Yeongjong Guesthouse", 2026-10-11 추가 — 트윈·디럭스 트리플 소형).
 // MCP 이름검색: "Incheon Airport Stay Guesthouse" / "Good Day Airtel" / "Hotel Hu Incheon Airport" / "Incheon Airport Yeongjong Guesthouse".
 const BK_PARAMS = "group_adults=2&no_rooms=1&group_children=0";
-const BK_YEAR = parseInt(ASOF_PRICE,10)||2026;
 // 우리 숙소(hotel_id 16359322, 슬러그 확인됨) — 우리 현재가 셀 링크용.
 const OUR_BK_URL = "https://www.booking.com/hotel/kr/paradise-walk-residence.ko.html";
 
@@ -510,7 +523,11 @@ const KDOW=["일","월","화","수","목","금","토"];
 function dowKST(iso){ return KDOW[new Date(iso+"T12:00:00+09:00").getDay()]; }
 function msKST(iso){ return new Date(iso+"T12:00:00+09:00").getTime(); }
 function isoShift(iso,days){ const p=iso.split('-').map(Number); const d=new Date(Date.UTC(p[0],p[1]-1,p[2])+days*86400000); return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0'); }
-function dISO(d){ const p=d.split('/'); return BK_YEAR+'-'+String(+p[0]).padStart(2,'0')+'-'+String(+p[1]).padStart(2,'0'); }
+// 연도 처리 — TRACK 등의 키는 "M/D"(연도 없음). 실제 날짜는 모두 dISO()/yearOfMonth()로 구한다(요일·D-·과거 숨김·월 탭·신호 공통).
+// 기준 = 오늘(KST)의 연도. 키의 월이 오늘 월보다 6개월 이상 앞서면 다음 해(10월에 "1/14"→2027), 6개월 이상 뒤면 전년(1월에 "9/12"→2026).
+function yearOfMonth(m){ const ty=+TODAY_KST.slice(0,4), d=m-(+TODAY_KST.slice(5,7)); return d<=-6 ? ty+1 : d>=6 ? ty-1 : ty; }
+function ymISO(y,m,day){ return y+'-'+String(m).padStart(2,'0')+'-'+String(day).padStart(2,'0'); }
+function dISO(d){ const p=d.split('/'), m=+p[0]; return ymISO(yearOfMonth(m), m, +p[1]); }
 function todayKST(){ return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date()); }
 // 과거숨김은 ASOF_PRICE가 아니라 실제 오늘(KST) 기준 — 매일 열 때마다 자동으로 하루씩 굴러감.
 const TODAY_KST = todayKST();
@@ -605,6 +622,38 @@ const TRACK = {
   "11/27": {dow:"금",t:"wknd", comp:{gh:{p:126000,n:8},gd:{p:140000,n:6},hu:{p:180000,n:17,approx:true},bw:{p:268813,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:250000}},
   "11/28": {dow:"토",t:"wknd", comp:{gh:{p:162000,n:5},gd:{p:160000,n:7},hu:{p:180000,n:13},bw:{p:290318,r:"na"},as:{p:null,r:"na"}}, our:{ourN:12,cur:250000}},
   "11/29": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:23,approx:true},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:193000}},
+  /* 1월(2027) — 이벤트 준비용 자리. 스캔은 11월 말까지만이라 comp·our는 비워 둔다("-"). 요일은 2027년 달력. */
+  "1/1": {dow:"금",t:"wknd", comp:{}, our:{}},
+  "1/2": {dow:"토",t:"wknd", comp:{}, our:{}},
+  "1/3": {dow:"일",t:"wknd", comp:{}, our:{}},
+  "1/4": {dow:"월",t:"wkdy", comp:{}, our:{}},
+  "1/5": {dow:"화",t:"wkdy", comp:{}, our:{}},
+  "1/6": {dow:"수",t:"wkdy", comp:{}, our:{}},
+  "1/7": {dow:"목",t:"wkdy", comp:{}, our:{}},
+  "1/8": {dow:"금",t:"wknd", comp:{}, our:{}},
+  "1/9": {dow:"토",t:"wknd", comp:{}, our:{}},
+  "1/10": {dow:"일",t:"wknd", comp:{}, our:{}},
+  "1/11": {dow:"월",t:"wkdy", comp:{}, our:{}},
+  "1/12": {dow:"화",t:"wkdy", comp:{}, our:{}},
+  "1/13": {dow:"수",t:"wkdy", comp:{}, our:{}},
+  "1/14": {dow:"목",t:"wkdy", comp:{}, our:{}},
+  "1/15": {dow:"금",t:"wknd", comp:{}, our:{}},
+  "1/16": {dow:"토",t:"wknd", comp:{}, our:{}},
+  "1/17": {dow:"일",t:"wknd", comp:{}, our:{}},
+  "1/18": {dow:"월",t:"wkdy", comp:{}, our:{}},
+  "1/19": {dow:"화",t:"wkdy", comp:{}, our:{}},
+  "1/20": {dow:"수",t:"wkdy", comp:{}, our:{}},
+  "1/21": {dow:"목",t:"wkdy", comp:{}, our:{}},
+  "1/22": {dow:"금",t:"wknd", comp:{}, our:{}},
+  "1/23": {dow:"토",t:"wknd", comp:{}, our:{}},
+  "1/24": {dow:"일",t:"wknd", comp:{}, our:{}},
+  "1/25": {dow:"월",t:"wkdy", comp:{}, our:{}},
+  "1/26": {dow:"화",t:"wkdy", comp:{}, our:{}},
+  "1/27": {dow:"수",t:"wkdy", comp:{}, our:{}},
+  "1/28": {dow:"목",t:"wkdy", comp:{}, our:{}},
+  "1/29": {dow:"금",t:"wknd", comp:{}, our:{}},
+  "1/30": {dow:"토",t:"wknd", comp:{}, our:{}},
+  "1/31": {dow:"일",t:"wknd", comp:{}, our:{}},
   "11/30": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:8},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"},as:{p:67500,n:1}}, our:{ourN:13,cur:143000}},
   "12/4": {dow:"금",t:"wknd", comp:{gh:{p:129600,r:"na"},gd:{p:180000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}},
   "12/5": {dow:"토",t:"wknd", comp:{gh:{p:129600,r:"na"},gd:{p:180000,r:"na"},hu:{p:140000,r:"na"},bw:{p:193545,r:"na"}}},
@@ -770,10 +819,19 @@ const EVENTS = {
     concert2:{name:"XMF 2026", venue:"파라다이스 컬처파크", impact:"high", strength:"강", scale:"大", type:"official", farBig:true, note:"한일 22팀 라인업·아도 헤드라이너·일본원정. EDC(인스파이어)와 별개 동시개최", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"}},
   "2026-10-04": {name:"EDC KOREA (Electric Daisy Carnival)", venue:"인스파이어 아레나", impact:"high", strength:"최강", scale:"특大", type:"official", cat:"concert", farBig:true, note:"2일차. 세계최대급 EDM·글로벌원정. 같은날 XMF(파라다이스 컬처파크)도 별개 개최=이중페스티벌+개천절(10/3)+중국국경절 연휴 겹침, 하반기 최강구간", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances",
     concert2:{name:"XMF 2026", venue:"파라다이스 컬처파크", impact:"high", strength:"강", scale:"大", type:"official", farBig:true, note:"한일 22팀 라인업·아도 헤드라이너·일본원정 2일차. EDC(인스파이어)와 별개 동시개최", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"}},
-  "2026-12-05": {name:"YUURI LIVE 2026 IN SEOUL", venue:"인스파이어", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", farBig:true, note:"12/5(토) 18시 공연. 일본원정·신규·AJPC III 포커 중첩=이중수요. ※12/5~6 확정(NOL)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-06": {name:"YUURI LIVE 2026 IN SEOUL", venue:"인스파이어", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", farBig:true, note:"12/6(일) 17시 공연. 일본원정·신규·AJPC III 포커 중첩=이중수요. ※12/5~6 확정(NOL)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-27": {name:"CHROMA KEY 002", venue:"클럽 크로마", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"글로벌 DJ EDM 파티. 클럽 크로마는 금·토 상시 부트레그쇼 운영 배경수요 위에 얹히는 플래그십 파티", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-12": {name:"이승철 40주년 콘서트 THE VOICE", venue:"인스파이어", impact:"mid", strength:"중", type:"official", cat:"concert", farBig:true, note:"인터파크 공식·데뷔40주년 전국투어·AJPC III 포커(12/4~13, ❔확인필요) 중첩=이중수요 가능성. 국내 중장년층 팬덤 중심", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-05": {name:"YUURI LIVE 2026 IN SEOUL", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", farBig:true, note:"12/5(토) 18시 공연. 일본원정·신규·AJPC III 포커 중첩=이중수요. ※12/5~6 확정(NOL)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-06": {name:"YUURI LIVE 2026 IN SEOUL", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", farBig:true, note:"12/6(일) 17시 공연. 일본원정·신규·AJPC III 포커 중첩=이중수요. ※12/5~6 확정(NOL)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2026-12-25": {name:"네이버×현대카드 THE SIX (여자 테니스 초청 토너먼트)", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"중", type:"official", cat:"concert", note:"12/25(금) 준준결승. 사발렌카·리바키나·시비옹테크·안드레예바·오사카·파올리니 출전 예정. 10/27 예매 오픈. 크리스마스 연휴 겹침."},
+  "2026-12-26": {name:"네이버×현대카드 THE SIX (여자 테니스 초청 토너먼트)", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"강", type:"official", cat:"concert", note:"12/26(토) 준결승. 사발렌카·리바키나·시비옹테크·안드레예바·오사카·파올리니 출전 예정. 10/27 예매 오픈. 크리스마스 연휴 겹침."},
+  "2026-12-27": {name:"CHROMA KEY 002", venue:"클럽 크로마", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"글로벌 DJ EDM 파티. 클럽 크로마는 금·토 상시 부트레그쇼 운영 배경수요 위에 얹히는 플래그십 파티. 10/28 재확인 실패, 재확인 필요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances",
+    concert2:{name:"네이버×현대카드 THE SIX (여자 테니스 초청 토너먼트)", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"강", type:"official", farBig:true, note:"12/27(일) 결승. 사발렌카·리바키나·시비옹테크·안드레예바·오사카·파올리니 출전 예정. 10/27 예매 오픈. 크리스마스 연휴 겹침."}},
+  "2026-12-12": {name:"이승철 40주년 콘서트 THE VOICE", venue:"네이버 아레나(구 인스파이어)", impact:"mid", strength:"중", type:"official", cat:"concert", farBig:true, note:"인터파크 공식·데뷔40주년 전국투어·AJPC III 포커(12/4~13, ❔확인필요) 중첩=이중수요 가능성. 국내 중장년층 팬덤 중심", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2027-01-01": {name:"신정", cat:"holiday", impact:"mid", note:"신정 연휴"},
+  "2027-01-02": {name:"한로로 5th 단독 콘서트 '물음표'", venue:"네이버 아레나", impact:"high", strength:"중", scale:"중", type:"official", cat:"concert", note:"국내 팬 중심, 원정 숙박수요 중간. 신정 직후 주말. 11/13 예매. 네이버 아레나 첫 아레나 공연."},
+  "2027-01-03": {name:"한로로 5th 단독 콘서트 '물음표'", venue:"네이버 아레나", impact:"high", strength:"중", scale:"중", type:"official", cat:"concert", note:"국내 팬 중심, 원정 숙박수요 중간. 신정 직후 주말. 11/13 예매. 네이버 아레나 첫 아레나 공연."},
+  "2027-01-14": {name:"요네즈 켄시 'GHOST'", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"일본 원정 수요 大, 2025 첫 내한 2만 관객. 공연일 14·16·17(Live Nation·Bandwagon)."},
+  "2027-01-16": {name:"요네즈 켄시 'GHOST'", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"최강", type:"official", cat:"concert", farBig:true, note:"일본 원정 수요 大, 2025 첫 내한 2만 관객. 공연일 14·16·17(Live Nation·Bandwagon)."},
+  "2027-01-17": {name:"요네즈 켄시 'GHOST'", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"일본 원정 수요 大, 2025 첫 내한 2만 관객. 공연일 14·16·17(Live Nation·Bandwagon)."},
   "2026-10-30": {name:"세븐틴 정한X조슈아 'JOURNEY INTO [DREAMING]'", venue:"인스파이어 아레나", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"9/29 신규 발표·HYBE/플레디스·캐럿 팬덤+일본·중화권 원정 大. GOP포커(10/30~11/8) 중첩 1일차", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-10-31": {name:"세븐틴 정한X조슈아 'JOURNEY INTO [DREAMING]'", venue:"인스파이어 아레나", impact:"high", strength:"최강", scale:"대", type:"official", cat:"concert", farBig:true, note:"9/29 신규 발표. 세븐틴+GOP포커+주말 4중겹침 — 하반기 최강구간, 최고가 세팅. 원정 가격민감도 낮아 17만 상한 초과 가능", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-11-01": {name:"세븐틴 정한X조슈아 'JOURNEY INTO [DREAMING]'", venue:"인스파이어 아레나", impact:"high", strength:"강", scale:"대", type:"official", cat:"concert", farBig:true, note:"9/29 신규 발표·캐럿 팬덤+일본·중화권 원정 大. GOP포커 중첩 3일차", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
@@ -799,7 +857,9 @@ const POKER_EVENTS = [
   {start:"2026-08-21", end:"2026-08-30", name:"AJPC Samurai Circuit II", jpHeavy:true,  leadTime:"short", strength:"low",  url:"https://samurai.ajpc.jp/", note:"일본주최·전과정 日어진행·임박예약 D-14~7 인상. 포커 단독일 장기수요 약함 — 8/22 강세는 콘서트(NCT)가 원인, 포커 아님"},
   {start:"2026-09-03", end:"2026-09-14", name:"Asian Pacific Poker Tour (PokerStars)", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://maineventtravel.com/tour/appt", note:"APPT=Asian Pacific Poker Tour, 7년만 부활·국제 원정多·메인 9/10~14. 포커 단독일 저가재고 13~16(8월 AJPC와 동일 약세) — 강세는 사플페(9/5~6)·RIIZE(9/12~13) 콘서트 겹침일뿐"},
   {start:"2026-10-30", end:"2026-11-08", name:"GOP Incheon Labyrinth", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://somuchpoker.com/", note:"대형대회·원정多·GOP포커+WPT포커+세븐틴(10/30~11/1)+MCR(11/7) = 하반기 최대 밀집(사중이벤트, 9/29 재분류). 10/31·11/7 두 토요일이 핵심 승부처. 세븐틴·MCR 원정객은 17만 상한 초과 가능. 포커 단독 평일은 장기수요 약함 원칙 유지"},
-  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, leadTime:"short", strength:"low", tbd:true, url:"https://samurai.ajpc.jp/", note:"Pokerfors 공식 캘린더에 2026년 12월 AJPC 미등재 — 개최여부 재확인 필요. 발표시 12/5~6 YUURI 중첩·포커 단독일 장기수요 약함(AJPC II·APPT와 동일 성격) 원칙 유지"}
+  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, leadTime:"short", strength:"low", tbd:true, url:"https://samurai.ajpc.jp/", note:"Pokerfors 공식 캘린더에 2026년 12월 AJPC 미등재 — 개최여부 재확인 필요. 발표시 12/5~6 YUURI 중첩·포커 단독일 장기수요 약함(AJPC II·APPT와 동일 성격) 원칙 유지. pokercalendar.asia·shosubcul.com 등재(10/28 확인), 주최 공식 발표 전."},
+  {start:"2027-01-22", end:"2027-01-31", name:"ASPT KOREA 2027", jpHeavy:true, leadTime:"long", strength:"low", url:"https://aspt.world/events", note:"일본발 Asia Series Poker Tour. 메인 1/28(목)~31(일). 보장·참가비 미공개(10/28 기준). 일본인 참가 多 → 조기 예약 경향. 핵심 1/29(금)·30(토). 포커 단독 평일은 약함 원칙 유지. 같은 기간 APT Jeju Classic(제주)과 수요 분산 가능."},
+  {start:"2027-03-05", end:"2027-03-14", name:"Infinity Poker Incheon 2027", jpHeavy:false, leadTime:"long", strength:"low", note:"메인 150만·보장 6억, 총 보장 8억. UAE 주최 신규 투어 첫 대회."}
 ];
 POKER_EVENTS.forEach(function(ev){
   const parse=s=>{ const p=s.split('-').map(Number); return Date.UTC(p[0],p[1]-1,p[2]); };
@@ -820,7 +880,9 @@ const POKER_BANDS = [
   {id:"SC26",  name:"SuperCup Incheon 2026",  start:"2026-10-08", end:"2026-10-18", venue:"파라다이스 카지노", strength:"mid", note:"일본 JOPT 계열, 총 1억7,500만엔 GTD·메인 7,000만엔 GTD. 일본어 출처에만 공개돼 당시 미반영. 10/8~10 우리 거의 만실은 JX 콘서트+SuperCup 중첩. 2027 회차 발표 확인 대상."},
   {id:"GOP",   name:"GOP Incheon Labyrinth",  start:"2026-10-30", end:"2026-11-08", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"GOP Incheon II(10/30~11/8, 76개 이벤트). 메인 11/3~8, 참가비 143만·보장 6억 — 5월 대회(220만·7억, 전체 2,433엔트리·메인 356)보다 작음. 같은 기간 WPT Seoul(인스파이어)과 수요 분산. 포커 단독 평일은 이벤트 프리미엄 없이 운영. 강세는 11/6·7(주말+MCR)."},
   {id:"WPT",   name:"WPT Seoul",              start:"2026-10-30", end:"2026-11-09", venue:"인스파이어 YY Poker Club(신규 70테이블)", leadTime:"long",  strength:"low", note:"WPT 공식·인스파이어 신규 포커룸 개장 첫 대회. GOP와 기간 거의 겹침 = 포커 이중개최지만 포커 단독일 약함 원칙 유지"},
-  {id:"AJPC3", name:"AJPC Samurai Circuit III",start:"2026-12-04", end:"2026-12-13", venue:"파라다이스 카지노", leadTime:"short", strength:"low", tbd:true, note:"Pokerfors 공식 캘린더에 2026년 12월 AJPC 미등재 — 개최여부 재확인 필요. 발표시: 일본주최 중형서킷·근거리 임박예약. 12/5~6 YUURI(일본원정) 중첩=이중수요 가능"}
+  {id:"AJPC3", name:"AJPC Samurai Circuit III",start:"2026-12-04", end:"2026-12-13", venue:"파라다이스 카지노", leadTime:"short", strength:"low", tbd:true, note:"Pokerfors 공식 캘린더에 2026년 12월 AJPC 미등재 — 개최여부 재확인 필요. 발표시: 일본주최 중형서킷·근거리 임박예약. 12/5~6 YUURI(일본원정) 중첩=이중수요 가능. pokercalendar.asia·shosubcul.com 등재(10/28 확인), 주최 공식 발표 전."},
+  {id:"ASPT",  name:"ASPT KOREA 2027",        start:"2027-01-22", end:"2027-01-31", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"일본발 Asia Series Poker Tour. 메인 1/28(목)~31(일). 보장·참가비 미공개(10/28 기준). 일본인 참가 多 → 조기 예약 경향. 핵심 1/29(금)·30(토). 포커 단독 평일은 약함 원칙 유지. 같은 기간 APT Jeju Classic(제주)과 수요 분산 가능."},
+  {id:"INF",   name:"Infinity Poker Incheon 2027", start:"2027-03-05", end:"2027-03-14", venue:"파라다이스 카지노", leadTime:"long", strength:"low", note:"메인 150만·보장 6억, 총 보장 8억. UAE 주최 신규 투어 첫 대회."}
 ];
 function pokerBandOf(iso){
   const t=msKST(iso);
@@ -836,9 +898,8 @@ function venueCode(v){ return /인스파이어/.test(v)?"ARENA":/파라다이스
 /* ── 렌더 공용 헬퍼 ─────────────────────────────────────── */
 const fmt = n => n==null?"":n.toLocaleString();
 function bkDates(d){
-  const p=d.split('/'), m=+p[0], day=+p[1];
-  const iso=t=>t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
-  return {ci:iso(new Date(BK_YEAR,m-1,day)), co:iso(new Date(BK_YEAR,m-1,day+1))};
+  const ci=dISO(d);
+  return {ci:ci, co:isoShift(ci,1)};
 }
 function bkUrl(key,d){
   const base=BK_LINKS[key]; if(!base) return null;
@@ -914,6 +975,7 @@ function eventCell(d){
   const e=eventInfo(d);
   if(!e) return '';
   let out='';
+  if(e.cat==="holiday") out+='<span class="evb ev-mid" title="'+esc(e.note)+'">🎌 '+e.name+'</span>';
   if(e.poker){
     const pk=e.poker, jp=pk.jpHeavy?' 🇯🇵':'';
     const label='🃏 '+pk.name+' <span class="pk-day">('+pk.dayNum+'/'+pk.total+'일차)</span>'+jp;
@@ -1013,16 +1075,15 @@ function buildMonthRow(md, iso){
 }
 function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }   // m=1~12
 function monthIsPast(monthNum){   // 그 달 마지막 날이 이미 오늘 이전이면 true(탭 회색처리용)
-  const dim=daysInMonth(BK_YEAR,monthNum);
-  const lastIso=BK_YEAR+'-'+String(monthNum).padStart(2,'0')+'-'+String(dim).padStart(2,'0');
-  return lastIso < TODAY_KST;
+  const y=yearOfMonth(monthNum);
+  return ymISO(y,monthNum,daysInMonth(y,monthNum)) < TODAY_KST;
 }
 /* 월 탭 렌더 — 그 달 1일(또는 오늘, 더 늦은 쪽)부터 말일까지 하루도 빠짐없이 렌더(데이터 없으면 "-"). */
 function renderMonthTab(monthNum, tbodyId){
-  const y=BK_YEAR, dim=daysInMonth(y,monthNum);
+  const y=yearOfMonth(monthNum), dim=daysInMonth(y,monthNum);
   let html='';
   for(let day=1; day<=dim; day++){
-    const iso = y+'-'+String(monthNum).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+    const iso = ymISO(y,monthNum,day);
     if(iso < TODAY_KST) continue;   // 오늘 이전 자동 숨김
     html += buildMonthRow(monthNum+'/'+day, iso);
   }
@@ -1694,9 +1755,9 @@ const OURS_LOG = {
 
 /* ── 다가오는 이벤트 (현재 보는 월 탭 기준) ────────────────────────── */
 function renderUpcoming(monthNum){
-  const dim=daysInMonth(BK_YEAR,monthNum);
-  const startIso=BK_YEAR+'-'+String(monthNum).padStart(2,'0')+'-01';
-  const endIso=BK_YEAR+'-'+String(monthNum).padStart(2,'0')+'-'+String(dim).padStart(2,'0');
+  const y=yearOfMonth(monthNum), dim=daysInMonth(y,monthNum);
+  const startIso=ymISO(y,monthNum,1);
+  const endIso=ymISO(y,monthNum,dim);
   const lowMs=Math.max(TODAY_MS, tsMillis(startIso+"T00:00")), highMs=tsMillis(endIso+"T00:00");
   const md=iso=>{const p=iso.split('-');return (+p[1])+'/'+(+p[2]);};
   const keys=Object.keys(EVENTS).filter(k=>{const t=tsMillis(k+"T00:00");return t>=lowMs&&t<=highMs;}).sort();
@@ -1761,8 +1822,8 @@ function renderEventCalendar(){
   cSlots.sort((a,b)=>a.k<b.k?-1:a.k>b.k?1:0);
   const cg=[];
   for(const {k,e} of cSlots){
-    const last=cg[cg.length-1];
-    if(last&&last.name===e.name&&last.venue===e.venue&&tsMillis(k+"T00:00")-tsMillis(last.lastKey+"T00:00")===86400000){ last.lastKey=k; if(doubleDemand(k)) last.dd.push(k); }
+    const last=cg.find(g=>g.name===e.name&&g.venue===e.venue&&tsMillis(k+"T00:00")-tsMillis(g.lastKey+"T00:00")===86400000);
+    if(last){ last.lastKey=k; if(e.farBig) last.farBig=true; if(doubleDemand(k)) last.dd.push(k); }
     else cg.push({name:e.name,venue:e.venue,impact:e.impact,strength:e.strength,scale:e.scale,farBig:e.farBig,note:e.note,url:e.url,tbd:e.tbd,firstKey:k,lastKey:k,dd:doubleDemand(k)?[k]:[]});
   }
   cg.sort((a,b)=>a.firstKey<b.firstKey?-1:a.firstKey>b.firstKey?1:0);
@@ -1813,7 +1874,8 @@ function renderEventCalendar(){
   }
 
   const gap='<div class="ec-gap"><span class="ec-b ec-week">⚪ 평일</span> 포커밴드·콘서트 모두 없는 순수 평일 구간은 평일 방어가 원칙.</div>'
-    +'<div class="ec-foot">※ 1층 밴드 = 파라다이스 카지노 개최 5대회(하반기 GOP 10/30~11/8·AJPC III 12/4~13 포함). 리드타임: <b>긴</b>=국제·원정·조기예약(D-30 고가세팅) / <b>짧</b>=일본계 중형·임박예약(초반 저가허용·D-14~7 인상).</div>';
+    +'<div class="ec-foot">📝 참고(밴드 아님): APT Jeju Classic 2027(1/22~31) — 제주 개최. 같은 기간 인천에서 ASPT KOREA 2027.</div>'
+    +'<div class="ec-foot">※ 1층 밴드 = 인천 카지노(파라다이스·인스파이어) 개최 대회(GOP·WPT 10/30~11/9·AJPC III 12/4~13·ASPT 2027-01/22~31·Infinity 2027-03/5~14 포함, 지난 대회는 숨김). 리드타임: <b>긴</b>=국제·원정·조기예약(D-30 고가세팅) / <b>짧</b>=일본계 중형·임박예약(초반 저가허용·D-14~7 인상).</div>';
 
   const fall='<div id="fallops">'
     +'<h4>🎤 10월 전체 — 대형공연 밀집월</h4>'
@@ -2872,13 +2934,15 @@ function decideDay(iso){
   j.s=s; j.why=why;
   return j;
 }
-// 결정표 대상 = 오늘~D+14 전부 + 그 이후 콘서트일
+// 스캔 범위 끝 — 경쟁사·우리 스캔은 11월 말까지만(12월·1월은 이벤트만 관리, 2026-10-28 결정). 결정표도 이 날까지만.
+const SCAN_END = "2026-11-30";
+// 결정표 대상 = 오늘~D+14 전부 + 그 이후 콘서트일 (SCAN_END까지)
 const DEC_DAYS = (function(){
   const a=[];
   for(let i=0;i<=DEC_CFG.horizon;i++) a.push(isoShift(TODAY_KST,i));
   const last=a[a.length-1];
   Object.keys(EVENTS).sort().forEach(function(iso){ if(iso>last && isEventDay(iso)) a.push(iso); });
-  return a;
+  return a.filter(function(iso){ return iso<=SCAN_END; });
 })();
 const DECIDE = {};   // "M/D" → decideDay 결과(월별 표 배지도 이걸 쓴다)
 DEC_DAYS.forEach(function(iso){ DECIDE[mdShort(iso)]=decideDay(iso); });
@@ -3067,8 +3131,8 @@ function renderDecision(){ renderDecHead(); renderDecTable(); renderDecFoot(); }
 renderEventCalendar();
 /* 월 탭 가시성 — 말일이 오늘보다 이전인 달(monthIsPast)은 탭을 아예 숨긴다(데이터는 TRACK에 그대로 남겨
    실적 비교에 쓴다). 날짜 규칙이라 11/1이 되면 10월 탭도 자동으로 사라진다. */
-const MONTH_TABS = [9,10,11,12];
-const ALL_TABS = ['m9','m10','m11','m12','trend','evt','ops'];
+const MONTH_TABS = [9,10,11,12,1];
+const ALL_TABS = ['m9','m10','m11','m12','m1','trend','evt','ops'];
 MONTH_TABS.forEach(function(m){
   renderMonthTab(m, 'body-m'+m);
   document.getElementById('tab-m'+m).hidden = monthIsPast(m);
