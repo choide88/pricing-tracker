@@ -89,6 +89,14 @@
 - **아침**(지금까지의 매일 스캔): Sirvoy → `OUR_SNAPS[오늘]`, 부킹·아고다 스캔 → `MKT_SNAPS[오늘]`·`TRACK`·`AGODA_COMP`, 해당 `ASOF_*` 갱신. 시장 추세 탭 맨 위 요약과 결정표 신호를 확인한다.
 - **저녁**(선택): 아침과 **같은 범위 전체**를 같은 방법으로 다시 스캔 → `MKT_SNAPS_PM[오늘]`(게하·굿데이·에어포트·휴 정밀 잔여 + 가격, 베웨 가격, 아고다 2곳 최저가·만실), Sirvoy 저녁 캡처 전체 → `OUR_SNAPS_PM[오늘]`(가격 없는 날 cur:null). 아침 스냅샷과 같은 형식·같은 원칙(실측만, 미확인은 null). 저녁 스냅샷은 아침 스냅샷·`TRACK`·`ASOF_*`를 바꾸지 않는다. 그다음 맨 위 경쟁사 표(오늘 판매 합계·오늘 많이 팔린 날 Top3)와 결정표 "오늘 판매" 열을 보고, 특히 "당일 떨이 준비" 행은 떨이/유지를 정한다.
 
+## 이벤트 조사 방법
+
+- **모든 이벤트 조사는 한국어·영어·일본어·중국어 4개 언어로 검색**한다(2026-10-28 — SuperCup Incheon 2026이 일본어 출처에만 공개돼 당시 놓친 뒤 추가).
+- **포커·카지노 일정은 일본어 출처를 반드시 확인**: 파라다이스시티 일본어 공식 X(@Paradisecity_J), aspt.world/events, light-three.com/korea-poker-event, shosubcul.com(韓国ポーカー大会年間スケジュール).
+- **공연은 중국어·일본어 예매 페이지도 확인**: world.nol.com/zh-CN, world.nol.com/ja, tw.stagepick.co.kr.
+- **반복 시리즈는 다음 회차 발표를 매번 확인**: SuperCup Incheon/JOPT, Paradise City Poker Series, ASPT, AJPC.
+- 지난 대회도 기록용으로 `POKER_BANDS`에 남긴다(화면에선 `end`가 지나면 자동 숨김). 날짜를 모르는 회차는 `start`/`end`를 `"YYYY-MM"`로 두고 `tbd:true`(날짜 계산에선 무시됨).
+
 ## 매일 갱신 작업
 
 **잔여 실측 방침**: 평소 스캔=MCP 가격만 빠르게(`ASOF_PRICE` 갱신). 브라우저 잔여 실측(`n`/`approx` 값, `ASOF_STOCK` 갱신)은 요청 시에만 2주치. 저가재고는 더 이상 컬럼으로 계산하지 않고 게하·굿데이 가격/만실 여부로 눈대중 판단.
