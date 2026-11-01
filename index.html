@@ -18,6 +18,8 @@
   .sub{color:var(--muted);font-size:12.5px;margin:0 0 14px;}
   .cap{font-size:11.5px;color:#9ca3af;margin:0 0 9px;}
   .cap-inline{font-size:12px;font-weight:400;color:#9ca3af;}
+  .far-asof{font-size:12px;font-weight:600;color:#1e40af;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:1px 8px;margin-left:6px;white-space:nowrap;}
+  .far-asof.stale{color:#92400e;background:#fffbeb;border-color:#fcd34d;}
   .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11.5px;color:var(--muted);margin:0 0 14px;padding:10px 13px;background:#fafafa;border:1px solid var(--line);border-radius:10px;}
   .legend b{color:var(--ink);}
   .pill{display:inline-block;padding:0 7px;border-radius:20px;font-size:10px;font-weight:700;color:#fff;vertical-align:middle;}
@@ -330,7 +332,7 @@
   </div>
 
   <div id="panel-m12" class="panel" hidden>
-    <h2>12월 <span class="cap-inline">오늘 이후 날짜만 표시</span></h2>
+    <h2>12월 <span class="cap-inline">오늘 이후 날짜만 표시</span> <span class="far-asof"></span></h2>
     <table class="montable"><thead>
       <tr class="grouprow"><th class="date"></th>
           <th colspan="5" class="grp-bk">부킹닷컴</th>
@@ -343,7 +345,7 @@
   </div>
 
   <div id="panel-m1" class="panel" hidden>
-    <h2>1월(2027) <span class="cap-inline">오늘 이후 날짜만 표시</span></h2>
+    <h2>1월(2027) <span class="cap-inline">오늘 이후 날짜만 표시</span> <span class="far-asof"></span></h2>
     <table class="montable"><thead>
       <tr class="grouprow"><th class="date"></th>
           <th colspan="5" class="grp-bk">부킹닷컴</th>
@@ -483,6 +485,9 @@ const ASOF_STOCK = "2026-11-01";   // 브라우저 잔여 실측(요청 시에�
 const ASOF_EVENT = "2026-10-28";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-11-01";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = "2026-11-01";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
+const ASOF_FAR = "2026-11-02";     // 12·1월 경쟁사 주간 기준선(매주 월요일 아침 12/1~1/31 전수 스캔) 마지막 갱신일 — 위 6종과 독립
+// 매일 스캔 범위 끝 — 아침·저녁 경쟁사·우리 스캔은 11월 말까지(2026-10-28). 결정표도 이 날까지. 그 뒤(12·1월)는 ASOF_FAR 주간 기준선.
+const SCAN_END = "2026-11-30";
 const ASOF_OURS = "2026-11-01";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
 // 실제가(손님 결제가) — 2단 할인(2026-10-29, 단일 20%·netRate 대체): 체크인까지 D=0~3일 ×0.75, D≥4 ×0.80.
 // D는 공용 날짜 함수 dISO()(연도 처리 포함)로 오늘(TODAY_KST) 기준 계산.
@@ -620,71 +625,71 @@ const TRACK = {
   "11/28": {dow:"토",t:"wknd", comp:{gh:{p:162000,n:5},gd:{p:160000,n:7},hu:{p:180000,n:7},bw:{p:338700,r:"na"},as:{p:null,r:"na"}}, our:{ourN:12,cur:200000}},
   "11/29": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:120000,n:23,approx:true},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:120000}},
   "11/30": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:8},gd:{p:100000,n:7},hu:{p:120000,r:"na"},bw:{p:139783,r:"na"},as:{p:67500,n:1}}, our:{ourN:13,cur:120000}},
-  /* 12월: 2026-10-28 사용자 요청 1회성 전수조사(정기 스캔 범위 밖) — 부킹 브라우저 실측(게하·굿데이·휴 객실유형별 잔여 합, Genius 행은 표시가÷0.9, 휴 드롭다운 상한 10이면 approx).
+  /* 12월: 주간 기준선(ASOF_FAR, 매주 월요일 아침 갱신 — 2026-11-02 첫 정기 스캔, 그 전 10-28은 1회성) — 부킹 브라우저 실측(게하·굿데이·휴 객실유형별 잔여 합, Genius 행은 표시가÷0.9·MCP 대조, 휴 드롭다운 상한 10이면 approx).
      베웨=가격만(r:"na"). 에어포트스테이=부킹 "현재 예약 불가"라 미확인(r:"na"). 우리(our)는 Sirvoy 미캡처라 비움. */
-  "12/1": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:10},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/2": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:10},gd:{p:80000,n:8},hu:{p:120000,n:27,approx:true},bw:{p:189750,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/3": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:10},gd:{p:80000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/4": {dow:"금",t:"wknd", comp:{gh:{p:180000,n:7},gd:{p:140000,n:8},hu:{p:180000,n:26,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/5": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:8},gd:{p:160000,n:8},hu:{p:180000,n:11},bw:{p:290950,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/6": {dow:"일",t:"wknd", comp:{gh:{p:94500,n:8},gd:{p:80000,n:6},hu:{p:140000,n:19,approx:true},bw:{p:189750,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/7": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:10},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/8": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:7},hu:{p:120000,n:24,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/9": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:6},hu:{p:120000,n:27,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/10": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/11": {dow:"금",t:"wknd", comp:{gh:{p:121500,n:10},gd:{p:140000,n:8},hu:{p:180000,n:25,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/12": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:7},gd:{p:160000,n:8},hu:{p:200000,n:13},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/1": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:10},gd:{p:80000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/2": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:10},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:189750,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/3": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:10},gd:{p:80000,n:8},hu:{p:120000,n:22,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/4": {dow:"금",t:"wknd", comp:{gh:{p:180000,n:7},gd:{p:140000,n:8},hu:{p:180000,n:25,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/5": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:8},gd:{p:160000,n:8},hu:{p:180000,n:12},bw:{p:316250,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/6": {dow:"일",t:"wknd", comp:{gh:{p:94500,n:8},gd:{p:80000,n:8},hu:{p:140000,n:19,approx:true},bw:{p:189750,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/7": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:8},hu:{p:120000,n:25,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/8": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/9": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:8},hu:{p:120000,n:27,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/10": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:6},gd:{p:80000,n:8},hu:{p:120000,n:25,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/11": {dow:"금",t:"wknd", comp:{gh:{p:121500,n:10},gd:{p:140000,n:8},hu:{p:180000,n:24,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/12": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:7},gd:{p:160000,n:8},hu:{p:200000,n:11},bw:{p:290950,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/13": {dow:"일",t:"wknd", comp:{gh:{p:94500,n:11},gd:{p:80000,n:8},hu:{p:120000,n:23,approx:true},bw:{p:189750,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/14": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:9},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/15": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:7},hu:{p:120000,n:25,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/16": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/15": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:8},hu:{p:120000,n:25,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/16": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:11},gd:{p:80000,n:8},hu:{p:120000,n:25,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/17": {dow:"목",t:"wkdy", comp:{gh:{p:90000,n:8},gd:{p:80000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/18": {dow:"금",t:"wknd", comp:{gh:{p:121500,n:6},gd:{p:140000,n:8},hu:{p:200000,n:23},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/19": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:8},gd:{p:160000,n:8},hu:{p:250000,n:9},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/18": {dow:"금",t:"wknd", comp:{gh:{p:121500,n:6},gd:{p:140000,n:8},hu:{p:200000,n:24,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/19": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:8},gd:{p:160000,n:8},hu:{p:250000,n:10},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/20": {dow:"일",t:"wknd", comp:{gh:{p:94500,n:6},gd:{p:80000,n:8},hu:{p:140000,n:21,approx:true},bw:{p:189750,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/21": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:8},gd:{p:80000,n:8},hu:{p:120000,n:23,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/22": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:9},gd:{p:80000,n:8},hu:{p:120000,n:23,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/23": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:10},gd:{p:80000,n:8},hu:{p:140000,n:25,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/23": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:8},gd:{p:80000,n:8},hu:{p:140000,n:25,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/24": {dow:"목",t:"wkdy", comp:{gh:{p:121500,n:11},gd:{p:180000,n:8},hu:{p:200000,n:20,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/25": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:8},hu:{p:200000,n:17,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/26": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:4},gd:{p:200000,n:8},hu:{p:200000,n:15,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/25": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:200000,n:8},hu:{p:200000,n:16,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/26": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:4},gd:{p:200000,n:8},hu:{p:200000,n:15,approx:true},bw:{p:303600,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/27": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:6},gd:{p:160000,n:7},hu:{p:160000,n:19,approx:true},bw:{p:215050,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/28": {dow:"월",t:"wkdy", comp:{gh:{p:90000,n:9},gd:{p:100000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:202400,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  "12/29": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:5},gd:{p:100000,n:7},hu:{p:120000,n:24,approx:true},bw:{p:202400,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "12/29": {dow:"화",t:"wkdy", comp:{gh:{p:90000,n:5},gd:{p:100000,n:6},hu:{p:120000,n:24,approx:true},bw:{p:202400,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/30": {dow:"수",t:"wkdy", comp:{gh:{p:90000,n:3},gd:{p:100000,n:8},hu:{p:160000,n:26,approx:true},bw:{p:202400,r:"na"},as:{p:null,r:"na"}}, our:{}},
   "12/31": {dow:"목",t:"wkdy", comp:{gh:{p:94500,n:9},gd:{p:180000,n:8},hu:{p:180000,n:22,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
-  /* 1월(2027) — 이벤트 준비용 자리. 스캔은 11월 말까지만이라 comp·our는 비워 둔다("-"). 요일은 2027년 달력. */
-  "1/1": {dow:"금",t:"wknd", comp:{}, our:{}},
-  "1/2": {dow:"토",t:"wknd", comp:{}, our:{}},
-  "1/3": {dow:"일",t:"wknd", comp:{}, our:{}},
-  "1/4": {dow:"월",t:"wkdy", comp:{}, our:{}},
-  "1/5": {dow:"화",t:"wkdy", comp:{}, our:{}},
-  "1/6": {dow:"수",t:"wkdy", comp:{}, our:{}},
-  "1/7": {dow:"목",t:"wkdy", comp:{}, our:{}},
-  "1/8": {dow:"금",t:"wknd", comp:{}, our:{}},
-  "1/9": {dow:"토",t:"wknd", comp:{}, our:{}},
-  "1/10": {dow:"일",t:"wknd", comp:{}, our:{}},
-  "1/11": {dow:"월",t:"wkdy", comp:{}, our:{}},
-  "1/12": {dow:"화",t:"wkdy", comp:{}, our:{}},
-  "1/13": {dow:"수",t:"wkdy", comp:{}, our:{}},
-  "1/14": {dow:"목",t:"wkdy", comp:{}, our:{}},
-  "1/15": {dow:"금",t:"wknd", comp:{}, our:{}},
-  "1/16": {dow:"토",t:"wknd", comp:{}, our:{}},
-  "1/17": {dow:"일",t:"wknd", comp:{}, our:{}},
-  "1/18": {dow:"월",t:"wkdy", comp:{}, our:{}},
-  "1/19": {dow:"화",t:"wkdy", comp:{}, our:{}},
-  "1/20": {dow:"수",t:"wkdy", comp:{}, our:{}},
-  "1/21": {dow:"목",t:"wkdy", comp:{}, our:{}},
-  "1/22": {dow:"금",t:"wknd", comp:{}, our:{}},
-  "1/23": {dow:"토",t:"wknd", comp:{}, our:{}},
-  "1/24": {dow:"일",t:"wknd", comp:{}, our:{}},
-  "1/25": {dow:"월",t:"wkdy", comp:{}, our:{}},
-  "1/26": {dow:"화",t:"wkdy", comp:{}, our:{}},
-  "1/27": {dow:"수",t:"wkdy", comp:{}, our:{}},
-  "1/28": {dow:"목",t:"wkdy", comp:{}, our:{}},
-  "1/29": {dow:"금",t:"wknd", comp:{}, our:{}},
-  "1/30": {dow:"토",t:"wknd", comp:{}, our:{}},
-  "1/31": {dow:"일",t:"wknd", comp:{}, our:{}}
+  /* 1월(2027) — 경쟁사는 12월과 같은 주간 기준선(ASOF_FAR). 우리(our)는 우리 현황 캡처가 11월까지라 비움. 요일은 2027년 달력. */
+  "1/1": {dow:"금",t:"wknd", comp:{gh:{p:117000,n:6},gd:{p:140000,n:8},hu:{p:180000,n:17,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/2": {dow:"토",t:"wknd", comp:{gh:{p:117000,n:3},gd:{p:160000,n:8},hu:{p:180000,n:20,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/3": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:180000,n:19,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/4": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/5": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:120000,n:28,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/6": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:120000,n:25,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/7": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:11},gd:{p:80000,n:8},hu:{p:120000,n:27,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/8": {dow:"금",t:"wknd", comp:{gh:{p:117000,n:9},gd:{p:120000,n:8},hu:{p:140000,n:25,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/9": {dow:"토",t:"wknd", comp:{gh:{p:117000,n:10},gd:{p:160000,n:8},hu:{p:160000,n:20,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/10": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/11": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:23,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/12": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/13": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/14": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/15": {dow:"금",t:"wknd", comp:{gh:{p:117000,n:10},gd:{p:120000,n:8},hu:{p:140000,n:20,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/16": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:9},gd:{p:160000,n:8},hu:{p:140000,n:18,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/17": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:23,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/18": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:11},gd:{p:80000,n:8},hu:{p:120000,n:28,approx:true},bw:{p:151800,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/19": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:151800,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/20": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:11},gd:{p:80000,n:8},hu:{p:120000,n:28,approx:true},bw:{p:151800,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/21": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:5},gd:{p:200000,n:3},hu:{p:140000,n:25,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/22": {dow:"금",t:"wknd", comp:{gh:{p:180000,n:2},gd:{p:null,r:"so"},hu:{p:200000,n:3},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{}},
+  "1/23": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:1},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{}},
+  "1/24": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:5},gd:{p:200000,n:7},hu:{p:160000,n:17,approx:true},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{}},
+  "1/25": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:80000,n:8},hu:{p:120000,n:27,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/26": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:7},gd:{p:80000,n:8},hu:{p:120000,n:28,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/27": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:9},gd:{p:80000,n:8},hu:{p:120000,n:27,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/28": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:8},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:177100,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/29": {dow:"금",t:"wknd", comp:{gh:{p:117000,n:9},gd:{p:120000,n:8},hu:{p:140000,n:26,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/30": {dow:"토",t:"wknd", comp:{gh:{p:117000,n:8},gd:{p:160000,n:8},hu:{p:140000,n:26,approx:true},bw:{p:227700,r:"na"},as:{p:null,r:"na"}}, our:{}},
+  "1/31": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:7},gd:{p:80000,n:8},hu:{p:120000,n:26,approx:true},bw:{p:164450,r:"na"},as:{p:null,r:"na"}}, our:{}}
 };
 
 /* AGODA_COMP: 아고다 2곳(고고하우스·인천공항게스트하우스) 가격 스캔 결과. 키는 TRACK과 동일 "M/D".
@@ -777,38 +782,69 @@ const AGODA_COMP = {
   "11/28": {gogo:{p:101977}, icngh:{p:null,r:"so"}},
   "11/29": {gogo:{p:76212}, icngh:{p:null,r:"so"}},
   "11/30": {gogo:{p:62244}, icngh:{p:57832}},
-  /* 12월: 2026-10-28 1회성 전수조사(아고다 iframe 실측, 최저가·만실). */
-  "12/1": {gogo:{p:69332}, icngh:{p:null,r:"so"}},
-  "12/2": {gogo:{p:73091}, icngh:{p:null,r:"so"}},
-  "12/3": {gogo:{p:68073}, icngh:{p:null,r:"so"}},
-  "12/4": {gogo:{p:105304}, icngh:{p:null,r:"so"}},
-  "12/5": {gogo:{p:115394}, icngh:{p:null,r:"so"}},
-  "12/6": {gogo:{p:78935}, icngh:{p:null,r:"so"}},
-  "12/7": {gogo:{p:69332}, icngh:{p:null,r:"so"}},
-  "12/8": {gogo:{p:73091}, icngh:{p:null,r:"so"}},
-  "12/9": {gogo:{p:68073}, icngh:{p:null,r:"so"}},
-  "12/10": {gogo:{p:73122}, icngh:{p:null,r:"so"}},
-  "12/11": {gogo:{p:101713}, icngh:{p:null,r:"so"}},
-  "12/12": {gogo:{p:104140}, icngh:{p:null,r:"so"}},
-  "12/13": {gogo:{p:71870}, icngh:{p:null,r:"so"}},
-  "12/14": {gogo:{p:73091}, icngh:{p:null,r:"so"}},
-  "12/15": {gogo:{p:68073}, icngh:{p:null,r:"so"}},
-  "12/16": {gogo:{p:75793}, icngh:{p:null,r:"so"}},
-  "12/17": {gogo:{p:68702}, icngh:{p:null,r:"so"}},
-  "12/18": {gogo:{p:104140}, icngh:{p:null,r:"so"}},
-  "12/19": {gogo:{p:102619}, icngh:{p:null,r:"so"}},
-  "12/20": {gogo:{p:79621}, icngh:{p:null,r:"so"}},
-  "12/21": {gogo:{p:72600}, icngh:{p:null,r:"so"}},
-  "12/22": {gogo:{p:75793}, icngh:{p:null,r:"so"}},
-  "12/23": {gogo:{p:96370}, icngh:{p:null,r:"so"}},
-  "12/24": {gogo:{p:101866}, icngh:{p:null,r:"so"}},
-  "12/25": {gogo:{p:102619}, icngh:{p:null,r:"so"}},
-  "12/26": {gogo:{p:105046}, icngh:{p:null,r:"so"}},
-  "12/27": {gogo:{p:95488}, icngh:{p:null,r:"so"}},
-  "12/28": {gogo:{p:102641}, icngh:{p:null,r:"so"}},
-  "12/29": {gogo:{p:96370}, icngh:{p:null,r:"so"}},
-  "12/30": {gogo:{p:104140}, icngh:{p:null,r:"so"}},
-  "12/31": {gogo:{p:102619}, icngh:{p:null,r:"so"}}
+  /* 12·1월: 주간 기준선(ASOF_FAR, 아고다 iframe 실측, 최저가·만실). */
+  "12/1": {gogo:{p:65870}, icngh:{p:null,r:"so"}},
+  "12/2": {gogo:{p:66707}, icngh:{p:63323}},
+  "12/3": {gogo:{p:65747}, icngh:{p:null,r:"so"}},
+  "12/4": {gogo:{p:97126}, icngh:{p:96065}},
+  "12/5": {gogo:{p:110600}, icngh:{p:null,r:"so"}},
+  "12/6": {gogo:{p:72202}, icngh:{p:null,r:"so"}},
+  "12/7": {gogo:{p:70609}, icngh:{p:null,r:"so"}},
+  "12/8": {gogo:{p:66707}, icngh:{p:null,r:"so"}},
+  "12/9": {gogo:{p:65747}, icngh:{p:null,r:"so"}},
+  "12/10": {gogo:{p:67355}, icngh:{p:63947}},
+  "12/11": {gogo:{p:97426}, icngh:{p:null,r:"so"}},
+  "12/12": {gogo:{p:95258}, icngh:{p:null,r:"so"}},
+  "12/13": {gogo:{p:68281}, icngh:{p:null,r:"so"}},
+  "12/14": {gogo:{p:69234}, icngh:{p:63323}},
+  "12/15": {gogo:{p:65747}, icngh:{p:null,r:"so"}},
+  "12/16": {gogo:{p:69906}, icngh:{p:null,r:"so"}},
+  "12/17": {gogo:{p:65779}, icngh:{p:null,r:"so"}},
+  "12/18": {gogo:{p:95258}, icngh:{p:94661}},
+  "12/19": {gogo:{p:98361}, icngh:{p:null,r:"so"}},
+  "12/20": {gogo:{p:72910}, icngh:{p:63323}},
+  "12/21": {gogo:{p:69264}, icngh:{p:null,r:"so"}},
+  "12/22": {gogo:{p:69906}, icngh:{p:null,r:"so"}},
+  "12/23": {gogo:{p:92345}, icngh:{p:null,r:"so"}},
+  "12/24": {gogo:{p:92724}, icngh:{p:null,r:"so"}},
+  "12/25": {gogo:{p:109900}, icngh:{p:null,r:"so"}},
+  "12/26": {gogo:{p:109900}, icngh:{p:null,r:"so"}},
+  "12/27": {gogo:{p:107100}, icngh:{p:null,r:"so"}},
+  "12/28": {gogo:{p:107100}, icngh:{p:null,r:"so"}},
+  "12/29": {gogo:{p:107100}, icngh:{p:null,r:"so"}},
+  "12/30": {gogo:{p:109900}, icngh:{p:null,r:"so"}},
+  "12/31": {gogo:{p:109900}, icngh:{p:null,r:"so"}},
+  "1/1": {gogo:{p:109900}, icngh:{p:null,r:"so"}},
+  "1/2": {gogo:{p:109900}, icngh:{p:null,r:"so"}},
+  "1/3": {gogo:{p:107100}, icngh:{p:null,r:"so"}},
+  "1/4": {gogo:{p:79100}, icngh:{p:null,r:"so"}},
+  "1/5": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/6": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/7": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/8": {gogo:{p:107100}, icngh:{p:null,r:"so"}},
+  "1/9": {gogo:{p:109900}, icngh:{p:null,r:"so"}},
+  "1/10": {gogo:{p:83300}, icngh:{p:null,r:"so"}},
+  "1/11": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/12": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/13": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/14": {gogo:{p:79100}, icngh:{p:null,r:"so"}},
+  "1/15": {gogo:{p:107100}, icngh:{p:null,r:"so"}},
+  "1/16": {gogo:{p:107100}, icngh:{p:null,r:"so"}},
+  "1/17": {gogo:{p:79100}, icngh:{p:null,r:"so"}},
+  "1/18": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/19": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/20": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/21": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}},
+  "1/22": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}},
+  "1/23": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}},
+  "1/24": {gogo:{p:null,r:"so"}, icngh:{p:null,r:"so"}},
+  "1/25": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/26": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/27": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/28": {gogo:{p:76300}, icngh:{p:null,r:"so"}},
+  "1/29": {gogo:{p:107100}, icngh:{p:null,r:"so"}},
+  "1/30": {gogo:{p:109900}, icngh:{p:null,r:"so"}},
+  "1/31": {gogo:{p:83300}, icngh:{p:null,r:"so"}}
 };
 
 /* AGODA_AVAIL: 아고다 3곳 잔여 자유입력값 저장소. 키="hotelKey_M/D"(예: "gogo_9/13") → 사용자가 입력한 임의 문자열.
@@ -2585,8 +2621,81 @@ const MKT_SNAPS = {
     "11/27": {gh:{p:126000,n:8}, gd:{p:140000,n:6}, as:{p:null,n:null}, hu:{p:180000,n:17,approx:true}, bw:{p:290318}, gogo:{p:96112,so:false}, icngh:{p:93685,so:false}},
     "11/28": {gh:{p:162000,n:5}, gd:{p:160000,n:7}, as:{p:null,n:null}, hu:{p:180000,n:7}, bw:{p:338700}, gogo:{p:101977,so:false}, icngh:{p:null,so:true}},
     "11/29": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:172040}, gogo:{p:76212,so:false}, icngh:{p:null,so:true}}
+  },
+  "2026-11-02": {   // 12·1월 주간 기준선(ASOF_FAR) · 12/1~1/31 62일, 1박·성인 2명. 게하·굿데이·휴 브라우저 정밀 잔여(객실유형별 1회, 휴 드롭다운 상한 10이면 approx), 가격 공개가(Genius÷0.9 — MCP 62일 전부 대조, 전부 일치), 베웨 가격만, 아고다 둘 다 실측. 에어포트스테이 부킹 "현재 예약 불가" → 전부 미확인.
+    //   11/2 아침 스캔(11월분)은 이 키에 날짜를 추가할 것(12·1월 날짜는 덮어쓰지 않음). SCAN_END 이후 날짜는 로드 때 MKT_FAR로 분리된다.
+    "12/1": {gh:{p:90000,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:24,approx:true}, bw:{p:177100}, gogo:{p:65870,so:false}, icngh:{p:null,so:true}},
+    "12/2": {gh:{p:90000,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:26,approx:true}, bw:{p:189750}, gogo:{p:66707,so:false}, icngh:{p:63323,so:false}},
+    "12/3": {gh:{p:90000,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:22,approx:true}, bw:{p:177100}, gogo:{p:65747,so:false}, icngh:{p:null,so:true}},
+    "12/4": {gh:{p:180000,n:7}, gd:{p:140000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:25,approx:true}, bw:{p:227700}, gogo:{p:97126,so:false}, icngh:{p:96065,so:false}},
+    "12/5": {gh:{p:180000,n:8}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:12}, bw:{p:316250}, gogo:{p:110600,so:false}, icngh:{p:null,so:true}},
+    "12/6": {gh:{p:94500,n:8}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:140000,n:19,approx:true}, bw:{p:189750}, gogo:{p:72202,so:false}, icngh:{p:null,so:true}},
+    "12/7": {gh:{p:90000,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:25,approx:true}, bw:{p:177100}, gogo:{p:70609,so:false}, icngh:{p:null,so:true}},
+    "12/8": {gh:{p:90000,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:24,approx:true}, bw:{p:177100}, gogo:{p:66707,so:false}, icngh:{p:null,so:true}},
+    "12/9": {gh:{p:90000,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:27,approx:true}, bw:{p:177100}, gogo:{p:65747,so:false}, icngh:{p:null,so:true}},
+    "12/10": {gh:{p:90000,n:6}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:25,approx:true}, bw:{p:177100}, gogo:{p:67355,so:false}, icngh:{p:63947,so:false}},
+    "12/11": {gh:{p:121500,n:10}, gd:{p:140000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:24,approx:true}, bw:{p:227700}, gogo:{p:97426,so:false}, icngh:{p:null,so:true}},
+    "12/12": {gh:{p:180000,n:7}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:200000,n:11}, bw:{p:290950}, gogo:{p:95258,so:false}, icngh:{p:null,so:true}},
+    "12/13": {gh:{p:94500,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:189750}, gogo:{p:68281,so:false}, icngh:{p:null,so:true}},
+    "12/14": {gh:{p:90000,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:26,approx:true}, bw:{p:177100}, gogo:{p:69234,so:false}, icngh:{p:63323,so:false}},
+    "12/15": {gh:{p:90000,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:25,approx:true}, bw:{p:177100}, gogo:{p:65747,so:false}, icngh:{p:null,so:true}},
+    "12/16": {gh:{p:90000,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:25,approx:true}, bw:{p:177100}, gogo:{p:69906,so:false}, icngh:{p:null,so:true}},
+    "12/17": {gh:{p:90000,n:8}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:24,approx:true}, bw:{p:177100}, gogo:{p:65779,so:false}, icngh:{p:null,so:true}},
+    "12/18": {gh:{p:121500,n:6}, gd:{p:140000,n:8}, as:{p:null,n:null}, hu:{p:200000,n:24,approx:true}, bw:{p:227700}, gogo:{p:95258,so:false}, icngh:{p:94661,so:false}},
+    "12/19": {gh:{p:180000,n:8}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:250000,n:10}, bw:{p:227700}, gogo:{p:98361,so:false}, icngh:{p:null,so:true}},
+    "12/20": {gh:{p:94500,n:6}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:140000,n:21,approx:true}, bw:{p:189750}, gogo:{p:72910,so:false}, icngh:{p:63323,so:false}},
+    "12/21": {gh:{p:90000,n:8}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:177100}, gogo:{p:69264,so:false}, icngh:{p:null,so:true}},
+    "12/22": {gh:{p:90000,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:177100}, gogo:{p:69906,so:false}, icngh:{p:null,so:true}},
+    "12/23": {gh:{p:90000,n:8}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:140000,n:25,approx:true}, bw:{p:177100}, gogo:{p:92345,so:false}, icngh:{p:null,so:true}},
+    "12/24": {gh:{p:121500,n:11}, gd:{p:180000,n:8}, as:{p:null,n:null}, hu:{p:200000,n:20,approx:true}, bw:{p:227700}, gogo:{p:92724,so:false}, icngh:{p:null,so:true}},
+    "12/25": {gh:{p:null,n:0}, gd:{p:200000,n:8}, as:{p:null,n:null}, hu:{p:200000,n:16,approx:true}, bw:{p:227700}, gogo:{p:109900,so:false}, icngh:{p:null,so:true}},
+    "12/26": {gh:{p:180000,n:4}, gd:{p:200000,n:8}, as:{p:null,n:null}, hu:{p:200000,n:15,approx:true}, bw:{p:303600}, gogo:{p:109900,so:false}, icngh:{p:null,so:true}},
+    "12/27": {gh:{p:99000,n:6}, gd:{p:160000,n:7}, as:{p:null,n:null}, hu:{p:160000,n:19,approx:true}, bw:{p:215050}, gogo:{p:107100,so:false}, icngh:{p:null,so:true}},
+    "12/28": {gh:{p:90000,n:9}, gd:{p:100000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:24,approx:true}, bw:{p:202400}, gogo:{p:107100,so:false}, icngh:{p:null,so:true}},
+    "12/29": {gh:{p:90000,n:5}, gd:{p:100000,n:6}, as:{p:null,n:null}, hu:{p:120000,n:24,approx:true}, bw:{p:202400}, gogo:{p:107100,so:false}, icngh:{p:null,so:true}},
+    "12/30": {gh:{p:90000,n:3}, gd:{p:100000,n:8}, as:{p:null,n:null}, hu:{p:160000,n:26,approx:true}, bw:{p:202400}, gogo:{p:109900,so:false}, icngh:{p:null,so:true}},
+    "12/31": {gh:{p:94500,n:9}, gd:{p:180000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:22,approx:true}, bw:{p:227700}, gogo:{p:109900,so:false}, icngh:{p:null,so:true}},
+    "1/1": {gh:{p:117000,n:6}, gd:{p:140000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:17,approx:true}, bw:{p:227700}, gogo:{p:109900,so:false}, icngh:{p:null,so:true}},
+    "1/2": {gh:{p:117000,n:3}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:20,approx:true}, bw:{p:227700}, gogo:{p:109900,so:false}, icngh:{p:null,so:true}},
+    "1/3": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:19,approx:true}, bw:{p:227700}, gogo:{p:107100,so:false}, icngh:{p:null,so:true}},
+    "1/4": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:24,approx:true}, bw:{p:164450}, gogo:{p:79100,so:false}, icngh:{p:null,so:true}},
+    "1/5": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:28,approx:true}, bw:{p:164450}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/6": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:25,approx:true}, bw:{p:164450}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/7": {gh:{p:88200,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:27,approx:true}, bw:{p:164450}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/8": {gh:{p:117000,n:9}, gd:{p:120000,n:8}, as:{p:null,n:null}, hu:{p:140000,n:25,approx:true}, bw:{p:227700}, gogo:{p:107100,so:false}, icngh:{p:null,so:true}},
+    "1/9": {gh:{p:117000,n:10}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:160000,n:20,approx:true}, bw:{p:227700}, gogo:{p:109900,so:false}, icngh:{p:null,so:true}},
+    "1/10": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:26,approx:true}, bw:{p:177100}, gogo:{p:83300,so:false}, icngh:{p:null,so:true}},
+    "1/11": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:164450}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/12": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:24,approx:true}, bw:{p:164450}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/13": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:24,approx:true}, bw:{p:164450}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/14": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:26,approx:true}, bw:{p:164450}, gogo:{p:79100,so:false}, icngh:{p:null,so:true}},
+    "1/15": {gh:{p:117000,n:10}, gd:{p:120000,n:8}, as:{p:null,n:null}, hu:{p:140000,n:20,approx:true}, bw:{p:227700}, gogo:{p:107100,so:false}, icngh:{p:null,so:true}},
+    "1/16": {gh:{p:180000,n:9}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:140000,n:18,approx:true}, bw:{p:227700}, gogo:{p:107100,so:false}, icngh:{p:null,so:true}},
+    "1/17": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:227700}, gogo:{p:79100,so:false}, icngh:{p:null,so:true}},
+    "1/18": {gh:{p:88200,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:28,approx:true}, bw:{p:151800}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/19": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:26,approx:true}, bw:{p:151800}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/20": {gh:{p:88200,n:11}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:28,approx:true}, bw:{p:151800}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/21": {gh:{p:88200,n:5}, gd:{p:200000,n:3}, as:{p:null,n:null}, hu:{p:140000,n:25,approx:true}, bw:{p:227700}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "1/22": {gh:{p:180000,n:2}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:200000,n:3}, bw:{p:null}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "1/23": {gh:{p:180000,n:1}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:null,n:0}, bw:{p:null}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "1/24": {gh:{p:88200,n:5}, gd:{p:200000,n:7}, as:{p:null,n:null}, hu:{p:160000,n:17,approx:true}, bw:{p:null}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "1/25": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:27,approx:true}, bw:{p:177100}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/26": {gh:{p:88200,n:7}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:28,approx:true}, bw:{p:177100}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/27": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:27,approx:true}, bw:{p:177100}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/28": {gh:{p:88200,n:8}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:26,approx:true}, bw:{p:177100}, gogo:{p:76300,so:false}, icngh:{p:null,so:true}},
+    "1/29": {gh:{p:117000,n:9}, gd:{p:120000,n:8}, as:{p:null,n:null}, hu:{p:140000,n:26,approx:true}, bw:{p:227700}, gogo:{p:107100,so:false}, icngh:{p:null,so:true}},
+    "1/30": {gh:{p:117000,n:8}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:140000,n:26,approx:true}, bw:{p:227700}, gogo:{p:109900,so:false}, icngh:{p:null,so:true}},
+    "1/31": {gh:{p:88200,n:7}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:26,approx:true}, bw:{p:164450}, gogo:{p:83300,so:false}, icngh:{p:null,so:true}}
   }
 };
+/* 12·1월 주간 기준선 — SCAN_END 이후 숙박일은 매일 스캔 계산(결정표·오늘 판매·요약·저녁 반영)에 섞이지 않게 로드할 때 MKT_FAR로 옮긴다.
+   소스에는 MKT_SNAPS[스캔일]에 그대로 두고(그날 아침 11월분과 같은 키), 11월분이 하나도 없는 키는 MKT_SNAPS에서 빠진다(아침 스캔 전 오늘 키로 오인 방지). */
+const MKT_FAR = {};
+Object.keys(MKT_SNAPS).forEach(function(k){
+  const o=MKT_SNAPS[k];
+  Object.keys(o).forEach(function(md){ if(dISO(md)>SCAN_END){ (MKT_FAR[k]=MKT_FAR[k]||{})[md]=o[md]; delete o[md]; } });
+  if(!Object.keys(o).length) delete MKT_SNAPS[k];
+});
 const OUR_SNAPS = {
   "2026-10-06": {   // fdbe415 · 26일
     "10/6":{n:8,cur:90000}, "10/7":{n:7,cur:90000}, "10/8":{n:2,cur:120000}, "10/9":{n:0,cur:null}, "10/10":{n:1,cur:300000},
@@ -3246,8 +3355,6 @@ function decideDay(iso){
   j.s=s; j.why=why;
   return j;
 }
-// 스캔 범위 끝 — 경쟁사·우리 스캔은 11월 말까지만(12월·1월은 이벤트만 관리, 2026-10-28 결정). 결정표도 이 날까지만.
-const SCAN_END = "2026-11-30";
 // 결정표 대상 = 오늘~D+14 전부 + 그 이후 콘서트일 (SCAN_END까지)
 const DEC_DAYS = (function(){
   const a=[];
@@ -3480,6 +3587,10 @@ pruneLog(OURS_LOG, 3);
 renderLog();
 renderDecision();
 (function(){ const k=pmKeyFor(MKT_SNAPS_PM, MKT_SNAPS)||pmKeyFor(OUR_SNAPS_PM, OUR_SNAPS); if(k){ document.getElementById('dbPm').textContent=asofValText(k); document.getElementById('dbPmRow').hidden=false; } })();   // 날짜바 🌙 — 아침보다 새 저녁 스냅샷이 있을 때만
+(function(){   // 12·1월 탭 배지 — 경쟁사 기준일(ASOF_FAR, 주 1회). 8일 이상 지나면 노란색(월요일 갱신을 놓친 것)
+  const old=(new Date(TODAY_KST)-new Date(ASOF_FAR))/86400000>=8;
+  document.querySelectorAll('.far-asof').forEach(function(el){ el.textContent='경쟁사 기준 '+mdShort(ASOF_FAR)+'(주 1회 갱신)'+(old?' · 갱신 필요':''); el.classList.toggle('stale',old); });
+})();
 document.getElementById('trAll').addEventListener('click',function(){ DEC_SIGONLY=false; renderDecTable(); });
 document.getElementById('trSig').addEventListener('click',function(){ DEC_SIGONLY=true; renderDecTable(); });
 document.getElementById('trBody').addEventListener('click',function(e){   // 행 클릭 → 이력 펼침/접기
