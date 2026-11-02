@@ -597,9 +597,8 @@ const TRACK = {
   "10/24": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:180000,n:1},hu:{p:null,r:"so"},bw:{p:193545,r:"na"},as:{p:null,r:"so"}}, our:{ourN:6,cur:180000}},
   "10/25": {dow:"일",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:80000,n:1},hu:{p:120000,r:"na"},bw:{p:220422,r:"na"},as:{p:null,r:"so"}}, our:{ourN:4,cur:110000}},
   "10/26": {dow:"월",t:"wkdy", comp:{gh:{p:70560,n:8},gd:{p:null,r:"so"},hu:{p:120000,r:"na"},bw:{p:172040,r:"na"},as:{p:null,r:"so"}}, our:{ourN:6,cur:84000}},
-  "11/2": {dow:"월",t:"wkdy", comp:{gh:{p:93600,n:4},gd:{p:100000,n:1},hu:{p:120000,n:10},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:5,cur:110000}},
   "11/3": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:7},gd:{p:70000,n:4},hu:{p:120000,n:7},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:90000}},
-  "11/4": {dow:"수",t:"wkdy", comp:{gh:{p:93600,n:7},gd:{p:80000,n:7},hu:{p:120000,n:15},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:8,cur:110000}},
+  "11/4": {dow:"수",t:"wkdy", comp:{gh:{p:93600,n:7},gd:{p:80000,n:7},hu:{p:120000,n:15},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:8,cur:100000}},
   "11/5": {dow:"목",t:"wkdy", comp:{gh:{p:88200,n:3},gd:{p:100000,n:1},hu:{p:250000,n:4},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:4,cur:140000}},
   "11/6": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:350000,n:1},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:3,cur:230000}},
   "11/7": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:0,cur:350000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] GOP포커 9일차+MCR+SKY FESTIVAL 겹침 — 부킹 5곳(게하·굿데이·휴·베웨·에어포트스테이) 전부 만실, 아고다 고고·인천공항게하도 만실. 포커 단독일 약함·콘서트 겹침일만 강함 원칙과 일치"}},
@@ -622,7 +621,7 @@ const TRACK = {
   "11/24": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:11},gd:{p:80000,n:8},hu:{p:120000,n:22,approx:true},bw:{p:139783,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:120000}},
   "11/25": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:11},gd:{p:80000,n:8},hu:{p:120000,n:25,approx:true},bw:{p:139783,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:120000}},
   "11/26": {dow:"목",t:"wkdy", comp:{gh:{p:93600,n:1},gd:{p:80000,n:8},hu:{p:120000,n:19,approx:true},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:10,cur:120000}},
-  "11/27": {dow:"금",t:"wknd", comp:{gh:{p:126000,n:8},gd:{p:140000,n:6},hu:{p:180000,n:18,approx:true},bw:{p:290318,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:150000}},
+  "11/27": {dow:"금",t:"wknd", comp:{gh:{p:126000,n:8},gd:{p:140000,n:6},hu:{p:180000,n:18,approx:true},bw:{p:290318,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:120000}},
   "11/28": {dow:"토",t:"wknd", comp:{gh:{p:162000,n:5},gd:{p:140000,n:8},hu:{p:180000,n:8},bw:{p:338700,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:200000}},
   "11/29": {dow:"일",t:"wknd", comp:{gh:{p:88200,n:9},gd:{p:80000,n:7},hu:{p:120000,n:23,approx:true},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:120000}},
   "11/30": {dow:"월",t:"wkdy", comp:{gh:{p:93600,n:8},gd:{p:80000,n:8},hu:{p:120000,n:24,approx:true},bw:{p:139783,r:"na"},as:{p:null,r:"na"}}, our:{ourN:13,cur:120000}},
@@ -1081,8 +1080,8 @@ function pmComp(e,k){   // 저녁 스냅샷 한 칸 → TRACK comp 형식
   if(!e) return null;
   if(k==='bw') return e.p==null ? {p:null,r:"so"} : {p:e.p,r:"na"};
   if(e.n===0 && e.p==null) return {p:null,r:"so"};
-  if(k==='hu') return e.p==null ? null : {p:e.p,r:"na"};
-  return e.p==null ? null : (e.n!=null ? {p:e.p,n:e.n} : {p:e.p,r:"na"});
+  // 휴도 2026-10-28부터 정밀 잔여(n, 상한이면 approx) — 그 전 스냅샷은 n:null이라 가격만
+  return e.p==null ? null : (e.n!=null ? Object.assign({p:e.p,n:e.n}, e.approx?{approx:true}:{}) : {p:e.p,r:"na"});
 }
 function pmAgoda(e){ if(!e) return null; return e.so ? {p:null,r:"so"} : (e.p!=null ? {p:e.p} : null); }
 function pmView(md){   // {comp, ag, our, key, changes[]} 또는 null
@@ -3131,6 +3130,27 @@ const MKT_SNAPS_PM = {
     "11/27": {gh:{p:126000,n:8}, gd:{p:140000,n:6}, as:{p:null,n:null}, hu:{p:180000,n:17,approx:true}, bw:{p:290318}, gogo:{p:93505,so:false}, icngh:{p:94923,so:false}},
     "11/28": {gh:{p:162000,n:5}, gd:{p:160000,n:8}, as:{p:null,n:null}, hu:{p:180000,n:7}, bw:{p:338700}, gogo:{p:95781,so:false}, icngh:{p:null,so:true}},
     "11/29": {gh:{p:88200,n:9}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:172040}, gogo:{p:73023,so:false}, icngh:{p:null,so:true}}
+  },
+  "2026-11-02": {   // 11/2 저녁 스캔(11/3 자정 넘어) · 11/3~11/16 + 콘서트일 11/21·22·27·28·29 (11/2는 체크인 지나 제외). 게하·굿데이·휴 정밀 잔여(휴 드롭다운 상한 10이면 approx), 가격 공개가(Genius÷0.9 — MCP 19일 전부 대조 — 게하 11/4·12·15·22 MCP 93,600 vs 브라우저 117,000 → MCP 값), 베웨 가격만, 아고다 둘 다 실측(비로그인 표시가 — 고고 가격이 아침 회원가보다 높게 잡힘, 인천게하 19일 전부 "판매 완료" — 11/9 페이지 직접 확인). 에어포트스테이 부킹 "현재 예약 불가" → 전부 미확인
+    "11/3": {gh:{p:88200,n:7}, gd:{p:90000,n:2}, as:{p:null,n:null}, hu:{p:120000,n:6}, bw:{p:161288}, gogo:{p:77000,so:false}, icngh:{p:null,so:true}},
+    "11/4": {gh:{p:93600,n:7}, gd:{p:70000,n:7}, as:{p:null,n:null}, hu:{p:120000,n:14}, bw:{p:172040}, gogo:{p:65100,so:false}, icngh:{p:null,so:true}},
+    "11/5": {gh:{p:88200,n:2}, gd:{p:100000,n:1}, as:{p:null,n:null}, hu:{p:250000,n:4}, bw:{p:null}, gogo:{p:105000,so:false}, icngh:{p:null,so:true}},
+    "11/6": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:200000,n:3}, bw:{p:null}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "11/7": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:null,n:0}, bw:{p:null}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "11/8": {gh:{p:88200,n:8}, gd:{p:100000,n:5}, as:{p:null,n:null}, hu:{p:140000,n:13}, bw:{p:172040}, gogo:{p:84000,so:false}, icngh:{p:null,so:true}},
+    "11/9": {gh:{p:88200,n:8}, gd:{p:100000,n:2}, as:{p:null,n:null}, hu:{p:120000,n:16,approx:true}, bw:{p:150535}, gogo:{p:65100,so:false}, icngh:{p:null,so:true}},
+    "11/10": {gh:{p:88200,n:9}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:120000,n:19,approx:true}, bw:{p:161288}, gogo:{p:65100,so:false}, icngh:{p:null,so:true}},
+    "11/11": {gh:{p:88200,n:10}, gd:{p:80000,n:8}, as:{p:null,n:null}, hu:{p:120000,n:21,approx:true}, bw:{p:150535}, gogo:{p:72800,so:false}, icngh:{p:null,so:true}},
+    "11/12": {gh:{p:93600,n:8}, gd:{p:120000,n:4}, as:{p:null,n:null}, hu:{p:120000,n:22,approx:true}, bw:{p:172040}, gogo:{p:73500,so:false}, icngh:{p:null,so:true}},
+    "11/13": {gh:{p:162000,n:7}, gd:{p:100000,n:6}, as:{p:null,n:null}, hu:{p:180000,n:10}, bw:{p:236555}, gogo:{p:119000,so:false}, icngh:{p:null,so:true}},
+    "11/14": {gh:{p:126000,n:4}, gd:{p:160000,n:4}, as:{p:null,n:null}, hu:{p:350000,n:3}, bw:{p:193545}, gogo:{p:null,so:true}, icngh:{p:null,so:true}},
+    "11/15": {gh:{p:93600,n:5}, gd:{p:180000,n:2}, as:{p:null,n:null}, hu:{p:160000,n:19}, bw:{p:161288}, gogo:{p:105000,so:false}, icngh:{p:null,so:true}},
+    "11/16": {gh:{p:88200,n:9}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:120000,n:19,approx:true}, bw:{p:150535}, gogo:{p:65100,so:false}, icngh:{p:null,so:true}},
+    "11/21": {gh:{p:null,n:0}, gd:{p:null,n:0}, as:{p:null,n:null}, hu:{p:350000,n:5}, bw:{p:null}, gogo:{p:119000,so:false}, icngh:{p:null,so:true}},
+    "11/22": {gh:{p:93600,n:8}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:140000,n:16,approx:true}, bw:{p:150535}, gogo:{p:98000,so:false}, icngh:{p:null,so:true}},
+    "11/27": {gh:{p:126000,n:8}, gd:{p:140000,n:5}, as:{p:null,n:null}, hu:{p:180000,n:18,approx:true}, bw:{p:290318}, gogo:{p:108500,so:false}, icngh:{p:null,so:true}},
+    "11/28": {gh:{p:162000,n:5}, gd:{p:140000,n:7}, as:{p:null,n:null}, hu:{p:180000,n:7}, bw:{p:338700}, gogo:{p:108500,so:false}, icngh:{p:null,so:true}},
+    "11/29": {gh:{p:88200,n:9}, gd:{p:80000,n:7}, as:{p:null,n:null}, hu:{p:120000,n:23,approx:true}, bw:{p:172040}, gogo:{p:82600,so:false}, icngh:{p:null,so:true}}
   }
 };
 const OUR_SNAPS_PM = {
@@ -3203,6 +3223,16 @@ const OUR_SNAPS_PM = {
     "11/21":{n:7,bk:6,oth:0,cur:220000}, "11/22":{n:13,bk:0,oth:0,cur:120000}, "11/23":{n:13,bk:0,oth:0,cur:120000}, "11/24":{n:13,bk:0,oth:0,cur:120000},
     "11/25":{n:13,bk:0,oth:0,cur:120000}, "11/26":{n:10,bk:3,oth:0,cur:120000}, "11/27":{n:13,bk:0,oth:0,cur:150000}, "11/28":{n:11,bk:1,oth:1,cur:200000},
     "11/29":{n:11,bk:2,oth:0,cur:120000}, "11/30":{n:13,bk:0,oth:0,cur:120000}
+  },
+  "2026-11-02": {   // 부킹 관리자 캘린더 11/2 저녁 캡처(11/3 00:02) · 29일(11/2~11/30, 11/2는 부킹 화면 "지난 날짜" 상태 값). 11/7 "판매 마감"(빨간 칸) = 완판 → n:0, curNote:"완판". oth=13−n−bk. 아침 대비 가격 변경 11/2·11/4 110,000→100,000, 11/27 150,000→120,000
+    "11/2":{n:3,bk:7,oth:3,cur:100000}, "11/3":{n:6,bk:7,oth:0,cur:90000}, "11/4":{n:8,bk:3,oth:2,cur:100000}, "11/5":{n:4,bk:7,oth:2,cur:140000},
+    "11/6":{n:3,bk:9,oth:1,cur:230000}, "11/7":{n:0,bk:10,oth:3,cur:350000,curNote:"완판"}, "11/8":{n:5,bk:7,oth:1,cur:120000}, "11/9":{n:11,bk:1,oth:1,cur:100000},
+    "11/10":{n:9,bk:3,oth:1,cur:120000}, "11/11":{n:12,bk:0,oth:1,cur:100000}, "11/12":{n:11,bk:2,oth:0,cur:110000}, "11/13":{n:7,bk:5,oth:1,cur:150000},
+    "11/14":{n:9,bk:3,oth:1,cur:250000}, "11/15":{n:12,bk:1,oth:0,cur:120000}, "11/16":{n:11,bk:2,oth:0,cur:120000}, "11/17":{n:9,bk:4,oth:0,cur:120000},
+    "11/18":{n:13,bk:0,oth:0,cur:120000}, "11/19":{n:10,bk:3,oth:0,cur:120000}, "11/20":{n:10,bk:3,oth:0,cur:150000}, "11/21":{n:7,bk:6,oth:0,cur:220000},
+    "11/22":{n:13,bk:0,oth:0,cur:120000}, "11/23":{n:13,bk:0,oth:0,cur:120000}, "11/24":{n:13,bk:0,oth:0,cur:120000}, "11/25":{n:13,bk:0,oth:0,cur:120000},
+    "11/26":{n:10,bk:3,oth:0,cur:120000}, "11/27":{n:13,bk:0,oth:0,cur:120000}, "11/28":{n:12,bk:1,oth:0,cur:200000}, "11/29":{n:11,bk:2,oth:0,cur:120000},
+    "11/30":{n:13,bk:0,oth:0,cur:120000}
   }
 };
 /* 스냅샷별 측정방식 메모. ghMethod:"sum" = 게하 잔여를 요금제(환불불가/일반) 행마다 더한 옛 방식(같은 객실이 두 번 세어짐),
