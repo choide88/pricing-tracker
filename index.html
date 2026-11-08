@@ -602,7 +602,7 @@ const TRACK = {
   "11/6": {dow:"금",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:3,cur:150000}},
   "11/7": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{p:null,r:"so"},hu:{p:null,r:"so"},bw:{p:null,r:"so"},as:{p:null,r:"na"}}, our:{ourN:0,cur:350000}, flag:{lvl:"red",ic:"🔴",txt:"[10/25 아침] GOP포커 9일차+MCR+SKY FESTIVAL 겹침 — 부킹 5곳(게하·굿데이·휴·베웨·에어포트스테이) 전부 만실, 아고다 고고·인천공항게하도 만실. 포커 단독일 약함·콘서트 겹침일만 강함 원칙과 일치"}},
   "11/8": {dow:"일",t:"wknd", comp:{gh:{p:93600,n:7},gd:{p:100000,n:4},hu:{p:140000,n:11},bw:{p:177412,r:"na"},as:{p:null,r:"na"}}, our:{ourN:5,cur:120000}},
-  "11/9": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:8},gd:{p:null,r:"so"},hu:{p:120000,n:16,approx:true},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:7,cur:100000}},
+  "11/9": {dow:"월",t:"wkdy", comp:{gh:{p:88200,n:8},gd:{p:null,r:"so"},hu:{p:120000,n:16,approx:true},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:7,cur:500000,curNote:"판매 차단용(실판매가 아님)"}},
   "11/10": {dow:"화",t:"wkdy", comp:{gh:{p:88200,n:9},gd:{p:70000,n:5},hu:{p:120000,n:19,approx:true},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:9,cur:100000}},
   "11/11": {dow:"수",t:"wkdy", comp:{gh:{p:88200,n:10},gd:{p:70000,n:8},hu:{p:120000,n:20,approx:true},bw:{p:161288,r:"na"},as:{p:null,r:"na"}}, our:{ourN:11,cur:100000}},
   "11/12": {dow:"목",t:"wkdy", comp:{gh:{p:93600,n:8},gd:{p:120000,n:4},hu:{p:120000,n:21,approx:true},bw:{p:172040,r:"na"},as:{p:null,r:"na"}}, our:{ourN:10,cur:100000}},
@@ -1074,7 +1074,14 @@ function eventCell(d){
 function latestKey(obj){ const k=Object.keys(obj).filter(function(x){return x<=TODAY_KST;}).sort(); return k[k.length-1]||null; }
 function pmKeyFor(pmObj, amObj){ const p=latestKey(pmObj), a=latestKey(amObj); return (p && (!a || p>=a)) ? p : null; }
 // curNote "완판" = 부킹 캘린더 "판매 마감"(빨간 칸)이 실제 완판인 경우 — n:0과 함께 저장되며 판매마감(닫음)과 달리 정상 완판으로 다룬다
-function isClosedNote(t){ return !!t && t!=='완판'; }
+// curNote에 "판매 차단"이 들어간 날 = 표시가를 판매 차단용으로 올려둔 것(실판매가 아님) — 판매마감이 아니라 잔여는 그대로 세고,
+// 실제가 계산·"비싸고 안 팔림" 신호·가격 반응 분석에서는 그 가격을 뺀다. 화면엔 "차단 50만"처럼 짧게.
+function isBlockNote(t){ return !!t && t.indexOf('판매 차단')>=0; }
+function isClosedNote(t){ return !!t && t!=='완판' && !isBlockNote(t); }
+function blockLabel(cur){ return '차단 '+(cur!=null ? Math.round(cur/10000)+'만' : ''); }
+// 표시가 40만↑ + 이벤트일(콘서트) 아님 + 차단 메모 없음 → "판매 차단 가능성 — Dennis 확인" 자동 메모
+const BLOCK_SUSPECT_MIN = 400000;
+function blockSuspect(cur, iso, note){ return cur!=null && cur>=BLOCK_SUSPECT_MIN && !isEventDay(iso) && !isBlockNote(note); }
 function pmComp(e,k){   // 저녁 스냅샷 한 칸 → TRACK comp 형식
   if(!e) return null;
   if(k==='bw') return e.p==null ? {p:null,r:"so"} : {p:e.p,r:"na"};
@@ -1099,7 +1106,11 @@ function pmView(md){   // {comp, ag, our, key, changes[]} 또는 null
     v.changes.push('우리 '+oe.curNote); v.our.curNote=oe.curNote; v.our.cur=null; v.our.ourN=null;
   } else if(oe){
     if(oe.n!=null && oe.n!==o0.ourN){ v.changes.push('우리 잔여 '+(o0.ourN==null?'-':o0.ourN)+'→'+oe.n); v.our.ourN=oe.n; }
-    if(oe.cur!=null && oe.cur!==o0.cur){ v.changes.push('우리 가격 '+(o0.cur==null?'-':fmt(o0.cur))+'→'+fmt(oe.cur)); v.our.cur=oe.cur; }
+    if(oe.cur!=null && (oe.cur!==o0.cur || isBlockNote(oe.curNote)!==isBlockNote(o0.curNote))){
+      const pt=function(c,nt){ return c==null ? '-' : isBlockNote(nt) ? blockLabel(c) : fmt(c); };
+      v.changes.push('우리 가격 '+pt(o0.cur,o0.curNote)+'→'+pt(oe.cur,oe.curNote)); v.our.cur=oe.cur;
+      if(isBlockNote(oe.curNote)) v.our.curNote=oe.curNote; else if(isBlockNote(o0.curNote)) delete v.our.curNote;
+    }
   }
   return v;
 }
@@ -1120,9 +1131,12 @@ function buildMonthRow(md, iso){
   const noteHtml = row&&row.note ? ' <span class="note-ic" title="'+esc(row.note)+'">📝</span>' : '';
 
   let ourCur;
-  if(row && row.our && row.our.cur!=null){
+  if(row && row.our && row.our.cur!=null && isBlockNote(row.our.curNote)){   // 판매 차단가 — 실제가 계산 안 함
+    ourCur = '<a href="'+ourUrl(md)+'" target="_blank" rel="noopener"><span class="gap-na" title="'+esc('표시가 '+fmt(row.our.cur)+' — '+row.our.curNote+' · 실제가·비싸고 안 팔림·가격 반응 분석 제외')+'">'+blockLabel(row.our.cur)+'</span></a>';
+  } else if(row && row.our && row.our.cur!=null){
     const inner = fmt(row.our.cur)+'<span class="list-sub">/ 실제 '+fmt(realPrice(row.our.cur, md))+'</span>';
-    ourCur = '<a href="'+ourUrl(md)+'" target="_blank" rel="noopener">'+inner+'</a>';
+    ourCur = '<a href="'+ourUrl(md)+'" target="_blank" rel="noopener">'+inner+'</a>'
+      +(blockSuspect(row.our.cur, iso, row.our.curNote) ? ' <span class="note-ic" title="판매 차단 가능성 — Dennis 확인 (표시가 40만↑ · 이벤트일 아님)">⚠️</span>' : '');
   } else if(row && row.our && row.our.curNote){
     ourCur = '<a href="'+ourUrl(md)+'" target="_blank" rel="noopener"><span class="gap-na">'+row.our.curNote+'</span></a>';
   } else ourCur = '<span class="gap-na">-</span>';
@@ -3436,8 +3450,8 @@ const OUR_SNAPS_PM = {
     "11/26":{n:8,bk:5,oth:0,cur:120000}, "11/27":{n:13,bk:0,oth:0,cur:150000}, "11/28":{n:10,bk:2,oth:1,cur:200000}, "11/29":{n:11,bk:2,oth:0,cur:120000},
     "11/30":{n:13,bk:0,oth:0,cur:120000}
   },
-  "2026-11-08": {   // 부킹 관리자 캘린더 11/8 저녁 캡처(11/9 00:35) · 22일(11/9~11/30, 12월은 주간 갱신이라 미저장). oth=13−n−bk. 직전 우리 스냅샷 11/6 아침(약 2.5일 간격). 11/9 가격은 캡처에 "5000…"로 잘려 미확인(cur:null, Dennis 확인 대기 — TRACK our.cur 기존 값 유지). 11/6 아침 대비 가격 변경 11/10 120,000→100,000, 11/12 110,000→100,000, 11/15 120,000→100,000, 11/21 220,000→250,000
-    "11/9":{n:3,bk:9,oth:1,cur:null}, "11/10":{n:6,bk:6,oth:1,cur:100000}, "11/11":{n:11,bk:1,oth:1,cur:100000}, "11/12":{n:10,bk:3,oth:0,cur:100000},
+  "2026-11-08": {   // 부킹 관리자 캘린더 11/8 저녁 캡처(11/9 00:35) · 22일(11/9~11/30, 12월은 주간 갱신이라 미저장). oth=13−n−bk. 직전 우리 스냅샷 11/6 아침(약 2.5일 간격). 11/9 500,000은 판매 차단용(실판매가 아님, Dennis 확인) → curNote. 11/6 아침 대비 가격 변경 11/10 120,000→100,000, 11/12 110,000→100,000, 11/15 120,000→100,000, 11/21 220,000→250,000
+    "11/9":{n:3,bk:9,oth:1,cur:500000,curNote:"판매 차단용(실판매가 아님)"}, "11/10":{n:6,bk:6,oth:1,cur:100000}, "11/11":{n:11,bk:1,oth:1,cur:100000}, "11/12":{n:10,bk:3,oth:0,cur:100000},
     "11/13":{n:8,bk:4,oth:1,cur:150000}, "11/14":{n:9,bk:3,oth:1,cur:250000}, "11/15":{n:10,bk:3,oth:0,cur:100000}, "11/16":{n:9,bk:4,oth:0,cur:120000},
     "11/17":{n:9,bk:4,oth:0,cur:120000}, "11/18":{n:11,bk:2,oth:0,cur:120000}, "11/19":{n:9,bk:3,oth:1,cur:120000}, "11/20":{n:7,bk:6,oth:0,cur:150000},
     "11/21":{n:4,bk:9,oth:0,cur:250000}, "11/22":{n:13,bk:0,oth:0,cur:120000}, "11/23":{n:13,bk:0,oth:0,cur:120000}, "11/24":{n:12,bk:1,oth:0,cur:120000},
@@ -3629,11 +3643,14 @@ function decideDay(iso){
   const closed = !!(po && isClosedNote(po.curNote));   // 판매마감(Sirvoy에서 닫음): 잔여를 아침 값으로 되돌리지 않고, 판매로도 세지 않는다. "완판"(n:0)은 판매로 센다
   const rem = closed ? null : po && po.n!=null ? po.n : (os && os.n!=null ? os.n : (tr && tr.ourN!=null ? tr.ourN : null));
   const cur = po && po.cur!=null ? po.cur : (tr && tr.cur!=null ? tr.cur : null);   // 우리 현재가 = TRACK 저장값(스냅샷에 가격이 없으면 null 그대로 → "가격 미확인")
+  const curNote = po && po.cur!=null ? po.curNote : (tr ? tr.curNote : null);
+  const block = cur!=null && isBlockNote(curNote);   // 판매 차단가 — 실제가·비싸고 안 팔림 판단 제외
   const o3=our3(md), dt=dayTotal(md), m=mktNow(md), late=LATE[cat].val, cap=capOf(iso);
   const j={iso:iso, md:md, D:D, cat:cat, ev:ev, dow:dowKST(iso), rem:rem, cur:cur, remPm:!!(po && po.n!=null), o3:o3, dt:dt, m:m, late:late, cap:cap, closed:closed, note:closed?po.curNote:null};
   j.pred=closed ? null : predLeft(rem,o3,D,late);
-  j.real=realPrice(cur,md);
-  j.pc=priceyCheck(j.real,o3,m);
+  j.block=block; j.suspect=blockSuspect(cur, iso, curNote);
+  j.real=block ? null : realPrice(cur,md);
+  j.pc=block ? null : priceyCheck(j.real,o3,m);
   const ch = po && po.n!=null ? po : os;   // 채널별 예약(부킹 캘린더 캡처) — 저녁 있으면 저녁
   j.bk = ch && ch.bk!=null ? ch.bk : null; j.oth = ch && ch.bk!=null ? (ch.oth!=null ? ch.oth : 'chk') : null;
   j.booked = rem!=null ? cap-rem : null;
@@ -3660,6 +3677,8 @@ function decideDay(iso){
   else if(j.pc && j.pc.hit){ s='pricey'; why='우리 실제가 '+fmt(j.real)+'(표시 '+fmt(cur)+') vs 방 남은 게하·굿데이 최고 '+fmt(j.pc.ref)+' (+'+Math.round((j.real/j.pc.ref-1)*100)+'%) · 3일 판매 '+our3Txt(o3)+mTag; }
   else if(ev && D<=DEC_CFG.horizon && j.booked===0){ s='event'; why='콘서트일 D-'+D+' · 누적 판매 0 ('+rem+'/'+cap+')'; }
   else { s = D<=DEC_CFG.horizon ? 'keep' : 'watch'; why = (D<=DEC_CFG.horizon?'특이 신호 없음':'D-'+D+' — 멀어서 관망')+(j.pc && j.pc.unk?' · 우리 가격 미확인':''); }
+  if(block) why+=' · 우리 표시가 '+blockLabel(cur)+'(판매 차단용 — 실제가·비싸고 안 팔림 제외)';
+  else if(j.suspect) why+=' · 판매 차단 가능성 — Dennis 확인';
   j.s=s; j.why=why;
   return j;
 }
@@ -3720,7 +3739,8 @@ function evTag(iso){
 // 우리 칸 보조줄: 표시가 / 실제가, 부킹 N · 기타 N(기타 = 총 객실 − 잔여 − 부킹, 음수면 "확인 필요")
 function ourSub(j){
   const a=[];
-  if(j.cur!=null) a.push('<span title="표시가 / 실제가(D-'+j.D+' ×'+(1-discRate(j.D)).toFixed(2)+')">'+fmt(j.cur)+' / '+fmt(j.real)+'</span>');
+  if(j.cur!=null && j.block) a.push('<span title="'+esc('표시가 '+fmt(j.cur)+' — 판매 차단용(실판매가 아님) · 실제가 계산 제외')+'">'+blockLabel(j.cur)+'</span>');
+  else if(j.cur!=null) a.push('<span title="표시가 / 실제가(D-'+j.D+' ×'+(1-discRate(j.D)).toFixed(2)+')">'+fmt(j.cur)+' / '+fmt(j.real)+'</span>'+(j.suspect?' <span title="판매 차단 가능성 — Dennis 확인 (표시가 40만↑ · 이벤트일 아님)">⚠️</span>':''));
   if(j.bk!=null) a.push('부킹 '+j.bk+' · '+(j.oth==='chk'?'<span title="총 객실 − 잔여 − 부킹이 음수">기타 확인 필요</span>':'기타 '+j.oth));
   return a.length ? '<div class="dc-our-sub">'+a.join('<br>')+'</div>' : '';
 }
