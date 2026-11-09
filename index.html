@@ -169,6 +169,7 @@
   .evb{display:inline-block;font-size:10px;font-weight:700;border-radius:5px;padding:1px 6px;line-height:1.5;}
   .ev-high{background:#fdecec;color:#c0392b;border:1px solid #f3c0c0;}
   .ev-mid{background:#fff2e0;color:#c2780c;border:1px solid #f0d0a0;}
+  .ev-hol{background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe;font-size:9px;font-weight:600;}
   .ev-watch{background:#f3f4f6;color:#6b7280;border:1px dashed #9ca3af;}
   .ev-venue{display:block;font-size:9px;color:#9ca3af;margin-top:1px;}
   .recprem{color:#c0392b;font-weight:700;}
@@ -482,7 +483,7 @@
 // 데이터 기준일 6종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
 const ASOF_PRICE = "2026-11-06";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
 const ASOF_STOCK = "2026-11-06";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
-const ASOF_EVENT = "2026-10-28";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
+const ASOF_EVENT = "2026-11-09";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
 const ASOF_AGODA = "2026-11-06";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
 const ASOF_AGODA_STOCK = "2026-11-06";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
 const ASOF_OURS_FAR = "2026-11-02";   // 12·1월 우리 현황(부킹 캘린더 캡처) 마지막 갱신일 — ASOF_OURS(11월 매일)와 독립
@@ -890,12 +891,12 @@ const EVENTS = {
     concert2:{name:"XMF 2026", venue:"파라다이스 컬처파크", impact:"high", strength:"강", scale:"大", type:"official", farBig:true, note:"한일 22팀 라인업·아도 헤드라이너·일본원정 2일차. EDC(인스파이어)와 별개 동시개최", url:"https://www.p-city.com/front/event/eventView?P_SEQ=8291&P_CTNT_TY=imageTy"}},
   "2026-12-05": {name:"YUURI LIVE 2026 IN SEOUL", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", farBig:true, note:"12/5(토) 18시 공연. 일본원정·신규·AJPC III 포커 중첩=이중수요. ※12/5~6 확정(NOL)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
   "2026-12-06": {name:"YUURI LIVE 2026 IN SEOUL", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"최강", scale:"중", type:"official", cat:"concert", farBig:true, note:"12/6(일) 17시 공연. 일본원정·신규·AJPC III 포커 중첩=이중수요. ※12/5~6 확정(NOL)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2026-12-25": {name:"네이버×현대카드 THE SIX (여자 테니스 초청 토너먼트)", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"중", type:"official", cat:"concert", note:"12/25(금) 준준결승. 사발렌카·리바키나·시비옹테크·안드레예바·오사카·파올리니 출전 예정. 10/27 예매 오픈. 크리스마스 연휴 겹침."},
+  "2026-12-25": {name:"네이버×현대카드 THE SIX (여자 테니스 초청 토너먼트)", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"중", type:"official", cat:"concert", note:"12/25(금) 준준결승. 사발렌카·리바키나·시비옹테크·안드레예바·오사카·파올리니 출전 예정. 10/27 예매 오픈. 성탄절(금요일 연휴) — 금·토·일 3일 연휴 겹침."},
   "2026-12-26": {name:"네이버×현대카드 THE SIX (여자 테니스 초청 토너먼트)", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"강", type:"official", cat:"concert", note:"12/26(토) 준결승. 사발렌카·리바키나·시비옹테크·안드레예바·오사카·파올리니 출전 예정. 10/27 예매 오픈. 크리스마스 연휴 겹침."},
-  "2026-12-27": {name:"CHROMA KEY 002", venue:"클럽 크로마", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"글로벌 DJ EDM 파티. 클럽 크로마는 금·토 상시 부트레그쇼 운영 배경수요 위에 얹히는 플래그십 파티. 10/28 재확인 실패, 재확인 필요", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances",
-    concert2:{name:"네이버×현대카드 THE SIX (여자 테니스 초청 토너먼트)", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"강", type:"official", farBig:true, note:"12/27(일) 결승. 사발렌카·리바키나·시비옹테크·안드레예바·오사카·파올리니 출전 예정. 10/27 예매 오픈. 크리스마스 연휴 겹침."}},
-  "2026-12-12": {name:"이승철 40주년 콘서트 THE VOICE", venue:"네이버 아레나(구 인스파이어)", impact:"mid", strength:"중", type:"official", cat:"concert", farBig:true, note:"인터파크 공식·데뷔40주년 전국투어·AJPC III 포커(12/4~13, ❔확인필요) 중첩=이중수요 가능성. 국내 중장년층 팬덤 중심", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
-  "2027-01-01": {name:"신정", cat:"holiday", impact:"mid", note:"신정 연휴"},
+  "2026-12-27": {name:"네이버×현대카드 THE SIX (여자 테니스 초청 토너먼트)", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"12/27(일) 결승. 사발렌카·리바키나·시비옹테크·안드레예바·오사카·파올리니 출전 예정. 10/27 예매 오픈. 크리스마스 연휴 겹침.",
+    concert2:{name:"CHROMA KEY 002", venue:"클럽 크로마", impact:"high", strength:"강", type:"official", farBig:true, tbd:true, note:"11/9 재조사(4개 언어)에서도 출처 확인 실패 — 미확인. (글로벌 DJ EDM 파티, 클럽 크로마 금·토 상시 부트레그쇼 위 플래그십 파티로 알려졌던 항목)", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"}},
+  "2026-12-12": {name:"이승철 40주년 콘서트 THE VOICE", venue:"네이버 아레나(구 인스파이어)", impact:"mid", strength:"중", type:"official", cat:"concert", farBig:true, note:"인터파크 공식·데뷔40주년 전국투어. AJPC 메인 Day1(12/12, AJPC III 12/4~13 확정 — 11/9) 중첩=이중수요 가능성. 국내 중장년층 팬덤 중심", url:"https://www.inspireresorts.com/ko/entertainment/inspire-arena/featured-performances"},
+  "2027-01-01": {name:"신정", cat:"holiday", impact:"mid", note:"신정 연휴. 중국 원단 연휴(1/1~1/3)·일본 연말연시 연휴(12/29~1/3)와 겹침"},
   "2027-01-02": {name:"한로로 5th 단독 콘서트 '물음표'", venue:"네이버 아레나", impact:"high", strength:"중", scale:"중", type:"official", cat:"concert", note:"국내 팬 중심, 원정 숙박수요 중간. 신정 직후 주말. 11/13 예매. 네이버 아레나 첫 아레나 공연."},
   "2027-01-03": {name:"한로로 5th 단독 콘서트 '물음표'", venue:"네이버 아레나", impact:"high", strength:"중", scale:"중", type:"official", cat:"concert", note:"국내 팬 중심, 원정 숙박수요 중간. 신정 직후 주말. 11/13 예매. 네이버 아레나 첫 아레나 공연."},
   "2027-01-14": {name:"요네즈 켄시 'GHOST'", venue:"네이버 아레나(구 인스파이어)", impact:"high", strength:"강", type:"official", cat:"concert", farBig:true, note:"일본 원정 수요 大, 2025 첫 내한 2만 관객. 공연일 14·16·17(Live Nation·Bandwagon)."},
@@ -926,7 +927,7 @@ const POKER_EVENTS = [
   {start:"2026-08-21", end:"2026-08-30", name:"AJPC Samurai Circuit II", jpHeavy:true,  leadTime:"short", strength:"low",  url:"https://samurai.ajpc.jp/", note:"일본주최·전과정 日어진행·임박예약 D-14~7 인상. 포커 단독일 장기수요 약함 — 8/22 강세는 콘서트(NCT)가 원인, 포커 아님"},
   {start:"2026-09-03", end:"2026-09-14", name:"Asian Pacific Poker Tour (PokerStars)", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://maineventtravel.com/tour/appt", note:"APPT=Asian Pacific Poker Tour, 7년만 부활·국제 원정多·메인 9/10~14. 포커 단독일 저가재고 13~16(8월 AJPC와 동일 약세) — 강세는 사플페(9/5~6)·RIIZE(9/12~13) 콘서트 겹침일뿐"},
   {start:"2026-10-30", end:"2026-11-08", name:"GOP Incheon Labyrinth", jpHeavy:false, leadTime:"long",  strength:"low", url:"https://somuchpoker.com/", note:"대형대회·원정多·GOP포커+WPT포커+세븐틴(10/30~11/1)+MCR(11/7) = 하반기 최대 밀집(사중이벤트, 9/29 재분류). 10/31·11/7 두 토요일이 핵심 승부처. 세븐틴·MCR 원정객은 17만 상한 초과 가능. 포커 단독 평일은 장기수요 약함 원칙 유지"},
-  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, leadTime:"short", strength:"low", tbd:true, url:"https://samurai.ajpc.jp/", note:"Pokerfors 공식 캘린더에 2026년 12월 AJPC 미등재 — 개최여부 재확인 필요. 발표시 12/5~6 YUURI 중첩·포커 단독일 장기수요 약함(AJPC II·APPT와 동일 성격) 원칙 유지. pokercalendar.asia·shosubcul.com 등재(10/28 확인), 주최 공식 발표 전."},
+  {start:"2026-12-04", end:"2026-12-13", name:"AJPC Samurai Circuit III", jpHeavy:true, leadTime:"short", strength:"low", url:"https://samurai.ajpc.jp/", note:"SoMuchPoker 세부 일정 확인(11/9). 35개 이벤트. 메인 12/12(토) Day1 A·B → 12/13(일) 파이널, 참가비 165만. 하이롤러 12/7·10·11. 보장 상금 미발표. 12/12 이승철 콘서트와 메인 첫날 겹침, 12/5·6 YUURI(일본 원정)와 초반 겹침."},
   {start:"2027-01-22", end:"2027-01-31", name:"ASPT KOREA 2027", jpHeavy:true, leadTime:"long", strength:"low", url:"https://aspt.world/events", note:"일본발 Asia Series Poker Tour. 메인 1/28(목)~31(일). 보장·참가비 미공개(10/28 기준). 일본인 참가 多 → 조기 예약 경향. 핵심 1/29(금)·30(토). 포커 단독 평일은 약함 원칙 유지. 같은 기간 APT Jeju Classic(제주)과 수요 분산 가능."},
   {start:"2027-03-05", end:"2027-03-14", name:"Infinity Poker Incheon 2027", jpHeavy:false, leadTime:"long", strength:"low", note:"메인 150만·보장 6억, 총 보장 8억. UAE 주최 신규 투어 첫 대회."}
 ];
@@ -941,6 +942,23 @@ POKER_EVENTS.forEach(function(ev){
     EVENTS[k]=Object.assign({}, EVENTS[k]||{}, {poker:Object.assign({}, ev, {impact:"high", type:"poker", cat:"poker", dayNum:dayNum, total:total})});
   }
 });
+/* 해외·국내 연휴(cat:"holiday", 2026-11-09) — 기간으로 두고 로드 때 날짜마다 EVENTS[날짜].hols에 붙인다(그날 다른 항목이 없으면 holiday 항목을 새로 만듦).
+   월별 표 이벤트 열·이벤트 캘린더에 🎌로 작게만 표시하고, 이벤트일(isEventDay)·신호 계산엔 넣지 않는다. */
+const HOLIDAY_RANGES = [
+  {start:"2026-12-25", end:"2026-12-25", name:"성탄절(금요일 연휴)", cat:"holiday", impact:"mid", note:"12/25(금) 성탄절 — 금·토·일 3일 연휴. THE SIX 준준결승과 겹침"},
+  {start:"2026-12-29", end:"2027-01-03", name:"일본 연말연시 연휴", cat:"holiday", impact:"mid", note:"일본 연말연시 연휴(12/29~1/3) — 일본인 해외여행 성수기"},
+  {start:"2027-01-01", end:"2027-01-03", name:"중국 원단 연휴", cat:"holiday", impact:"mid", note:"중국 원단(신정) 3일 연휴(1/1~1/3)"},
+  {start:"2027-01-09", end:"2027-01-11", name:"일본 성인의 날 연휴", cat:"holiday", impact:"mid", note:"1/11(월) 성인의 날 — 1/9~1/11 3일 연휴"}
+];
+HOLIDAY_RANGES.forEach(function(h){
+  const parse=s=>{ const p=s.split('-').map(Number); return Date.UTC(p[0],p[1]-1,p[2]); };
+  for(let t=parse(h.start); t<=parse(h.end); t+=86400000){
+    const d=new Date(t);
+    const k=d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');
+    if(!EVENTS[k]) EVENTS[k]={name:h.name, cat:"holiday", impact:h.impact, note:h.note, fromRange:true};
+    else (EVENTS[k].hols=EVENTS[k].hols||[]).push(h);
+  }
+});
 const POKER_BANDS = [
   {id:"APT",   name:"APT Incheon",             start:"2026-08-07", end:"2026-08-16", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"40억GTD·메인 8/9~15·2025 日엔트리 37.8%(1위)·대형국제 해외원정多. 포커 단독일은 장기수요 약함 — 8/8~9만 2PM 콘서트 겹쳐 강세였고 나머지 평일은 약했음"},
   {id:"AJPC",  name:"AJPC Samurai Circuit II", start:"2026-08-21", end:"2026-08-30", venue:"파라다이스 카지노", leadTime:"short", strength:"low",  note:"일본주최·전과정 日어진행·근거리/현지 임박예약 → 초반 저가허용, D-14~7 인상. 포커 단독일 장기수요 약함 — 8/22 강세는 콘서트(NCT)가 만드는 것이지 포커 아님"},
@@ -949,7 +967,7 @@ const POKER_BANDS = [
   {id:"SC26",  name:"SuperCup Incheon 2026",  start:"2026-10-08", end:"2026-10-18", venue:"파라다이스 카지노", strength:"mid", note:"일본 JOPT 계열, 총 1억7,500만엔 GTD·메인 7,000만엔 GTD. 일본어 출처에만 공개돼 당시 미반영. 10/8~10 우리 거의 만실은 JX 콘서트+SuperCup 중첩. 2027 회차 발표 확인 대상."},
   {id:"GOP",   name:"GOP Incheon Labyrinth",  start:"2026-10-30", end:"2026-11-08", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"GOP Incheon II(10/30~11/8, 76개 이벤트). 메인 11/3~8, 참가비 143만·보장 6억 — 5월 대회(220만·7억, 전체 2,433엔트리·메인 356)보다 작음. 같은 기간 WPT Seoul(인스파이어)과 수요 분산. 포커 단독 평일은 이벤트 프리미엄 없이 운영. 강세는 11/6·7(주말+MCR)."},
   {id:"WPT",   name:"WPT Seoul",              start:"2026-10-30", end:"2026-11-09", venue:"인스파이어 YY Poker Club(신규 70테이블)", leadTime:"long",  strength:"low", note:"WPT 공식·인스파이어 신규 포커룸 개장 첫 대회. GOP와 기간 거의 겹침 = 포커 이중개최지만 포커 단독일 약함 원칙 유지"},
-  {id:"AJPC3", name:"AJPC Samurai Circuit III",start:"2026-12-04", end:"2026-12-13", venue:"파라다이스 카지노", leadTime:"short", strength:"low", tbd:true, note:"Pokerfors 공식 캘린더에 2026년 12월 AJPC 미등재 — 개최여부 재확인 필요. 발표시: 일본주최 중형서킷·근거리 임박예약. 12/5~6 YUURI(일본원정) 중첩=이중수요 가능. pokercalendar.asia·shosubcul.com 등재(10/28 확인), 주최 공식 발표 전."},
+  {id:"AJPC3", name:"AJPC Samurai Circuit III",start:"2026-12-04", end:"2026-12-13", venue:"파라다이스 카지노", leadTime:"short", strength:"low", note:"SoMuchPoker 세부 일정 확인(11/9). 35개 이벤트. 메인 12/12(토) Day1 A·B → 12/13(일) 파이널, 참가비 165만. 하이롤러 12/7·10·11. 보장 상금 미발표. 12/12 이승철 콘서트와 메인 첫날 겹침, 12/5·6 YUURI(일본 원정)와 초반 겹침."},
   {id:"ASPT",  name:"ASPT KOREA 2027",        start:"2027-01-22", end:"2027-01-31", venue:"파라다이스 카지노", leadTime:"long",  strength:"low", note:"일본발 Asia Series Poker Tour. 메인 1/28(목)~31(일). 보장·참가비 미공개(10/28 기준). 일본인 참가 多 → 조기 예약 경향. 핵심 1/29(금)·30(토). 포커 단독 평일은 약함 원칙 유지. 같은 기간 APT Jeju Classic(제주)과 수요 분산 가능."},
   {id:"INF",   name:"Infinity Poker Incheon 2027", start:"2027-03-05", end:"2027-03-14", venue:"파라다이스 카지노", leadTime:"long", strength:"low", note:"메인 150만·보장 6억, 총 보장 8억. UAE 주최 신규 투어 첫 대회."}
 ];
@@ -1044,7 +1062,7 @@ function eventCell(d){
   const e=eventInfo(d);
   if(!e) return '';
   let out='';
-  if(e.cat==="holiday") out+='<span class="evb ev-mid" title="'+esc(e.note)+'">🎌 '+e.name+'</span>';
+  if(e.cat==="holiday") out+='<span class="evb '+(e.fromRange?'ev-hol':'ev-mid')+'" title="'+esc(e.note)+'">🎌 '+e.name+'</span>';
   if(e.poker){
     const pk=e.poker, jp=pk.jpHeavy?' 🇯🇵':'';
     const label='🃏 '+pk.name+' <span class="pk-day">('+pk.dayNum+'/'+pk.total+'일차)</span>'+jp;
@@ -1067,6 +1085,7 @@ function eventCell(d){
     const badge=c2.url?'<a class="evb '+cls+'" href="'+c2.url+'" target="_blank" rel="noopener">'+inner+'</a>':'<span class="evb '+cls+'">'+inner+'</span>';
     out+=(out?'<br>':'')+badge+(c2.venue&&c2.venue!=="미상"?'<span class="ev-venue">'+c2.venue+'</span>':'');
   }
+  (e.hols||[]).forEach(function(h){ out+=(out?'<br>':'')+'<span class="evb ev-hol" title="'+esc(h.note)+'">🎌 '+h.name+'</span>'; });
   return out;
 }
 /* 저녁 스냅샷 화면 반영 — 아침 스캔(MKT_SNAPS/OUR_SNAPS 최신 키)보다 새 저녁 스냅샷이 있으면 월별 표에 저녁 값을 보여준다.
@@ -1878,7 +1897,7 @@ function renderEventCalendar(){
   const mdw=iso=>mdOf(iso)+'('+dowKST(iso)+')';
   const rangeOf=(a,b)=>a===b?mdw(a):mdw(a)+'~'+mdw(b);
 
-  let l1='<h3 class="ec-h">1층 · 포커 상시밴드 <span class="ec-hsub">🟡 지속형 주동인 — 인천 파라다이스·인스파이어 카지노(AJPC III는 확인필요)</span></h3>'
+  let l1='<h3 class="ec-h">1층 · 포커 상시밴드 <span class="ec-hsub">🟡 지속형 주동인 — 인천 파라다이스·인스파이어 카지노(AJPC III 12/4~13 확정)</span></h3>'
     +'<table class="ec-t"><thead><tr><th class="date">기간</th><th style="text-align:left;">대회</th><th>장소</th><th style="text-align:left;">비고(hover 상세)</th></tr></thead><tbody>';
   for(const b of POKER_BANDS.filter(b=>msKST(b.end)>=TODAY_MS)){
     const lt = b.leadTime==="long"
@@ -1987,9 +2006,9 @@ function renderEventCalendar(){
     +'<li class="fo-warn">10/30(금)·10/31(토) 현재 225,000 = 삼중이벤트인데 일반 주말가·<b>이벤트가 미세팅</b> → 정밀 권장가는 하단 <b>📅 미래 이벤트 세팅</b> 표 참고.</li>'
     +'<li>10/2~5(추석연휴) 현재 20~30만 = 적정, 유지. D-70이라 경쟁사 보며 조정.</li>'
     +'</ul>'
-    +'<span class="fo-badge dd2">💜 이중수요 12/4~6 = AJPC III포커(❔확인필요) + YUURI(일본원정)</span>'
-    +' <span style="font-size:11.5px;color:#6d28d9;">일본계 중형포커 + 일본원정 콘서트. AJPC=짧은리드 → 초반 저가허용 후 D-14~7 인상. AJPC III는 Pokerfors 공식 캘린더에 2026년 12월분 미등재 — 확인필요.</span>'
-    +'<div class="wpt-note" style="margin-top:8px;">🎧 <b>크로마키/클럽 크로마 상시 운영</b> — 글로벌 DJ 부트레그쇼, 금·토 상시 운영. 주말 배경수요 상시요인(12/27 CHROMA KEY 002는 이 위에 얹히는 플래그십 파티).</div>'
+    +'<span class="fo-badge dd2">💜 이중수요 12/4~6 = AJPC III포커 + YUURI(일본원정)</span>'
+    +' <span style="font-size:11.5px;color:#6d28d9;">일본계 중형포커 + 일본원정 콘서트. AJPC=짧은리드 → 초반 저가허용 후 D-14~7 인상. AJPC III 12/4~13 확정(11/9) — 메인 12/12 Day1은 이승철 콘서트와 겹침.</span>'
+    +'<div class="wpt-note" style="margin-top:8px;">🎧 <b>크로마키/클럽 크로마 상시 운영</b> — 글로벌 DJ 부트레그쇼, 금·토 상시 운영. 주말 배경수요 상시요인(12/27 CHROMA KEY 002는 11/9 재조사에서도 출처 미확인).</div>'
     +'<div class="wpt-note" style="margin-top:8px;">❄️ <b>파라다이스 겨울 일루미네이션 11/14~2027-2/22</b> — 배경수요↑(매주 화 휴무). 겨울 전기간 완만한 상시 프리미엄 배경요인.</div>'
     +'<div class="wpt-note" style="margin-top:6px;">🎄 <b>파라다이스시티 크리스마스 마켓 11/14~2027-1/1</b> — 무료입장 실내마켓·디저트 17개 브랜드, 겨울 일루미네이션과 세트 배경수요. 12월 주말 방문객 증가 배경요인, 크리스마스주간(12/24~26) 강세.</div>'
     +'</div>';
@@ -2014,7 +2033,16 @@ function renderEventCalendar(){
     +'<p class="fs-foot">메모: 삼중이벤트(GOP+WPT+MCR). 핵심일(10/31·11/7)만 경쟁사 세팅됨, 평일은 무방비라 과한가격 금지. GOP는 APT형(장기수요 있음)이라 평일도 AJPC보단 나을 수 있음 — 10월 재확인.</p>'
     +'</div>';
 
-  document.getElementById('evtLayers').innerHTML=l1+l2+farL+gap+fall+futureSet;
+  const holLive=HOLIDAY_RANGES.filter(h=>msKST(h.end)>=TODAY_MS);
+  let holL='';
+  if(holLive.length){
+    holL='<h3 class="ec-h" style="margin-top:15px;">🎌 연휴 (해외·국내) <span class="ec-hsub">참고 표시 — 이벤트일·신호엔 안 셈</span></h3>'
+      +'<table class="ec-t"><thead><tr><th class="date">기간</th><th style="text-align:left;">연휴</th></tr></thead><tbody>';
+    for(const h of holLive)
+      holL+='<tr><td class="date">'+rangeOf(h.start,h.end)+'</td><td style="text-align:left;"><span class="evb ev-hol">🎌 '+h.name+'</span><span class="ev-venue">'+h.note+'</span></td></tr>';
+    holL+='</tbody></table>';
+  }
+  document.getElementById('evtLayers').innerHTML=l1+l2+farL+holL+gap+fall+futureSet;
 }
 
 /* ── 상단 날짜바(오늘 + 가격표기준/이벤트기준 경과배지) ─────

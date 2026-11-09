@@ -105,6 +105,12 @@
 - **공연은 중국어·일본어 예매 페이지도 확인**: world.nol.com/zh-CN, world.nol.com/ja, tw.stagepick.co.kr.
 - **반복 시리즈는 다음 회차 발표를 매번 확인**: SuperCup Incheon/JOPT, Paradise City Poker Series, ASPT, AJPC, GOP, APT, WPT.
 - 아레나 명칭: 2026-12부터 '네이버 아레나 앳 인스파이어' — 12/1 이후 행사 venue는 "네이버 아레나(구 인스파이어)"(`venueCode()`는 '인스파이어'로 ARENA 판정). 공휴일은 `cat:"holiday"`(월 탭에 🎌 배지만, 이벤트일·신호엔 안 셈). 밴드로 그리지 않는 참고 대회(예: APT Jeju Classic)는 이벤트 캘린더 하단 `ec-foot` 메모로만.
+- **해외·국내 연휴(2026-11-09)**: 여러 날에 걸친 연휴는 `HOLIDAY_RANGES`(`{start,end,name,cat:"holiday",impact:"mid",note}`)에 기간으로 넣는다. 로드 때 날짜마다 `EVENTS[날짜].hols`에 붙고(그날 항목이 없으면 `fromRange` holiday 항목 생성), 월별 표 이벤트 열·이벤트 캘린더 "🎌 연휴" 표에 작게(`.ev-hol`) 보인다. 이벤트일·신호엔 안 셈.
+- **다음 조사 대상**: 2027 설·춘절(2/6 전후) 연휴 — 2월이라 아직 미반영, 2월 탭을 만들 때 `HOLIDAY_RANGES`에 추가.
+- **제외 목록**(EVENTS에 넣지 않음, 재조사 때 다시 넣지 말 것):
+  - WSOP Paradise 2026(12/2~17) — 바하마 Baha Mar 개최, 파라다이스시티와 무관.
+  - XPT KOREA 2026 — 6/2~7 종료.
+  - 파라다이스시티 2026 크리스마스 이벤트 — 11/9 기준 미발표(2025년엔 11/14~1/1 마켓·12/31 카운트다운). 발표되면 추가.
 - 지난 대회도 기록용으로 `POKER_BANDS`에 남긴다(화면에선 `end`가 지나면 자동 숨김). 날짜를 모르는 회차는 `start`/`end`를 `"YYYY-MM"`로 두고 `tbd:true`(날짜 계산에선 무시됨).
 
 ## 매일 갱신 작업
