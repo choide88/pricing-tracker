@@ -488,8 +488,8 @@
 const ASOF_PRICE = "2026-11-13";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
 const ASOF_STOCK = "2026-11-13";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-11-09";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
-const ASOF_AGODA = "2026-11-10";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
-const ASOF_AGODA_STOCK = "2026-11-10";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
+const ASOF_AGODA = "2026-11-13";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
+const ASOF_AGODA_STOCK = "2026-11-13";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
 const ASOF_OURS_FAR = "2026-11-02";   // 12·1월 우리 현황(부킹 캘린더 캡처) 마지막 갱신일 — ASOF_OURS(11월 매일)와 독립
 const ASOF_FAR = "2026-11-09";     // 12·1월 경쟁사 주간 기준선(매주 월요일 아침 12/1~1/31 전수 스캔) 마지막 갱신일 — 위 6종과 독립
 // 매일 스캔 범위 끝 — 아침·저녁 경쟁사·우리 스캔은 11월 말까지(2026-10-28). 결정표도 이 날까지. 그 뒤(12·1월)는 ASOF_FAR 주간 기준선.
@@ -628,7 +628,7 @@ const TRACK = {
   "11/14": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{unlisted:true},hu:{p:210000,n:6},bw:{p:322575,r:"na"},as:{unlisted:true}}, our:{ourN:4,cur:200000,priceNote:"11/13 변경 220,000→200,000"}},
   "11/15": {dow:"일",t:"wknd", comp:{gh:{p:81900,n:2},gd:{unlisted:true},hu:{p:120000,n:16},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:7,cur:120000,priceNote:"11/13 변경 100,000→120,000"}},
   "11/16": {dow:"월",t:"wkdy", comp:{gh:{p:81900,n:8},gd:{unlisted:true},hu:{p:120000,n:11},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:8,cur:120000}},
-  "11/17": {dow:"화",t:"wkdy", comp:{gh:{p:81900,n:9},gd:{unlisted:true},hu:{p:120000,n:21,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:9,cur:120000}},
+  "11/17": {dow:"화",t:"wkdy", comp:{gh:{p:81900,n:9},gd:{unlisted:true},hu:{p:120000,n:20,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:9,cur:120000}},
   "11/18": {dow:"수",t:"wkdy", comp:{gh:{p:81900,n:9},gd:{unlisted:true},hu:{p:120000,n:21},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:9,cur:120000}},
   "11/19": {dow:"목",t:"wkdy", comp:{gh:{p:81900,n:6},gd:{unlisted:true},hu:{p:120000,n:21,approx:true},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:7,cur:120000}},
   "11/20": {dow:"금",t:"wknd", comp:{gh:{p:162000,n:7},gd:{unlisted:true},hu:{p:300000,n:5},bw:{p:null,r:"so"},as:{unlisted:true}}, our:{ourN:6,cur:170000}},
@@ -781,23 +781,23 @@ const AGODA_COMP = {
   "11/10": {gogo:{p:56932}, icngh:{p:null,r:"so"}},
   "11/11": {gogo:{p:62787}, icngh:{p:68504}},
   "11/12": {gogo:{p:63379}, icngh:{p:69213}},
-  "11/13": {gogo:{p:107268}, icngh:{p:88901}},
-  "11/14": {gogo:{p:104506}, icngh:{p:null,r:"so"}},
-  "11/15": {gogo:{p:90488}, icngh:{p:null,r:"so"}},
-  "11/16": {gogo:{p:56998}, icngh:{p:63077}},
-  "11/17": {gogo:{p:56133}, icngh:{p:54754}},
-  "11/18": {gogo:{p:56136}, icngh:{p:54627}},
-  "11/19": {gogo:{p:60623}, icngh:{p:55294}},
-  "11/20": {gogo:{p:null,r:"so"}, icngh:{p:112672}},
-  "11/21": {gogo:{p:93503}, icngh:{p:112592}},
-  "11/22": {gogo:{p:85803}, icngh:{p:53801}},
-  "11/23": {gogo:{p:56133}, icngh:{p:53480}},
-  "11/24": {gogo:{p:56136}, icngh:{p:53457}},
-  "11/25": {gogo:{p:56297}, icngh:{p:null,r:"so"}},
-  "11/26": {gogo:{p:56955}, icngh:{p:null,r:"so"}},
-  "11/27": {gogo:{p:null,r:"so"}, icngh:{p:94143}},
-  "11/28": {gogo:{p:null,r:"so"}, icngh:{p:122307}},
-  "11/29": {gogo:{p:56133}, icngh:{p:null,r:"so"}},
+  "11/13": {gogo:{unlisted:true}, icngh:{p:61989}},
+  "11/14": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
+  "11/15": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
+  "11/16": {gogo:{unlisted:true}, icngh:{p:53499}},
+  "11/17": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
+  "11/18": {gogo:{unlisted:true}, icngh:{p:70550}},
+  "11/19": {gogo:{unlisted:true}, icngh:{p:51771}},
+  "11/20": {gogo:{unlisted:true}, icngh:{p:118639}},
+  "11/21": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
+  "11/22": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
+  "11/23": {gogo:{unlisted:true}, icngh:{p:66930}},
+  "11/24": {gogo:{unlisted:true}, icngh:{p:52586}},
+  "11/25": {gogo:{unlisted:true}, icngh:{p:60875}},
+  "11/26": {gogo:{unlisted:true}, icngh:{p:68411}},
+  "11/27": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
+  "11/28": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
+  "11/29": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
   "11/30": {gogo:{p:65100}, icngh:{p:null,r:"so"}},
   /* 12·1월: 주간 기준선(ASOF_FAR, 아고다 iframe 실측, 최저가·만실). */
   "12/1": {gogo:{p:65870}, icngh:{p:null,r:"so"}},
@@ -3015,24 +3015,24 @@ const MKT_SNAPS = {
     "11/28": {gh:{p:162000,n:1}, gd:{p:null,n:0}, as:{unlisted:true}, hu:{p:350000,n:3}, bw:{p:301070}, gogo:{unlisted:true}, icngh:null},
     "11/29": {gh:{p:88200,n:9}, gd:{p:100000,n:1}, as:{unlisted:true}, hu:{p:120000,n:19,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:null}
   },
-  "2026-11-13": {   // 11/13 13시대 낮 스캔(아침 아님) · 11/13~11/27 + 콘서트일 11/28·29 (17일), 1박·성인 2명. 게하·휴 브라우저 정밀 잔여(객실유형별 1회, 휴 드롭다운 상한 10이면 approx), 비로그인이라 Genius 없음 — 게하·휴 MCP 17일 대조 전부 일치(게하 평일 81,900로 인하). 굿데이 미확인: 부킹 숙소 페이지가 검색결과(closed_msg)로 리다이렉트되고 MCP 17일 전부 결과에 없음 → 만실이 아니라 페이지 닫힘이라 gd n:null. 베웨 가격만. 아고다 미확인(두 숙소 페이지 아고다 404(pagenotfound) — 11/11부터 사흘째 → gogo·icngh null, AGODA_COMP·ASOF_AGODA는 11/10 값 그대로). 에어포트스테이 이번 스캔 제외 → 전부 미확인
-    "11/13": {gh:{p:126000,n:4}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:210000,n:3}, bw:{p:247308}, gogo:{unlisted:true}, icngh:null},
-    "11/14": {gh:{p:null,n:0}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:210000,n:6}, bw:{p:322575}, gogo:{unlisted:true}, icngh:null},
-    "11/15": {gh:{p:81900,n:2}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:16}, bw:{p:193545}, gogo:{unlisted:true}, icngh:null},
-    "11/16": {gh:{p:81900,n:8}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:11}, bw:{p:150535}, gogo:{unlisted:true}, icngh:null},
-    "11/17": {gh:{p:81900,n:9}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:21,approx:true}, bw:{p:150535}, gogo:{unlisted:true}, icngh:null},
-    "11/18": {gh:{p:81900,n:9}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:21}, bw:{p:150535}, gogo:{unlisted:true}, icngh:null},
-    "11/19": {gh:{p:81900,n:6}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:21,approx:true}, bw:{p:193545}, gogo:{unlisted:true}, icngh:null},
-    "11/20": {gh:{p:162000,n:7}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:300000,n:5}, bw:{p:null}, gogo:{unlisted:true}, icngh:null},
-    "11/21": {gh:{p:null,n:0}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:200000,n:1}, bw:{p:null}, gogo:{unlisted:true}, icngh:null},
-    "11/22": {gh:{p:81900,n:7}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:140000,n:15,approx:true}, bw:{p:193545}, gogo:{unlisted:true}, icngh:null},
-    "11/23": {gh:{p:81900,n:8}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:23}, bw:{p:139783}, gogo:{unlisted:true}, icngh:null},
-    "11/24": {gh:{p:81900,n:8}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:21,approx:true}, bw:{p:139783}, gogo:{unlisted:true}, icngh:null},
-    "11/25": {gh:{p:81900,n:11}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:24,approx:true}, bw:{p:139783}, gogo:{unlisted:true}, icngh:null},
-    "11/26": {gh:{p:81900,n:1}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:14,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:null},
-    "11/27": {gh:{p:162000,n:6}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:180000,n:14}, bw:{p:290318}, gogo:{unlisted:true}, icngh:null},
-    "11/28": {gh:{p:162000,n:1}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:350000,n:3}, bw:{p:333328}, gogo:{unlisted:true}, icngh:null},
-    "11/29": {gh:{p:81900,n:9}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:19,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:null}
+  "2026-11-13": {   // 11/13 재스캔(14:44, 13시대 1차 스캔을 덮어씀 — 조회불가 규칙 적용 후 첫 스캔) · 11/13~11/27 + 콘서트일 11/28·29 (17일), 1박·성인 2명. 게하·휴 브라우저 정밀 잔여(객실유형별 1회, 휴 드롭다운 상한 10이면 approx), 비로그인(Genius 없음) — MCP 17일 대조 전부 일치. 베웨 가격만. 조회불가 재확인: 굿데이 부킹 직접 URL 17일 전부 검색결과로 리다이렉트·MCP 17일 전부 없음 → unlisted 유지 / 에어포트스테이 부킹 직접 URL 17일 전부 "예약하실 수 없습니다" → unlisted 유지 / 고고하우스 아고다 직접 URL 404·검색 결과에 없음 → unlisted 유지. 복귀 없음. 아고다 인천공항게하(ME 게스트하우스) 숙소 페이지 정상 → 17일 실측(시작가·"마지막 남은 객실이 이미 예약되었습니다"=만실) — 11/10 이후 첫 아고다 실측
+    "11/13": {gh:{p:126000,n:4}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:210000,n:3}, bw:{p:247308}, gogo:{unlisted:true}, icngh:{p:61989,so:false}},
+    "11/14": {gh:{p:null,n:0}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:210000,n:6}, bw:{p:322575}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/15": {gh:{p:81900,n:2}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:16}, bw:{p:193545}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/16": {gh:{p:81900,n:8}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:11}, bw:{p:150535}, gogo:{unlisted:true}, icngh:{p:53499,so:false}},
+    "11/17": {gh:{p:81900,n:9}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:20,approx:true}, bw:{p:150535}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/18": {gh:{p:81900,n:9}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:21}, bw:{p:150535}, gogo:{unlisted:true}, icngh:{p:70550,so:false}},
+    "11/19": {gh:{p:81900,n:6}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:21,approx:true}, bw:{p:193545}, gogo:{unlisted:true}, icngh:{p:51771,so:false}},
+    "11/20": {gh:{p:162000,n:7}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:300000,n:5}, bw:{p:null}, gogo:{unlisted:true}, icngh:{p:118639,so:false}},
+    "11/21": {gh:{p:null,n:0}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:200000,n:1}, bw:{p:null}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/22": {gh:{p:81900,n:7}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:140000,n:15,approx:true}, bw:{p:193545}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/23": {gh:{p:81900,n:8}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:23}, bw:{p:139783}, gogo:{unlisted:true}, icngh:{p:66930,so:false}},
+    "11/24": {gh:{p:81900,n:8}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:21,approx:true}, bw:{p:139783}, gogo:{unlisted:true}, icngh:{p:52586,so:false}},
+    "11/25": {gh:{p:81900,n:11}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:24,approx:true}, bw:{p:139783}, gogo:{unlisted:true}, icngh:{p:60875,so:false}},
+    "11/26": {gh:{p:81900,n:1}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:14,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:{p:68411,so:false}},
+    "11/27": {gh:{p:162000,n:6}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:180000,n:14}, bw:{p:290318}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/28": {gh:{p:162000,n:1}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:350000,n:3}, bw:{p:333328}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/29": {gh:{p:81900,n:9}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:19,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:{p:null,so:true}}
   }
 };
 /* 12·1월 주간 기준선 — SCAN_END 이후 숙박일은 매일 스캔 계산(결정표·오늘 판매·요약·저녁 반영)에 섞이지 않게 로드할 때 MKT_FAR로 옮긴다.
@@ -3716,7 +3716,7 @@ const OUR_SNAPS_PM = {
    없으면 "room"(객실유형별 1회, 10/11부터). 방식이 다른 두 스냅샷을 비교할 때는 게하를 비교에서 뺀다(값 보정·추정 안 함). */
 const MKT_SNAP_META = { "2026-09-13": {ghMethod:"sum"}, "2026-10-05": {ghMethod:"sum"},
   "2026-11-11": {snapNote:"11/11 16시대 오후 스캔(아침 아님)", amLabel:"오후"},
-  "2026-11-13": {snapNote:"11/13 13시대 낮 스캔(아침 아님)", amLabel:"낮"} };
+  "2026-11-13": {snapNote:"11/13 14:44 낮 재스캔(13시대 1차를 덮어씀, 아침 아님)", amLabel:"낮"} };
 /* 우리 스냅샷 메모 — 아침 키(OUR_SNAPS)에 아침이 아닌 시각 캡처가 들어간 날은 snapNote로 남기고, amLabel로 화면 표기("아침" 대신)를 바꾼다. */
 const OUR_SNAP_META = { "2026-11-11": {snapNote:"부킹 캘린더 11/11 16:10 오후 캡처(아침 아님) — 직전 11/10 아침과 약 1.2일 간격", amLabel:"오후"},
   "2026-11-13": {snapNote:"부킹 캘린더 11/13 13:03 낮 캡처(아침 아님) — 직전 11/12 10:00과 약 1.1일 간격", amLabel:"낮"} };
