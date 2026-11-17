@@ -165,6 +165,7 @@
   .pm-ic{display:inline-block;font-size:10px;margin-left:4px;cursor:help;}
   .warn-flag{display:inline-block;font-size:11px;margin-left:5px;cursor:help;}
   .note-ic{cursor:help;margin-left:4px;font-size:10px;}
+  .chk-need{cursor:help;margin-left:4px;font-size:9px;padding:0 4px;border-radius:3px;background:#fff3cd;color:#8a6d00;border:1px solid #f0d78c;white-space:nowrap;}
   .sep-strong td{background:#e7edff!important;} .sep-strong td.date{color:#4338ca;}
   .sep-chuseok td{background:#ffe8cc!important;} .sep-chuseok td.date{color:#b45309;}
   .sep-tag-strong{background:#4338ca;} .sep-tag-chuseok{background:#b45309;}
@@ -660,20 +661,20 @@ const TRACK = {
   "12/14": {dow:"월",t:"wkdy", comp:{gh:{p:94500,n:9},gd:{unlisted:true},hu:{p:120000,n:26,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:12,cur:120000}},
   "12/15": {dow:"화",t:"wkdy", comp:{gh:{p:94500,n:11},gd:{unlisted:true},hu:{p:120000,n:24,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:120000}},
   "12/16": {dow:"수",t:"wkdy", comp:{gh:{p:94500,n:10},gd:{unlisted:true},hu:{p:120000,n:23,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:10,cur:120000}},
-  "12/17": {dow:"목",t:"wkdy", comp:{gh:{p:94500,n:8},gd:{unlisted:true},hu:{p:120000,n:24,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:120000}},
-  "12/18": {dow:"금",t:"wknd", comp:{gh:{p:130500,n:7},gd:{unlisted:true},hu:{p:200000,n:25,approx:true},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000}},
-  "12/19": {dow:"토",t:"wknd", comp:{gh:{p:130500,n:9},gd:{unlisted:true},hu:{p:250000,n:16},bw:{p:247308,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000}},
-  "12/20": {dow:"일",t:"wknd", comp:{gh:{p:94500,n:5},gd:{unlisted:true},hu:{p:140000,n:16,approx:true},bw:{p:161288,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000}},
-  "12/21": {dow:"월",t:"wkdy", comp:{gh:{p:94500,n:6},gd:{unlisted:true},hu:{p:120000,n:22,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000}},
-  "12/22": {dow:"화",t:"wkdy", comp:{gh:{p:94500,n:9},gd:{unlisted:true},hu:{p:120000,n:23,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000}},
-  "12/23": {dow:"수",t:"wkdy", comp:{gh:{p:94500,n:9},gd:{unlisted:true},hu:{p:140000,n:24,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000}},
-  "12/24": {dow:"목",t:"wkdy", comp:{gh:{p:121500,n:9},gd:{unlisted:true},hu:{p:200000,n:21,approx:true},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000}},
-  "12/25": {dow:"금",t:"wknd", comp:{gh:{p:130500,n:1},gd:{unlisted:true},hu:{p:200000,n:16,approx:true},bw:{p:290318,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000}},
-  "12/26": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:3},gd:{unlisted:true},hu:{p:200000,n:13,approx:true},bw:{p:290318,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000}},
-  "12/27": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:4},gd:{unlisted:true},hu:{p:160000,n:17,approx:true},bw:{p:182793,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000}},
-  "12/28": {dow:"월",t:"wkdy", comp:{gh:{p:94500,n:6},gd:{unlisted:true},hu:{p:120000,n:22,approx:true},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000}},
-  "12/29": {dow:"화",t:"wkdy", comp:{gh:{p:94500,n:2},gd:{unlisted:true},hu:{p:120000,n:21,approx:true},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000}},
-  "12/30": {dow:"수",t:"wkdy", comp:{gh:{p:94500,n:1},gd:{unlisted:true},hu:{p:160000,n:23,approx:true},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000}},
+  "12/17": {dow:"목",t:"wkdy", comp:{gh:{p:94500,n:8},gd:{unlisted:true},hu:{p:120000,n:24,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:11,cur:120000}},
+  "12/18": {dow:"금",t:"wknd", comp:{gh:{p:130500,n:7},gd:{unlisted:true},hu:{p:200000,n:25,approx:true},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/19": {dow:"토",t:"wknd", comp:{gh:{p:130500,n:9},gd:{unlisted:true},hu:{p:250000,n:16},bw:{p:247308,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/20": {dow:"일",t:"wknd", comp:{gh:{p:94500,n:5},gd:{unlisted:true},hu:{p:140000,n:16,approx:true},bw:{p:161288,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/21": {dow:"월",t:"wkdy", comp:{gh:{p:94500,n:6},gd:{unlisted:true},hu:{p:120000,n:22,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/22": {dow:"화",t:"wkdy", comp:{gh:{p:94500,n:9},gd:{unlisted:true},hu:{p:120000,n:23,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/23": {dow:"수",t:"wkdy", comp:{gh:{p:94500,n:9},gd:{unlisted:true},hu:{p:140000,n:24,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/24": {dow:"목",t:"wkdy", comp:{gh:{p:121500,n:9},gd:{unlisted:true},hu:{p:200000,n:21,approx:true},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/25": {dow:"금",t:"wknd", comp:{gh:{p:130500,n:1},gd:{unlisted:true},hu:{p:200000,n:16,approx:true},bw:{p:290318,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/26": {dow:"토",t:"wknd", comp:{gh:{p:180000,n:3},gd:{unlisted:true},hu:{p:200000,n:13,approx:true},bw:{p:290318,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/27": {dow:"일",t:"wknd", comp:{gh:{p:99000,n:4},gd:{unlisted:true},hu:{p:160000,n:17,approx:true},bw:{p:182793,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/28": {dow:"월",t:"wkdy", comp:{gh:{p:94500,n:6},gd:{unlisted:true},hu:{p:120000,n:22,approx:true},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/29": {dow:"화",t:"wkdy", comp:{gh:{p:94500,n:2},gd:{unlisted:true},hu:{p:120000,n:21,approx:true},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
+  "12/30": {dow:"수",t:"wkdy", comp:{gh:{p:94500,n:1},gd:{unlisted:true},hu:{p:160000,n:23,approx:true},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}},
   "12/31": {dow:"목",t:"wkdy", comp:{gh:{p:135000,n:5},gd:{unlisted:true},hu:{p:180000,n:20,approx:true},bw:{p:279565,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:286000}},
   /* 1월(2027) — 경쟁사는 12월과 같은 주간 기준선(ASOF_FAR). 우리(our)=부킹 캘린더 11/2 캡처(ASOF_OURS_FAR). 요일은 2027년 달력. */
   "1/1": {dow:"금",t:"wknd", comp:{gh:{p:117000,n:5},gd:{unlisted:true},hu:{p:180000,n:17,approx:true},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:12,cur:250000}},
@@ -1182,6 +1183,7 @@ function buildMonthRow(md, iso){
     const inner = fmt(row.our.cur)+'<span class="list-sub">/ 실제 '+fmt(realPrice(row.our.cur, md))+'</span>';
     ourCur = '<a href="'+ourUrl(md)+'" target="_blank" rel="noopener">'+inner+'</a>'
       +(row.our.priceNote ? ' <span class="note-ic" title="'+esc(row.our.priceNote)+'">✎</span>' : '')
+      +(row.our.priceNote && /확인 필요/.test(row.our.priceNote) ? ' <span class="chk-need" title="'+esc(row.our.priceNote)+'">확인 필요</span>' : '')
       +(blockSuspect(row.our.cur, iso, row.our.curNote) ? ' <span class="note-ic" title="판매 차단 가능성 — Dennis 확인 (표시가 40만↑ · 이벤트일 아님)">⚠️</span>' : '');
   } else if(row && row.our && row.our.curNote){
     ourCur = '<a href="'+ourUrl(md)+'" target="_blank" rel="noopener"><span class="gap-na">'+row.our.curNote+'</span></a>';
@@ -3411,7 +3413,7 @@ const OUR_SNAPS = {
     "11/25":{n:13,bk:0,oth:0,cur:100000}, "11/26":{n:7,bk:6,oth:0,cur:120000}, "11/27":{n:10,bk:3,oth:0,cur:200000,priceNote:"11/13 변경 150,000→200,000"}, "11/28":{n:4,bk:8,oth:1,cur:300000,priceNote:"11/13 변경 200,000→300,000",note:"부킹 취소 1건(bk 9→8, n 3→4) — 판매 아님, 풀림 1"},
     "11/29":{n:10,bk:3,oth:0,cur:120000}, "11/30":{n:11,bk:2,oth:0,cur:100000}
   },
-  "2026-11-17": {   // 부킹 관리자 캘린더 11/17 09:24 아침 캡처 · 11/17~12/16(30일 — 12/1 이후는 로드 때 OUR_FAR로 분리, ASOF_OURS_FAR). oth=13−n−bk. 직전 우리 스냅샷 11/13 13:03 낮(약 3.8일 간격, 11/14~11/16 중간 스냅샷 없음 — 그 사이 판매는 날짜별로 합쳐진 값). 가격 변경 3건(11/20·21·28, 변경일 모름 → priceNote "11/17 확인"). 12/17 이후는 캡처에 없어 기존 값 유지
+  "2026-11-17": {   // 부킹 관리자 캘린더 11/17 09:24 아침 캡처 · 11/17~12/30(44일 — 12/1 이후는 로드 때 OUR_FAR로 분리, ASOF_OURS_FAR; 12/1~12/30은 10:01 12월 캡처로 재확인, 12/1~12/16 09:24와 같은 값). oth=13−n−bk. 직전 우리 스냅샷 11/13 13:03 낮(약 3.8일 간격, 11/14~11/16 중간 스냅샷 없음 — 그 사이 판매는 날짜별로 합쳐진 값). 가격 변경 3건(11/20·21·28, 변경일 모름 → priceNote "11/17 확인"). 12/18~12/30 가격(386,000/286,000)은 임시값 가능성 → priceNote "확인 필요". 12/31은 캡처에서 잘려 기존 값 유지
     "11/17":{n:3,bk:10,oth:0,cur:120000}, "11/18":{n:6,bk:6,oth:1,cur:120000}, "11/19":{n:5,bk:6,oth:2,cur:120000}, "11/20":{n:5,bk:8,oth:0,cur:220000,priceNote:"11/17 확인 170,000→220,000(변경일 모름)"},
     "11/21":{n:3,bk:10,oth:0,cur:350000,priceNote:"11/17 확인 300,000→350,000(변경일 모름)"}, "11/22":{n:8,bk:5,oth:0,cur:100000}, "11/23":{n:11,bk:2,oth:0,cur:100000}, "11/24":{n:10,bk:3,oth:0,cur:100000},
     "11/25":{n:12,bk:1,oth:0,cur:100000}, "11/26":{n:5,bk:8,oth:0,cur:120000}, "11/27":{n:8,bk:5,oth:0,cur:200000}, "11/28":{n:4,bk:8,oth:1,cur:350000,priceNote:"11/17 확인 300,000→350,000(변경일 모름)"},
@@ -3419,7 +3421,9 @@ const OUR_SNAPS = {
     "12/3":{n:11,bk:2,oth:0,cur:100000}, "12/4":{n:13,bk:0,oth:0,cur:200000}, "12/5":{n:12,bk:1,oth:0,cur:200000}, "12/6":{n:12,bk:1,oth:0,cur:150000},
     "12/7":{n:13,bk:0,oth:0,cur:150000}, "12/8":{n:13,bk:0,oth:0,cur:150000}, "12/9":{n:12,bk:1,oth:0,cur:150000}, "12/10":{n:12,bk:1,oth:0,cur:150000},
     "12/11":{n:13,bk:0,oth:0,cur:250000}, "12/12":{n:13,bk:0,oth:0,cur:250000}, "12/13":{n:12,bk:1,oth:0,cur:150000}, "12/14":{n:12,bk:1,oth:0,cur:120000},
-    "12/15":{n:13,bk:0,oth:0,cur:120000}, "12/16":{n:10,bk:3,oth:0,cur:120000}
+    "12/15":{n:13,bk:0,oth:0,cur:120000}, "12/16":{n:10,bk:3,oth:0,cur:120000},
+    "12/17":{n:11,bk:2,oth:0,cur:120000}, "12/18":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/19":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/20":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/21":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/22":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"},
+    "12/23":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/24":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/25":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/26":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/27":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/28":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/29":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/30":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}
   }
 };
 /* 12·1월 우리 현황(ASOF_OURS_FAR) — MKT_FAR와 같은 이유로 SCAN_END 이후 숙박일은 로드 때 OUR_FAR로 옮긴다(11월분 없는 키는 OUR_SNAPS에서 빠짐 → 아침 캡처 전 오늘 키로 오인 방지). */
