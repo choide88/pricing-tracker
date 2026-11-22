@@ -486,11 +486,11 @@
 <script>
 /* ── 날짜 상수·환율 ─────────────────────────────────────── */
 // 데이터 기준일 6종 — 서로 독립적으로 관리(각 커밋은 해당하는 ASOF_*만 갱신, 나머지는 건드리지 않는다).
-const ASOF_PRICE = "2026-11-21";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
-const ASOF_STOCK = "2026-11-21";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
+const ASOF_PRICE = "2026-11-22";   // 가격 스캔(MCP 가격만 빠르게) 마지막 갱신일
+const ASOF_STOCK = "2026-11-22";   // 브라우저 잔여 실측(요청 시에만 2주치) 마지막 갱신일
 const ASOF_EVENT = "2026-11-09";   // 이벤트 캘린더(EVENTS/POKER_EVENTS/POKER_BANDS) 마지막 점검일
-const ASOF_AGODA = "2026-11-21";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
-const ASOF_AGODA_STOCK = "2026-11-21";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
+const ASOF_AGODA = "2026-11-22";   // 아고다 2곳(고고·인천공항게하) 가격 스캔 마지막 갱신일
+const ASOF_AGODA_STOCK = "2026-11-22";   // 아고다 2곳(고고·인천공항게하) 잔여(2인 독립실 최저가 요금제 기준) 브라우저 실측 마지막 갱신일. 자유입력(AGODA_AVAIL)으로 언제든 덮어쓸 수 있음.
 const ASOF_OURS_FAR = "2026-11-21";   // 12·1월 우리 현황(부킹 캘린더 캡처) 마지막 갱신일 — ASOF_OURS(11월 매일)와 독립
 const ASOF_FAR = "2026-11-21";     // 12·1월 경쟁사 주간 기준선(매주 월요일 아침 12/1~1/31 전수 스캔) 마지막 갱신일 — 위 6종과 독립
 // 매일 스캔 범위 끝 — 아침·저녁 경쟁사·우리 스캔은 11월 말까지(2026-10-28). 결정표도 이 날까지. 그 뒤(12·1월)는 ASOF_FAR 주간 기준선.
@@ -508,7 +508,7 @@ function unlIn(s,k,day){ return !!((s && s[k] && s[k].unlisted) || (UNLISTED[k] 
 function unlTag(k){ const u=UNLISTED[k]; return u ? '조회불가 '+mdShort(u.since)+'~' : ''; }
 function unlTitle(k){ const u=UNLISTED[k]; return u.plat+'에서 숙소가 조회되지 않음('+u.how+') — '+mdShort(u.since)+'부터. 만실·미확인과 다른 상태(시장에서 빠진 공급)'; }
 function unlCell(k){ return '<span class="unl" title="'+unlTitle(k)+'">'+unlTag(k)+'</span>'; }
-const ASOF_OURS = "2026-11-21";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
+const ASOF_OURS = "2026-11-22";    // 우리 숙소(TRACK[*].our) 잔여·현재가 마지막 갱신일(Sirvoy 실재고/스크린샷 기준)
 // 실제가(손님 결제가) — 2단 할인(2026-10-29, 단일 20%·netRate 대체): 체크인까지 D=0~3일 ×0.75, D≥4 ×0.80.
 // D는 공용 날짜 함수 dISO()(연도 처리 포함)로 오늘(TODAY_KST) 기준 계산.
 const DISC_EARLY = 0.20, DISC_LATE = 0.25, DISC_LATE_D = 3;
@@ -634,13 +634,13 @@ const TRACK = {
   "11/19": {dow:"목",t:"wkdy", comp:{gh:{p:93600,n:5},gd:{unlisted:true},hu:{p:120000,n:16},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:5,cur:120000}},
   "11/20": {dow:"금",t:"wknd", comp:{gh:{p:135000,n:5},gd:{unlisted:true},hu:{p:300000,n:2},bw:{p:360205,r:"na"},as:{unlisted:true}}, our:{ourN:5,cur:220000,priceNote:"11/17 확인 170,000→220,000(변경일 모름)"}},
   "11/21": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{unlisted:true},hu:{p:null,r:"so"},bw:{p:344080,r:"na"},as:{unlisted:true}}, our:{ourN:1,cur:250000,priceNote:"11/21 확인 350,000→250,000(변경일 모름)"}},
-  "11/22": {dow:"일",t:"wknd", comp:{gh:{p:81900,n:3},gd:{unlisted:true},hu:{p:120000,n:13,approx:true},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:3,cur:120000,priceNote:"11/21 확인 100,000→120,000(변경일 모름)"}},
-  "11/23": {dow:"월",t:"wkdy", comp:{gh:{p:81900,n:6},gd:{unlisted:true},hu:{p:120000,n:18},bw:{p:139783,r:"na"},as:{unlisted:true}}, our:{ourN:9,cur:80000,priceNote:"11/21 확인 100,000→80,000(변경일 모름)"}},
-  "11/24": {dow:"화",t:"wkdy", comp:{gh:{p:81900,n:8},gd:{unlisted:true},hu:{p:120000,n:18},bw:{p:139783,r:"na"},as:{unlisted:true}}, our:{ourN:7,cur:100000}},
-  "11/25": {dow:"수",t:"wkdy", comp:{gh:{p:81900,n:11},gd:{unlisted:true},hu:{p:120000,n:23,approx:true},bw:{p:139783,r:"na"},as:{unlisted:true}}, our:{ourN:11,cur:100000}},
-  "11/26": {dow:"목",t:"wkdy", comp:{gh:{p:81900,n:6},gd:{unlisted:true},hu:{p:120000,n:14},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:5,cur:120000}},
-  "11/27": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:6},gd:{unlisted:true},hu:{p:160000,n:12},bw:{p:290318,r:"na"},as:{unlisted:true}}, our:{ourN:7,cur:200000}},
-  "11/28": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{unlisted:true},hu:{p:350000,n:3},bw:{p:333328,r:"na"},as:{unlisted:true}}, our:{ourN:5,cur:350000}},
+  "11/22": {dow:"일",t:"wknd", comp:{gh:{p:81900,n:2},gd:{unlisted:true},hu:{p:120000,n:8},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:2,cur:155000,priceNote:"11/22 확인 120,000→155,000(변경일 모름)"}},
+  "11/23": {dow:"월",t:"wkdy", comp:{gh:{p:81900,n:6},gd:{unlisted:true},hu:{p:120000,n:16},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:6,cur:100000,priceNote:"11/22 확인 80,000→100,000(변경일 모름)"}},
+  "11/24": {dow:"화",t:"wkdy", comp:{gh:{p:81900,n:8},gd:{unlisted:true},hu:{p:120000,n:16},bw:{p:139783,r:"na"},as:{unlisted:true}}, our:{ourN:6,cur:110000,priceNote:"11/22 확인 100,000→110,000(변경일 모름)"}},
+  "11/25": {dow:"수",t:"wkdy", comp:{gh:{p:81900,n:11},gd:{unlisted:true},hu:{p:120000,n:22,approx:true},bw:{p:139783,r:"na"},as:{unlisted:true}}, our:{ourN:11,cur:100000}},
+  "11/26": {dow:"목",t:"wkdy", comp:{gh:{p:81900,n:6},gd:{unlisted:true},hu:{p:120000,n:13},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:5,cur:120000}},
+  "11/27": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:6},gd:{unlisted:true},hu:{p:160000,n:11},bw:{p:290318,r:"na"},as:{unlisted:true}}, our:{ourN:7,cur:170000,priceNote:"11/22 확인 200,000→170,000(변경일 모름)"}},
+  "11/28": {dow:"토",t:"wknd", comp:{gh:{p:null,r:"so"},gd:{unlisted:true},hu:{p:350000,n:3},bw:{p:333328,r:"na"},as:{unlisted:true}}, our:{ourN:5,cur:250000,priceNote:"11/22 확인 350,000→250,000(변경일 모름)"}},
   "11/29": {dow:"일",t:"wknd", comp:{gh:{p:81900,n:7},gd:{unlisted:true},hu:{p:120000,n:17,approx:true},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:10,cur:120000}},
   "11/30": {dow:"월",t:"wkdy", comp:{gh:{p:81900,n:7},gd:{unlisted:true},hu:{p:120000,n:22,approx:true},bw:{p:139783,r:"na"},as:{unlisted:true}}, our:{ourN:11,cur:100000}},
   /* 12월: 주간 기준선(ASOF_FAR, 매주 월요일 아침 갱신 — 2026-11-02 첫 정기 스캔, 그 전 10-28은 1회성) — 부킹 브라우저 실측(게하·굿데이·휴 객실유형별 잔여 합, Genius 행은 표시가÷0.9·MCP 대조, 휴 드롭다운 상한 10이면 approx).
@@ -648,8 +648,8 @@ const TRACK = {
   "12/1": {dow:"화",t:"wkdy", comp:{gh:{p:81900,n:10},gd:{unlisted:true},hu:{p:120000,n:22,approx:true},bw:{p:172040,r:"na"},as:{unlisted:true}}, our:{ourN:12,cur:100000}},
   "12/2": {dow:"수",t:"wkdy", comp:{gh:{p:81900,n:8},gd:{unlisted:true},hu:{p:120000,n:22,approx:true},bw:{p:161288,r:"na"},as:{unlisted:true}}, our:{ourN:12,cur:100000}},
   "12/3": {dow:"목",t:"wkdy", comp:{gh:{p:81900,n:10},gd:{unlisted:true},hu:{p:120000,n:20,approx:true},bw:{p:166660,r:"na"},as:{unlisted:true}}, our:{ourN:10,cur:100000}},
-  "12/4": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:7},gd:{unlisted:true},hu:{p:180000,n:20},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:200000}},
-  "12/5": {dow:"토",t:"wknd", comp:{gh:{p:121500,n:8},gd:{unlisted:true},hu:{p:350000,n:1},bw:{p:290318,r:"na"},as:{unlisted:true}}, our:{ourN:11,cur:200000}},
+  "12/4": {dow:"금",t:"wknd", comp:{gh:{p:144000,n:7},gd:{unlisted:true},hu:{p:180000,n:19},bw:{p:193545,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:200000}},
+  "12/5": {dow:"토",t:"wknd", comp:{gh:{p:121500,n:7},gd:{unlisted:true},hu:{p:350000,n:1},bw:{p:290318,r:"na"},as:{unlisted:true}}, our:{ourN:11,cur:200000}},
   "12/6": {dow:"일",t:"wknd", comp:{gh:{p:69300,n:6},gd:{unlisted:true},hu:{p:140000,n:17,approx:true},bw:{p:166660,r:"na"},as:{unlisted:true}}, our:{ourN:12,cur:150000}},
   "12/7": {dow:"월",t:"wkdy", comp:{gh:{p:81900,n:10},gd:{unlisted:true},hu:{p:120000,n:25,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:150000}},
   "12/8": {dow:"화",t:"wkdy", comp:{gh:{p:81900,n:7},gd:{unlisted:true},hu:{p:120000,n:23,approx:true},bw:{p:150535,r:"na"},as:{unlisted:true}}, our:{ourN:13,cur:150000}},
@@ -792,18 +792,18 @@ const AGODA_COMP = {
   "11/20": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
   "11/21": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
   "11/22": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
-  "11/23": {gogo:{unlisted:true}, icngh:{p:60165}},
+  "11/23": {gogo:{unlisted:true}, icngh:{p:48017}},
   "11/24": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
-  "11/25": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
-  "11/26": {gogo:{unlisted:true}, icngh:{p:52544}},
+  "11/25": {gogo:{unlisted:true}, icngh:{p:67851}},
+  "11/26": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
   "11/27": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
   "11/28": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
   "11/29": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
-  "11/30": {gogo:{unlisted:true}, icngh:{p:51614}},
+  "11/30": {gogo:{unlisted:true}, icngh:{p:50772}},
   /* 12·1월: 주간 기준선(ASOF_FAR, 아고다 iframe 실측, 최저가·만실). */
-  "12/1": {gogo:{unlisted:true}, icngh:{p:48678}},
-  "12/2": {gogo:{unlisted:true}, icngh:{p:51992}},
-  "12/3": {gogo:{unlisted:true}, icngh:{p:53223}},
+  "12/1": {gogo:{unlisted:true}, icngh:{p:47190}},
+  "12/2": {gogo:{unlisted:true}, icngh:{p:50991}},
+  "12/3": {gogo:{unlisted:true}, icngh:{p:52810}},
   "12/4": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
   "12/5": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
   "12/6": {gogo:{unlisted:true}, icngh:{p:null,r:"so"}},
@@ -3156,6 +3156,23 @@ const MKT_SNAPS = {
     "12/29": {gh:{p:81900,n:2}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:21,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
     "12/30": {gh:{p:81900,n:2}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:160000,n:23,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
     "12/31": {gh:{p:94500,n:4}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:180000,n:18,approx:true}, bw:{p:279565}, gogo:{unlisted:true}, icngh:{p:90413,so:false}}
+  },
+  "2026-11-22": {   // 11/22 아침 스캔(일) · 11/22~12/6(15일, 콘서트일 11/27·28·29 포함 — 12/1 이후는 로드 때 MKT_FAR로 분리, ASOF_FAR는 11/21 전수 스캔 유지), 1박·성인 2명. 게하·휴 브라우저 정밀 잔여(객실유형별 1회, 휴 드롭다운 상한 10이면 approx), 로그인 Genius 표시가÷0.9=공개가. MCP 대조: 15일 전부 — 전부 일치(11/28 게하는 MCP에도 없음=만실 확인). 베웨 가격만. 조회불가 재확인: 굿데이 부킹 직접 URL 15일 전부 검색결과로 리다이렉트·MCP 미등록 / 에어포트스테이 15일 전부 "예약하실 수 없습니다" / 고고하우스 아고다 직접 URL pagenotfound(404) → 셋 다 unlisted 유지, 복귀 없음. 아고다 인천공항게하 15일 실측(시작가·"마지막 남은 객실이 이미 예약되었습니다"=만실).
+    "11/22": {gh:{p:81900,n:2}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:8}, bw:{p:193545}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/23": {gh:{p:81900,n:6}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:16}, bw:{p:150535}, gogo:{unlisted:true}, icngh:{p:48017,so:false}},
+    "11/24": {gh:{p:81900,n:8}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:16}, bw:{p:139783}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/25": {gh:{p:81900,n:11}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:22,approx:true}, bw:{p:139783}, gogo:{unlisted:true}, icngh:{p:67851,so:false}},
+    "11/26": {gh:{p:81900,n:6}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:13}, bw:{p:172040}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/27": {gh:{p:144000,n:6}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:160000,n:11}, bw:{p:290318}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/28": {gh:{p:null,n:0}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:350000,n:3}, bw:{p:333328}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/29": {gh:{p:81900,n:7}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:17,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "11/30": {gh:{p:81900,n:7}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:22,approx:true}, bw:{p:139783}, gogo:{unlisted:true}, icngh:{p:50772,so:false}},
+    "12/1": {gh:{p:81900,n:10}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:22,approx:true}, bw:{p:172040}, gogo:{unlisted:true}, icngh:{p:47190,so:false}},
+    "12/2": {gh:{p:81900,n:8}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:22,approx:true}, bw:{p:161288}, gogo:{unlisted:true}, icngh:{p:50991,so:false}},
+    "12/3": {gh:{p:81900,n:10}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:120000,n:20,approx:true}, bw:{p:166660}, gogo:{unlisted:true}, icngh:{p:52810,so:false}},
+    "12/4": {gh:{p:144000,n:7}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:180000,n:19}, bw:{p:193545}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "12/5": {gh:{p:121500,n:7}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:350000,n:1}, bw:{p:290318}, gogo:{unlisted:true}, icngh:{p:null,so:true}},
+    "12/6": {gh:{p:69300,n:6}, gd:{unlisted:true}, as:{unlisted:true}, hu:{p:140000,n:17,approx:true}, bw:{p:166660}, gogo:{unlisted:true}, icngh:{p:null,so:true}}
   }
 };
 /* 12·1월 주간 기준선 — SCAN_END 이후 숙박일은 매일 스캔 계산(결정표·오늘 판매·요약·저녁 반영)에 섞이지 않게 로드할 때 MKT_FAR로 옮긴다.
@@ -3479,6 +3496,12 @@ const OUR_SNAPS = {
     "12/19":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/21":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/22":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/23":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"},
     "12/24":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/25":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/26":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/27":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"},
     "12/28":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/29":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/30":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}, "12/31":{n:13,bk:0,oth:0,cur:286000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기"}
+  },
+  "2026-11-22": {   // 부킹 관리자 캘린더 11/22 09:26 아침 캡처 · 11/22~12/6(12/1 이후는 로드 때 OUR_FAR로 분리, ASOF_OURS_FAR는 11/21 유지 — 12/7~12/21은 11/21 값과 같아 넣지 않음) + 12/20(11/21 캡처에 없던 날 확인 기록). oth=13−n−bk. 직전 우리 스냅샷 11/21 10:22(약 1일). 가격 변경 5건(11/22·23·24·27·28, 변경일 모름 → priceNote "11/22 확인")
+    "11/22":{n:2,bk:11,oth:0,cur:155000,priceNote:"11/22 확인 120,000→155,000(변경일 모름)"}, "11/23":{n:6,bk:7,oth:0,cur:100000,priceNote:"11/22 확인 80,000→100,000(변경일 모름)"}, "11/24":{n:6,bk:6,oth:1,cur:110000,priceNote:"11/22 확인 100,000→110,000(변경일 모름)"}, "11/25":{n:11,bk:2,oth:0,cur:100000},
+    "11/26":{n:5,bk:8,oth:0,cur:120000}, "11/27":{n:7,bk:6,oth:0,cur:170000,priceNote:"11/22 확인 200,000→170,000(변경일 모름)"}, "11/28":{n:5,bk:7,oth:1,cur:250000,priceNote:"11/22 확인 350,000→250,000(변경일 모름)"}, "11/29":{n:10,bk:3,oth:0,cur:120000},
+    "11/30":{n:11,bk:2,oth:0,cur:100000}, "12/1":{n:12,bk:1,oth:0,cur:100000}, "12/2":{n:12,bk:1,oth:0,cur:100000}, "12/3":{n:10,bk:3,oth:0,cur:100000},
+    "12/4":{n:13,bk:0,oth:0,cur:200000}, "12/5":{n:11,bk:2,oth:0,cur:200000}, "12/6":{n:12,bk:1,oth:0,cur:150000}, "12/20":{n:13,bk:0,oth:0,cur:386000,priceNote:"가격 확인 필요(임시값 가능성) — Dennis 확인 대기",note:"11/21 캡처에 없던 날 — 11/22 캡처로 확인(13·0·386,000, 기존 값과 같음)"}
   }
 };
 /* 12·1월 우리 현황(ASOF_OURS_FAR) — MKT_FAR와 같은 이유로 SCAN_END 이후 숙박일은 로드 때 OUR_FAR로 옮긴다(11월분 없는 키는 OUR_SNAPS에서 빠짐 → 아침 캡처 전 오늘 키로 오인 방지). */
